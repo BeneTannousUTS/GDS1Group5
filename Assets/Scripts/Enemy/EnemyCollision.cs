@@ -1,16 +1,16 @@
+// AUTHOR: Alistair
+// Handles collision for the enemies
+
 using UnityEngine;
 
 public class EnemyCollision : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // On collision with a weapon take damage
+    void OnTriggerEnter2D(Collider2D otherCollider) 
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (otherCollider.gameObject.CompareTag("Weapon"))
+        {
+            otherCollider.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
+        }
     }
 }

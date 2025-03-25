@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private Vector3 facingDirection = Vector3.right;
 
-    // Update is called once per frame
-    void Update()
+    // Gets the value of facingDirection
+    public Vector3 GetFacingDirection() 
     {
-        
+        return facingDirection;
     }
 }

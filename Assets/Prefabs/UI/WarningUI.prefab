@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8957170172645883780}
   - component: {fileID: 1241266727756235578}
+  - component: {fileID: -5731402821135873831}
   m_Layer: 0
   m_Name: WarningUI
   m_TagString: Untagged
@@ -76,14 +77,26 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2965393001259691005, guid: 5bea7c2eb09fff54190dff21e49f1332, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5bea7c2eb09fff54190dff21e49f1332, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5731402821135873831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7538071546904103869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9839ad4c06509d4409d5adc9bc05c0a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
