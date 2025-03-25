@@ -32,7 +32,8 @@ public class EnemyAttack : MonoBehaviour
         Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection();
         Instantiate(warningUI, transform.position + attackDirection.normalized, Quaternion.identity, transform);
         yield return new WaitForSeconds(0.5f);
-        Instantiate(currentWeapon, transform.position + attackDirection.normalized, CalculateQuaternion(attackDirection), transform);
+        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection.normalized, CalculateQuaternion(attackDirection), transform);
+        tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
