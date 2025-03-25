@@ -11,7 +11,14 @@ public class EnemyAttack : MonoBehaviour
 
     public float attackCooldownWindow;
     private float attackCooldownTimer = 0f;
+
+    private bool canAttack = false;
     
+    public void SetCanAttack(bool inRange) 
+    {
+        canAttack = inRange;
+    }
+
     // Starts the DoAttack coroutine
     void Attack() 
     {
@@ -23,7 +30,7 @@ public class EnemyAttack : MonoBehaviour
     {
         attackCooldownTimer = 0f;
         Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection();
-        Instantiate(warningUI, transform.position + attackDirection, Quaternion.identity);
+        Instantiate(warningUI, transform.position + attackDirection.normalized, Quaternion.identity, transform);
         yield return new WaitForSeconds(0.5f);
         Instantiate(currentWeapon, transform.position + attackDirection.normalized, CalculateQuaternion(attackDirection), transform);
     }
@@ -31,6 +38,30 @@ public class EnemyAttack : MonoBehaviour
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
     Quaternion CalculateQuaternion(Vector3 direction) 
     {
+        // Attempt at a smarter solution will revisit later
+        /*
+        float angle = Mathf.Abs((Mathf.Acos(direction.x) * 180)/Mathf.PI);
+
+        Debug.Log($"Angle: {angle}");
+
+        if (direction.x > 0 && direction.y > 0)
+        {
+            angle -= 90;
+        }
+        else if (direction.x < 0 && direction.y < 0)
+        {
+            angle += 90;
+        }
+        else if (direction.x > 0 && direction.y < 0)
+        {
+            angle += 180;
+        }
+
+        Debug.Log($"Angle: {angle}");
+
+        return Quaternion.Euler(0f, 0f, angle);
+        */
+
         float angle;
 
         if (direction.y == 1)
@@ -92,7 +123,7 @@ public class EnemyAttack : MonoBehaviour
     // Attacks when cooldown is over
     void Update()
     {
-        if (attackCooldownTimer >= attackCooldownWindow) 
+        if (attackCooldownTimer >= attackCooldownWindow && canAttack) 
         {
             Attack();
         }
