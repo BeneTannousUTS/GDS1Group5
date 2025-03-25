@@ -89,23 +89,25 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         enemyPathfinder = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>();
-        Debug.Log($"enemyPathfinder: {enemyPathfinder.gameObject.name}");
         movePoint = enemyPathfinder.ClosestPlayer(transform.position);
     }
 
     // Move based on the AI type
     void Update() {
-        if (currentAiType == aiType.Aggressive) 
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            MoveAggressive();
-        }
-        else if (currentAiType == aiType.Passive) 
-        {
-            MovePassive();
-        }
-        else if (currentAiType == aiType.Teleporter) 
-        {
-            MoveTeleporter();
+            if (currentAiType == aiType.Aggressive) 
+            {
+                MoveAggressive();
+            }
+            else if (currentAiType == aiType.Passive) 
+            {
+                MovePassive();
+            }
+            else if (currentAiType == aiType.Teleporter)
+            {
+                MoveTeleporter();
+            }
         }
     }
 }

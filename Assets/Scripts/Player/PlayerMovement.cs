@@ -34,14 +34,17 @@ public class PlayerMovement : MonoBehaviour
     // Update moveDirection and facingDirection then linearVelocity in moveDirection
     void Update()
     {
-        moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
-        
-        // Setting facingDirection to a vector with 
-        if (moveDirection != Vector3.zero)
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            facingDirection = new Vector3(NormalizeFloat(moveDirection.x), NormalizeFloat(moveDirection.y), 0f);
+            moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
+            
+            // Setting facingDirection to a vector with 
+            if (moveDirection != Vector3.zero)
+            {
+                facingDirection = new Vector3(NormalizeFloat(moveDirection.x), NormalizeFloat(moveDirection.y), 0f);
+            }
+            
+            rigidBody.linearVelocity = moveDirection.normalized * moveSpeed;
         }
-        
-        rigidBody.linearVelocity = moveDirection.normalized * moveSpeed;
     }
 }

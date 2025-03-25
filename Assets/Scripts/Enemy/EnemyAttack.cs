@@ -123,11 +123,14 @@ public class EnemyAttack : MonoBehaviour
     // Attacks when cooldown is over
     void Update()
     {
-        if (attackCooldownTimer >= attackCooldownWindow && canAttack) 
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            Attack();
-        }
+            if (attackCooldownTimer >= attackCooldownWindow && canAttack) 
+            {
+                Attack();
+            }
 
-        UpdateTimers(Time.deltaTime);
+            UpdateTimers(Time.deltaTime);
+        }
     }
 }

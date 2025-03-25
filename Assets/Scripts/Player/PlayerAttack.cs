@@ -86,16 +86,19 @@ public class PlayerAttack : MonoBehaviour
     // Gets player input acts on it if it can
     void Update()
     {
-        if (Input.GetButtonDown("Fire1")) 
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            attackBufferTimer = 0f;
-        }
+            if (Input.GetButtonDown("Fire1")) 
+            {
+                attackBufferTimer = 0f;
+            }
 
-        if (attackCooldownTimer >= attackCooldownWindow && attackBufferTimer <= attackBufferWindow) 
-        {
-            Attack();
-        }
+            if (attackCooldownTimer >= attackCooldownWindow && attackBufferTimer <= attackBufferWindow) 
+            {
+                Attack();
+            }
 
-        UpdateTimers(Time.deltaTime);
+            UpdateTimers(Time.deltaTime);
+        }
     }
 }

@@ -2,6 +2,7 @@
 // Handles storing a player/enemy's health and checking whether death has occured
 
 using UnityEngine;
+using System.Collections;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -9,15 +10,41 @@ public class HealthComponent : MonoBehaviour
     private float currentHealth;
     private bool isDead = false;
 
+    public bool GetIsDead() 
+    {
+        return isDead;
+    }
+
+    IEnumerator DamageFlash() 
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    IEnumerator Die() 
+    {
+        isDead = true;
+        yield return new WaitForSeconds(0.5f);
+        if (gameObject.CompareTag("Player") == false) {
+            Destroy(gameObject);
+        }
+        else {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+    }
+
     // Takes damage equal to the damageValue then checks if is dead
     public void TakeDamage(float damageValue) 
     {
         currentHealth -= damageValue;
 
+        StartCoroutine(DamageFlash());
+
         if (currentHealth <= 0f) 
         {
             currentHealth = 0f;
-            isDead = true;
+            StartCoroutine(Die());
         }
     }
 
