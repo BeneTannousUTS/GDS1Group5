@@ -158,7 +158,7 @@ MonoBehaviour:
   - {fileID: 2800995283922925165, guid: 0d8d4311b9c3a3842a441ff79be637ba, type: 3}
   startRoom: {fileID: 1770596539658511532, guid: 831cc96d890bc35489e038734961472e, type: 3}
   finalRoom: {fileID: 6495515721812461790, guid: 018fa261c33656149ad15d74f31fbcc2, type: 3}
-  roomCount: 10
+  roomCount: 5
 --- !u!4 &477666396
 Transform:
   m_ObjectHideFlags: 0
@@ -169,6 +169,51 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.35957, y: 116.946976, z: -1.0724356}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1047826070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1047826072}
+  - component: {fileID: 1047826071}
+  m_Layer: 0
+  m_Name: EnemyAISystem
+  m_TagString: EnemyAISystem
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1047826071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047826070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37d3d6c5240c684c904192e0189c0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerList: []
+--- !u!4 &1047826072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047826070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1457,3 +1502,4 @@ SceneRoots:
   - {fileID: 477666396}
   - {fileID: 1646114375}
   - {fileID: 1968084903}
+  - {fileID: 1047826072}
