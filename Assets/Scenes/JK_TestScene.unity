@@ -158,7 +158,8 @@ MonoBehaviour:
   - {fileID: 2800995283922925165, guid: 0d8d4311b9c3a3842a441ff79be637ba, type: 3}
   startRoom: {fileID: 1770596539658511532, guid: 831cc96d890bc35489e038734961472e, type: 3}
   finalRoom: {fileID: 6495515721812461790, guid: 018fa261c33656149ad15d74f31fbcc2, type: 3}
-  roomCount: 5
+  roomCount: 500
+  spawnedRooms: []
 --- !u!4 &477666396
 Transform:
   m_ObjectHideFlags: 0
@@ -1437,7 +1438,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 831cc96d890bc35489e038734961472e, type: 3}
---- !u!1001 &1968084903
+--- !u!1001 &2101281663
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1451,11 +1452,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067287321159405193, guid: b3a159f19a389ba4cbe0df3e8364814a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.47450638
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067287321159405193, guid: b3a159f19a389ba4cbe0df3e8364814a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.304947
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067287321159405193, guid: b3a159f19a389ba4cbe0df3e8364814a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1501,5 +1502,5 @@ SceneRoots:
   - {fileID: 1148765192}
   - {fileID: 477666396}
   - {fileID: 1646114375}
-  - {fileID: 1968084903}
   - {fileID: 1047826072}
+  - {fileID: 2101281663}
