@@ -55,5 +55,7 @@ public class WeaponStats : MonoBehaviour
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
         }
         StartCoroutine(DestroyWeapon(weaponLifetime));
+        
+        transform.position += 0.001f * transform.up;
     }
 }

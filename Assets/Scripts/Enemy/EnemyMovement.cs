@@ -29,19 +29,10 @@ public class EnemyMovement : MonoBehaviour
         return facingDirection;
     }
 
-    // Returns 1 or -1 based on the sign of the input
-    float NormalizeFloat(float num) 
-    {
-        if (num == 0f) {
-            return 0f;
-        }
-        return Mathf.Abs(num)/num;
-    }
-
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive() 
     {
-        facingDirection = new Vector3(NormalizeFloat(movePoint.transform.position.x - transform.position.x), NormalizeFloat(movePoint.transform.position.y - transform.position.y), 0f);
+        facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
         if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange) 
         {
@@ -63,19 +54,21 @@ public class EnemyMovement : MonoBehaviour
     // Passive AI movement meant to run to be a certain distance from the closest player
     void MovePassive() 
     {
-        facingDirection = new Vector3(NormalizeFloat(movePoint.transform.position.x - transform.position.x), NormalizeFloat(movePoint.transform.position.y - transform.position.y), 0f);
+        facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
         if (Vector3.Distance(movePoint.transform.position, transform.position) < aggroRange)
         {
             movePoint = enemyPathfinder.ClosestPlayer(transform.position);
 
-            gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
-            
             transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, -1f * moveSpeed * Time.deltaTime);
         }
-        else
+        if (Vector3.Distance(movePoint.transform.position, transform.position) >= attackRange)
         {
             gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+        }
+        else 
+        {
+            gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
         }
     }
 

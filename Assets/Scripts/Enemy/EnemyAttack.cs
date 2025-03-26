@@ -29,87 +29,25 @@ public class EnemyAttack : MonoBehaviour
     IEnumerator DoAttack() 
     {
         attackCooldownTimer = 0f;
-        Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection();
-        Instantiate(warningUI, transform.position + attackDirection.normalized, Quaternion.identity, transform);
+        Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection().normalized;
+        Instantiate(warningUI, transform.position + attackDirection, Quaternion.identity, transform);
         yield return new WaitForSeconds(0.5f);
-        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection.normalized, CalculateQuaternion(attackDirection), transform);
+        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
     Quaternion CalculateQuaternion(Vector3 direction) 
     {
-        // Attempt at a smarter solution will revisit later
-        /*
         float angle = Mathf.Abs((Mathf.Acos(direction.x) * 180)/Mathf.PI);
 
-        Debug.Log($"Angle: {angle}");
-
-        if (direction.x > 0 && direction.y > 0)
+        if (direction.y >= 0)
         {
             angle -= 90;
         }
-        else if (direction.x < 0 && direction.y < 0)
+        else if (direction.y < 0)
         {
-            angle += 90;
-        }
-        else if (direction.x > 0 && direction.y < 0)
-        {
-            angle += 180;
-        }
-
-        Debug.Log($"Angle: {angle}");
-
-        return Quaternion.Euler(0f, 0f, angle);
-        */
-
-        float angle;
-
-        if (direction.y == 1)
-        {
-            if (direction.x == 1) 
-            {
-                angle = 315f;
-            }
-            else if (direction.x == -1) 
-            {
-                angle = 45f;
-            }
-            else 
-            {
-                angle = 0f;
-            }
-        }
-
-        else if (direction.y == -1) 
-        {
-            if (direction.x == 1) 
-            {
-                angle = 225f;
-            }
-            else if (direction.x == -1) 
-            {
-                angle = 135f;
-            }
-            else 
-            {
-                angle = 180f;
-            }
-        }
-
-        else {
-            if (direction.x == 1) 
-            {
-                angle = 270f;
-            }
-            else if (direction.x == -1) 
-            {
-                angle = 90f;
-            }
-            else 
-            {
-                angle = 0f;
-            }
+            angle = 270 - angle;
         }
 
         return Quaternion.Euler(0f, 0f, angle);

@@ -49,7 +49,6 @@ public class Projectile : MonoBehaviour
     // Moves projectile
     void Update()
     {   
-        Debug.Log($"forward: {transform.up}");
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
 }
