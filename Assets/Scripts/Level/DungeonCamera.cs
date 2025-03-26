@@ -13,7 +13,6 @@ public class DungeonCamera : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Camera.main.transform.position = transform.parent.transform.position + new Vector3(0,0,-10);
-            Debug.Log((int)transform.position.y / 25);
             dungeonBuild.ActivateRooms((int)transform.position.y / 25);
             
         }
