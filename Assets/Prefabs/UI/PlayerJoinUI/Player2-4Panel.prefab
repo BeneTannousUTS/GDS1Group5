@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9215979091240597140}
   - component: {fileID: 8313102316435538893}
   - component: {fileID: 5388698230278977958}
-  - component: {fileID: -7635174445905233958}
   m_Layer: 5
   m_Name: Player2-4Panel
   m_TagString: PlayerJoinUIPanel
@@ -79,72 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-7635174445905233958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7175584091843800065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f18e2f05788903d4bb6a29a9a9d93b2e, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d
-    m_ActionName: 'Menu/Navigation[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6e39ddec-72cd-4ebe-bed6-83ecc184d0b5
-    m_ActionName: 'Menu/Select[/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3d0d4459-4dc9-4e5f-8f3e-cede3d068389
-    m_ActionName: 'Menu/Deselect[/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1007719805557502546, guid: 956026ff9faf39145b8ac07ede385d7d, type: 3}
-        m_TargetAssemblyTypeName: PlayerJoinManager, Assembly-CSharp
-        m_MethodName: TryJoinGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 90d15e13-5087-47b5-8a44-9e11a4fb6ce1
-    m_ActionName: 'PlayerJoin/Join[/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 45872583-dffb-4308-a1f3-2378b3c53df8
-    m_ActionName: 'PlayerJoin/Leave[/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 76b27258-c378-409f-bdb2-2840b2fc4f03
-    m_ActionName: Gameplay/New action
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: PlayerJoin
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &7657302572074324720
 GameObject:
   m_ObjectHideFlags: 0
