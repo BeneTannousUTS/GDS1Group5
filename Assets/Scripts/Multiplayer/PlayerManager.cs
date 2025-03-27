@@ -17,7 +17,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     public PlayerData[] players = new PlayerData[4];
-    private int maxPlayers = 4;
 
     private void Awake()
     {
@@ -48,6 +47,25 @@ public class PlayerManager : MonoBehaviour
         }
 
         Debug.Log("All player slots are full!");
+        return false;
+    }
+
+    public bool UnjoinPlayer(Gamepad gamepad)
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].gamepad == gamepad)
+            {
+                players[i].isJoined = false;
+                players[i].gamepad = null;
+                players[i].playerIndex = i;
+                
+                Debug.Log($"Player {i + 1} left with Gamepad: {gamepad.deviceId}");
+                return true;
+            }
+        }
+        
+        Debug.Log("All player slots are empty!");
         return false;
     }
 
