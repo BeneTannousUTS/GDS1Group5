@@ -1,0 +1,128 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AudioManager : MonoBehaviour
+{
+    // Audio Settings (Should be fetched on Awake)
+    private float masterVolumeLevel = 1.0f; // these values are more/less temp for now before we have a settings system
+    private float musicVolumeLevel = 0.25f;
+    private float efffectVolumeLevel = 1.0f;
+
+    // BGM Tracks
+    private AudioSource menuThemeSource;
+    private AudioSource mainThemeSource;
+    private AudioSource traitorThemeSource;
+    private AudioSource bossThemeSource;
+
+    // Sound Effect Dictionary
+    [System.Serializable]
+    public class AudioSourceEntry
+    {
+        public string name;
+        public AudioClip audioClip;
+    }
+    public List<AudioSourceEntry> audioSourceEntries;
+    private Dictionary<string, AudioClip> soundEffectDict = new Dictionary<string, AudioClip>();
+
+    void Awake()
+    {
+        // Fetch init audio settings from setting manager
+        // Note these levels can change during the game so these values are not fixed/final
+
+        // Create dictionary from list created in the inspector
+        foreach (var entry in audioSourceEntries)
+        {
+            if (!soundEffectDict.ContainsKey(entry.name) && entry.audioClip != null)
+            {
+                soundEffectDict.Add(entry.name, entry.audioClip);
+            }
+            else
+            {
+                Debug.LogWarning($"Duplicate or null AudioSource entry: {entry.name}");
+            }
+        }
+    }
+
+    void Start()
+    {
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+
+        menuThemeSource = audioSources[0];
+        mainThemeSource = audioSources[1];
+        traitorThemeSource = audioSources[2];
+        bossThemeSource = audioSources[3];
+
+        PlayMainTheme(); // THIS IS ONLY TEMP I WANT THE GAME MANAGER TO CALL THE PLAY THEME.
+    }
+
+    public void PlayMenuTheme()
+    {
+        if (menuThemeSource.resource == null)
+        {
+            Debug.LogWarning("The track for 'Menu Theme' is yet to be added to the audio source");
+        }
+
+        menuThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        menuThemeSource.Play();
+    }
+
+    public void PlayMainTheme()
+    {
+        if (mainThemeSource.resource == null)
+        {
+            Debug.LogWarning("The track for 'Main Theme' is yet to be added to the audio source");
+        }
+
+        mainThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        mainThemeSource.Play();
+    }
+
+    public void PlayTraitorTheme()
+    {
+        if (traitorThemeSource.resource == null)
+        {
+            Debug.LogWarning("The track for 'Traitor Theme' is yet to be added to the audio source");
+        }
+
+        traitorThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        traitorThemeSource.Play();
+    }
+
+    public void PlayBossTheme()
+    {
+        if (bossThemeSource.resource == null)
+        {
+            Debug.LogWarning("The track for 'Boss Theme' is yet to be added to the audio source");
+        }
+
+        bossThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        bossThemeSource.Play();
+    }
+
+    public void PlaySoundEffect(string soundEffectName)
+    {
+        AudioClip audioClip;
+        soundEffectDict.TryGetValue(soundEffectName, out audioClip);
+
+        if (audioClip == null)
+        {
+            Debug.LogWarning($"The sound effect: '{soundEffectName} does not exist. Please make sure the name is correct and is part of the sound effect dictionary.");
+            return;
+        }
+
+        AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
+        soundEffectSource.resource = audioClip;
+        soundEffectSource.volume = 1f * masterVolumeLevel * efffectVolumeLevel;
+        soundEffectSource.Play();
+
+        StartCoroutine(DestroyAudioSource(soundEffectSource));
+    }
+
+    IEnumerator DestroyAudioSource(AudioSource audioSource)
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(audioSource);
+    }
+
+}
