@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,8 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     // Audio Settings (Should be fetched on Awake)
     private float masterVolumeLevel = 1.0f; // these values are more/less temp for now before we have a settings system
-    private float musicVolumeLevel = 0.5f;
-    private float efffectVolumeLevel = 0.5f;
+    private float musicVolumeLevel = 0.25f;
+    private float efffectVolumeLevel = 1.0f;
 
     // BGM Tracks
     private AudioSource menuThemeSource;
@@ -14,23 +15,15 @@ public class AudioManager : MonoBehaviour
     private AudioSource traitorThemeSource;
     private AudioSource bossThemeSource;
 
-    // Sound Effects
-    private AudioSource playerAttackSource; // PlayerAttack
-    private AudioSource playerDamageSource; // PlayerDamage
-    // once multiple enemies have been implemented each with have its own audio effects
-    // thus the name of this source will be changed
-    private AudioSource enemyAttackSource; // EnemyAttack
-    private AudioSource enemyDamageSource; // EnemyDamage
-
     // Sound Effect Dictionary
     [System.Serializable]
     public class AudioSourceEntry
     {
         public string name;
-        public AudioSource audioSource;
+        public AudioClip audioClip;
     }
     public List<AudioSourceEntry> audioSourceEntries;
-    private Dictionary<string, AudioSource> soundEffectDict = new Dictionary<string, AudioSource>();
+    private Dictionary<string, AudioClip> soundEffectDict = new Dictionary<string, AudioClip>();
 
     void Awake()
     {
@@ -40,9 +33,9 @@ public class AudioManager : MonoBehaviour
         // Create dictionary from list created in the inspector
         foreach (var entry in audioSourceEntries)
         {
-            if (!soundEffectDict.ContainsKey(entry.name) && entry.audioSource != null)
+            if (!soundEffectDict.ContainsKey(entry.name) && entry.audioClip != null)
             {
-                soundEffectDict.Add(entry.name, entry.audioSource);
+                soundEffectDict.Add(entry.name, entry.audioClip);
             }
             else
             {
@@ -109,17 +102,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffect(string soundEffectName)
     {
-        AudioSource desiredAudioSource;
-        soundEffectDict.TryGetValue(soundEffectName, out desiredAudioSource);
+        AudioClip audioClip;
+        soundEffectDict.TryGetValue(soundEffectName, out audioClip);
 
-        if (desiredAudioSource == null)
+        if (audioClip == null)
         {
             Debug.LogWarning($"The sound effect: '{soundEffectName} does not exist. Please make sure the name is correct and is part of the sound effect dictionary.");
             return;
         }
 
-        desiredAudioSource.volume = 1f * masterVolumeLevel * efffectVolumeLevel;
-        desiredAudioSource.Play();
+        AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
+        soundEffectSource.resource = audioClip;
+        soundEffectSource.volume = 1f * masterVolumeLevel * efffectVolumeLevel;
+        soundEffectSource.Play();
+
+        StartCoroutine(DestroyAudioSource(soundEffectSource));
+    }
+
+    IEnumerator DestroyAudioSource(AudioSource audioSource)
+    {
+        yield return new WaitForSeconds(1.5f);
+        Destroy(audioSource);
     }
 
 }
