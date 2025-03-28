@@ -54,6 +54,9 @@ public class WeaponStats : MonoBehaviour
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
         }
+
+        Debug.Log($"sourceType: {sourceType}");
+
         StartCoroutine(DestroyWeapon(weaponLifetime));
         
         transform.position += 0.001f * transform.up;
