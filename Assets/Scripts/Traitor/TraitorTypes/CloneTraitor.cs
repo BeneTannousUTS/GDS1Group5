@@ -58,7 +58,6 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         LoseCondition();
         Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
-        Destroy(gameObject);
     }
     private void ClonePosition(GameObject clone)
     {
@@ -84,7 +83,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     public void CloneSetup()
     {
         realTraitor = false;
-        //Change health to lower
+        gameObject.GetComponent<HealthComponent>().SetCurrentHealth(20);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
