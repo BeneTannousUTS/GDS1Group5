@@ -5,9 +5,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     // Audio Settings (Should be fetched on Awake)
-    private float masterVolumeLevel = 1.0f; // these values are more/less temp for now before we have a settings system
-    private float musicVolumeLevel = 0.25f;
-    private float efffectVolumeLevel = 1.0f;
+    private float masterVolumeLevel = 0.5f; // these values are more/less temp for now before we have a settings system
+    private float musicVolumeLevel = 1.0f;
+    private float effectVolumeLevel = 1.0f;
 
     // BGM Tracks
     private AudioSource menuThemeSource;
@@ -17,13 +17,15 @@ public class AudioManager : MonoBehaviour
 
     // Sound Effect Dictionary
     [System.Serializable]
-    public class AudioSourceEntry
+    public class AudioClipEntry
     {
         public string name;
         public AudioClip audioClip;
     }
-    public List<AudioSourceEntry> audioSourceEntries;
+    public List<AudioClipEntry> effectClipEntries;
     private Dictionary<string, AudioClip> soundEffectDict = new Dictionary<string, AudioClip>();
+    public List<AudioClipEntry> jingeClipEntries;
+    private Dictionary<string, AudioClip> soundJingleDict = new Dictionary<string, AudioClip>();
 
     void Awake()
     {
@@ -31,11 +33,23 @@ public class AudioManager : MonoBehaviour
         // Note these levels can change during the game so these values are not fixed/final
 
         // Create dictionary from list created in the inspector
-        foreach (var entry in audioSourceEntries)
+        foreach (var entry in effectClipEntries)
         {
             if (!soundEffectDict.ContainsKey(entry.name) && entry.audioClip != null)
             {
                 soundEffectDict.Add(entry.name, entry.audioClip);
+            }
+            else
+            {
+                Debug.LogWarning($"Duplicate or null AudioSource entry: {entry.name}");
+            }
+        }
+
+        foreach (var entry in jingeClipEntries)
+        {
+            if (!soundJingleDict.ContainsKey(entry.name) && entry.audioClip != null)
+            {
+                soundJingleDict.Add(entry.name, entry.audioClip);
             }
             else
             {
@@ -113,16 +127,87 @@ public class AudioManager : MonoBehaviour
 
         AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
         soundEffectSource.resource = audioClip;
-        soundEffectSource.volume = 1f * masterVolumeLevel * efffectVolumeLevel;
+        soundEffectSource.volume = 1f * masterVolumeLevel * effectVolumeLevel;
         soundEffectSource.Play();
 
-        StartCoroutine(DestroyAudioSource(soundEffectSource));
+        StartCoroutine(DestroyAudioSource(soundEffectSource, 1.5f));
     }
 
-    IEnumerator DestroyAudioSource(AudioSource audioSource)
+    public void PlaySoundJingle(string soundJingleName)
     {
-        yield return new WaitForSeconds(1.5f);
+        AudioClip audioClip;
+        soundJingleDict.TryGetValue(soundJingleName, out audioClip);
+
+        if (audioClip == null)
+        {
+            Debug.LogWarning($"The sound effect: '{soundJingleName} does not exist. Please make sure the name is correct and is part of the sound jingle dictionary.");
+            return;
+        }
+
+        AudioSource soundJingleSource = gameObject.AddComponent<AudioSource>();
+        soundJingleSource.resource = audioClip;
+        soundJingleSource.volume = 1f * masterVolumeLevel * effectVolumeLevel;
+        soundJingleSource.Play();
+        StartCoroutine(DuckBGM(audioClip.length));
+
+        StartCoroutine(DestroyAudioSource(soundJingleSource, 7.5f));
+    }
+
+    IEnumerator DestroyAudioSource(AudioSource audioSource, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
         Destroy(audioSource);
     }
+
+    IEnumerator DuckBGM(float timeDucked) // does not currently handle multiple calls at the same time...
+    {
+        AudioSource currentTheme = null;
+        if (menuThemeSource.isPlaying)
+            currentTheme = menuThemeSource;
+        else if (mainThemeSource.isPlaying)
+            currentTheme = mainThemeSource;
+        else if (traitorThemeSource.isPlaying)
+            currentTheme = traitorThemeSource;
+        else if (bossThemeSource.isPlaying)
+            currentTheme = bossThemeSource;
+
+        if (currentTheme == null)
+        {
+            Debug.LogWarning("No theme playing in DuckBGM.");
+            yield break;
+        }
+
+        float timeToTransition = 0.5f;
+        float transitionTimeElapsed = 0f;
+        float startVolumeLevel = 1 * masterVolumeLevel * musicVolumeLevel;
+        float targetVolumeLevel = startVolumeLevel * 0.4f;
+
+        // Duck volume
+        while (transitionTimeElapsed < timeToTransition)
+        {
+            transitionTimeElapsed += Time.deltaTime;
+            float t = transitionTimeElapsed / timeToTransition;
+            currentTheme.volume = Mathf.Lerp(startVolumeLevel, targetVolumeLevel, t);
+            yield return null;
+        }
+
+        currentTheme.volume = targetVolumeLevel;
+
+        // Wait while jingle plays
+        yield return new WaitForSeconds(timeDucked - 0.5f);
+
+        // Restore volume
+        transitionTimeElapsed = 0f;
+        while (transitionTimeElapsed < timeToTransition)
+        {
+            transitionTimeElapsed += Time.deltaTime;
+            float t = transitionTimeElapsed / timeToTransition;
+            currentTheme.volume = Mathf.Lerp(targetVolumeLevel, startVolumeLevel, t);
+            yield return null;
+        }
+
+        currentTheme.volume = startVolumeLevel;
+    }
+
 
 }
