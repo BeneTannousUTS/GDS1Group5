@@ -9,7 +9,7 @@ public class HealthComponent : MonoBehaviour
     public float maxHealth;
     public float invicibilityFrameTime;
     private bool invincible = false;
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
     private bool isDead = false;
 
     public bool GetIsDead() 
@@ -20,6 +20,13 @@ public class HealthComponent : MonoBehaviour
     IEnumerator DamageFlash() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    IEnumerator HealingFlash() 
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         yield return new WaitForSeconds(0.1f);
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
@@ -46,7 +53,19 @@ public class HealthComponent : MonoBehaviour
     // Takes damage equal to the damageValue then checks if is dead
     public void TakeDamage(float damageValue) 
     {
-        if (invincible == false) 
+        if (damageValue < 0f) 
+        {
+            currentHealth -= damageValue;
+
+            StartCoroutine(HealingFlash());
+
+            if (currentHealth >= maxHealth) 
+            {
+                currentHealth = maxHealth;
+            }
+        }
+
+        else if (invincible == false) 
         {
             currentHealth -= damageValue;
 

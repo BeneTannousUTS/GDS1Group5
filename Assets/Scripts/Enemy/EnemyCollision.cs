@@ -12,7 +12,7 @@ public class EnemyCollision : MonoBehaviour
     }
 
     // On collision with a weapon or projectile take damage
-    void OnTriggerStay2D(Collider2D otherCollider) 
+    void OnTriggerEnter2D(Collider2D otherCollider) 
     {
         if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType()))
         {

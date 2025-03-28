@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8497046616686018855}
   - component: {fileID: 1546772075712313913}
   - component: {fileID: -3664968770519650174}
+  - component: {fileID: 784202266211808429}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -221,6 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   invicibilityFrameTime: 0.2
+  currentHealth: 0
 --- !u!114 &-3664968770519650174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,3 +341,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &784202266211808429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293369937120540139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95ac57b8294977b4dad17c1a6b13d227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSecondary: {fileID: 5015723690770620291, guid: 4f6042785d78eab429d30250e8d37a43, type: 3}
+  secondaryCooldownWindow: 5
+  secondaryBufferWindow: 0.5
