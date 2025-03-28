@@ -3,9 +3,14 @@ using UnityEngine.InputSystem;
 
 public class GameSceneManager : MonoBehaviour
 {
-    public Transform[] spawnPoints; // Assign spawn points for players
+    public GameObject[] spawnPoints;
 
     void Start()
+    {
+        SpawnPlayers();
+    }
+
+    void SpawnPlayers()
     {
         PlayerManager.PlayerData[] players = PlayerManager.instance.players;
 
@@ -17,7 +22,7 @@ public class GameSceneManager : MonoBehaviour
                 PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
 
                 // Position the new player at the corresponding spawn point
-                newPlayer.transform.position = spawnPoints[i].position;
+                newPlayer.transform.position = spawnPoints[i].transform.position;
 
                 Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId}");
             }
