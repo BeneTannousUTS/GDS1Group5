@@ -37,5 +37,9 @@ public class PlayerMovement : MonoBehaviour
             
             rigidBody.linearVelocity = moveDirection.normalized * moveSpeed;
         }
+        else 
+        {
+            rigidBody.linearVelocity = Vector3.zero;
+        }
     }
 }
