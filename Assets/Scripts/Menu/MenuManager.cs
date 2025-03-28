@@ -1,33 +1,29 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject mainMenu;
-    [SerializeField]
-    private GameObject setupMenu;
     [SerializeField]
     private GameObject optionsMenu;
     
     public void LoadMainMenu()
     {
         mainMenu.SetActive(true);
-        setupMenu.SetActive(false);
         optionsMenu.SetActive(false);
-    }
 
-    public void LoadSetupMenu()
-    {
-        setupMenu.SetActive(true);
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+        mainMenu.GetComponentInChildren<Button>().Select();
     }
-
+    
     public void LoadOptionsMenu()
     {
         optionsMenu.SetActive(true);
         mainMenu.SetActive(false);
-        setupMenu.SetActive(false);
+        
+        optionsMenu.GetComponentInChildren<Button>().Select();
     }
 
     public void LoadGameScene()
