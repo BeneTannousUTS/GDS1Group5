@@ -80,6 +80,17 @@
                 },
                 {
                     "name": "",
+                    "id": "08ab5e64-ee51-4f7c-bd14-107c4af5d52c",
+                    "path": "<SwitchProControllerHID>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Navigation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d4f092b4-2cbe-4fa2-a329-e25bee5860b2",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -155,9 +166,27 @@
             "id": "17d1ed8d-861d-43bb-bd02-76406ccbd811",
             "actions": [
                 {
-                    "name": "New action",
-                    "type": "Button",
+                    "name": "Movement",
+                    "type": "PassThrough",
                     "id": "76b27258-c378-409f-bdb2-2840b2fc4f03",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Primary",
+                    "type": "Button",
+                    "id": "bdf662e2-8224-4d9a-a1ee-fe9a02728b54",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Secondary",
+                    "type": "Button",
+                    "id": "3ba17f15-46a3-499e-985f-5089d4ff329c",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -166,13 +195,79 @@
             ],
             "bindings": [
                 {
+                    "name": "2D Vector",
+                    "id": "e976fd97-c773-4082-a580-f3825ee827e9",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "27783c4f-f653-493b-aa67-9b69533b79e1",
+                    "path": "<SwitchProControllerHID>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "dfeeadb5-cc72-438c-a6de-c3eb519ed500",
+                    "path": "<SwitchProControllerHID>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "735eb100-df7f-4501-b033-a042bbdac24d",
+                    "path": "<SwitchProControllerHID>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "d6dcd8bb-76fa-4ef3-94f7-e298c5e12b42",
+                    "path": "<SwitchProControllerHID>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";SwitchProCon",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "a17eb04a-08c1-48cf-8917-b1d05d5e61db",
+                    "id": "de0458c2-58ae-4a21-9e3d-4f10196ce14e",
                     "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Primary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "541835d7-7a7d-468f-a4f4-cd0b8753bd31",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -186,6 +281,17 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "SwitchProCon",
+            "bindingGroup": "SwitchProCon",
+            "devices": [
+                {
+                    "devicePath": "<SwitchProControllerHID>",
                     "isOptional": false,
                     "isOR": false
                 }

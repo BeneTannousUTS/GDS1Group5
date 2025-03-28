@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -7,10 +9,10 @@ public class GameSceneManager : MonoBehaviour
 
     void Start()
     {
-        SpawnPlayers();
+        
     }
 
-    void SpawnPlayers()
+    public void SpawnPlayers()
     {
         PlayerManager.PlayerData[] players = PlayerManager.instance.players;
 
@@ -24,7 +26,7 @@ public class GameSceneManager : MonoBehaviour
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
 
-                Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId}");
+                Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
             }
         }
     }
