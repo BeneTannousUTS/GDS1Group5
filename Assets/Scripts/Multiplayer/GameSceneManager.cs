@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameSceneManager : MonoBehaviour
 {
     public GameObject[] spawnPoints;
-
+    public Color[] playerColours;
+        
     void Start()
     {
         
@@ -25,6 +26,7 @@ public class GameSceneManager : MonoBehaviour
 
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
+                newPlayer.GetComponent<SpriteRenderer>().color = playerColours[i];
 
                 Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
             }
