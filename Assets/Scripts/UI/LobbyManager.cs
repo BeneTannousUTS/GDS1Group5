@@ -5,6 +5,7 @@ using System;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -43,6 +44,11 @@ public class LobbyManager : MonoBehaviour
             {
                 OnControlsChanged(gamepad);
                 UnassignGamepadSlot(gamepad);
+            }
+            // Check if the first player wants to start the game
+            else if (gamepad.startButton.wasPressedThisFrame && gamepad == playerSlots[0].panelGamepad)
+            {
+                StartGame();
             }
         }
 
@@ -120,6 +126,13 @@ public class LobbyManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void StartGame()
+    {
+        if (!canStartGame) return;
+        
+        SceneManager.LoadScene("BT_TestScene");
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs

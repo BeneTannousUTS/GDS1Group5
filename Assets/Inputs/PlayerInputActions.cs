@@ -93,7 +93,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Navigation"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
