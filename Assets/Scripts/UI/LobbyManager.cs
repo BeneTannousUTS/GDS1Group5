@@ -18,10 +18,14 @@ public class LobbyManager : MonoBehaviour
         public bool isOccupied = false;
         internal Gamepad panelGamepad;
     }
+
+    [SerializeField]
+    public GameObject pressStartPrefab;
     
     public PlayerSlot[] playerSlots;
     private int joinedPlayers = 0;
     private int maxPlayers = 4;
+    private bool canStartGame = false;
 
  void Update()
     {
@@ -40,6 +44,17 @@ public class LobbyManager : MonoBehaviour
                 OnControlsChanged(gamepad);
                 UnassignGamepadSlot(gamepad);
             }
+        }
+
+        if (playerSlots[0].isOccupied && (playerSlots[1].isOccupied || playerSlots[2].isOccupied || playerSlots[3].isOccupied))
+        {
+            pressStartPrefab.SetActive(true);
+            canStartGame = true;
+        }
+        else
+        {
+            pressStartPrefab.SetActive(false);
+            canStartGame = false;
         }
     }
 
