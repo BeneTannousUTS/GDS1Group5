@@ -1,8 +1,11 @@
 // AUTHOR: Alistair
 // Handles player movement input
 
+using Unity.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movementInput;
     
     public float moveSpeed;
+    private Animator animator;
+    private SpriteRenderer sprite;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
@@ -26,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //controller = gameObject.GetComponent<CharacterController>();
+        animator = gameObject.GetComponent<Animator>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -45,11 +52,44 @@ public class PlayerMovement : MonoBehaviour
             // Setting facingDirection to a vector with
             if (moveDirection != Vector3.zero)
             {
-                gameObject.transform.up = moveDirection;
+                animator.SetBool("isMoving", true);
+                SetSpriteDirection();
+                if (moveDirection.x > 0 && sprite.flipX) {
+                    sprite.flipX = false;
+                }
+                else if (moveDirection.x < 0 && !sprite.flipX) {
+                    sprite.flipX = true;
+                }
+                //gameObject.transform.up = moveDirection;
                 facingDirection = moveDirection;
             }
+            else animator.SetBool("isMoving", false);
             
             //controller.Move(playerVelocity * Time.deltaTime);
+        }
+    }
+
+    // Sets the direction of the sprite in the animator
+    private void SetSpriteDirection() {
+        animator.SetBool("isFront", false);
+        animator.SetBool("isFrontDiag", false);
+        animator.SetBool("isSide", false);
+        animator.SetBool("isBackDiag", false);
+        animator.SetBool("isBack", false);
+        if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y <= 0) {
+            animator.SetBool("isFront", true);
+        }
+        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y <= -0.15) {
+            animator.SetBool("isFrontDiag", true);
+        }
+        else if (moveDirection.y >= -0.15 && moveDirection.y <= 0.15) {
+            animator.SetBool("isSide", true);
+        }
+        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y >= 0.15) {
+            animator.SetBool("isBackDiag", true);
+        }
+        else if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y >= 0) {
+            animator.SetBool("isBack", true);
         }
     }
 }

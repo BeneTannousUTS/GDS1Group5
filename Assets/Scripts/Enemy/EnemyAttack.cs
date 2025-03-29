@@ -13,6 +13,7 @@ public class EnemyAttack : MonoBehaviour
     private float attackCooldownTimer = 0f;
 
     private bool canAttack = false;
+
     
     public void SetCanAttack(bool inRange) 
     {
@@ -31,6 +32,7 @@ public class EnemyAttack : MonoBehaviour
         attackCooldownTimer = 0f;
         Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection().normalized;
         Instantiate(warningUI, transform.position + attackDirection, Quaternion.identity, transform);
+        gameObject.GetComponent<Animator>().SetTrigger("attack");
         yield return new WaitForSeconds(0.5f);
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);

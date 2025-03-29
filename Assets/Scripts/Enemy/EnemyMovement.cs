@@ -23,6 +23,9 @@ public class EnemyMovement : MonoBehaviour
 
     private Vector3 facingDirection = Vector3.right;
 
+    private Animator animator;
+    private SpriteRenderer sprite;
+
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection() 
     {
@@ -83,6 +86,8 @@ public class EnemyMovement : MonoBehaviour
     {
         enemyPathfinder = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>();
         movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+        animator = gameObject.GetComponent<Animator>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Move based on the AI type
@@ -101,6 +106,27 @@ public class EnemyMovement : MonoBehaviour
             {
                 MoveTeleporter();
             }
+        }
+        SetSpriteDirection();
+        if (facingDirection.x == 0 && facingDirection.y == 0) animator.SetBool("isMoving", false);
+        else animator.SetBool("isMoving", true);
+    }
+
+    // Sets the direction of the sprite in the animator
+    void SetSpriteDirection() {
+        animator.SetBool("isFront", false);
+        animator.SetBool("isSide", false);
+        animator.SetBool("isBack", false);
+        if (((facingDirection.x <= 0 && facingDirection.x >= facingDirection.y) || (facingDirection.x >= 0 && facingDirection.x < facingDirection.y * -1)) && facingDirection.y < 0) {
+            animator.SetBool("isFront", true);
+        }
+        else if (((facingDirection.x >= 0 && facingDirection.x <= facingDirection.y) || (facingDirection.x <= 0 && facingDirection.x > facingDirection.y * -1)) && facingDirection.y > 0) {
+            animator.SetBool("isBack", true);
+        }
+        else animator.SetBool("isSide", true);
+        if (facingDirection.x > 0 && sprite.flipX) sprite.flipX = false;
+        else if (facingDirection.x < 0 && !sprite.flipX) {
+            sprite.flipX = true;
         }
     }
 }
