@@ -8,14 +8,9 @@ public class EnemyPathfinder : MonoBehaviour
     [SerializeField] private GameObject[] playerList;
 
     // Fill playerList with all players in the scene
-    void Start()
+    void Awake()
     {
         playerList = GameObject.FindGameObjectsWithTag("Player"); 
-    }
-
-    public GameObject[] GetPlayers()
-    {
-        return playerList;
     }
 
     // Returns the position of the closest player
