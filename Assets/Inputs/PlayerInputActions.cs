@@ -88,6 +88,118 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ""name"": ""PlayerInputActions"",
     ""maps"": [
         {
+            ""name"": ""Menu"",
+            ""id"": ""b8d51195-eaf8-4980-8371-e3c244976bc7"",
+            ""actions"": [
+                {
+                    ""name"": ""Navigation"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e39ddec-72cd-4ebe-bed6-83ecc184d0b5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Deselect"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d0d4459-4dc9-4e5f-8f3e-cede3d068389"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cfefb573-af8e-4052-bd50-de59baa6f2fc"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3cbe4afa-46dc-49d9-b647-7802be2e6276"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3757b8d4-8922-4562-8627-c156fcd87ca1"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6beaf842-1652-465e-b887-6862e016db6a"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08ab5e64-ee51-4f7c-bd14-107c4af5d52c"",
+                    ""path"": ""<SwitchProControllerHID>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4f092b4-2cbe-4fa2-a329-e25bee5860b2"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5dd94a0-157c-4a83-8963-e825ab6f15b8"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Deselect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""PlayerJoin"",
             ""id"": ""da2af409-be78-406d-b1c4-5649d10fc268"",
             ""actions"": [
@@ -113,8 +225,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""e2d132c9-765a-4191-a07a-d1b4f6575549"",
-                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""id"": ""16395fc3-ba30-47ee-8655-efe992f43212"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -124,30 +236,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""61bbffc2-2915-4db4-82f7-f4c19003fb0e"",
-                    ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cf5da8e1-7d71-447d-a3e9-378e92c2a8c8"",
-                    ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Leave"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""43bd5080-b319-4e6e-baed-a225b95c966d"",
-                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
+                    ""id"": ""18bcef8c-6e33-4c71-b200-662a6c116477"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -303,18 +393,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""de0458c2-58ae-4a21-9e3d-4f10196ce14e"",
-                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Primary"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b759e509-2a95-4dce-af2a-eca15d8ab4fe"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -325,18 +404,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""541835d7-7a7d-468f-a4f4-cd0b8753bd31"",
-                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Secondary"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""189c9583-c9ab-4fd2-af66-379449d5fc4c"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -372,6 +440,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     ]
 }");
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Navigation = m_Menu.FindAction("Navigation", throwIfNotFound: true);
+        m_Menu_Select = m_Menu.FindAction("Select", throwIfNotFound: true);
+        m_Menu_Deselect = m_Menu.FindAction("Deselect", throwIfNotFound: true);
         // PlayerJoin
         m_PlayerJoin = asset.FindActionMap("PlayerJoin", throwIfNotFound: true);
         m_PlayerJoin_Join = m_PlayerJoin.FindAction("Join", throwIfNotFound: true);
@@ -385,6 +458,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 
     ~@PlayerInputActions()
     {
+        UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, PlayerInputActions.Menu.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PlayerJoin.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerJoin.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, PlayerInputActions.Gameplay.Disable() has not been called.");
     }
@@ -458,6 +532,124 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         return asset.FindBinding(bindingMask, out action);
     }
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_Navigation;
+    private readonly InputAction m_Menu_Select;
+    private readonly InputAction m_Menu_Deselect;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Menu".
+    /// </summary>
+    public struct MenuActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MenuActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/Navigation".
+        /// </summary>
+        public InputAction @Navigation => m_Wrapper.m_Menu_Navigation;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/Select".
+        /// </summary>
+        public InputAction @Select => m_Wrapper.m_Menu_Select;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/Deselect".
+        /// </summary>
+        public InputAction @Deselect => m_Wrapper.m_Menu_Deselect;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MenuActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MenuActions" />
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @Navigation.started += instance.OnNavigation;
+            @Navigation.performed += instance.OnNavigation;
+            @Navigation.canceled += instance.OnNavigation;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+            @Deselect.started += instance.OnDeselect;
+            @Deselect.performed += instance.OnDeselect;
+            @Deselect.canceled += instance.OnDeselect;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MenuActions" />
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @Navigation.started -= instance.OnNavigation;
+            @Navigation.performed -= instance.OnNavigation;
+            @Navigation.canceled -= instance.OnNavigation;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+            @Deselect.started -= instance.OnDeselect;
+            @Deselect.performed -= instance.OnDeselect;
+            @Deselect.canceled -= instance.OnDeselect;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MenuActions.UnregisterCallbacks(IMenuActions)" />.
+        /// </summary>
+        /// <seealso cref="MenuActions.UnregisterCallbacks(IMenuActions)" />
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MenuActions.AddCallbacks(IMenuActions)" />
+        /// <seealso cref="MenuActions.RemoveCallbacks(IMenuActions)" />
+        /// <seealso cref="MenuActions.UnregisterCallbacks(IMenuActions)" />
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MenuActions" /> instance referencing this action map.
+    /// </summary>
+    public MenuActions @Menu => new MenuActions(this);
 
     // PlayerJoin
     private readonly InputActionMap m_PlayerJoin;
@@ -708,6 +900,35 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             if (m_SwitchProConSchemeIndex == -1) m_SwitchProConSchemeIndex = asset.FindControlSchemeIndex("SwitchProCon");
             return asset.controlSchemes[m_SwitchProConSchemeIndex];
         }
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Menu" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MenuActions.AddCallbacks(IMenuActions)" />
+    /// <seealso cref="MenuActions.RemoveCallbacks(IMenuActions)" />
+    public interface IMenuActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Navigation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNavigation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Deselect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDeselect(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerJoin" which allows adding and removing callbacks.

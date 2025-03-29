@@ -1,5 +1,5 @@
 // AUTHOR: BENEDICT
-// This script handles players joining and carrying unique controller identities into the main gameplay
+// This script stores identifiers for players joining and passes unique controller identities into the main gameplay
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -50,6 +50,7 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    // Remove player index that matches the controller that unjoined & remove controller ID
     public bool UnjoinPlayer(Gamepad gamepad)
     {
         for (int i = 0; i < players.Length; i++)

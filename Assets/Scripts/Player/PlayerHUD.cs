@@ -1,34 +1,27 @@
-using TMPro;
-using Unity.VisualScripting;
+// AUTHOR: BENEDICT
+// This script initialises HUD elements for each player that is joined into a game
+
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
     public GameObject playerHUDPrefab;
-    [SerializeField]
     private int playerNum;
 
     private GameObject hud;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        hud = Instantiate(playerHUDPrefab, GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform, false);
-        // hud.GetComponentInChildren<UIComponentHelper>().primaryAbility; 
-        // hud.GetComponentInChildren<UIComponentHelper>().secondaryAbility; 
-    }
 
+    // Set the player number text in the HUD panel
     public void SetPlayerNum(int playerIndex)
     {
-        EnsureHUD(); // Make sure the HUD exists before setting values
+        EnsureHUD();
         playerNum = playerIndex + 1;
         hud.GetComponentInChildren<UIComponentHelper>().playerNumTMP.text = "P" + playerNum;
     }
     
+    // Set the player colour in the HUD panel
     public void SetHUDColour(Color healthColour)
     {
-        EnsureHUD(); // Make sure the HUD exists before setting values
+        EnsureHUD();
         UIComponentHelper helper = hud.GetComponentInChildren<UIComponentHelper>();
         if (helper != null)
         {
@@ -37,8 +30,7 @@ public class PlayerHUD : MonoBehaviour
         }
     }
     
-    
-
+    // Make sure the HUD exists before setting values
     void EnsureHUD()
     {
         if (hud == null)

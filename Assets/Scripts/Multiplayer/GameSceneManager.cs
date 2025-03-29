@@ -1,7 +1,8 @@
-using System.Collections;
+// AUTHOR: BENEDICT
+// This script uses the PlayerInputManager to join new players with unique controller identities
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameSceneManager : MonoBehaviour
         
     }
 
+    // Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
     public void SpawnPlayers()
     {
         PlayerManager.PlayerData[] players = PlayerManager.instance.players;
@@ -26,7 +28,6 @@ public class GameSceneManager : MonoBehaviour
 
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
-                newPlayer.GetComponent<SpriteRenderer>().color = playerColours[i];
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
                 newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
 

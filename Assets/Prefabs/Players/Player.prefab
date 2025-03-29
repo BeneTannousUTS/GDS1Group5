@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1337777873036203628}
   - component: {fileID: 9047811484673041199}
   - component: {fileID: -2046580684109656263}
+  - component: {fileID: 8768108212651689899}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -184,18 +185,6 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d
-    m_ActionName: 'Menu/Navigation[/XInputControllerWindows/leftStick/up,/XInputControllerWindows1/leftStick/up,/SwitchProControllerHID/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows1/leftStick/down,/SwitchProControllerHID/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows1/leftStick/left,/SwitchProControllerHID/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows1/leftStick/right,/SwitchProControllerHID/leftStick/right,/SwitchProControllerHID/leftStick]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6e39ddec-72cd-4ebe-bed6-83ecc184d0b5
-    m_ActionName: 'Menu/Select[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/SwitchProControllerHID/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3d0d4459-4dc9-4e5f-8f3e-cede3d068389
-    m_ActionName: 'Menu/Deselect[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/SwitchProControllerHID/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 90d15e13-5087-47b5-8a44-9e11a4fb6ce1
     m_ActionName: 'PlayerJoin/Join[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/SwitchProControllerHID/buttonEast]'
   - m_PersistentCalls:
@@ -354,3 +343,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8768108212651689899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293369937120540139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245a1c84ca996074ba6c7f946c5449f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHUDPrefab: {fileID: 6285766715772830892, guid: d318f21141b2bd8458dd8f142cf0faf7, type: 3}
+  playerNum: 0
