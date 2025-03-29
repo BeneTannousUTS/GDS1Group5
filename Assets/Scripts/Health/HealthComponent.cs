@@ -17,6 +17,15 @@ public class HealthComponent : MonoBehaviour
         return isDead;
     }
 
+    public void SetMaxHealth(float health) 
+    {
+        if (maxHealth < health) 
+        {
+            currentHealth += health - maxHealth;
+            maxHealth = health;
+        }
+    }
+
     IEnumerator DamageFlash() 
     {
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;

@@ -1,0 +1,23 @@
+using UnityEngine;
+
+public class PassiveStats : MonoBehaviour
+{
+    public float strengthMod = 1f;
+    public float moveMod = 1f;
+    public float healthMod = 0f;
+
+    public float GetStrengthMod()
+    {
+        return strengthMod;
+    }
+
+    public float GetMoveMod()
+    {
+        return moveMod;
+    }
+
+    public float GetHealthMod()
+    {
+        return healthMod;
+    }
+}
