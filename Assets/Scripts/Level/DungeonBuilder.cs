@@ -9,7 +9,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject[] rooms;
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
-    public int roomCount;
+    public int numberRooms;
     private int currentRoom = 1;
     public GameObject[] spawnedRooms;
     private DungeonManager dManager;
@@ -17,7 +17,7 @@ public class DungeonBuilder : MonoBehaviour
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {
-        while (currentRoom < roomCount - 1)
+        while (currentRoom < numberRooms - 1)
         {
             spawnedRooms[currentRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
             spawnedRooms[currentRoom].transform.position += new Vector3(0, 25 * currentRoom, 0);
@@ -32,10 +32,10 @@ public class DungeonBuilder : MonoBehaviour
     public void ActivateRooms(int position)
     {
         dManager.SetRoomCount(position+1);
-        if (position+1<roomCount && spawnedRooms[position + 1] != null)
+        if (position+1<numberRooms && spawnedRooms[position + 1] != null)
         {
             spawnedRooms[position + 1].SetActive(true);
-            if (position + 2 < roomCount && spawnedRooms[position + 2] != null)
+            if (position + 2 < numberRooms && spawnedRooms[position + 2] != null)
             {
                 
                 spawnedRooms[position + 2].SetActive(false);
@@ -44,7 +44,7 @@ public class DungeonBuilder : MonoBehaviour
         if (position-1>0 && spawnedRooms[position - 1] != null)
         {
             spawnedRooms[position - 1].SetActive(true);
-            if (position - 2 < roomCount && spawnedRooms[position - 2] != null)
+            if (position - 2 < numberRooms && spawnedRooms[position - 2] != null)
             {
 
                 spawnedRooms[position - 2].SetActive(false);
@@ -54,7 +54,7 @@ public class DungeonBuilder : MonoBehaviour
 
     void Start()
     {
-        spawnedRooms = new GameObject[roomCount];
+        spawnedRooms = new GameObject[numberRooms];
         GenerateRooms();
         dManager = gameObject.GetComponent<DungeonManager>();
          
