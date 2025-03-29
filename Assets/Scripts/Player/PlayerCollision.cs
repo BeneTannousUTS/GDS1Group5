@@ -23,5 +23,9 @@ public class PlayerCollision : MonoBehaviour
             otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
             Destroy(otherCollider.gameObject);
         }
+        else if (otherCollider.gameObject.CompareTag("TempBuff")) 
+        {
+            gameObject.GetComponent<PlayerStats>().SetPassive(otherCollider.GetComponent<TempBuff>().GetPassive());
+        }
     }
 }

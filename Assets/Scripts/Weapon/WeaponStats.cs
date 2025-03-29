@@ -8,6 +8,7 @@ using System.Collections;
 public class WeaponStats : MonoBehaviour
 {
     public float damageValue;
+    private float damageMod = 1f;
     public float weaponLifetime;
     private string sourceType;
     public bool friendlyFire;
@@ -31,10 +32,16 @@ public class WeaponStats : MonoBehaviour
         return friendlyFire;
     }
 
+    // Sets the value of sourceType
+    public void SetDamageMod(float modifier) 
+    {
+        damageMod = modifier;
+    }
+
     // Deals damage to a specified HealthComponent
     public void DealDamage(HealthComponent healthComponent)
     {
-        healthComponent.TakeDamage(damageValue);
+        healthComponent.TakeDamage(damageValue * damageMod);
     }
 
     // Destroys the weapon after its lifetime is up
@@ -50,7 +57,7 @@ public class WeaponStats : MonoBehaviour
         if (projectile != null) 
         {
             GameObject currentProjectile = Instantiate(projectile, transform.position + transform.up, transform.rotation);
-            currentProjectile.GetComponent<Projectile>().SetDamageValue(damageValue);
+            currentProjectile.GetComponent<Projectile>().SetDamageValue(damageValue * damageMod);
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
         }

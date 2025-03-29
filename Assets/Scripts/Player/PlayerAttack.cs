@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
         attackCooldownTimer = 0f;
     }
 

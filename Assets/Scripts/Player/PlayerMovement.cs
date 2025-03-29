@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
-            controller.Move(moveDirection * Time.deltaTime * moveSpeed);
+            controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
             
             // Setting facingDirection to a vector with
             if (moveDirection != Vector3.zero)
