@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5198658256432536468}
   m_Layer: 0
   m_Name: Strength
-  m_TagString: Weapon
+  m_TagString: TempBuff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,3 +138,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passive: {fileID: 957674621904353159, guid: 699d1f3a041778b4ba1b340fcf2cb46a, type: 3}
+  buffLifetime: 0.3
+  buffTime: 10

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 27921405193562824}
   - component: {fileID: 6337561754460843729}
   - component: {fileID: 7337862267658388418}
-  - component: {fileID: 1831775918162966628}
+  - component: {fileID: 4954873692227398596}
   m_Layer: 0
   m_Name: StrengthPotion
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.449597, y: -1.5225984, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondaryLifetime: 1
   projectile: {fileID: 1406864928331478087, guid: bac9a5b8c350a0248a469c44b4a4977b, type: 3}
---- !u!114 &1831775918162966628
+--- !u!114 &4954873692227398596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,6 +112,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 21740387793767394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea106467e9928bb45a293da33639bdfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 857ecae78f6114348bed270a66008d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

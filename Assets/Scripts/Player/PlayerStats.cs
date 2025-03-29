@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class PlayerStats : MonoBehaviour
 {
-    private List<GameObject> passives = new List<GameObject>();
+    [SerializeField] private List<GameObject> passives = new List<GameObject>();
 
-    public IEnumerator removeTempBuff(float time, GameObject passive) 
+    public IEnumerator RemoveTempBuff(float time, GameObject passive) 
     {
         yield return new WaitForSeconds(time);
         passives.Remove(passive);

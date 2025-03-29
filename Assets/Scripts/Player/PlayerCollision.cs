@@ -26,6 +26,7 @@ public class PlayerCollision : MonoBehaviour
         else if (otherCollider.gameObject.CompareTag("TempBuff")) 
         {
             gameObject.GetComponent<PlayerStats>().SetPassive(otherCollider.GetComponent<TempBuff>().GetPassive());
+            gameObject.GetComponent<PlayerStats>().RemoveTempBuff(otherCollider.GetComponent<TempBuff>().GetBuffTime(), otherCollider.GetComponent<TempBuff>().GetPassive());
         }
     }
 }
