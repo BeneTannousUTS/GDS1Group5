@@ -51,4 +51,17 @@ public class Projectile : MonoBehaviour
     {   
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
+
+    bool ColliderType(Collider2D otherCollider) 
+    {
+        return otherCollider.gameObject.CompareTag("Enemy") == false && otherCollider.gameObject.CompareTag("Weapon") == false && otherCollider.gameObject.CompareTag("TempBuff") == false && otherCollider.gameObject.CompareTag("Player") == false && otherCollider.gameObject.CompareTag("Projectile") == false;
+    }
+
+    void OnTriggerEnter2D(Collider2D otherCollider) 
+    {
+        if (ColliderType(otherCollider)) 
+        {
+            Destroy(gameObject);
+        }
+    }
 }

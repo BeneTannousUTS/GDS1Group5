@@ -256,6 +256,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1458953188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 293369937120540139, guid: b3a159f19a389ba4cbe0df3e8364814a, type: 3}
+  m_PrefabInstance: {fileID: 530473571778585822}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2033653359
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37d3d6c5240c684c904192e0189c0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList: []
+  playerList:
+  - {fileID: 1458953188}
 --- !u!1001 &530473571778585822
 PrefabInstance:
   m_ObjectHideFlags: 0

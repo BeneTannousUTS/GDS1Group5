@@ -35,43 +35,57 @@ public class EnemyMovement : MonoBehaviour
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive() 
     {
-        facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false) 
+        {
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
-        if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange) 
+            if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange) 
+            {
+                movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+            }
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange)
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+                
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, moveSpeed * Time.deltaTime);
+            }
+        }
+        else 
         {
             movePoint = enemyPathfinder.ClosestPlayer(transform.position);
-        }
-
-        if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange)
-        {
-            gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
-        }
-        else
-        {
-            gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
-            
-            transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, moveSpeed * Time.deltaTime);
         }
     }
 
     // Passive AI movement meant to run to be a certain distance from the closest player
     void MovePassive() 
     {
-        facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
-
-        if (Vector3.Distance(movePoint.transform.position, transform.position) < aggroRange)
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false) 
         {
-            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
-            transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, -1f * moveSpeed * Time.deltaTime);
-        }
-        if (Vector3.Distance(movePoint.transform.position, transform.position) >= attackRange)
-        {
-            gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            if (Vector3.Distance(movePoint.transform.position, transform.position) < aggroRange)
+            {
+                movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, -1f * moveSpeed * Time.deltaTime);
+            }
+            if (Vector3.Distance(movePoint.transform.position, transform.position) >= attackRange)
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else 
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+            }
         }
         else 
         {
-            gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
         }
     }
 

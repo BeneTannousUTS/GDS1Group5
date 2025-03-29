@@ -55,7 +55,7 @@ public class HealthComponent : MonoBehaviour
             Destroy(gameObject);
         }
         else {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         }
     }
 
