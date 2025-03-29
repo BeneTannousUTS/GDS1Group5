@@ -11,6 +11,7 @@ public class HealthComponent : MonoBehaviour
     private bool invincible = false;
     [SerializeField] private float currentHealth;
     private bool isDead = false;
+    private AudioManager audioManager;
 
     public bool GetIsDead() 
     {
@@ -78,6 +79,10 @@ public class HealthComponent : MonoBehaviour
         {
             currentHealth -= damageValue;
 
+        // this is a really scuffed way to determine if it is a player or not but it works
+        string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
+        audioManager.PlaySoundEffect(audioDamageType);
+
             StartCoroutine(DamageFlash());
             StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
 
@@ -94,9 +99,10 @@ public class HealthComponent : MonoBehaviour
         currentHealth = health;
     }
 
-    // Sets currentHealth to maxHealth
+    // Sets currentHealth to maxHealth & gets audio manager by tag
     void Start()
     {
-       currentHealth = maxHealth; 
+       currentHealth = maxHealth;
+       audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>(); 
     }
 }

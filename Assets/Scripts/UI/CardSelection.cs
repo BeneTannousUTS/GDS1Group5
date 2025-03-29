@@ -23,6 +23,7 @@ public class CardSelection : MonoBehaviour
     private GameObject[] cardList = new GameObject[4];
     private GameObject[] abilityList = new GameObject[4];
     private int currentIndex = 0;
+    private AudioManager audioManager;
 
     // Flips all cards
     public IEnumerator FlipAll()
@@ -103,6 +104,8 @@ public class CardSelection : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        bool isTraitorFound = true;
         if (traitorNum == 1) 
         {
             int traitorIndex = Random.Range(0,4);
@@ -134,8 +137,17 @@ public class CardSelection : MonoBehaviour
             GetRandomCard(false);
             GetRandomCard(false);
             GetRandomCard(false);
+
+            isTraitorFound= false;
         }
 
         StartCoroutine(FlipAll());
+        if (isTraitorFound) StartCoroutine(TraitorJingle());
+    }
+
+    IEnumerator TraitorJingle()
+    {
+        yield return new WaitForSeconds(1.5f); // waits for cards to flip
+        audioManager.PlaySoundJingle("TraitorFound");
     }
 }

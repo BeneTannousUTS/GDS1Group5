@@ -10,6 +10,8 @@ public class RoomManager : MonoBehaviour
     private bool openDoor;
     private EnemyMovement[] enemyCount;
     private float checkTimer;
+    private AudioManager audioManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //Checks if there are still enemies in the room, if not then destroy the door (only checks every second)
     void CheckEnemy()
@@ -27,6 +29,7 @@ public class RoomManager : MonoBehaviour
             }
             if (openDoor)
             {
+                if (door) audioManager.PlaySoundJingle("RoomClear");
                 Destroy(door);
             }
             checkTimer = 0;
@@ -35,6 +38,7 @@ public class RoomManager : MonoBehaviour
     void Start()
     {
         enemyCount = transform.GetComponentsInChildren<EnemyMovement>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame

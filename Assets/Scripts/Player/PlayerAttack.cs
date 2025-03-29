@@ -13,6 +13,14 @@ public class PlayerAttack : MonoBehaviour
     public float attackBufferWindow;
     private float attackBufferTimer = 10f;
 
+    private AudioManager audioManager;
+
+    // Gets audio manager by tag
+    void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+    }
+
     // Instantiates a weapon in front of the players current facing direction
     void Attack() 
     {
@@ -20,6 +28,11 @@ public class PlayerAttack : MonoBehaviour
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
+
+        // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used
+        string audioAttackType = currentWeapon.name.Equals("Sword") ? "PlayerMeleeAttack" : "PlayerRangedAttack"; 
+        audioManager.PlaySoundEffect(audioAttackType);
+
         attackCooldownTimer = 0f;
     }
 
