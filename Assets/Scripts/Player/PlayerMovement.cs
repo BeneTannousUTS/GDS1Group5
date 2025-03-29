@@ -4,13 +4,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     private Vector3 moveDirection;
     private Vector3 facingDirection = Vector3.up;
     private Vector3 playerVelocity;
-    private CharacterController controller;
+    //private CharacterController controller;
+    public Rigidbody2D rb;
 
     private Vector2 movementInput;
     
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     // Setting the value of rigidBody
     void Start()
     {
-        controller = gameObject.GetComponent<CharacterController>();
+        //controller = gameObject.GetComponent<CharacterController>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -39,7 +39,8 @@ public class PlayerMovement : MonoBehaviour
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
-            controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
+            rb.linearVelocity = moveDirection*moveSpeed;
+            //controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
             
             // Setting facingDirection to a vector with
             if (moveDirection != Vector3.zero)
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
                 facingDirection = moveDirection;
             }
             
-            controller.Move(playerVelocity * Time.deltaTime);
+            //controller.Move(playerVelocity * Time.deltaTime);
         }
     }
 }
