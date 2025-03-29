@@ -132,7 +132,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (!canStartGame) return;
         
-        SceneManager.LoadScene("BT_TestScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
