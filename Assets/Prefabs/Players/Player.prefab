@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -3664968770519650174}
   - component: {fileID: 784202266211808429}
   - component: {fileID: 7963053276299925498}
+  - component: {fileID: 2558025832430337687}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -24,14 +25,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3067287321159405193
-Transform:
+--- !u!224 &3067287321159405193
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293369937120540139}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -39,6 +39,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &6292511283525024960
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -263,3 +268,16 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2558025832430337687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293369937120540139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245a1c84ca996074ba6c7f946c5449f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHUDPrefab: {fileID: 6285766715772830892, guid: d318f21141b2bd8458dd8f142cf0faf7, type: 3}

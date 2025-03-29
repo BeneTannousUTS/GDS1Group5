@@ -2,118 +2,6 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Menu",
-            "id": "b8d51195-eaf8-4980-8371-e3c244976bc7",
-            "actions": [
-                {
-                    "name": "Navigation",
-                    "type": "PassThrough",
-                    "id": "6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Select",
-                    "type": "Button",
-                    "id": "6e39ddec-72cd-4ebe-bed6-83ecc184d0b5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Deselect",
-                    "type": "Button",
-                    "id": "3d0d4459-4dc9-4e5f-8f3e-cede3d068389",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "cfefb573-af8e-4052-bd50-de59baa6f2fc",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3cbe4afa-46dc-49d9-b647-7802be2e6276",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3757b8d4-8922-4562-8627-c156fcd87ca1",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6beaf842-1652-465e-b887-6862e016db6a",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "08ab5e64-ee51-4f7c-bd14-107c4af5d52c",
-                    "path": "<SwitchProControllerHID>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d4f092b4-2cbe-4fa2-a329-e25bee5860b2",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c5dd94a0-157c-4a83-8963-e825ab6f15b8",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Deselect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "PlayerJoin",
             "id": "da2af409-be78-406d-b1c4-5649d10fc268",
             "actions": [
@@ -139,8 +27,8 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "16395fc3-ba30-47ee-8655-efe992f43212",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "e2d132c9-765a-4191-a07a-d1b4f6575549",
+                    "path": "<SwitchProControllerHID>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -150,8 +38,30 @@
                 },
                 {
                     "name": "",
-                    "id": "18bcef8c-6e33-4c71-b200-662a6c116477",
-                    "path": "<Gamepad>/buttonSouth",
+                    "id": "61bbffc2-2915-4db4-82f7-f4c19003fb0e",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf5da8e1-7d71-447d-a3e9-378e92c2a8c8",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Leave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43bd5080-b319-4e6e-baed-a225b95c966d",
+                    "path": "<SwitchProControllerHID>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -250,9 +160,75 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "258cc7fc-3160-4478-be8e-23bd1f3cb1b2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "403284e6-3142-48fc-9e14-af119567a948",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d7f4e89d-3c28-4867-b12b-4d33922845d6",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5066f93e-c033-4599-8b8e-46961b9a0f48",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "20887333-d590-488d-a922-575728820ee9",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "de0458c2-58ae-4a21-9e3d-4f10196ce14e",
-                    "path": "",
+                    "path": "<SwitchProControllerHID>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b759e509-2a95-4dce-af2a-eca15d8ab4fe",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -263,7 +239,18 @@
                 {
                     "name": "",
                     "id": "541835d7-7a7d-468f-a4f4-cd0b8753bd31",
-                    "path": "",
+                    "path": "<SwitchProControllerHID>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "189c9583-c9ab-4fd2-af66-379449d5fc4c",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

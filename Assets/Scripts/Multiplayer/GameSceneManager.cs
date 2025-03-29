@@ -27,6 +27,8 @@ public class GameSceneManager : MonoBehaviour
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
                 newPlayer.GetComponent<SpriteRenderer>().color = playerColours[i];
+                newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
+                newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
 
                 Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
             }
