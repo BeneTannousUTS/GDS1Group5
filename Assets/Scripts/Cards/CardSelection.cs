@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public enum CardType
 {
@@ -38,6 +39,8 @@ public class CardSelection : MonoBehaviour
     private int numOfCardSelected = 0;
     private GameObject selectedCard = null;
     private int traitorIndex = -1;
+    [SerializeField]
+    private TMP_Text text;
 
     // Flips all cards
     public IEnumerator FlipAll()
@@ -216,6 +219,8 @@ public class CardSelection : MonoBehaviour
         {
             if (!players[playerIndex].isJoined) break;
 
+            text.text = $"Player {playerIndex + 1} is Selecting a Card";
+
             foreach (GameObject card in cardList)
             {
                 if (card.GetComponent<Button>() != null)
@@ -230,6 +235,7 @@ public class CardSelection : MonoBehaviour
             yield return new WaitUntil(() => selectedCard != null);
 
             Destroy(selectedCard.GetComponent<Button>());
+            selectedCard.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f);
             selectedCard = null;
             yield return new WaitForSeconds(0.25f);
         }
@@ -240,8 +246,10 @@ public class CardSelection : MonoBehaviour
             {
                 Destroy(card.GetComponent<Button>());
             }
+            card.GetComponent<Image>().color = new Color(1.0f,1.0f,1.0f);
         }
 
+        text.text = "";
         // once all players have selected cards flip over
         StartCoroutine(FlipAll());
     }
