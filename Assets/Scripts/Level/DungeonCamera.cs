@@ -15,8 +15,14 @@ public class DungeonCamera : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.SetActive(false);
-            roomChange = true;
+            if (dungeonBuild.GetCurrentRoom() == dungeonBuild.GetNumRooms() - 1)
+            {
+                GameObject.FindWithTag("GameManager").GetComponent<GameManager>().Win();
+            }
+            else {
+                collision.gameObject.SetActive(false);
+                roomChange = true;
+            }
         }
     }
 
@@ -65,14 +71,7 @@ public class DungeonCamera : MonoBehaviour
     {
         if (roomChange)
         {
-            if (dungeonBuild.GetNumRooms() == (int)(transform.position.y / 25))
-            {
-                GameObject.FindWithTag("GameManager").GetComponent<GameManager>().Win();
-            }
-            else 
-            {
-                LoadCardScene();
-            }
+            LoadCardScene();
         }
     }
 }

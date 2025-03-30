@@ -20,6 +20,11 @@ public class DungeonBuilder : MonoBehaviour
         return numberRooms;
     }
 
+    public int GetCurrentRoom()
+    {
+        return currentRoom;
+    }
+
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
@@ -7,12 +8,12 @@ public class GameManager : MonoBehaviour
 
     public void Win() 
     {
-        Debug.Log("WIN");
+        SceneManager.LoadScene("WinScreen");
     }
 
     void Lose()
     {
-        Debug.Log("LOSE");
+        SceneManager.LoadScene("LoseScreen");
     }
 
     void TraitorWin() 
