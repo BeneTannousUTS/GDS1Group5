@@ -1,9 +1,15 @@
+// AUTHOR: James
+// Handels the clone traitor type
+
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CloneTraitor : MonoBehaviour, ITraitor
 {
     private Vector3 spawnPos;
     private bool realTraitor = true;
+    private List<GameObject> cloneList = new List<GameObject>();
     [SerializeField] GameObject cloneObject;
     public int GetMaxHealth()
     {
@@ -17,7 +23,18 @@ public class CloneTraitor : MonoBehaviour, ITraitor
 
     public void TraitorAbility()
     {
-        
+        SpawnClones();
+    }
+
+    private void SpawnClones()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject clone = Instantiate(cloneObject);
+            clone.tag = "Traitor";
+            cloneList.Add(clone);
+            ClonePosition(clone);
+        }
     }
 
     public void TraitorSetup()
@@ -28,12 +45,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
             FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
             ClonePosition(gameObject);
-            for (int i = 0; i < 10; i++)
-            {
-                GameObject clone = Instantiate(cloneObject);
-                clone.tag = "Traitor";
-                ClonePosition(clone);
-            }
+            SpawnClones();
         }
     }
 
@@ -41,7 +53,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
-            foreach (GameObject clone in GameObject.FindGameObjectsWithTag("Traitor"))
+            foreach (GameObject clone in cloneList)
             {
                 if (gameObject != clone)
                 {

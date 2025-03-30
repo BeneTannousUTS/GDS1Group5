@@ -54,7 +54,7 @@ public class DungeonBuilder : MonoBehaviour
 
     void Start()
     {
-        spawnedRooms = new GameObject[numberRooms];
+        spawnedRooms = new GameObject[numberRooms + 1];
         GenerateRooms();
         dManager = gameObject.GetComponent<DungeonManager>();
          
