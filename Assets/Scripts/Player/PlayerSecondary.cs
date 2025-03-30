@@ -20,6 +20,9 @@ public class PlayerSecondary : MonoBehaviour
         GameObject tempSecondary = Instantiate(currentSecondary, transform.position, Quaternion.identity);
         tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
         secondaryCooldownTimer = 0f;
+        
+        // Call HUD component function for cooldown animation.
+        GetComponent<PlayerHUD>().StartSecondaryCooldownAnim(secondaryCooldownWindow);
     }
 
     // Updates timers by deltaTime
