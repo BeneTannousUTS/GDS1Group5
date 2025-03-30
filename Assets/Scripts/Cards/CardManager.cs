@@ -25,13 +25,29 @@ public class CardManager : MonoBehaviour
         yield return null;
     }
 
-    public void ReloadGameScene()
+    public void ReloadGameScene(int[] selectionOrder, GameObject[] abilityList)
     {
-        // grant players their items in the other scene
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
         SceneManager.UnloadSceneAsync("CardSelection");
         gameSceneCam.gameObject.SetActive(true);
         lastDunCam.RoomChangeTime(gameSceneCam);
         lastDunCam = null;
+
+        // Grant players their items in the other scene
+        for (int i = 0; i < selectionOrder.Length; ++i)
+        {
+            int abilityIndex = selectionOrder[i];
+            // if i = 0 has selection order 2 that means that Player 0 selected the 
+            // 3rd card so should get the 3rd ability (which is at index 2)
+            GameObject abilityObject = abilityList[abilityIndex];
+
+            if (abilityObject.GetComponent<WeaponStats>())
+            {
+                PlayerAttack[] playerAttacks = FindObjectsOfType<PlayerAttack>();
+                playerAttacks[i].currentWeapon = abilityObject;
+            }
+
+            // give player object?
+        }
     }
 }

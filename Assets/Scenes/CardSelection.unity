@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &111505461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +335,85 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1420893938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1420893940}
+  - component: {fileID: 1420893939}
+  - component: {fileID: 1420893941}
+  m_Layer: 0
+  m_Name: InputFilter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1420893939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420893938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ff905285abc491ab3d8a36548e1647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: 0}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: 0}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
+--- !u!4 &1420893940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420893938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420893941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420893938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1001 &4700413285593839692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -343,6 +422,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1611739975415792055, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
+      propertyPath: 'weaponComponents.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8746877494208805321, guid: 4edcdb713611e2e42919e623e37c06a8, type: 3}
+    - target: {fileID: 1611739975415792055, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
+      propertyPath: 'weaponComponents.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
+    - target: {fileID: 1611739975415792055, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
+      propertyPath: 'passiveCardSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: -8062063040821997716, guid: 4f8316382835b654eadba09b78631297, type: 3}
+    - target: {fileID: 1611739975415792055, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
+      propertyPath: 'passiveCardSprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 21300000, guid: ca2bc1972e874674f9936b874b1973e6, type: 3}
     - target: {fileID: 6333943067015554945, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -439,3 +534,4 @@ SceneRoots:
   - {fileID: 946357954}
   - {fileID: 4700413285593839692}
   - {fileID: 111505463}
+  - {fileID: 1420893940}

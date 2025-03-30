@@ -6,6 +6,13 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
+public enum CardType
+{
+    Weapon,
+    Secondary,
+    Passive
+}
+
 public class CardSelection : MonoBehaviour
 {
     public Sprite[] passiveCardSprites;
@@ -21,11 +28,14 @@ public class CardSelection : MonoBehaviour
     public GameObject secondaryCard;
     public GameObject weaponCard;
 
-    private int traitorNum = 1;
+    private int traitorNum = 0;
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
+    [SerializeField]
     private GameObject[] abilityList = new GameObject[4];
+    private int[] selectionOrder = new int[] { -1, -1, -1, -1 };
     private int currentIndex = 0;
+    private int numOfCardSelected = 0;
     private GameObject selectedCard = null;
 
     // Flips all cards
@@ -37,8 +47,10 @@ public class CardSelection : MonoBehaviour
             StartCoroutine(card.GetComponent<CardHandler>().ChangeSprite());
         }
 
+        //FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
+
         yield return new WaitForSeconds(3f);
-        FindAnyObjectByType<CardManager>().ReloadGameScene();
+        FindAnyObjectByType<CardManager>().ReloadGameScene(selectionOrder, abilityList);
     }
 
     // Sets the value of final room
@@ -160,6 +172,8 @@ public class CardSelection : MonoBehaviour
 
         for (int playerIndex = 0; playerIndex < players.Length; ++playerIndex)
         {
+            if (!players[playerIndex].isJoined) break;
+
             foreach (GameObject card in cardList)
             {
                 if (card.GetComponent<Button>() != null)
@@ -169,9 +183,7 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            if (!players[playerIndex].isJoined) break;
-
-            //EnableOnlyPlayer(playerIndex);
+            //InputFilter.ActiveDevice = players[playerIndex].playerInput.devices[0];
 
             yield return new WaitUntil(() => selectedCard != null);
 
@@ -190,20 +202,23 @@ public class CardSelection : MonoBehaviour
 
         // once all players have selected cards flip over
         StartCoroutine(FlipAll());
-
-        // if traitor card was found play jingle
-        StartCoroutine(TraitorJingle());
-    }
-
-    IEnumerator TraitorJingle()
-    {
-        yield return new WaitForSeconds(1.5f); // waits for cards to flip
-        FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
     }
 
     public void SelectCard(GameObject card)
     {
         selectedCard = card;
+        int abilityIndex = -1;
+
+        for (int i = 0; i < cardList.Length; ++i)
+        {
+            if (cardList[i] == selectedCard)
+            {
+                abilityIndex = i;
+                break;
+            }
+        }
+
+        selectionOrder[numOfCardSelected++] = abilityIndex;
     }
 
     void EnableOnlyPlayer(int index)
