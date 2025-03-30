@@ -15,14 +15,8 @@ public class DungeonCamera : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (dungeonBuild.GetCurrentRoom() == dungeonBuild.GetNumRooms() - 1)
-            {
-                GameObject.FindWithTag("GameManager").GetComponent<GameManager>().Win();
-            }
-            else {
-                collision.gameObject.SetActive(false);
-                roomChange = true;
-            }
+            collision.gameObject.SetActive(false);
+            roomChange = true;
         }
     }
 
