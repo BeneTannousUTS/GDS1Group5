@@ -17,7 +17,7 @@ public class GameSceneManager : MonoBehaviour
     // Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
     public void SpawnPlayers()
     {
-        PlayerManager.PlayerData[] players = PlayerManager.instance.players;
+        PlayerData[] players = PlayerManager.instance.players;
 
         for (int i = 0; i < players.Length; i++)
         {
@@ -25,6 +25,7 @@ public class GameSceneManager : MonoBehaviour
             {
                 // Use PlayerInputManager to spawn a new player and pair it with the gamepad
                 PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
+                PlayerManager.instance.players[i].playerInput = newPlayer;
 
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
