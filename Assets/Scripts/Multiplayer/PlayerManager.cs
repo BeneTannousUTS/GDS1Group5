@@ -3,18 +3,9 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-
-    [System.Serializable]
-    public class PlayerData
-    {
-        public int playerIndex;
-        public Gamepad gamepad;
-        public bool isJoined;
-    }
 
     public PlayerData[] players = new PlayerData[4];
 

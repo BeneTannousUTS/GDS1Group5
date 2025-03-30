@@ -20,26 +20,37 @@ public class DungeonCamera : MonoBehaviour
         }
     }
 
-    void MoveCamera()
+    void MoveCamera(Camera cam)
     {
-        Camera.main.transform.position = transform.parent.transform.position + new Vector3(0, 25, -10);
+        cam.transform.position = transform.parent.transform.position + new Vector3(0, 25, -10);
         dungeonBuild.ActivateRooms((int)(transform.position.y / 25));
     }
 
-    void RoomChangeTime()
+    public void RoomChangeTime(Camera cam)
+    {
+        foreach (GameObject player in ePath.GetPlayers())
+        {
+            player.SetActive(true);
+            player.transform.position = gameObject.transform.position + Vector3.up;
+        }
+        MoveCamera(cam);
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        roomChange = false;
+    }
+
+    void LoadCardScene()
     {
         roomChangeTimer += Time.deltaTime;
         if (roomChangeTimer > 2)
         {
             foreach (GameObject player in ePath.GetPlayers())
             {
-                player.SetActive(true);
-                player.transform.position = gameObject.transform.position + Vector3.up;
+                player.SetActive(false);
             }
-            MoveCamera();
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+
             roomChange = false;
 
+            FindAnyObjectByType<CardManager>().CardSceneCoroutine(this);
         }
     }
     void Start()
@@ -53,7 +64,7 @@ public class DungeonCamera : MonoBehaviour
     {
         if (roomChange)
         {
-            RoomChangeTime();
+            LoadCardScene();
         }
     }
 }
