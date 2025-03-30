@@ -96,6 +96,9 @@ public class CardManager : MonoBehaviour
 
     void DetermineTraitor()
     {
+        traitorIndex = 1;
+        return;
+
         GameObject[] players = new GameObject[4];
         int playerJoinedCount = 0;
 
