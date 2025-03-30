@@ -75,6 +75,7 @@ public class CardManager : MonoBehaviour
                 {
                     foreach (GameObject player in players)
                     {
+                        if (player == null) continue;
                         player.AddComponent<PVPTraitor>();
                     }
                 }
