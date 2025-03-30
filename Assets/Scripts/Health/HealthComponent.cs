@@ -37,9 +37,10 @@ public class HealthComponent : MonoBehaviour
 
     IEnumerator HealingFlash() 
     {
+        Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
         gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        gameObject.GetComponent<SpriteRenderer>().color = baseColor;
     }
 
     IEnumerator DoInvincibilityFrames(float time) 
