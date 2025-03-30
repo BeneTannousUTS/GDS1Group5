@@ -2,6 +2,7 @@
 // Handles player attack input and the spawning of a weapon to hurt enemies
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerAttack : MonoBehaviour
 
     public float attackBufferWindow;
     private float attackBufferTimer = 10f;
+
+    private bool attackButtonPressed;
 
     private AudioManager audioManager;
 
@@ -63,12 +66,18 @@ public class PlayerAttack : MonoBehaviour
         attackCooldownTimer += timeIncrease;
     }
 
+    // Check for unique controller input
+    public void OnPrimaryButtonPressed(InputAction.CallbackContext context)
+    {
+        attackButtonPressed = context.ReadValueAsButton();
+    }
+
     // Gets player input acts on it if it can
     void Update()
     {
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (Input.GetButtonDown("Fire1")) 
+            if (attackButtonPressed) 
             {
                 attackBufferTimer = 0f;
             }

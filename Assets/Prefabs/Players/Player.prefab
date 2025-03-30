@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
-  attackCooldownWindow: 0.1
+  attackCooldownWindow: 0.55
   attackBufferWindow: 0.05
 --- !u!114 &1063567501580656127
 MonoBehaviour:
@@ -208,13 +208,49 @@ MonoBehaviour:
     m_ActionId: 76b27258-c378-409f-bdb2-2840b2fc4f03
     m_ActionName: Gameplay/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8497046616686018855}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: OnPrimaryButtonPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: bdf662e2-8224-4d9a-a1ee-fe9a02728b54
     m_ActionName: Gameplay/Primary
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 784202266211808429}
+        m_TargetAssemblyTypeName: PlayerSecondary, Assembly-CSharp
+        m_MethodName: OnSecondaryButtonPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3ba17f15-46a3-499e-985f-5089d4ff329c
     m_ActionName: Gameplay/Secondary
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6eced3a3-afd3-4bec-8cdf-d62ddc1bc10d
+    m_ActionName: 'Menu/Navigation[/XInputControllerWindows/leftStick/up,/SwitchProControllerHID/leftStick/up,/XInputControllerWindows1/leftStick/up,/SwitchProControllerHID1/leftStick/up,/XInputControllerWindows/leftStick/down,/SwitchProControllerHID/leftStick/down,/XInputControllerWindows1/leftStick/down,/SwitchProControllerHID1/leftStick/down,/XInputControllerWindows/leftStick/left,/SwitchProControllerHID/leftStick/left,/XInputControllerWindows1/leftStick/left,/SwitchProControllerHID1/leftStick/left,/XInputControllerWindows/leftStick/right,/SwitchProControllerHID/leftStick/right,/XInputControllerWindows1/leftStick/right,/SwitchProControllerHID1/leftStick/right,/SwitchProControllerHID/leftStick,/SwitchProControllerHID1/leftStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6e39ddec-72cd-4ebe-bed6-83ecc184d0b5
+    m_ActionName: 'Menu/Select[/XInputControllerWindows/buttonEast,/SwitchProControllerHID/buttonEast,/XInputControllerWindows1/buttonEast,/SwitchProControllerHID1/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3d0d4459-4dc9-4e5f-8f3e-cede3d068389
+    m_ActionName: 'Menu/Deselect[/XInputControllerWindows/buttonSouth,/SwitchProControllerHID/buttonSouth,/XInputControllerWindows1/buttonSouth,/SwitchProControllerHID1/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: SwitchProCon
   m_DefaultActionMap: Gameplay
@@ -356,4 +392,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHUDPrefab: {fileID: 6285766715772830892, guid: d318f21141b2bd8458dd8f142cf0faf7, type: 3}
-  playerNum: 0

@@ -2,6 +2,7 @@
 // Handles player secondary input and the use of that secondary
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerSecondary : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerSecondary : MonoBehaviour
 
     public float secondaryBufferWindow;
     private float secondaryBufferTimer = 10f;
+
+    private bool secondaryButtonPressed;
 
     // Instantiates a secondary at the player's position
     void Secondary() 
@@ -31,13 +34,19 @@ public class PlayerSecondary : MonoBehaviour
         secondaryBufferTimer += timeIncrease;
         secondaryCooldownTimer += timeIncrease;
     }
+    
+    // Check for unique controller input
+    public void OnSecondaryButtonPressed(InputAction.CallbackContext context)
+    {
+        secondaryButtonPressed = context.ReadValueAsButton();
+    }
 
     // Gets player input acts on it if it can
     void Update()
     {
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (Input.GetButtonDown("Fire2"))
+            if (secondaryButtonPressed)
             {
                 secondaryBufferTimer = 0f;
             }
