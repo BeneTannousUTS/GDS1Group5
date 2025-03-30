@@ -34,6 +34,9 @@ public class PlayerAttack : MonoBehaviour
         audioManager.PlaySoundEffect(audioAttackType);
 
         attackCooldownTimer = 0f;
+        
+        // Call HUD component function for cooldown animation.
+        GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow);
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction

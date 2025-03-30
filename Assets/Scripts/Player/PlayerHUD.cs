@@ -1,43 +1,106 @@
 // AUTHOR: BENEDICT
 // This script initialises HUD elements for each player that is joined into a game
 
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHUD : MonoBehaviour
 {
     public GameObject playerHUDPrefab;
-    private int playerNum;
+    int playerNum;
 
-    private GameObject hud;
+    GameObject hud;
+    UIComponentHelper helper;
+    
+    float timeSincePrimary;
+    float primaryCooldown;
+    bool shouldUpdatePrimary = false;
+    
+    float timeSinceSecondary;
+    float secondaryCooldown;
+    bool shouldUpdateSecondary = false;
+
+    // Called every frame
+    private void Update()
+    {
+        UpdateCooldowns();
+    }
 
     // Set the player number text in the HUD panel
     public void SetPlayerNum(int playerIndex)
     {
         EnsureHUD();
         playerNum = playerIndex + 1;
-        hud.GetComponentInChildren<UIComponentHelper>().playerNumTMP.text = "P" + playerNum;
+        helper.playerNumTMP.text = "P" + playerNum;
     }
     
     // Set the player colour in the HUD panel
     public void SetHUDColour(Color healthColour)
     {
-        EnsureHUD();
-        UIComponentHelper helper = hud.GetComponentInChildren<UIComponentHelper>();
+        EnsureHUD(); 
         if (helper != null)
         {
             helper.playerNumTMP.color = healthColour;
             helper.healthSlider.color = healthColour;
         }
     }
+
+    // Set the Healthbar's fill amount and text
+    public void SetHealthbarDetails(float currentHealth, float maxHealth)
+    {
+        helper.healthSlider.fillAmount = (currentHealth / maxHealth);
+        helper.healthTextOver.text = currentHealth + "/" + maxHealth;
+        helper.healthTextUnder.text = currentHealth + "/" + maxHealth;
+    }
+
+    // Start cooldown animation for primary ability
+    public void StartPrimaryCooldownAnim(float cooldown)
+    {
+        timeSincePrimary = 0;
+        shouldUpdatePrimary = true;
+        primaryCooldown = cooldown;
+    }
     
+    // Start cooldown animation for secondary ability
+    public void StartSecondaryCooldownAnim(float cooldown)
+    {
+        timeSinceSecondary = 0;
+        shouldUpdateSecondary = true;
+        secondaryCooldown = cooldown;
+    }
+
+    // Check which cooldown panels need to be updated and update accordingly
+    void UpdateCooldowns()
+    {
+        if (shouldUpdatePrimary)
+        {
+            timeSincePrimary += Time.deltaTime;
+            helper.primaryAbility.fillAmount = timeSincePrimary / primaryCooldown;
+            if (timeSincePrimary >= primaryCooldown)
+            {
+                shouldUpdatePrimary = false;
+            }
+        }
+
+        if (shouldUpdateSecondary)
+        {
+            timeSinceSecondary += Time.deltaTime;
+            helper.secondaryAbility.fillAmount = timeSinceSecondary / secondaryCooldown;
+            if (timeSinceSecondary >= secondaryCooldown)
+            {
+                shouldUpdateSecondary = false;
+            }
+        }
+    }
+
     // Make sure the HUD exists before setting values
     void EnsureHUD()
     {
         if (hud == null)
         {
             hud = Instantiate(playerHUDPrefab, GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform, false);
+            helper = hud.GetComponentInChildren<UIComponentHelper>();
         }
     }
-    
-    
 }

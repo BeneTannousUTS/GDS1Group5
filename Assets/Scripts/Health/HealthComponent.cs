@@ -66,13 +66,16 @@ public class HealthComponent : MonoBehaviour
         if (damageValue < 0f) 
         {
             currentHealth -= damageValue;
-
+            
             StartCoroutine(HealingFlash());
 
             if (currentHealth >= maxHealth) 
             {
                 currentHealth = maxHealth;
             }
+            
+            // Call HUD component function to update healthbar
+            gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
         }
 
         else if (invincible == false) 
@@ -85,6 +88,9 @@ public class HealthComponent : MonoBehaviour
 
             StartCoroutine(DamageFlash());
             StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+            
+            // Call HUD component function to update healthbar
+            gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
 
             if (currentHealth <= 0f) 
             {
