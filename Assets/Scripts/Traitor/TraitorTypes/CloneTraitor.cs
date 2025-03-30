@@ -1,9 +1,16 @@
+// AUTHOR: James
+// Handels the clone traitor type
+
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CloneTraitor : MonoBehaviour, ITraitor
 {
     private Vector3 spawnPos;
     private bool realTraitor = true;
+    private List<GameObject> cloneList = new List<GameObject>();
+    [SerializeField] GameObject cloneObject;
     public int GetMaxHealth()
     {
         throw new System.NotImplementedException();
@@ -16,13 +23,17 @@ public class CloneTraitor : MonoBehaviour, ITraitor
 
     public void TraitorAbility()
     {
-        foreach (GameObject clone in GameObject.FindGameObjectsWithTag("Traitor"))
+        SpawnClones();
+    }
+
+    private void SpawnClones()
+    {
+        for (int i = 0; i < 10; i++)
         {
+            GameObject clone = Instantiate(cloneObject);
+            clone.tag = "Traitor";
+            cloneList.Add(clone);
             ClonePosition(clone);
-        }
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            ClonePosition(player);
         }
     }
 
@@ -30,14 +41,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
             ClonePosition(gameObject);
-            for (int i = 0; i < 10; i++)
-            {
-                GameObject clone = Instantiate(gameObject);
-                clone.GetComponent<CloneTraitor>().CloneSetup();
-                ClonePosition(clone);
-            }
+            SpawnClones();
         }
     }
 
@@ -45,7 +53,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
-            foreach (GameObject clone in GameObject.FindGameObjectsWithTag("Traitor"))
+            foreach (GameObject clone in cloneList)
             {
                 if (gameObject != clone)
                 {
@@ -89,19 +97,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     void Start()
     {
         gameObject.tag = "Traitor";
-        //TraitorSetup();
+        TraitorSetup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TraitorSetup();
-        }
-        if (realTraitor && Input.GetKeyDown(KeyCode.P))
-        {
-            Destroy(gameObject);
-        }
     }
 }

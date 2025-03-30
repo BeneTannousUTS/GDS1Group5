@@ -1,21 +1,34 @@
 // AUTHOR: Alistair
 // This handles interfacing between the enemy AI and the players
 
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPathfinder : MonoBehaviour
 {
-    [SerializeField] private GameObject[] playerList;
+    [SerializeField] private List<GameObject> playerList = new List<GameObject>();
 
     // Fill playerList with all players in the scene
     void Start()
     {
-        playerList = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            playerList.Add(player);
+        }
     }
 
-    public GameObject[] GetPlayers()
+    public List<GameObject> GetPlayers()
     {
         return playerList;
+    }
+
+    public void RemovePlayer(GameObject player)
+    {
+        if (playerList.Contains(player))
+        {
+            playerList.Remove(player);
+        }
     }
 
     // Returns the position of the closest player

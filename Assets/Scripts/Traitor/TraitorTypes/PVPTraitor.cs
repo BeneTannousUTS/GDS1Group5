@@ -1,3 +1,6 @@
+// AUTHOR: James
+// Handles the pvp traitor type
+
 using System;
 using UnityEngine;
 
@@ -20,7 +23,7 @@ public class PVPTraitor : MonoBehaviour, ITraitor
 
     public void TraitorAbility()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void TraitorSetup()
