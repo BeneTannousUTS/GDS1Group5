@@ -97,19 +97,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     void Start()
     {
         gameObject.tag = "Traitor";
-        //TraitorSetup();
+        TraitorSetup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TraitorSetup();
-        }
-        if (realTraitor && Input.GetKeyDown(KeyCode.P))
-        {
-            Destroy(gameObject);
-        }
     }
 }

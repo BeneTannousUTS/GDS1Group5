@@ -1,3 +1,6 @@
+// AUTHOR: James
+// Manages dungeon variables that may need to be accessed elsewhere
+
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour

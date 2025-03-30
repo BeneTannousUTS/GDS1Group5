@@ -29,9 +29,10 @@ public class HealthComponent : MonoBehaviour
 
     IEnumerator DamageFlash() 
     {
+        Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        gameObject.GetComponent<SpriteRenderer>().color = baseColor;
     }
 
     IEnumerator HealingFlash() 
