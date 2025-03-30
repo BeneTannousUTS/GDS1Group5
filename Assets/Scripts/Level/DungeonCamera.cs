@@ -43,6 +43,7 @@ public class DungeonCamera : MonoBehaviour
         roomChangeTimer += Time.deltaTime;
         if (roomChangeTimer > 2)
         {
+            dungeonBuild.roomsCleared++;
             foreach (GameObject player in ePath.GetPlayers())
             {
                 player.SetActive(false);

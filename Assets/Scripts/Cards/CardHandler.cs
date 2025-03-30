@@ -6,7 +6,9 @@ using System.Collections;
 using UnityEngine.UI;
 public class CardHandler : MonoBehaviour
 {
-    private Sprite frontSprite;
+    public Sprite frontSprite;
+    [SerializeField]
+    public CardType cardType;
 
     // Changes the sprite of 
     public IEnumerator ChangeSprite() 

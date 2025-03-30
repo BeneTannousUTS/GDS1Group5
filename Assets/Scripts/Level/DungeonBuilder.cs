@@ -13,6 +13,7 @@ public class DungeonBuilder : MonoBehaviour
     private int currentRoom = 1;
     public GameObject[] spawnedRooms;
     private DungeonManager dManager;
+    public int roomsCleared = 0;
 
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
@@ -64,5 +65,4 @@ public class DungeonBuilder : MonoBehaviour
     {
         
     }
-
 }
