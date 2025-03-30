@@ -1,6 +1,7 @@
 // AUTHOR: BENEDICT
 // This script uses the PlayerInputManager to join new players with unique controller identities
 
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ public class GameSceneManager : MonoBehaviour
 {
     public GameObject[] spawnPoints;
     public Color[] playerColours;
+    public AnimatorOverrideController[] playerAnimators;
         
     void Start()
     {
@@ -31,6 +33,10 @@ public class GameSceneManager : MonoBehaviour
                 newPlayer.transform.position = spawnPoints[i].transform.position;
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
                 newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
+                if (i != 0)
+                {
+                    newPlayer.GetComponent<Animator>().runtimeAnimatorController = playerAnimators[i - 1];
+                }
 
                 Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
             }
