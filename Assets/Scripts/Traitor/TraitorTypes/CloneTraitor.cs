@@ -4,6 +4,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
 {
     private Vector3 spawnPos;
     private bool realTraitor = true;
+    [SerializeField] GameObject cloneObject;
     public int GetMaxHealth()
     {
         throw new System.NotImplementedException();
@@ -16,26 +17,21 @@ public class CloneTraitor : MonoBehaviour, ITraitor
 
     public void TraitorAbility()
     {
-        foreach (GameObject clone in GameObject.FindGameObjectsWithTag("Traitor"))
-        {
-            ClonePosition(clone);
-        }
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            ClonePosition(player);
-        }
+        
     }
 
     public void TraitorSetup()
     {
         if (realTraitor)
         {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
             ClonePosition(gameObject);
             for (int i = 0; i < 10; i++)
             {
-                GameObject clone = Instantiate(gameObject);
-                clone.GetComponent<CloneTraitor>().CloneSetup();
+                GameObject clone = Instantiate(cloneObject);
+                clone.tag = "Traitor";
                 ClonePosition(clone);
             }
         }
