@@ -14,6 +14,11 @@ public class DungeonBuilder : MonoBehaviour
     public GameObject[] spawnedRooms;
     private DungeonManager dManager;
 
+    public int GetNumRooms() 
+    {
+        return numberRooms;
+    }
+
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {

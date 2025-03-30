@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive() 
     {
-        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false) 
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 

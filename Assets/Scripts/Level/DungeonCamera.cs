@@ -64,7 +64,14 @@ public class DungeonCamera : MonoBehaviour
     {
         if (roomChange)
         {
-            LoadCardScene();
+            if (dungeonBuild.GetNumRooms() == (int)(transform.position.y / 25))
+            {
+                GameObject.FindWithTag("GameManager").GetComponent<GameManager>().Win();
+            }
+            else 
+            {
+                LoadCardScene();
+            }
         }
     }
 }
