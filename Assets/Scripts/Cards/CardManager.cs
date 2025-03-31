@@ -11,7 +11,7 @@ public class CardManager : MonoBehaviour
 {
     DungeonCamera lastDunCam = null;
     Camera gameSceneCam;
-    int traitorIndex = -1;
+    public int traitorIndex = -1;
     void Start()
     {
         gameSceneCam = Camera.main;
@@ -29,7 +29,7 @@ public class CardManager : MonoBehaviour
         yield return null;
     }
 
-    public void ReloadGameScene(int[] selectionOrder, GameObject[] abilityList)
+    public void ReloadGameScene(int[] selectionOrder, GameObject[] cardList)
     {
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
         SceneManager.UnloadSceneAsync("CardSelection");
@@ -64,7 +64,7 @@ public class CardManager : MonoBehaviour
             int abilityIndex = selectionOrder[i];
             if (abilityIndex == -1) continue;
 
-            GameObject abilityObject = abilityList[abilityIndex];
+            GameObject abilityObject = cardList[abilityIndex].GetComponent<Card>().abilityObject;
 
             if (abilityObject == null)
             {

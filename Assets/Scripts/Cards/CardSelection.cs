@@ -16,24 +16,11 @@ public enum CardType
 
 public class CardSelection : MonoBehaviour
 {
-    public Sprite[] passiveCardSprites;
-    public Sprite[] secondaryCardSprites;
-    public Sprite[] weaponCardSprites;
+    public GameObject[] cards;
     public Sprite traitorCardSprite;
-
-    public GameObject[] secondaryComponents;
-    public GameObject[] weaponComponents;
-    public GameObject[] passiveComponents;
-
-    public GameObject passiveCard;
-    public GameObject secondaryCard;
-    public GameObject weaponCard;
-
-    private int traitorNum = 0;
+    private int numOfTraitors = 0;
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
-    [SerializeField]
-    private GameObject[] abilityList = new GameObject[4];
     private int[] selectionOrder = new int[] { -1, -1, -1, -1 };
     private int currentIndex = 0;
     private int numOfCardSelected = 0;
@@ -45,7 +32,7 @@ public class CardSelection : MonoBehaviour
     // Flips all cards
     public IEnumerator FlipAll()
     {
-        if (traitorNum > 0)
+        if (numOfTraitors > 0)
         {
             // ensure traitor card was selected
             bool isTraitorSelected = false;
@@ -67,12 +54,9 @@ public class CardSelection : MonoBehaviour
                 Debug.Log($"Player Index: {swapIndex} | Initial Card Number: {initialCardNum}");
 
                 Sprite oldSprite = cardList[initialCardNum].GetComponent<Image>().sprite;
-                cardList[initialCardNum].GetComponent<CardHandler>().frontSprite = traitorCardSprite;
-                cardList[traitorIndex].GetComponent<CardHandler>().frontSprite = oldSprite;
-
-                GameObject oldAbility = abilityList[initialCardNum];
-                abilityList[initialCardNum] = null;
-                abilityList[traitorIndex] = oldAbility;
+                GameObject oldAbility = cardList[initialCardNum].GetComponent<Card>().abilityObject;
+                cardList[initialCardNum].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
+                cardList[traitorIndex].GetComponent<CardHandler>().SwapCard(oldSprite, oldAbility);
             }
 
             FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
@@ -85,89 +69,47 @@ public class CardSelection : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
-        FindAnyObjectByType<CardManager>().ReloadGameScene(selectionOrder, abilityList);
+        FindAnyObjectByType<CardManager>().ReloadGameScene(selectionOrder, cardList);
     }
 
     // Sets the value of final room
     void SetIsFinalRoom(int num)
     {
-        traitorNum = num;
-    }
-
-    // Gets the value of ability list
-    public GameObject[] GetAbilityList()
-    {
-        return abilityList;
+        numOfTraitors = num;
     }
 
     // Instantiates a card and sets the item it will be
     void CreateCard(GameObject cardType, Sprite cardFront)
     {
         cardList[currentIndex] = Instantiate(cardType, transform);
-        cardList[currentIndex].GetComponent<CardHandler>().SetFrontSprite(cardFront);
+        //cardList[currentIndex].GetComponent<CardHandler>().SetFrontSprite(cardFront);
         currentIndex += 1;
     }
 
     // Handles the randomness for cards and the calls to CreateCard
     void GetRandomCard(bool isTraitor)
     {
-        int cardType = Random.Range(0, 3);
-
         if (isTraitor == true)
         {
-            abilityList[currentIndex] = null;
-
-            if (cardType == 0)
-            {
-                CreateCard(weaponCard, traitorCardSprite);
-            }
-            else if (cardType == 1)
-            {
-                CreateCard(secondaryCard, traitorCardSprite);
-            }
-            else
-            {
-                CreateCard(passiveCard, traitorCardSprite);
-            }
-
+            GameObject newCard = cards[Random.Range(0,cards.Length)];
+            newCard.GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
+            cardList[currentIndex++] = Instantiate(newCard, transform);
         }
         else
         {
-            if (cardType == 0)
-            {
-                int abilityIndex = Random.Range(0, weaponCardSprites.Length);
-                abilityList[currentIndex] = weaponComponents[abilityIndex];
-                CreateCard(weaponCard, weaponCardSprites[abilityIndex]);
-            }
-            else if (cardType == 1)
-            {
-                int abilityIndex = Random.Range(0, secondaryCardSprites.Length);
-                abilityList[currentIndex] = secondaryComponents[abilityIndex];
-                CreateCard(secondaryCard, secondaryCardSprites[abilityIndex]);
-            }
-            else
-            {
-                int abilityIndex = Random.Range(0, passiveCardSprites.Length);
-                abilityList[currentIndex] = passiveComponents[abilityIndex];
-                CreateCard(passiveCard, passiveCardSprites[abilityIndex]);
-            }
+            GameObject newCard = cards[Random.Range(0,cards.Length)];
+            cardList[currentIndex++] = Instantiate(newCard, transform);
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        int totalRooms = FindAnyObjectByType<DungeonBuilder>().numberRooms - 1;
-        int currentRoom = FindAnyObjectByType<DungeonBuilder>().roomsCleared;
+        SelectionSetup();
+    }
 
-        Debug.Log($"Current Room: {currentRoom} | Total Rooms: {totalRooms}");
-
-        if (totalRooms == currentRoom)
-        {
-            traitorNum = 1;
-        }
-
-        if (traitorNum == 1)
+    void SelectionSetup()
+    {
+        if (numOfTraitors == 1)
         {
             traitorIndex = Random.Range(0, 4);
 
@@ -176,7 +118,7 @@ public class CardSelection : MonoBehaviour
             GetRandomCard((traitorIndex == 2));
             GetRandomCard((traitorIndex == 3));
         }
-        else if (traitorNum == 3)
+        else if (numOfTraitors == 3)
         {
             traitorIndex = Random.Range(0, 4);
 
@@ -185,7 +127,7 @@ public class CardSelection : MonoBehaviour
             GetRandomCard((traitorIndex != 2));
             GetRandomCard((traitorIndex != 3));
         }
-        else if (traitorNum == 4)
+        else if (numOfTraitors == 4)
         {
             GetRandomCard(true);
             GetRandomCard(true);

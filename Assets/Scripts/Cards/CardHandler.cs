@@ -6,9 +6,8 @@ using System.Collections;
 using UnityEngine.UI;
 public class CardHandler : MonoBehaviour
 {
-    public Sprite frontSprite;
     [SerializeField]
-    public CardType cardType;
+    Card card;
 
     // Changes the sprite of 
     public IEnumerator ChangeSprite() 
@@ -16,12 +15,14 @@ public class CardHandler : MonoBehaviour
         gameObject.GetComponent<Animator>().SetTrigger("Flip");
         yield return new WaitForSeconds(0.8f);
         gameObject.GetComponent<Animator>().enabled = false;
-        gameObject.GetComponent<Image>().sprite = frontSprite;
+        gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
     }
 
-    // Sets the value of frontSprite
-    public void SetFrontSprite(Sprite sprite) 
+    public void SwapCard(Sprite newSprite, GameObject newAbility)
     {
-        frontSprite = sprite;
+        card.cardFrontSprite = newSprite;
+        gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
+
+        card.abilityObject = newAbility;
     }
 }

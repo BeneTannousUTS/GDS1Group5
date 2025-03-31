@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 5692843558193479540}
   - component: {fileID: 732674973093878659}
   - component: {fileID: 6055779711167099877}
-  - component: {fileID: 6237537486101815899}
   - component: {fileID: -1949410433759042496}
+  - component: {fileID: 6237537486101815899}
+  - component: {fileID: -5373328306069696597}
   m_Layer: 5
-  m_Name: WeaponCard
+  m_Name: SwordCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,18 +101,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6237537486101815899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9000583945728363211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 644d7a82eb7e9de48a8926e238897669, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1949410433759042496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,3 +145,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6237537486101815899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000583945728363211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 644d7a82eb7e9de48a8926e238897669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: -5373328306069696597}
+--- !u!114 &-5373328306069696597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000583945728363211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c191e22d8b9ca499fa88ece8cd076873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardType: 0
+  cardName: Sword
+  cardDescription: A nifty blade used to slice your foes!
+  cardFrontSprite: {fileID: 21300000, guid: df00ee8757bddd14783ad7a0b865a8db, type: 3}
+  cardBackSprite: {fileID: 5978528959137318724, guid: 1853826bc6a148d419e042497b488500, type: 3}
+  abilityObject: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
