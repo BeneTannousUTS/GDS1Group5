@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.InputSystem.UI;
 
 public enum CardType
 {
@@ -28,6 +29,13 @@ public class CardSelection : MonoBehaviour
     private int traitorIndex = -1;
     [SerializeField]
     private TMP_Text text;
+    [SerializeField]
+    InputSystemUIInputModule UIInputModule;
+
+    void Awake()
+    {
+        UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
+    }
 
     // Flips all cards
     public IEnumerator FlipAll()
@@ -91,13 +99,13 @@ public class CardSelection : MonoBehaviour
     {
         if (isTraitor == true)
         {
-            GameObject newCard = cards[Random.Range(0,cards.Length)];
+            GameObject newCard = cards[Random.Range(0, cards.Length)];
             newCard.GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
             cardList[currentIndex++] = Instantiate(newCard, transform);
         }
         else
         {
-            GameObject newCard = cards[Random.Range(0,cards.Length)];
+            GameObject newCard = cards[Random.Range(0, cards.Length)];
             cardList[currentIndex++] = Instantiate(newCard, transform);
         }
     }
@@ -152,6 +160,19 @@ public class CardSelection : MonoBehaviour
         // get a list of joined players
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
 
+        // lock all players inputs as a precaution
+        // for (int i = 0; i < players.Length; ++i)
+        // {
+        //     if (!players[i].isJoined) break;
+
+        //     Debug.Log("PlayerInput isActiveAndEnabled: " + players[i].playerInput.isActiveAndEnabled);
+        //     Debug.Log("PlayerInput component attached to: " + players[i].playerInput.gameObject.name);
+        //     players[i].playerInput.ActivateInput();
+        //     players[i].playerInput.SwitchCurrentActionMap("Locked");
+        // }
+
+        // This array will need to be reorder with score once that is implemented...
+
         for (int playerIndex = 0; playerIndex < players.Length; ++playerIndex)
         {
             if (!players[playerIndex].isJoined) break;
@@ -167,12 +188,29 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            //InputFilter.ActiveDevice = players[playerIndex].playerInput.devices[0];
+            Debug.Log(UIInputModule);
+            Debug.Log(players[playerIndex].playerInput.actions);
+
+            UIInputModule.actionsAsset = players[playerIndex].playerInput.actions;
+
+            for (int pIndex = 0; pIndex < players.Length; ++pIndex)
+            {
+                if (!players[pIndex].isJoined) break;
+
+                if (pIndex == playerIndex)
+                {
+                    players[pIndex].playerInput.SwitchCurrentActionMap("CardSelection");
+                }
+                else
+                {
+                    players[pIndex].playerInput.SwitchCurrentActionMap("Locked");
+                }
+            }
 
             yield return new WaitUntil(() => selectedCard != null);
 
             Destroy(selectedCard.GetComponent<Button>());
-            selectedCard.GetComponent<Image>().color = new Color(0.5f,0.5f,0.5f);
+            selectedCard.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
             selectedCard = null;
             yield return new WaitForSeconds(0.25f);
         }
@@ -183,7 +221,7 @@ public class CardSelection : MonoBehaviour
             {
                 Destroy(card.GetComponent<Button>());
             }
-            card.GetComponent<Image>().color = new Color(1.0f,1.0f,1.0f);
+            card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
         text.text = "";
@@ -206,39 +244,5 @@ public class CardSelection : MonoBehaviour
         }
 
         selectionOrder[numOfCardSelected++] = abilityIndex;
-    }
-
-    void EnableOnlyPlayer(int index)
-    {
-        PlayerData[] players = PlayerManager.instance.GetPlayers();
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (!players[i].isJoined || players[i].playerInput == null)
-                continue;
-
-            if (i == index)
-            {
-                if (!players[i].playerInput.enabled)
-                    players[i].playerInput.enabled = true;
-            }
-            else
-            {
-                players[i].playerInput.DeactivateInput();
-            }
-        }
-    }
-
-    void DisableAllPlayers()
-    {
-        PlayerData[] players = PlayerManager.instance.GetPlayers();
-
-        foreach (var player in players)
-        {
-            if (player.isJoined && player.playerInput != null)
-            {
-                player.playerInput.DeactivateInput();
-            }
-        }
     }
 }

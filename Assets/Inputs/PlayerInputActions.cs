@@ -413,6 +413,71 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CardSelection"",
+            ""id"": ""b3e44b56-7771-4c7d-b8bf-53c595daae45"",
+            ""actions"": [
+                {
+                    ""name"": ""CardNav"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""8fec2ff4-55d8-45ec-b7f3-da4bd74c4241"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CardSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f8796c7-141f-48a9-a44a-bf0384596192"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2147963c-8caf-4249-ac02-78d227b57655"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CardNav"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4153538-bfd6-4216-9147-ff3f736b8be7"",
+                    ""path"": ""<SwitchProControllerHID>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";SwitchProCon"",
+                    ""action"": ""CardNav"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""caa3276f-8d64-4f6a-9d9b-d317337ebce3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CardSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Locked"",
+            ""id"": ""d6426445-6ca5-428c-a5cd-936d7f9b1324"",
+            ""actions"": [],
+            ""bindings"": []
         }
     ],
     ""controlSchemes"": [
@@ -454,6 +519,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Primary = m_Gameplay.FindAction("Primary", throwIfNotFound: true);
         m_Gameplay_Secondary = m_Gameplay.FindAction("Secondary", throwIfNotFound: true);
+        // CardSelection
+        m_CardSelection = asset.FindActionMap("CardSelection", throwIfNotFound: true);
+        m_CardSelection_CardNav = m_CardSelection.FindAction("CardNav", throwIfNotFound: true);
+        m_CardSelection_CardSelect = m_CardSelection.FindAction("CardSelect", throwIfNotFound: true);
+        // Locked
+        m_Locked = asset.FindActionMap("Locked", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -461,6 +532,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, PlayerInputActions.Menu.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PlayerJoin.enabled, "This will cause a leak and performance issues, PlayerInputActions.PlayerJoin.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, PlayerInputActions.Gameplay.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_CardSelection.enabled, "This will cause a leak and performance issues, PlayerInputActions.CardSelection.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Locked.enabled, "This will cause a leak and performance issues, PlayerInputActions.Locked.Disable() has not been called.");
     }
 
     /// <summary>
@@ -875,6 +948,198 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="GameplayActions" /> instance referencing this action map.
     /// </summary>
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // CardSelection
+    private readonly InputActionMap m_CardSelection;
+    private List<ICardSelectionActions> m_CardSelectionActionsCallbackInterfaces = new List<ICardSelectionActions>();
+    private readonly InputAction m_CardSelection_CardNav;
+    private readonly InputAction m_CardSelection_CardSelect;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "CardSelection".
+    /// </summary>
+    public struct CardSelectionActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public CardSelectionActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "CardSelection/CardNav".
+        /// </summary>
+        public InputAction @CardNav => m_Wrapper.m_CardSelection_CardNav;
+        /// <summary>
+        /// Provides access to the underlying input action "CardSelection/CardSelect".
+        /// </summary>
+        public InputAction @CardSelect => m_Wrapper.m_CardSelection_CardSelect;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_CardSelection; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="CardSelectionActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(CardSelectionActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="CardSelectionActions" />
+        public void AddCallbacks(ICardSelectionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CardSelectionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CardSelectionActionsCallbackInterfaces.Add(instance);
+            @CardNav.started += instance.OnCardNav;
+            @CardNav.performed += instance.OnCardNav;
+            @CardNav.canceled += instance.OnCardNav;
+            @CardSelect.started += instance.OnCardSelect;
+            @CardSelect.performed += instance.OnCardSelect;
+            @CardSelect.canceled += instance.OnCardSelect;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="CardSelectionActions" />
+        private void UnregisterCallbacks(ICardSelectionActions instance)
+        {
+            @CardNav.started -= instance.OnCardNav;
+            @CardNav.performed -= instance.OnCardNav;
+            @CardNav.canceled -= instance.OnCardNav;
+            @CardSelect.started -= instance.OnCardSelect;
+            @CardSelect.performed -= instance.OnCardSelect;
+            @CardSelect.canceled -= instance.OnCardSelect;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CardSelectionActions.UnregisterCallbacks(ICardSelectionActions)" />.
+        /// </summary>
+        /// <seealso cref="CardSelectionActions.UnregisterCallbacks(ICardSelectionActions)" />
+        public void RemoveCallbacks(ICardSelectionActions instance)
+        {
+            if (m_Wrapper.m_CardSelectionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="CardSelectionActions.AddCallbacks(ICardSelectionActions)" />
+        /// <seealso cref="CardSelectionActions.RemoveCallbacks(ICardSelectionActions)" />
+        /// <seealso cref="CardSelectionActions.UnregisterCallbacks(ICardSelectionActions)" />
+        public void SetCallbacks(ICardSelectionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CardSelectionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CardSelectionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="CardSelectionActions" /> instance referencing this action map.
+    /// </summary>
+    public CardSelectionActions @CardSelection => new CardSelectionActions(this);
+
+    // Locked
+    private readonly InputActionMap m_Locked;
+    private List<ILockedActions> m_LockedActionsCallbackInterfaces = new List<ILockedActions>();
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Locked".
+    /// </summary>
+    public struct LockedActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public LockedActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Locked; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="LockedActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(LockedActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="LockedActions" />
+        public void AddCallbacks(ILockedActions instance)
+        {
+            if (instance == null || m_Wrapper.m_LockedActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_LockedActionsCallbackInterfaces.Add(instance);
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="LockedActions" />
+        private void UnregisterCallbacks(ILockedActions instance)
+        {
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="LockedActions.UnregisterCallbacks(ILockedActions)" />.
+        /// </summary>
+        /// <seealso cref="LockedActions.UnregisterCallbacks(ILockedActions)" />
+        public void RemoveCallbacks(ILockedActions instance)
+        {
+            if (m_Wrapper.m_LockedActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="LockedActions.AddCallbacks(ILockedActions)" />
+        /// <seealso cref="LockedActions.RemoveCallbacks(ILockedActions)" />
+        /// <seealso cref="LockedActions.UnregisterCallbacks(ILockedActions)" />
+        public void SetCallbacks(ILockedActions instance)
+        {
+            foreach (var item in m_Wrapper.m_LockedActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_LockedActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="LockedActions" /> instance referencing this action map.
+    /// </summary>
+    public LockedActions @Locked => new LockedActions(this);
     private int m_NewControlSchemeSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -980,5 +1245,35 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondary(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CardSelection" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="CardSelectionActions.AddCallbacks(ICardSelectionActions)" />
+    /// <seealso cref="CardSelectionActions.RemoveCallbacks(ICardSelectionActions)" />
+    public interface ICardSelectionActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "CardNav" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCardNav(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CardSelect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCardSelect(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Locked" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="LockedActions.AddCallbacks(ILockedActions)" />
+    /// <seealso cref="LockedActions.RemoveCallbacks(ILockedActions)" />
+    public interface ILockedActions
+    {
     }
 }

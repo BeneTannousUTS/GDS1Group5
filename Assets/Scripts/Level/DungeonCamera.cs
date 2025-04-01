@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DungeonCamera : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class DungeonCamera : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.SetActive(false);
+            GameObject player = collision.gameObject;
+            FindAnyObjectByType<CardManager>().HidePlayer(player);
             roomChange = true;
         }
     }
@@ -30,7 +32,7 @@ public class DungeonCamera : MonoBehaviour
     {
         foreach (GameObject player in ePath.GetPlayers())
         {
-            player.SetActive(true);
+            FindAnyObjectByType<CardManager>().ShowPlayers();
             player.transform.position = gameObject.transform.position + Vector3.up;
         }
         MoveCamera();
@@ -46,7 +48,7 @@ public class DungeonCamera : MonoBehaviour
             dungeonBuild.roomsCleared++;
             foreach (GameObject player in ePath.GetPlayers())
             {
-                player.SetActive(false);
+                FindAnyObjectByType<CardManager>().HidePlayer(player);
             }
 
             roomChange = false;

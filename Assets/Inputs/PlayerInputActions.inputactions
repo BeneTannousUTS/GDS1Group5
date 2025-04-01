@@ -327,6 +327,71 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CardSelection",
+            "id": "b3e44b56-7771-4c7d-b8bf-53c595daae45",
+            "actions": [
+                {
+                    "name": "CardNav",
+                    "type": "PassThrough",
+                    "id": "8fec2ff4-55d8-45ec-b7f3-da4bd74c4241",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CardSelect",
+                    "type": "Button",
+                    "id": "5f8796c7-141f-48a9-a44a-bf0384596192",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2147963c-8caf-4249-ac02-78d227b57655",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CardNav",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4153538-bfd6-4216-9147-ff3f736b8be7",
+                    "path": "<SwitchProControllerHID>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";SwitchProCon",
+                    "action": "CardNav",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "caa3276f-8d64-4f6a-9d9b-d317337ebce3",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CardSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Locked",
+            "id": "d6426445-6ca5-428c-a5cd-936d7f9b1324",
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": [

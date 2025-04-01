@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class CardManager : MonoBehaviour
@@ -18,6 +19,26 @@ public class CardManager : MonoBehaviour
         cardCanvas = Instantiate(cardCanvasPrefab);
         this.lastDunCam = lastDunCam;
         cardCanvas.GetComponentInChildren<CardSelection>().SelectionSetup();
+    }
+
+    public void HidePlayer(GameObject player)
+    {
+        player.GetComponent<Animator>().enabled = false;
+        player.GetComponent<SpriteRenderer>().sprite = null;
+        player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
+    }
+
+    public void ShowPlayers()
+    {
+        PlayerData[] players = PlayerManager.instance.GetPlayers();
+
+        foreach (PlayerData player in players)
+        {
+            if (!player.isJoined) break;
+
+            player.playerInput.gameObject.GetComponent<Animator>().enabled = true;
+            player.playerInput.gameObject.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
+        }
     }
 
     public void ResumeGameplay(int[] selectionOrder, GameObject[] cardList)
@@ -60,7 +81,8 @@ public class CardManager : MonoBehaviour
                 if (traitorIndex == 0)
                 {
                     players[i].AddComponent<CloneTraitor>();
-                } else if (traitorIndex == 1)
+                }
+                else if (traitorIndex == 1)
                 {
                     foreach (GameObject player in players)
                     {

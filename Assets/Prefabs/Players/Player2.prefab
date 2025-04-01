@@ -222,8 +222,16 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3ba17f15-46a3-499e-985f-5089d4ff329c
     m_ActionName: Gameplay/Secondary
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: SwitchProCon
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 692d0920-1428-4bf7-bc3d-9f1e8328e9f7
+    m_ActionName: 'CardSelect/CardNav[/DualSenseGamepadHID/leftStick,/DualShock4GamepadHID/leftStick,/DualSenseGamepadHID/rightStick,/DualShock4GamepadHID/rightStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 32e1895f-e691-4460-8099-086dfaa56f50
+    m_ActionName: 'CardSelect/Select[/DualSenseGamepadHID/buttonEast,/DualShock4GamepadHID/buttonEast]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
