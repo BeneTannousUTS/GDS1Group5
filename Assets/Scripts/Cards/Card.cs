@@ -1,4 +1,6 @@
-using Microsoft.Unity.VisualStudio.Editor;
+// AUTHOR: ZAC
+// Mostly a storage object to create card prefabs
+
 using UnityEngine;
 
 public class Card : MonoBehaviour

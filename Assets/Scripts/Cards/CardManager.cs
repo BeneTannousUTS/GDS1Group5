@@ -1,6 +1,5 @@
 // AUTHOR: Zac
 // Loads the card scene and handles giving the players items
-// Determines the role of the traitor
 
 using System;
 using System.Collections;
@@ -10,31 +9,21 @@ using UnityEngine.SceneManagement;
 public class CardManager : MonoBehaviour
 {
     DungeonCamera lastDunCam = null;
-    Camera gameSceneCam;
-    public int traitorIndex = -1;
-    void Start()
+    public GameObject cardCanvasPrefab;
+    GameObject cardCanvas;
+    int traitorIndex = 0; // only temp until game manager is active
+
+    public void ShowCardSelection(DungeonCamera lastDunCam)
     {
-        gameSceneCam = Camera.main;
-        DetermineTraitor();
-    }
-    public void CardSceneCoroutine(DungeonCamera lastDunCam)
-    {
-        StartCoroutine(LoadCardScene(lastDunCam));
-    }
-    IEnumerator LoadCardScene(DungeonCamera lastDunCam)
-    {
-        gameSceneCam.gameObject.SetActive(false);
-        AsyncOperation loadCardScene = SceneManager.LoadSceneAsync("CardSelection", LoadSceneMode.Additive);
+        cardCanvas = Instantiate(cardCanvasPrefab);
         this.lastDunCam = lastDunCam;
-        yield return null;
+        cardCanvas.GetComponentInChildren<CardSelection>().SelectionSetup();
     }
 
-    public void ReloadGameScene(int[] selectionOrder, GameObject[] cardList)
+    public void ResumeGameplay(int[] selectionOrder, GameObject[] cardList)
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("GameScene"));
-        SceneManager.UnloadSceneAsync("CardSelection");
-        gameSceneCam.gameObject.SetActive(true);
-        lastDunCam.RoomChangeTime(gameSceneCam);
+        Destroy(cardCanvas);
+        lastDunCam.RoomChangeTime();
         lastDunCam = null;
 
         GameObject[] players = new GameObject[4];
@@ -92,28 +81,6 @@ public class CardManager : MonoBehaviour
             {
                 players[i].GetComponent<PlayerStats>().SetPassive(abilityObject);
             }
-        }
-    }
-
-    void DetermineTraitor()
-    {
-        traitorIndex = 1;
-        return;
-
-        GameObject[] players = new GameObject[4];
-        int playerJoinedCount = 0;
-
-        foreach (PlayerData player in PlayerManager.instance.players)
-        {
-            if (player.isJoined) playerJoinedCount++;
-        }
-
-        if (playerJoinedCount < 4)
-        {
-            traitorIndex = 0;
-        } else
-        {
-            traitorIndex = UnityEngine.Random.Range(0,2);
         }
     }
 }

@@ -1,4 +1,4 @@
-// AUTHOR: Alistair
+// AUTHOR: Alistair/Zac
 // Handles card selection and players getting their abilities
 
 using UnityEngine;
@@ -69,7 +69,7 @@ public class CardSelection : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
-        FindAnyObjectByType<CardManager>().ReloadGameScene(selectionOrder, cardList);
+        FindAnyObjectByType<CardManager>().ResumeGameplay(selectionOrder, cardList);
     }
 
     // Sets the value of final room
@@ -102,12 +102,7 @@ public class CardSelection : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        SelectionSetup();
-    }
-
-    void SelectionSetup()
+    public void SelectionSetup()
     {
         if (numOfTraitors == 1)
         {
