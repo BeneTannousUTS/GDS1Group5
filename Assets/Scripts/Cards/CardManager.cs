@@ -12,7 +12,7 @@ public class CardManager : MonoBehaviour
     DungeonCamera lastDunCam = null;
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
-    int traitorIndex = 0; // only temp until game manager is active
+    int traitorIndex = 1; // only temp until game manager is active
 
     public void ShowCardSelection(DungeonCamera lastDunCam)
     {
@@ -24,7 +24,7 @@ public class CardManager : MonoBehaviour
     public void HidePlayer(GameObject player)
     {
         player.GetComponent<Animator>().enabled = false;
-        player.GetComponent<SpriteRenderer>().sprite = null;
+        player.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,0);
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
     }
 
@@ -36,8 +36,11 @@ public class CardManager : MonoBehaviour
         {
             if (!player.isJoined) break;
 
-            player.playerInput.gameObject.GetComponent<Animator>().enabled = true;
-            player.playerInput.gameObject.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
+            GameObject playerObj = player.playerInput.gameObject;
+
+            playerObj.GetComponent<Animator>().enabled = true;
+            playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,1);
+            playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
         }
     }
 

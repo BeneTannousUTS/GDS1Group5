@@ -1,15 +1,21 @@
-// AUTHOR: Alistair
+// AUTHOR: Alistair/Zac
 // Handles flipping the cards
 
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 public class CardHandler : MonoBehaviour
 {
     [SerializeField]
     Card card;
+    [SerializeField]
+    Image playerIcon;
+    [SerializeField]
+    GameObject nameText;
+    [SerializeField]
+    GameObject descriptionText;
 
-    // Changes the sprite of 
     public IEnumerator ChangeSprite() 
     {
         gameObject.GetComponent<Animator>().SetTrigger("Flip");
@@ -24,5 +30,35 @@ public class CardHandler : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
 
         card.abilityObject = newAbility;
+    }
+
+    public void showPlayerIcon(Sprite playerSprite)
+    {
+        playerIcon.color = new Vector4(1,1,1,1);
+        playerIcon.sprite = playerSprite;
+    }
+
+    public void showNameAsType()
+    {
+        nameText.GetComponent<TMP_Text>().text = card.GetCardType() + " Card";
+        nameText.SetActive(true);
+    }
+
+    public void showNameAsCard()
+    {
+        nameText.GetComponent<TMP_Text>().text = card.GetCardName();
+        nameText.SetActive(true);
+    }
+
+    public void showDesc()
+    {
+        descriptionText.GetComponent<TMP_Text>().text = card.GetCardDesc();
+        descriptionText.SetActive(true);
+    }
+
+    public void setTraitorText()
+    {
+        card.cardName = "Traitor";
+        card.cardDescription = "You are a traitor... Fight your once friends.";
     }
 }

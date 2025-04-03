@@ -22,15 +22,18 @@ public class CardSelection : MonoBehaviour
     private int numOfTraitors = 0;
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
-    private int[] selectionOrder = new int[] { -1, -1, -1, -1 };
+    private int[] selectionOrder = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     private int currentIndex = 0;
     private int numOfCardSelected = 0;
     private GameObject selectedCard = null;
+    private int currentPlayerIndex = -1;
     private int traitorIndex = -1;
     [SerializeField]
     private TMP_Text text;
     [SerializeField]
     InputSystemUIInputModule UIInputModule;
+    [SerializeField]
+    Sprite[] playerSprites;
 
     void Awake()
     {
@@ -49,6 +52,7 @@ public class CardSelection : MonoBehaviour
                 if (i == traitorIndex)
                 {
                     isTraitorSelected = true;
+                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorText();
                 }
             }
 
@@ -64,6 +68,7 @@ public class CardSelection : MonoBehaviour
                 Sprite oldSprite = cardList[initialCardNum].GetComponent<Image>().sprite;
                 GameObject oldAbility = cardList[initialCardNum].GetComponent<Card>().abilityObject;
                 cardList[initialCardNum].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
+                cardList[initialCardNum].GetComponent<CardHandler>().setTraitorText();
                 cardList[traitorIndex].GetComponent<CardHandler>().SwapCard(oldSprite, oldAbility);
             }
 
@@ -76,7 +81,15 @@ public class CardSelection : MonoBehaviour
             StartCoroutine(card.GetComponent<CardHandler>().ChangeSprite());
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
+
+        foreach (GameObject card in cardList)
+        {
+            card.GetComponent<CardHandler>().showNameAsCard();
+            card.GetComponent<CardHandler>().showDesc();
+        }        
+
+        yield return new WaitForSeconds(4f);
         FindAnyObjectByType<CardManager>().ResumeGameplay(selectionOrder, cardList);
     }
 
@@ -100,8 +113,8 @@ public class CardSelection : MonoBehaviour
         if (isTraitor == true)
         {
             GameObject newCard = cards[Random.Range(0, cards.Length)];
-            newCard.GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
             cardList[currentIndex++] = Instantiate(newCard, transform);
+            cardList[currentIndex - 1].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
         }
         else
         {
@@ -159,23 +172,21 @@ public class CardSelection : MonoBehaviour
     {
         // get a list of joined players
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-
-        // lock all players inputs as a precaution
-        // for (int i = 0; i < players.Length; ++i)
-        // {
-        //     if (!players[i].isJoined) break;
-
-        //     Debug.Log("PlayerInput isActiveAndEnabled: " + players[i].playerInput.isActiveAndEnabled);
-        //     Debug.Log("PlayerInput component attached to: " + players[i].playerInput.gameObject.name);
-        //     players[i].playerInput.ActivateInput();
-        //     players[i].playerInput.SwitchCurrentActionMap("Locked");
-        // }
+        currentPlayerIndex = -1;
+        // HIDE NORMAL GAME UI?????
 
         // This array will need to be reorder with score once that is implemented...
+
+        foreach (GameObject card in cardList)
+        {
+            card.GetComponent<CardHandler>().showNameAsType();
+        }
 
         for (int playerIndex = 0; playerIndex < players.Length; ++playerIndex)
         {
             if (!players[playerIndex].isJoined) break;
+
+            currentPlayerIndex = playerIndex;
 
             text.text = $"Player {playerIndex + 1} is Selecting a Card";
 
@@ -225,6 +236,8 @@ public class CardSelection : MonoBehaviour
         }
 
         text.text = "";
+        currentPlayerIndex = -1;
+
         // once all players have selected cards flip over
         StartCoroutine(FlipAll());
     }
@@ -232,6 +245,7 @@ public class CardSelection : MonoBehaviour
     public void SelectCard(GameObject card)
     {
         selectedCard = card;
+        card.GetComponent<CardHandler>().showPlayerIcon(playerSprites[currentPlayerIndex]);
         int abilityIndex = -1;
 
         for (int i = 0; i < cardList.Length; ++i)

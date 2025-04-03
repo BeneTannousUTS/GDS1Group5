@@ -8,9 +8,9 @@ public class Card : MonoBehaviour
     [SerializeField]
     CardType cardType;
     [SerializeField]
-    string cardName;
+    public string cardName;
     [SerializeField]
-    string cardDescription;
+    public string cardDescription;
     [SerializeField]
     public Sprite cardFrontSprite;
     [SerializeField]
@@ -26,5 +26,10 @@ public class Card : MonoBehaviour
     public string GetCardDesc()
     {
         return cardDescription;
+    }
+
+    public string GetCardType()
+    {
+        return cardType.ToString();
     }
 }
