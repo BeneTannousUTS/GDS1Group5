@@ -8,7 +8,7 @@ public class PlayerCollision : MonoBehaviour
     // Returns true if friendlyFire is on or if the attack is from an enemy
     bool FriendlyFire(bool friendlyFire, string sourceType) 
     {
-        return friendlyFire || gameObject.CompareTag(sourceType) == false;
+        return friendlyFire || gameObject.CompareTag(sourceType) == false || sourceType.Equals("Traitor");
     }
 
     // On collision with a weapon or projectile take damage
