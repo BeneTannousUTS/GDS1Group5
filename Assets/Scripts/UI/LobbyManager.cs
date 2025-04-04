@@ -36,13 +36,13 @@ public class LobbyManager : MonoBehaviour
             // Check if the player wants to join
             if (gamepad.buttonEast.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
             {
-                OnControlsChanged(gamepad);
+                //OnControlsChanged(gamepad);
                 AssignGamepadSlot(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.buttonSouth.wasPressedThisFrame && IsGamepadAssigned(gamepad))
             {
-                OnControlsChanged(gamepad);
+                //OnControlsChanged(gamepad);
                 UnassignGamepadSlot(gamepad);
             }
             // Check if the first player wants to start the game
@@ -136,7 +136,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
-    private void OnControlsChanged(Gamepad gamepad)
+    /*private void OnControlsChanged(Gamepad gamepad)
     {
         if (gamepad is UnityEngine.InputSystem.Switch.SwitchProControllerHID)
         {
@@ -149,5 +149,5 @@ public class LobbyManager : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

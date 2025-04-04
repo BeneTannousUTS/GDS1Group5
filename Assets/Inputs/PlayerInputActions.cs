@@ -277,6 +277,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PlayerInfo"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""59834894-fb96-4a04-ae1c-572089a97bc8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -411,6 +420,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7d9a19e-d8d9-47aa-a31d-34a12063fb73"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PlayerInfo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -519,6 +539,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Primary = m_Gameplay.FindAction("Primary", throwIfNotFound: true);
         m_Gameplay_Secondary = m_Gameplay.FindAction("Secondary", throwIfNotFound: true);
+        m_Gameplay_PlayerInfo = m_Gameplay.FindAction("PlayerInfo", throwIfNotFound: true);
         // CardSelection
         m_CardSelection = asset.FindActionMap("CardSelection", throwIfNotFound: true);
         m_CardSelection_CardNav = m_CardSelection.FindAction("CardNav", throwIfNotFound: true);
@@ -837,6 +858,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Primary;
     private readonly InputAction m_Gameplay_Secondary;
+    private readonly InputAction m_Gameplay_PlayerInfo;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -860,6 +882,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Secondary".
         /// </summary>
         public InputAction @Secondary => m_Wrapper.m_Gameplay_Secondary;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/PlayerInfo".
+        /// </summary>
+        public InputAction @PlayerInfo => m_Wrapper.m_Gameplay_PlayerInfo;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -895,6 +921,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Secondary.started += instance.OnSecondary;
             @Secondary.performed += instance.OnSecondary;
             @Secondary.canceled += instance.OnSecondary;
+            @PlayerInfo.started += instance.OnPlayerInfo;
+            @PlayerInfo.performed += instance.OnPlayerInfo;
+            @PlayerInfo.canceled += instance.OnPlayerInfo;
         }
 
         /// <summary>
@@ -915,6 +944,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Secondary.started -= instance.OnSecondary;
             @Secondary.performed -= instance.OnSecondary;
             @Secondary.canceled -= instance.OnSecondary;
+            @PlayerInfo.started -= instance.OnPlayerInfo;
+            @PlayerInfo.performed -= instance.OnPlayerInfo;
+            @PlayerInfo.canceled -= instance.OnPlayerInfo;
         }
 
         /// <summary>
@@ -1245,6 +1277,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSecondary(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PlayerInfo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlayerInfo(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CardSelection" which allows adding and removing callbacks.

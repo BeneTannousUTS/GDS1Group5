@@ -32,7 +32,9 @@ public class GameSceneManager : MonoBehaviour
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
-                newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
+                newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]); 
+                newPlayer.gameObject.GetComponentsInChildren<SpriteRenderer>()[1].color = playerColours[i];
+                
                 if (i != 0)
                 {
                     newPlayer.GetComponent<Animator>().runtimeAnimatorController = playerAnimators[i - 1];
