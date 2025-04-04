@@ -52,8 +52,6 @@ public class PlayerHUD : MonoBehaviour
         helper.healthSlider.fillAmount = (currentHealth / maxHealth);
         helper.healthTextOver.text = currentHealth + "/" + maxHealth;
         helper.healthTextUnder.text = currentHealth + "/" + maxHealth;
-        
-        GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
     }
 
     // Start cooldown animation for primary ability

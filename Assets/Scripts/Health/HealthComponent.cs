@@ -82,8 +82,10 @@ public class HealthComponent : MonoBehaviour
             // Call HUD component function to update healthbar if player
             if (gameObject.CompareTag("Player"))
             {
-                gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
             }
+            
+            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
         }
 
         else if (invincible == false) 
@@ -102,6 +104,8 @@ public class HealthComponent : MonoBehaviour
             {
                 gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
             }
+            
+            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
 
             if (currentHealth <= 0f) 
             {
