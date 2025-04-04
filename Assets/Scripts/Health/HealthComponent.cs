@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using System.Collections;
+using Unity.Mathematics;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private float currentHealth;
     private bool isDead = false;
     private AudioManager audioManager;
+    [SerializeField] private GameObject healParticles;
+    [SerializeField] private float flashDuration = 0.25f;
+    private MaterialPropertyBlock materialPropertyBlock; // Used so the damage flash only affects this object
 
     public bool GetIsDead() 
     {
@@ -29,18 +33,29 @@ public class HealthComponent : MonoBehaviour
 
     IEnumerator DamageFlash() 
     {
-        Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
+        /*Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
         gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = baseColor;
+        gameObject.GetComponent<SpriteRenderer>().color = baseColor;*/
+        float currentFlash = 0f;
+        float lerpTime = 0f;
+        while (lerpTime < flashDuration) {
+            lerpTime += Time.deltaTime;
+            currentFlash = Mathf.Lerp(2f, 0f, lerpTime/flashDuration);
+            gameObject.GetComponent<SpriteRenderer>().material.SetFloat("flashAmount", currentFlash);
+            yield return null;
+        }
     }
 
     IEnumerator HealingFlash() 
     {
-        Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
+        /*Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
         gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = baseColor;
+        gameObject.GetComponent<SpriteRenderer>().color = baseColor;*/
+        GameObject healParticle = Instantiate(healParticles, gameObject.transform);
+        //healParticle.transform.position = gameObject.transform.position;
+        yield return null;
     }
 
     IEnumerator DoInvincibilityFrames(float time) 
@@ -58,7 +73,7 @@ public class HealthComponent : MonoBehaviour
             Destroy(gameObject);
         }
         else {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+            //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().CheckGameState();
             gameObject.GetComponent<Animator>().SetTrigger("dead");

@@ -65,7 +65,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,6 +153,8 @@ MonoBehaviour:
   maxHealth: 100
   invicibilityFrameTime: 0.2
   currentHealth: 0
+  healParticles: {fileID: 0}
+  flashDuration: 0.25
 --- !u!114 &-3664968770519650174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +232,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5f8796c7-141f-48a9-a44a-bf0384596192
     m_ActionName: 'CardSelection/CardSelect[/XInputControllerWindows/buttonEast,/SwitchProControllerHID/buttonEast,/XInputControllerWindows1/buttonEast,/SwitchProControllerHID1/buttonEast,/SwitchProControllerHID2/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 59834894-fb96-4a04-ae1c-572089a97bc8
+    m_ActionName: 'Gameplay/PlayerInfo[/XInputControllerWindows/leftShoulder,/DualShock4GamepadHID/leftShoulder]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
