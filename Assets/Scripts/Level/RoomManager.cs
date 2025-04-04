@@ -8,6 +8,7 @@ public class RoomManager : MonoBehaviour
 {
     [SerializeField] GameObject door;
     private bool openDoor;
+    private bool doorBeingDestroyed = false;
     private EnemyMovement[] enemyCount;
     private float checkTimer;
     private AudioManager audioManager;
@@ -29,8 +30,13 @@ public class RoomManager : MonoBehaviour
             }
             if (openDoor)
             {
-                if (door) audioManager.PlaySoundJingle("RoomClear");
-                Destroy(door);
+                if (door & !doorBeingDestroyed) {
+                    audioManager.PlaySoundJingle("RoomClear");
+                    door.GetComponent<Animator>().SetTrigger("open");
+                    Destroy(door, 1.2f);
+                    doorBeingDestroyed = true;
+                }
+                
             }
             checkTimer = 0;
         }

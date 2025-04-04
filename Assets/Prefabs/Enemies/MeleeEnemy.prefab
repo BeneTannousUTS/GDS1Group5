@@ -62,7 +62,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 794e1c1b0e3904344b1f19bf4cb125d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -225,6 +225,8 @@ MonoBehaviour:
   maxHealth: 20
   invicibilityFrameTime: 0.2
   currentHealth: 0
+  healParticles: {fileID: 0}
+  flashDuration: 0.25
 --- !u!95 &2168370952580822569
 Animator:
   serializedVersion: 7

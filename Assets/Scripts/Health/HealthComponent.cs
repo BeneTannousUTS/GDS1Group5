@@ -53,7 +53,8 @@ public class HealthComponent : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         yield return new WaitForSeconds(0.1f);
         gameObject.GetComponent<SpriteRenderer>().color = baseColor;*/
-        Instantiate(healParticles, transform.position, quaternion.identity, gameObject.transform);
+        GameObject healParticle = Instantiate(healParticles, gameObject.transform);
+        //healParticle.transform.position = gameObject.transform.position;
         yield return null;
     }
 
