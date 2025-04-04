@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: -2046580684109656263}
   - component: {fileID: 8768108212651689899}
   - component: {fileID: 89789606020243631}
-  - component: {fileID: 5394510392120283915}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 794e1c1b0e3904344b1f19bf4cb125d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -161,6 +160,8 @@ MonoBehaviour:
   maxHealth: 100
   invicibilityFrameTime: 0.2
   currentHealth: 0
+  healParticles: {fileID: 8730505031937385877, guid: 6a5a9dfa45bbacb4faed79da873a2a11, type: 3}
+  flashDuration: 0.25
 --- !u!114 &-3664968770519650174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,20 +433,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLocateArrow: {fileID: 7167397456315329561}
-  vibrateController: {fileID: 5394510392120283915}
-  vibSequence: {fileID: 11400000, guid: 9c193da765bd7ec418320dedc8635069, type: 2}
---- !u!114 &5394510392120283915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 293369937120540139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0040a18713d645a42a4e114e9f174a5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7167397456315329561
 GameObject:
   m_ObjectHideFlags: 0
