@@ -50,6 +50,7 @@ public class CardManager : MonoBehaviour
             var images = playerObj.GetComponentsInChildren<Image>();
             foreach (var image in images)
             {
+                gameObject.SetActive(true);
                 image.enabled = true;
             }
         }
@@ -70,7 +71,7 @@ public class CardManager : MonoBehaviour
         }
 
         // Destroy all children of each player (fix for left over weapons?)
-        foreach (GameObject player in players)
+        /*foreach (GameObject player in players)
         {
             if (player == null) continue;
 
@@ -80,7 +81,7 @@ public class CardManager : MonoBehaviour
                 Transform child = parentTransform.GetChild(i);
                 Destroy(child.gameObject);
             }
-        }
+        }*/
 
         // Grant players their items
         for (int i = 0; i < selectionOrder.Length; ++i)
