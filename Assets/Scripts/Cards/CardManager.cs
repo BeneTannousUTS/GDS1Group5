@@ -97,10 +97,12 @@ public class CardManager : MonoBehaviour
             else if (abilityObject.GetComponent<WeaponStats>())
             {
                 players[i].GetComponent<PlayerAttack>().currentWeapon = abilityObject;
+                players[i].GetComponent<PlayerHUD>().SetPrimarySprite(cardList[abilityIndex].GetComponent<Card>().cardFrontSprite);
             }
             else if (abilityObject.GetComponent<SecondaryStats>())
             {
                 players[i].GetComponent<PlayerSecondary>().currentSecondary = abilityObject;
+                players[i].GetComponent<PlayerHUD>().SetSecondarySprite(cardList[abilityIndex].GetComponent<Card>().cardFrontSprite);
             }
             else if (abilityObject.GetComponent<PassiveStats>())
             {

@@ -94,6 +94,16 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
+    public void SetPrimarySprite(Sprite sprite)
+    {
+        helper.primaryAbility.sprite = sprite;
+    }
+
+    public void SetSecondarySprite(Sprite sprite)
+    {
+        helper.secondaryAbility.sprite = sprite;
+    }
+
     // Make sure the HUD exists before setting values
     void EnsureHUD()
     {
