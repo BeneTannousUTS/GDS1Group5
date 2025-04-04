@@ -9,9 +9,9 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject[] rooms;
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
-    public int numberRooms;
+    private int numberRooms;
     private int currentRoom = 1;
-    public GameObject[] spawnedRooms;
+    private GameObject[] spawnedRooms;
     private DungeonManager dManager;
     public int roomsCleared = 0;
 
@@ -65,10 +65,10 @@ public class DungeonBuilder : MonoBehaviour
 
     void Start()
     {
+        dManager = gameObject.GetComponent<DungeonManager>();
+        numberRooms = dManager.GetDungeonLength();
         spawnedRooms = new GameObject[numberRooms + 1];
         GenerateRooms();
-        dManager = gameObject.GetComponent<DungeonManager>();
-         
     }
 
     void Update()

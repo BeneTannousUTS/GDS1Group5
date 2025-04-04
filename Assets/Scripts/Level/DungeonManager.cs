@@ -7,10 +7,12 @@ public class DungeonManager : MonoBehaviour
 {
     private Vector3 roomPos = new Vector3(0,0,0);
     [SerializeField] int roomCount = 1;
+    [SerializeField] int dungeonLength;
+
 
     public int GetRoomCount() { 
-        return roomCount; 
-        }
+        return roomCount; }
+    public int GetDungeonLength() { return dungeonLength; }
     public void SetRoomCount(int count) {roomCount = count; roomPos = new Vector3(0, roomCount * 18, 0); }
     public Vector3 GetRoomPos() { return roomPos; }
 
