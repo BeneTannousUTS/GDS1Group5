@@ -6,6 +6,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -59,7 +60,8 @@ public class CardManager : MonoBehaviour
         }
 
         // Destroy all children of each player (fix for left over weapons?)
-        foreach (GameObject player in players)
+        // Commenting out this code to avoid destroying healthbar - no observed problems so far
+        /*foreach (GameObject player in players)
         {
             if (player == null) continue;
 
@@ -69,7 +71,7 @@ public class CardManager : MonoBehaviour
                 Transform child = parentTransform.GetChild(i);
                 Destroy(child.gameObject);
             }
-        }
+        }*/
 
         // Grant players their items
         for (int i = 0; i < selectionOrder.Length; ++i)
