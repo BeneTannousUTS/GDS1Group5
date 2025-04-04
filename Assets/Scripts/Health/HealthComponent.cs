@@ -61,6 +61,7 @@ public class HealthComponent : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().CheckGameState();
+            gameObject.GetComponent<Animator>().SetTrigger("dead");
         }
     }
 
