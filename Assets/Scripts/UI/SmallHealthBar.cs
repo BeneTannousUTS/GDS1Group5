@@ -17,9 +17,10 @@ public class SmallHealthBar : MonoBehaviour
     void Start()
     {
         gradient = new Gradient();
-        GradientColorKey[] colours =  new GradientColorKey[2];
+        GradientColorKey[] colours =  new GradientColorKey[3];
         colours[0] = new GradientColorKey(Color.red, 0f);
-        colours[1] = new GradientColorKey(Color.green, 1f);
+        colours[1] = new GradientColorKey(Color.yellow, 0.5f);
+        colours[2] = new GradientColorKey(Color.green, 1f);
         GradientAlphaKey[] alphas = new GradientAlphaKey[2];
         alphas[0] = new GradientAlphaKey(255, 0);
         alphas[1] = new GradientAlphaKey(255, 1);

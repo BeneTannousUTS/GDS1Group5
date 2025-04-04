@@ -27,11 +27,6 @@ public class CardManager : MonoBehaviour
         player.GetComponent<Animator>().enabled = false;
         player.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,0);
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
-        var images = player.GetComponentsInChildren<Image>();
-        foreach (var image in images)
-        {
-            image.enabled = false;
-        }
     }
 
     public void ShowPlayers()
@@ -47,12 +42,6 @@ public class CardManager : MonoBehaviour
             playerObj.GetComponent<Animator>().enabled = true;
             playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,1);
             playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
-            var images = playerObj.GetComponentsInChildren<Image>();
-            foreach (var image in images)
-            {
-                gameObject.SetActive(true);
-                image.enabled = true;
-            }
         }
     }
 
@@ -71,6 +60,7 @@ public class CardManager : MonoBehaviour
         }
 
         // Destroy all children of each player (fix for left over weapons?)
+        // Commenting out this code to avoid destroying healthbar - no observed problems so far
         /*foreach (GameObject player in players)
         {
             if (player == null) continue;
