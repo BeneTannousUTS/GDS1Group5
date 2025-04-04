@@ -31,12 +31,12 @@ public class DungeonBuilder : MonoBehaviour
         while (currentRoom < numberRooms - 1)
         {
             spawnedRooms[currentRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
-            spawnedRooms[currentRoom].transform.position += new Vector3(0, 25 * currentRoom, 0);
+            spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
             spawnedRooms[currentRoom].SetActive(false);
             currentRoom += 1;
         }
         spawnedRooms[currentRoom] = Instantiate(finalRoom);
-        spawnedRooms[currentRoom].transform.position += new Vector3(0, 25 * currentRoom, 0);
+        spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
         spawnedRooms[currentRoom].SetActive(false);
     }
     //Activates rooms when the player reaches the end of the prior room (called upon by DungeonCamera)

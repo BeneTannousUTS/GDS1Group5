@@ -24,8 +24,8 @@ public class DungeonCamera : MonoBehaviour
 
     void MoveCamera()
     {
-        Camera.main.transform.position = transform.parent.transform.position + new Vector3(0, 25, -10);
-        dungeonBuild.ActivateRooms((int)(transform.position.y / 25));
+        Camera.main.transform.position = transform.parent.transform.position + new Vector3(0,18, -10);
+        dungeonBuild.ActivateRooms((int)(transform.position.y / 18));
     }
 
     public void RoomChangeTime()
