@@ -29,6 +29,9 @@ public class PlayerAttack : MonoBehaviour
     {
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
+        if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0) {
+            tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
+        }
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
 
