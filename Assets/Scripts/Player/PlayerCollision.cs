@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
+    private bool isPlayerPVP = false;
     // Returns true if friendlyFire is on or if the attack is from an enemy
+    public void SetPlayerPVP(bool isPVP) { isPlayerPVP=isPVP; }
     bool FriendlyFire(bool friendlyFire, string sourceType) 
     {
-        return friendlyFire || gameObject.CompareTag(sourceType) == false || sourceType.Equals("Traitor");
+        return friendlyFire || gameObject.CompareTag(sourceType) == false || isPlayerPVP;
     }
 
     // On collision with a weapon or projectile take damage

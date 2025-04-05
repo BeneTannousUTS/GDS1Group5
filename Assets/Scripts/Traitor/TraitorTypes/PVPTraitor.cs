@@ -35,6 +35,7 @@ public class PVPTraitor : MonoBehaviour, ITraitor
     public void TraitorSetup()
     {
         gameObject.tag = "Traitor";
+        gameObject.GetComponent<PlayerCollision>().SetPlayerPVP(true);
         //gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
         //insert code for moving players into the corners of the rooms
     }
