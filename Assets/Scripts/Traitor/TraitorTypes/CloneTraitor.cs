@@ -81,7 +81,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
         while (!validPos)
         {
             test++;
-            Vector3 checkPos = new Vector3(Random.Range(-19, 19), Random.Range(-9, 9), 0) + spawnPos;
+            Vector3 checkPos = new Vector3(Random.Range(-14, 14), Random.Range(-6, 5), 0) + spawnPos;
             Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1f);
             if (hit.Length == 0)
             {

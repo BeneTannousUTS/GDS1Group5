@@ -95,9 +95,12 @@ public class HealthComponent : MonoBehaviour
             }
             
             // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player"))
+            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
             {
-                GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                if (gameObject.GetComponent<PlayerHUD>() != null)
+                {
+                    GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                }
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
@@ -115,9 +118,12 @@ public class HealthComponent : MonoBehaviour
             StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
             
             // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player"))
+            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
             {
-                gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                if (gameObject.GetComponent<PlayerHUD>() != null)
+                {
+                    gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                }
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
