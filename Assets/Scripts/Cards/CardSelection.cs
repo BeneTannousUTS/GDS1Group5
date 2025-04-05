@@ -20,7 +20,7 @@ public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
     public Sprite traitorCardSprite;
-    private int numOfTraitors = 1;
+    private int numOfTraitors = 0;
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
     private int[] selectionOrder = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
@@ -123,6 +123,11 @@ public class CardSelection : MonoBehaviour
         {
             if (!playerSelectionOrder[playerIndex].isJoined) break;
 
+            foreach (GameObject card in cardList)
+            {
+                card.GetComponent<CardHandler>().setArrowIcon(null); // this will later be changed to an arrow of the player's colour
+            }
+
             currentPlayerIndex = playerIndex;
 
             text.text = $"Player {playerIndex + 1} is Selecting a Card";
@@ -169,6 +174,7 @@ public class CardSelection : MonoBehaviour
             {
                 Destroy(card.GetComponent<Button>());
             }
+            card.GetComponent<CardHandler>().OnDeselect(null);
             card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
@@ -253,8 +259,7 @@ public class CardSelection : MonoBehaviour
             {
                 for (int i = 0; i < numOfTraitors; ++i)
                 {
-                    cardList[i].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
-                    cardList[i].GetComponent<CardHandler>().setTraitorText();
+                    cardList[i].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
             else
@@ -268,12 +273,9 @@ public class CardSelection : MonoBehaviour
                 {
                     int traitorIndex = traitorOrder[i];
 
-                    cardList[traitorIndex].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
-                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorText();
+                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
-
-
 
             FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
         }
