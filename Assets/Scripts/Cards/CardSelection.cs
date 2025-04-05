@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.InputSystem.UI;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public enum CardType
 {
@@ -29,11 +30,16 @@ public class CardSelection : MonoBehaviour
     private GameObject selectedCard = null;
     private int currentPlayerIndex = -1;
     [SerializeField]
-    private TMP_Text text;
+    private TMP_Text bottomText;
     [SerializeField]
+    private GameObject selectingParent;
+    [SerializeField]
+    private TMP_Text middleText;
+    [SerializeField]
+    private Image selectingImage;
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
-    Sprite[] playerSprites;
+    Sprite[] playerSprites; // this will need to be changed once score order is implemented
 
     void Awake()
     {
@@ -126,11 +132,24 @@ public class CardSelection : MonoBehaviour
             foreach (GameObject card in cardList)
             {
                 card.GetComponent<CardHandler>().setArrowIcon(null); // this will later be changed to an arrow of the player's colour
+                card.GetComponent<CardHandler>().OnDeselect(null);
             }
+
+            bottomText.gameObject.SetActive(false);
+            middleText.text = $"Player {playerIndex + 1} is Selecting a Card";
+            selectingImage.sprite = playerSprites[playerIndex];
+            selectingParent.SetActive(true);
+
+            //VibrateController(playerSelectionOrder[playerIndex].playerInput);
+
+            yield return new WaitForSeconds(2.0f);
+
+            selectingParent.SetActive(false);
+            bottomText.gameObject.SetActive(true);
 
             currentPlayerIndex = playerIndex;
 
-            text.text = $"Player {playerIndex + 1} is Selecting a Card";
+            bottomText.text = $"Player {playerIndex + 1} is Selecting a Card";
 
             foreach (GameObject card in cardList)
             {
@@ -141,8 +160,8 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            Debug.Log(UIInputModule);
-            Debug.Log(playerSelectionOrder[playerIndex].playerInput.actions);
+            //Debug.Log(UIInputModule);
+            //Debug.Log(playerSelectionOrder[playerIndex].playerInput.actions);
 
             UIInputModule.actionsAsset = playerSelectionOrder[playerIndex].playerInput.actions;
 
@@ -163,9 +182,10 @@ public class CardSelection : MonoBehaviour
             yield return new WaitUntil(() => selectedCard != null);
 
             Destroy(selectedCard.GetComponent<Button>());
-            selectedCard.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+            selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+            selectedCard.GetComponent<CardHandler>().OnDeselect(null);
             selectedCard = null;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.6f);
         }
 
         foreach (GameObject card in cardList)
@@ -178,7 +198,7 @@ public class CardSelection : MonoBehaviour
             card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
-        text.text = "";
+        bottomText.text = "";
         currentPlayerIndex = -1;
 
         DetermineCards();
@@ -297,5 +317,26 @@ public class CardSelection : MonoBehaviour
         }
 
         selectionOrder[numOfCardSelected++] = abilityIndex;
+    }
+
+    void VibrateController(PlayerInput playerInput)
+    {
+        Gamepad gamepad = playerInput.devices.OfType<Gamepad>().FirstOrDefault();
+        if (gamepad != null)
+        {
+            string productName = gamepad.description.product.ToLower();
+            Debug.Log("Gamepad product name: " + productName);
+            if (productName.Contains("dualshock") || productName.Contains("dualsense"))
+            {
+                gamepad.SetMotorSpeeds(0.5f, 0.5f);
+                StartCoroutine(StopVibrations(gamepad, 0.5f));
+            }
+        }
+    }
+
+    IEnumerator StopVibrations(Gamepad gamepad, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        gamepad.ResetHaptics();
     }
 }
