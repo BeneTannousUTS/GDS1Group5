@@ -40,19 +40,19 @@ public class CardHandler : MonoBehaviour
 
     public void showNameAsType()
     {
-        nameText.GetComponent<TMP_Text>().text = card.GetCardType() + " Card";
+        nameText.GetComponent<TMP_Text>().text = card.cardType.ToString() + " Card";
         nameText.SetActive(true);
     }
 
     public void showNameAsCard()
     {
-        nameText.GetComponent<TMP_Text>().text = card.GetCardName();
+        nameText.GetComponent<TMP_Text>().text = card.cardName;
         nameText.SetActive(true);
     }
 
     public void showDesc()
     {
-        descriptionText.GetComponent<TMP_Text>().text = card.GetCardDesc();
+        descriptionText.GetComponent<TMP_Text>().text = card.cardDescription;
         descriptionText.SetActive(true);
     }
 
@@ -60,5 +60,13 @@ public class CardHandler : MonoBehaviour
     {
         card.cardName = "Traitor";
         card.cardDescription = "You are a traitor... Fight your once friends.";
+    }
+
+    public void ReplaceCard(Card replacementCard)
+    {
+        card.cardName = replacementCard.cardName;
+        card.cardDescription = replacementCard.cardDescription;
+        card.cardFrontSprite = replacementCard.cardFrontSprite;
+        card.abilityObject = replacementCard.abilityObject;
     }
 }
