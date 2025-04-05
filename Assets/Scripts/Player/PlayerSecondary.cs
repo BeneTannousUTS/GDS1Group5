@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerSecondary : MonoBehaviour
 {
     public GameObject currentSecondary;
+    private GameObject previousSecondary;
 
     public float secondaryCooldownWindow;
     private float secondaryCooldownTimer = 10f;
@@ -41,11 +42,22 @@ public class PlayerSecondary : MonoBehaviour
         secondaryButtonPressed = context.ReadValueAsButton();
     }
 
+    private void Start()
+    {
+        previousSecondary = currentSecondary;
+        secondaryCooldownTimer = currentSecondary.GetComponent<ISecondary>().GetCooldownLength();
+    }
+
     // Gets player input acts on it if it can
     void Update()
     {
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
+            if (previousSecondary != currentSecondary)
+            {
+                previousSecondary = currentSecondary;
+                secondaryCooldownTimer = currentSecondary.GetComponent<ISecondary>().GetCooldownLength();
+            }
             if (secondaryButtonPressed)
             {
                 secondaryBufferTimer = 0f;
