@@ -109,6 +109,7 @@ public class CardManager : MonoBehaviour
             else if (abilityObject.GetComponent<PassiveStats>())
             {
                 players[i].GetComponent<PlayerStats>().SetPassive(abilityObject);
+                players[i].GetComponent<PlayerHUD>().UpdateStatsDisplay();
             }
         }
     }

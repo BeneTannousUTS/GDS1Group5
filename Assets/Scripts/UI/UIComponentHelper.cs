@@ -14,4 +14,5 @@ public class UIComponentHelper : MonoBehaviour
     public Image healthSlider;
     public TextMeshProUGUI healthTextOver;
     public TextMeshProUGUI healthTextUnder;
+    public StatsDisplayHelper statsHelper;
 }

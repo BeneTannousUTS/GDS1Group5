@@ -21,6 +21,11 @@ public class PlayerHUD : MonoBehaviour
     float secondaryCooldown;
     bool shouldUpdateSecondary = false;
 
+    private void Start()
+    {
+        SetupStatsDisplay();
+    }
+
     // Called every frame
     private void Update()
     {
@@ -112,5 +117,19 @@ public class PlayerHUD : MonoBehaviour
             hud = Instantiate(playerHUDPrefab, GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform, false);
             helper = hud.GetComponentInChildren<UIComponentHelper>();
         }
+    }
+
+    void SetupStatsDisplay()
+    {
+        EnsureHUD();
+        GetComponentInChildren<StatsDisplayHelper>().SetBaseStats(GetComponent<HealthComponent>().maxHealth, 
+            GetComponent<PlayerMovement>().moveSpeed, GetComponent<WeaponStats>().damageValue);
+    }
+
+    public void UpdateStatsDisplay()
+    {
+        helper.statsHelper.UpdateDamageText(GetComponent<PlayerStats>().GetStrengthStat());
+        helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
+        helper.statsHelper.UpdateSpeedText(GetComponent<PlayerStats>().GetMoveStat());
     }
 }
