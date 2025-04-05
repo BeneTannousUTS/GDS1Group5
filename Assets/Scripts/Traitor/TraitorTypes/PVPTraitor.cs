@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class PVPTraitor : MonoBehaviour, ITraitor
 {
+    private float cooldownLength = 10;
+    public float GetCooldownLength()
+    {
+        return cooldownLength;
+    }
+
     public int GetMaxHealth()
     {
         throw new System.NotImplementedException();
@@ -29,6 +35,7 @@ public class PVPTraitor : MonoBehaviour, ITraitor
     public void TraitorSetup()
     {
         gameObject.tag = "Traitor";
+        //gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
         //insert code for moving players into the corners of the rooms
     }
 

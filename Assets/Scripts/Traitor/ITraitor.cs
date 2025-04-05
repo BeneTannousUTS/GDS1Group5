@@ -8,6 +8,8 @@ public interface ITraitor
 {
     void TraitorAbility();
 
+    public float GetCooldownLength();
+
     Sprite GetSprite();
 
     int GetMaxHealth();

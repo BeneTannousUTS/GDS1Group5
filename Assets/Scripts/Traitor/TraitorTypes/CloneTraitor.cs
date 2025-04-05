@@ -11,6 +11,12 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     private bool realTraitor = true;
     private List<GameObject> cloneList = new List<GameObject>();
     [SerializeField] GameObject cloneObject;
+    [SerializeField] Sprite abilitySprite;
+    private float cooldownLength = 10;
+    public float GetCooldownLength()
+    {
+        return cooldownLength;
+    }
     public int GetMaxHealth()
     {
         throw new System.NotImplementedException();
@@ -42,6 +48,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
         if (realTraitor)
         {
             gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(abilitySprite);
             FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
             ClonePosition(gameObject);
@@ -97,6 +104,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     void Start()
     {
         gameObject.tag = "Traitor";
+        gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
         TraitorSetup();
     }
 
