@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // Audio Settings (Should be fetched on Awake)
-    private float masterVolumeLevel = 0.5f; // these values are more/less temp for now before we have a settings system
-    private float musicVolumeLevel = 1.0f;
-    private float effectVolumeLevel = 1.0f;
-
     // BGM Tracks
     private AudioSource menuThemeSource;
     private AudioSource mainThemeSource;
@@ -77,7 +72,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("The track for 'Menu Theme' is yet to be added to the audio source");
         }
 
-        menuThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        menuThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         menuThemeSource.Play();
     }
 
@@ -88,7 +83,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("The track for 'Main Theme' is yet to be added to the audio source");
         }
 
-        mainThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        mainThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         mainThemeSource.Play();
     }
 
@@ -99,7 +94,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("The track for 'Traitor Theme' is yet to be added to the audio source");
         }
 
-        traitorThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        traitorThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         traitorThemeSource.Play();
     }
 
@@ -110,7 +105,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("The track for 'Boss Theme' is yet to be added to the audio source");
         }
 
-        bossThemeSource.volume = 1f * masterVolumeLevel * musicVolumeLevel;
+        bossThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         bossThemeSource.Play();
     }
 
@@ -127,7 +122,7 @@ public class AudioManager : MonoBehaviour
 
         AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
         soundEffectSource.resource = audioClip;
-        soundEffectSource.volume = 1f * masterVolumeLevel * effectVolumeLevel;
+        soundEffectSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.effectVolumeLevel;
         soundEffectSource.Play();
 
         StartCoroutine(DestroyAudioSource(soundEffectSource, 1.5f));
@@ -146,7 +141,7 @@ public class AudioManager : MonoBehaviour
 
         AudioSource soundJingleSource = gameObject.AddComponent<AudioSource>();
         soundJingleSource.resource = audioClip;
-        soundJingleSource.volume = 1f * masterVolumeLevel * effectVolumeLevel;
+        soundJingleSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.effectVolumeLevel;
         soundJingleSource.Play();
         StartCoroutine(DuckBGM(audioClip.length));
 
@@ -179,7 +174,7 @@ public class AudioManager : MonoBehaviour
 
         float timeToTransition = 0.5f;
         float transitionTimeElapsed = 0f;
-        float startVolumeLevel = 1 * masterVolumeLevel * musicVolumeLevel;
+        float startVolumeLevel = 1 * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         float targetVolumeLevel = startVolumeLevel * 0.4f;
 
         // Duck volume
