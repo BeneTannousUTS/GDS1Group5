@@ -68,7 +68,7 @@ public class HealthComponent : MonoBehaviour
     IEnumerator Die() 
     {
         isDead = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
         if (gameObject.CompareTag("Player") == false) {
             Destroy(gameObject);
         }
