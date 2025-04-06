@@ -7,6 +7,7 @@ using UnityEngine;
 public class PVPTraitor : MonoBehaviour, ITraitor
 {
     private float cooldownLength = 10;
+    private float traitorRoom = 1;
     public float GetCooldownLength()
     {
         return cooldownLength;
@@ -20,6 +21,11 @@ public class PVPTraitor : MonoBehaviour, ITraitor
     public Sprite GetSprite()
     {
         throw new System.NotImplementedException();
+    }
+
+    public float getTraitorRoom()
+    {
+        return traitorRoom;
     }
 
     public void LoseCondition()
@@ -40,6 +46,11 @@ public class PVPTraitor : MonoBehaviour, ITraitor
         //insert code for moving players into the corners of the rooms
     }
 
+    public void WinCondition()
+    {
+        throw new NotImplementedException();
+    }
+
     private void OnDestroy()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Traitor");
@@ -48,11 +59,23 @@ public class PVPTraitor : MonoBehaviour, ITraitor
             Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
         }
     }
+    //Returns the amount of traitor cards there should be
+    public string GetAmountOfTraitors()
+    {
+        return "everyone";
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        TraitorSetup();
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            TraitorSetup();
+        }
     }
 
     // Update is called once per frame

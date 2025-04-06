@@ -13,6 +13,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     [SerializeField] GameObject cloneObject;
     [SerializeField] Sprite abilitySprite;
     private float cooldownLength = 10;
+    private float traitorRoom = 1;
+    public float getTraitorRoom()
+    {
+        return traitorRoom;
+    }
     public float GetCooldownLength()
     {
         return cooldownLength;
@@ -47,7 +52,6 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
             gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(abilitySprite);
             FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
@@ -103,13 +107,30 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameObject.tag = "Traitor";
-        gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
-        TraitorSetup();
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.tag = "Traitor";
+            gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
+            TraitorSetup();
+        }
+    }
+    //Returns the amount of traitor cards there should be
+    public string GetAmountOfTraitors()
+    {
+        return "single";
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void WinCondition()
+    {
+            
     }
 }
