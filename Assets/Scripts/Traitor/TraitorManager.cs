@@ -1,6 +1,7 @@
 // AUTHOR: James
 // Manages when a traitor card should appear
 
+using System;
 using UnityEngine;
 
 public class TraitorManager : MonoBehaviour
@@ -27,6 +28,29 @@ public class TraitorManager : MonoBehaviour
         }
         return false;
     }
+
+    public float GetTraitorAmount()
+    {
+        string amount = traitorType.GetAmountOfTraitors();
+        float playerAmount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
+        if (amount == "single")
+        {
+            return 1;
+        }
+        else if (amount == "everyone")
+        {
+            return playerAmount;
+        }
+        else if (amount == "teams")
+        {
+            return 2;
+        }
+        else if (amount == "majority")
+        {
+            return playerAmount - 1;
+        }
+        return 0;
+    }
     void Start()
     {
         dungeonManager = FindAnyObjectByType<DungeonManager>();
@@ -35,6 +59,5 @@ public class TraitorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

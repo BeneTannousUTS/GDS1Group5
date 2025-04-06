@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("WinScreen");
     }
 
+    public List<GameObject> GetPlayerList()
+    {
+        return playerList;
+    }
+
     void Lose()
     {
         SceneManager.LoadScene("LoseScreen");
