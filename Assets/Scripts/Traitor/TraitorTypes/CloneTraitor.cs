@@ -13,6 +13,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     [SerializeField] GameObject cloneObject;
     [SerializeField] Sprite abilitySprite;
     private float cooldownLength = 10;
+    private float traitorRoom = 1;
+    public float getTraitorRoom()
+    {
+        return traitorRoom;
+    }
     public float GetCooldownLength()
     {
         return cooldownLength;
@@ -111,5 +116,10 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void WinCondition()
+    {
+        throw new System.NotImplementedException();
     }
 }

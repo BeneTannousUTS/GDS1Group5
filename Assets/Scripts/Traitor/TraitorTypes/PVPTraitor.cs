@@ -7,6 +7,7 @@ using UnityEngine;
 public class PVPTraitor : MonoBehaviour, ITraitor
 {
     private float cooldownLength = 10;
+    private float traitorRoom = 1;
     public float GetCooldownLength()
     {
         return cooldownLength;
@@ -20,6 +21,11 @@ public class PVPTraitor : MonoBehaviour, ITraitor
     public Sprite GetSprite()
     {
         throw new System.NotImplementedException();
+    }
+
+    public float getTraitorRoom()
+    {
+        return traitorRoom;
     }
 
     public void LoseCondition()
@@ -38,6 +44,11 @@ public class PVPTraitor : MonoBehaviour, ITraitor
         gameObject.GetComponent<PlayerCollision>().SetPlayerPVP(true);
         //gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
         //insert code for moving players into the corners of the rooms
+    }
+
+    public void WinCondition()
+    {
+        throw new NotImplementedException();
     }
 
     private void OnDestroy()
