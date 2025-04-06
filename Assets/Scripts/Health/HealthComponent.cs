@@ -110,9 +110,9 @@ public class HealthComponent : MonoBehaviour
         {
             currentHealth -= damageValue;
 
-        // this is a really scuffed way to determine if it is a player or not but it works
-        string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
-        audioManager.PlaySoundEffect(audioDamageType);
+            // this is a really scuffed way to determine if it is a player or not but it works
+            string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
+            audioManager.PlaySoundEffect(audioDamageType);
 
             StartCoroutine(DamageFlash());
             StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
