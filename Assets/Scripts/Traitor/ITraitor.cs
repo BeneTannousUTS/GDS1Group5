@@ -21,4 +21,6 @@ public interface ITraitor
     void WinCondition();
 
     void TraitorSetup();
+
+    string GetAmountOfTraitors();
 }

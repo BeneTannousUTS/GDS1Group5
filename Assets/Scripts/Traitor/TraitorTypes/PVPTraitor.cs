@@ -59,11 +59,23 @@ public class PVPTraitor : MonoBehaviour, ITraitor
             Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
         }
     }
+    //Returns the amount of traitor cards there should be
+    public string GetAmountOfTraitors()
+    {
+        return "everyone";
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        TraitorSetup();
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            TraitorSetup();
+        }
     }
 
     // Update is called once per frame

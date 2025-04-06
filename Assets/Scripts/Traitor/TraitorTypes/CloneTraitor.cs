@@ -52,7 +52,6 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
             gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(abilitySprite);
             FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
@@ -108,9 +107,21 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameObject.tag = "Traitor";
-        gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
-        TraitorSetup();
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.tag = "Traitor";
+            gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
+            TraitorSetup();
+        }
+    }
+    //Returns the amount of traitor cards there should be
+    public string GetAmountOfTraitors()
+    {
+        return "single";
     }
 
     // Update is called once per frame
@@ -120,6 +131,6 @@ public class CloneTraitor : MonoBehaviour, ITraitor
 
     public void WinCondition()
     {
-        throw new System.NotImplementedException();
+            
     }
 }
