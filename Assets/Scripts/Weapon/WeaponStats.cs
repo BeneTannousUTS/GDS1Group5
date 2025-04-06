@@ -11,6 +11,7 @@ public class WeaponStats : MonoBehaviour
     private float damageMod = 1f;
     public float weaponLifetime;
     private string sourceType;
+    public float attackCooldownWindow;
     public bool friendlyFire;
     public GameObject projectile;
 

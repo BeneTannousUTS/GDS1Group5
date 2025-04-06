@@ -8,7 +8,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public GameObject currentWeapon;
 
-    public float attackCooldownWindow;
+    private float attackCooldownWindow;
     private float attackCooldownTimer = 10f;
 
     public float attackBufferWindow;
@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     // Instantiates a weapon in front of the players current facing direction
     void Attack() 
     {
+        attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow;
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0) {
