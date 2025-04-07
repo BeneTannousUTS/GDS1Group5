@@ -7,8 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerSecondary : MonoBehaviour
 {
     public GameObject currentSecondary;
+    private GameObject previousSecondary;
 
-    public float secondaryCooldownWindow;
+    private float secondaryCooldownWindow;
     private float secondaryCooldownTimer = 10f;
 
     public float secondaryBufferWindow;
@@ -16,12 +17,21 @@ public class PlayerSecondary : MonoBehaviour
 
     private bool secondaryButtonPressed;
 
+    private bool hasTraitorAbility = false;
+
     // Instantiates a secondary at the player's position
     void Secondary() 
     {
-        Vector3 secondaryDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        GameObject tempSecondary = Instantiate(currentSecondary, transform.position, Quaternion.identity);
-        tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
+        if (hasTraitorAbility)
+        {
+            gameObject.GetComponent<ITraitor>().TraitorAbility();
+        }
+        else
+        {
+            Vector3 secondaryDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
+            GameObject tempSecondary = Instantiate(currentSecondary, transform.position, Quaternion.identity);
+            tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
+        }
         secondaryCooldownTimer = 0f;
         
         // Call HUD component function for cooldown animation.
@@ -41,11 +51,28 @@ public class PlayerSecondary : MonoBehaviour
         secondaryButtonPressed = context.ReadValueAsButton();
     }
 
+    public void SetTraitorAbility()
+    {
+        hasTraitorAbility = true;
+        secondaryCooldownWindow = gameObject.GetComponent<ITraitor>().GetCooldownLength();
+    }
+
+    private void Start()
+    {
+        previousSecondary = currentSecondary;
+        secondaryCooldownWindow = currentSecondary.GetComponent<ISecondary>().GetCooldownLength();
+    }
+
     // Gets player input acts on it if it can
     void Update()
     {
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
+            if (previousSecondary != currentSecondary)
+            {
+                previousSecondary = currentSecondary;
+                secondaryCooldownWindow = currentSecondary.GetComponent<ISecondary>().GetCooldownLength();
+            }
             if (secondaryButtonPressed)
             {
                 secondaryBufferTimer = 0f;

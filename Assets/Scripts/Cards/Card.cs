@@ -6,7 +6,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField]
-    CardType cardType;
+    public CardType cardType;
     [SerializeField]
     public string cardName;
     [SerializeField]
@@ -17,19 +17,4 @@ public class Card : MonoBehaviour
     Sprite cardBackSprite;
     [SerializeField]
     public GameObject abilityObject;
-
-    public string GetCardName()
-    {
-        return cardName;
-    }
-
-    public string GetCardDesc()
-    {
-        return cardDescription;
-    }
-
-    public string GetCardType()
-    {
-        return cardType.ToString();
-    }
 }

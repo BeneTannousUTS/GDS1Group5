@@ -6,7 +6,11 @@ using UnityEngine;
 
 public interface ITraitor 
 {
+    float getTraitorRoom();
+
     void TraitorAbility();
+
+    public float GetCooldownLength();
 
     Sprite GetSprite();
 
@@ -14,5 +18,9 @@ public interface ITraitor
 
     void LoseCondition();
 
+    void WinCondition();
+
     void TraitorSetup();
+
+    string GetAmountOfTraitors();
 }

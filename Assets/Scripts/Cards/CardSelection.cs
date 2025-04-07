@@ -1,12 +1,14 @@
-// AUTHOR: Alistair/Zac
-// Handles card selection and players getting their abilities
+// AUTHOR: Zac
+// Handles card selection process
 
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.InputSystem.UI;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public enum CardType
 {
@@ -23,17 +25,21 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
     private int[] selectionOrder = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
-    private int currentIndex = 0;
+    PlayerData[] playerSelectionOrder = new PlayerData[4];
     private int numOfCardSelected = 0;
     private GameObject selectedCard = null;
     private int currentPlayerIndex = -1;
-    private int traitorIndex = -1;
     [SerializeField]
-    private TMP_Text text;
+    private TMP_Text bottomText;
     [SerializeField]
+    private GameObject selectingParent;
+    [SerializeField]
+    private TMP_Text middleText;
+    [SerializeField]
+    private Image selectingImage;
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
-    Sprite[] playerSprites;
+    Sprite[] playerSprites; // this will need to be changed once score order is implemented
 
     void Awake()
     {
@@ -43,38 +49,6 @@ public class CardSelection : MonoBehaviour
     // Flips all cards
     public IEnumerator FlipAll()
     {
-        if (numOfTraitors > 0)
-        {
-            // ensure traitor card was selected
-            bool isTraitorSelected = false;
-            foreach (int i in selectionOrder)
-            {
-                if (i == traitorIndex)
-                {
-                    isTraitorSelected = true;
-                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorText();
-                }
-            }
-
-            Debug.Log($"isTraitorSelected: {isTraitorSelected}");
-
-            if (!isTraitorSelected)
-            {
-                int swapIndex = Random.Range(0, numOfCardSelected); // the player number which is having their card swapped 
-                int initialCardNum = selectionOrder[swapIndex];
-
-                Debug.Log($"Player Index: {swapIndex} | Initial Card Number: {initialCardNum}");
-
-                Sprite oldSprite = cardList[initialCardNum].GetComponent<Image>().sprite;
-                GameObject oldAbility = cardList[initialCardNum].GetComponent<Card>().abilityObject;
-                cardList[initialCardNum].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
-                cardList[initialCardNum].GetComponent<CardHandler>().setTraitorText();
-                cardList[traitorIndex].GetComponent<CardHandler>().SwapCard(oldSprite, oldAbility);
-            }
-
-            FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
-        }
-
         yield return new WaitForSeconds(0.5f);
         foreach (GameObject card in cardList)
         {
@@ -87,7 +61,7 @@ public class CardSelection : MonoBehaviour
         {
             card.GetComponent<CardHandler>().showNameAsCard();
             card.GetComponent<CardHandler>().showDesc();
-        }        
+        }
 
         yield return new WaitForSeconds(4f);
         FindAnyObjectByType<CardManager>().ResumeGameplay(selectionOrder, cardList);
@@ -99,63 +73,34 @@ public class CardSelection : MonoBehaviour
         numOfTraitors = num;
     }
 
-    // Instantiates a card and sets the item it will be
-    void CreateCard(GameObject cardType, Sprite cardFront)
-    {
-        cardList[currentIndex] = Instantiate(cardType, transform);
-        //cardList[currentIndex].GetComponent<CardHandler>().SetFrontSprite(cardFront);
-        currentIndex += 1;
-    }
-
-    // Handles the randomness for cards and the calls to CreateCard
-    void GetRandomCard(bool isTraitor)
-    {
-        if (isTraitor == true)
-        {
-            GameObject newCard = cards[Random.Range(0, cards.Length)];
-            cardList[currentIndex++] = Instantiate(newCard, transform);
-            cardList[currentIndex - 1].GetComponent<CardHandler>().SwapCard(traitorCardSprite, null);
-        }
-        else
-        {
-            GameObject newCard = cards[Random.Range(0, cards.Length)];
-            cardList[currentIndex++] = Instantiate(newCard, transform);
-        }
-    }
-
     public void SelectionSetup()
     {
-        if (numOfTraitors == 1)
-        {
-            traitorIndex = Random.Range(0, 4);
+        List<GameObject> tempCardList = new List<GameObject>();
 
-            GetRandomCard((traitorIndex == 0));
-            GetRandomCard((traitorIndex == 1));
-            GetRandomCard((traitorIndex == 2));
-            GetRandomCard((traitorIndex == 3));
-        }
-        else if (numOfTraitors == 3)
-        {
-            traitorIndex = Random.Range(0, 4);
+        GameObject weapon = cards
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+            .FirstOrDefault();
 
-            GetRandomCard((traitorIndex != 0));
-            GetRandomCard((traitorIndex != 1));
-            GetRandomCard((traitorIndex != 2));
-            GetRandomCard((traitorIndex != 3));
-        }
-        else if (numOfTraitors == 4)
+        GameObject secondary = cards
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+            .FirstOrDefault();
+
+        GameObject passive = cards
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Passive)
+            .FirstOrDefault();
+
+        if (weapon != null) tempCardList.Add(weapon);
+        if (passive != null) tempCardList.Add(passive);
+        if (secondary != null) tempCardList.Add(secondary);
+
+        List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
+        tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+        tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
+
+        int i = 0;
+        foreach (GameObject card in tempCardList)
         {
-            GetRandomCard(true);
-            GetRandomCard(true);
-            GetRandomCard(true);
-            GetRandomCard(true);
-        }
-        else
-        {
-            GetRandomCard(false);
-            GetRandomCard(false);
-            GetRandomCard(false);
-            GetRandomCard(false);
+            cardList[i++] = Instantiate(card, transform);
         }
 
         foreach (GameObject card in cardList)
@@ -171,24 +116,40 @@ public class CardSelection : MonoBehaviour
     IEnumerator SelectionProcess()
     {
         // get a list of joined players
-        PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-        currentPlayerIndex = -1;
-        // HIDE NORMAL GAME UI?????
-
         // This array will need to be reorder with score once that is implemented...
+        playerSelectionOrder = FindAnyObjectByType<PlayerManager>().GetPlayers();
+        currentPlayerIndex = -1;
 
         foreach (GameObject card in cardList)
         {
             card.GetComponent<CardHandler>().showNameAsType();
         }
 
-        for (int playerIndex = 0; playerIndex < players.Length; ++playerIndex)
+        for (int playerIndex = 0; playerIndex < playerSelectionOrder.Length; ++playerIndex)
         {
-            if (!players[playerIndex].isJoined) break;
+            if (!playerSelectionOrder[playerIndex].isJoined) break;
+
+            foreach (GameObject card in cardList)
+            {
+                card.GetComponent<CardHandler>().setArrowIcon(null); // this will later be changed to an arrow of the player's colour
+                card.GetComponent<CardHandler>().OnDeselect(null);
+            }
+
+            bottomText.gameObject.SetActive(false);
+            middleText.text = $"Player {playerIndex + 1} is Selecting a Card";
+            selectingImage.sprite = playerSprites[playerIndex];
+            selectingParent.SetActive(true);
+
+            //VibrateController(playerSelectionOrder[playerIndex].playerInput);
+
+            yield return new WaitForSeconds(2.0f);
+
+            selectingParent.SetActive(false);
+            bottomText.gameObject.SetActive(true);
 
             currentPlayerIndex = playerIndex;
 
-            text.text = $"Player {playerIndex + 1} is Selecting a Card";
+            bottomText.text = $"Player {playerIndex + 1} is Selecting a Card";
 
             foreach (GameObject card in cardList)
             {
@@ -199,31 +160,32 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            Debug.Log(UIInputModule);
-            Debug.Log(players[playerIndex].playerInput.actions);
+            //Debug.Log(UIInputModule);
+            //Debug.Log(playerSelectionOrder[playerIndex].playerInput.actions);
 
-            UIInputModule.actionsAsset = players[playerIndex].playerInput.actions;
+            UIInputModule.actionsAsset = playerSelectionOrder[playerIndex].playerInput.actions;
 
-            for (int pIndex = 0; pIndex < players.Length; ++pIndex)
+            for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
             {
-                if (!players[pIndex].isJoined) break;
+                if (!playerSelectionOrder[pIndex].isJoined) break;
 
                 if (pIndex == playerIndex)
                 {
-                    players[pIndex].playerInput.SwitchCurrentActionMap("CardSelection");
+                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("CardSelection");
                 }
                 else
                 {
-                    players[pIndex].playerInput.SwitchCurrentActionMap("Locked");
+                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Locked");
                 }
             }
 
             yield return new WaitUntil(() => selectedCard != null);
 
             Destroy(selectedCard.GetComponent<Button>());
-            selectedCard.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+            selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+            selectedCard.GetComponent<CardHandler>().OnDeselect(null);
             selectedCard = null;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.6f);
         }
 
         foreach (GameObject card in cardList)
@@ -232,14 +194,111 @@ public class CardSelection : MonoBehaviour
             {
                 Destroy(card.GetComponent<Button>());
             }
+            card.GetComponent<CardHandler>().OnDeselect(null);
             card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
-        text.text = "";
+        bottomText.text = "";
         currentPlayerIndex = -1;
+
+        DetermineCards();
 
         // once all players have selected cards flip over
         StartCoroutine(FlipAll());
+    }
+
+    void DetermineCards()
+    {
+        Debug.Log("Determine Card");
+
+        List<int> cardIndices = new List<int> { 0, 1, 2, 3 };
+
+        // at playerSelectionPos = 0, selectionOrder[0] will hold the index of which card in the card list that player selected
+        for (int playerSelectionPos = 0; playerSelectionPos < selectionOrder.Length; playerSelectionPos++)
+        {
+            Debug.Log($"Player Selection Pos: {playerSelectionOrder}");
+            int cardIndex = selectionOrder[playerSelectionPos];
+
+            cardIndices.Remove(cardIndex);
+
+            if (cardIndex == -1)
+            {
+                int newIndex = cardIndices[0];
+                cardIndices.Remove(newIndex);
+                CardType ranCardType = cardList[newIndex].GetComponent<Card>().cardType;
+
+                GameObject[] cardsOfSameType = cards
+                    .Where(card => card.GetComponent<Card>().cardType == ranCardType)
+                    .ToArray();
+                Card replacementCard = cardsOfSameType[Random.Range(0, cardsOfSameType.Length)].GetComponent<Card>();
+                cardList[newIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
+                continue;
+            }
+
+            CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
+
+            if (cardType == CardType.Weapon)
+            {
+                GameObject filterWeapon = playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
+                GameObject[] filteredCardsOfSameType = cards
+                    .Where(card => card.GetComponent<Card>().cardType == cardType
+                    && card.GetComponent<Card>().abilityObject != filterWeapon)
+                    .ToArray();
+                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
+            }
+            else if (cardType == CardType.Secondary)
+            {
+                GameObject filterSecondary = playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerSecondary>().currentSecondary;
+                GameObject[] filteredCardsOfSameType = cards
+                    .Where(card => card.GetComponent<Card>().cardType == cardType
+                    && card.GetComponent<Card>().abilityObject != filterSecondary)
+                    .ToArray();
+                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
+            }
+            else
+            {
+                GameObject[] filteredCardsOfSameType = cards
+                    .Where(card => card.GetComponent<Card>().cardType == cardType)
+                    .ToArray();
+                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
+            }
+        }
+
+        if (numOfTraitors > 0)
+        {
+            if (numOfTraitors > numOfCardSelected && numOfTraitors != 4)
+            {
+                Debug.LogError("More traitors than players!!! This should not happen! Someone messed up >:(");
+                return;
+            }
+
+            if (numOfTraitors == 4)
+            {
+                for (int i = 0; i < numOfTraitors; ++i)
+                {
+                    cardList[i].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
+                }
+            }
+            else
+            {
+                int[] traitorOrder = selectionOrder
+                    .Where(numOfCardSelected => numOfCardSelected != -1)
+                    .OrderBy(player => Random.value)
+                    .ToArray();
+
+                for (int i = 0; i < numOfTraitors; ++i)
+                {
+                    int traitorIndex = traitorOrder[i];
+
+                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
+                }
+            }
+
+            FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
+        }
     }
 
     public void SelectCard(GameObject card)
@@ -258,5 +317,26 @@ public class CardSelection : MonoBehaviour
         }
 
         selectionOrder[numOfCardSelected++] = abilityIndex;
+    }
+
+    void VibrateController(PlayerInput playerInput)
+    {
+        Gamepad gamepad = playerInput.devices.OfType<Gamepad>().FirstOrDefault();
+        if (gamepad != null)
+        {
+            string productName = gamepad.description.product.ToLower();
+            Debug.Log("Gamepad product name: " + productName);
+            if (productName.Contains("dualshock") || productName.Contains("dualsense"))
+            {
+                gamepad.SetMotorSpeeds(0.5f, 0.5f);
+                StartCoroutine(StopVibrations(gamepad, 0.5f));
+            }
+        }
+    }
+
+    IEnumerator StopVibrations(Gamepad gamepad, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        gamepad.ResetHaptics();
     }
 }

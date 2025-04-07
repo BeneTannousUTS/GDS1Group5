@@ -5,12 +5,15 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
-public class CardHandler : MonoBehaviour
+using UnityEngine.EventSystems;
+public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     [SerializeField]
     Card card;
     [SerializeField]
     Image playerIcon;
+    [SerializeField]
+    Image playerArrowIcon;
     [SerializeField]
     GameObject nameText;
     [SerializeField]
@@ -24,41 +27,64 @@ public class CardHandler : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
     }
 
-    public void SwapCard(Sprite newSprite, GameObject newAbility)
-    {
-        card.cardFrontSprite = newSprite;
-        gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
-
-        card.abilityObject = newAbility;
-    }
-
     public void showPlayerIcon(Sprite playerSprite)
     {
         playerIcon.color = new Vector4(1,1,1,1);
-        playerIcon.sprite = playerSprite;
+        playerIcon.sprite = playerSprite;  
+    }
+
+    public void setArrowIcon(Sprite playerArrowSprite)
+    {
+        if (playerArrowSprite != null)
+        {
+            playerArrowIcon.sprite = playerArrowSprite;
+        }
     }
 
     public void showNameAsType()
     {
-        nameText.GetComponent<TMP_Text>().text = card.GetCardType() + " Card";
+        nameText.GetComponent<TMP_Text>().text = card.cardType.ToString() + " Card";
         nameText.SetActive(true);
     }
 
     public void showNameAsCard()
     {
-        nameText.GetComponent<TMP_Text>().text = card.GetCardName();
+        nameText.GetComponent<TMP_Text>().text = card.cardName;
         nameText.SetActive(true);
     }
 
     public void showDesc()
     {
-        descriptionText.GetComponent<TMP_Text>().text = card.GetCardDesc();
+        descriptionText.GetComponent<TMP_Text>().text = card.cardDescription;
         descriptionText.SetActive(true);
     }
 
-    public void setTraitorText()
+    public void setTraitorCard(Sprite traitorSprite)
     {
+        card.cardFrontSprite = traitorSprite;
+        gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
+        card.abilityObject = null;
         card.cardName = "Traitor";
         card.cardDescription = "You are a traitor... Fight your once friends.";
+    }
+
+    public void ReplaceCard(Card replacementCard)
+    {
+        card.cardName = replacementCard.cardName;
+        card.cardDescription = replacementCard.cardDescription;
+        card.cardFrontSprite = replacementCard.cardFrontSprite;
+        card.abilityObject = replacementCard.abilityObject;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        playerArrowIcon.color = new Vector4(1,1,1,1);
+        playerArrowIcon.gameObject.GetComponent<Animator>().enabled = true;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        playerArrowIcon.color = new Vector4(1,1,1,0);
+        playerArrowIcon.gameObject.GetComponent<Animator>().enabled = false;
     }
 }

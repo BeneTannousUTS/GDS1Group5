@@ -68,7 +68,7 @@ public class HealthComponent : MonoBehaviour
     IEnumerator Die() 
     {
         isDead = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
         if (gameObject.CompareTag("Player") == false) {
             Destroy(gameObject);
         }
@@ -95,9 +95,12 @@ public class HealthComponent : MonoBehaviour
             }
             
             // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player"))
+            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
             {
-                GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                if (gameObject.GetComponent<PlayerHUD>() != null)
+                {
+                    GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                }
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
@@ -107,17 +110,20 @@ public class HealthComponent : MonoBehaviour
         {
             currentHealth -= damageValue;
 
-        // this is a really scuffed way to determine if it is a player or not but it works
-        string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
-        audioManager.PlaySoundEffect(audioDamageType);
+            // this is a really scuffed way to determine if it is a player or not but it works
+            string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
+            audioManager.PlaySoundEffect(audioDamageType);
 
             StartCoroutine(DamageFlash());
             StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
             
             // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player"))
+            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
             {
-                gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                if (gameObject.GetComponent<PlayerHUD>() != null)
+                {
+                    gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                }
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);

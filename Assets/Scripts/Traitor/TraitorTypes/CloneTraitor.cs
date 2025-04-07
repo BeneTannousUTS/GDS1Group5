@@ -11,6 +11,17 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     private bool realTraitor = true;
     private List<GameObject> cloneList = new List<GameObject>();
     [SerializeField] GameObject cloneObject;
+    [SerializeField] Sprite abilitySprite;
+    private float cooldownLength = 10;
+    private float traitorRoom = 1;
+    public float getTraitorRoom()
+    {
+        return traitorRoom;
+    }
+    public float GetCooldownLength()
+    {
+        return cooldownLength;
+    }
     public int GetMaxHealth()
     {
         throw new System.NotImplementedException();
@@ -41,7 +52,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     {
         if (realTraitor)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+            gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(abilitySprite);
             FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
             spawnPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
             ClonePosition(gameObject);
@@ -74,7 +85,7 @@ public class CloneTraitor : MonoBehaviour, ITraitor
         while (!validPos)
         {
             test++;
-            Vector3 checkPos = new Vector3(Random.Range(-19, 19), Random.Range(-9, 9), 0) + spawnPos;
+            Vector3 checkPos = new Vector3(Random.Range(-14, 14), Random.Range(-6, 5), 0) + spawnPos;
             Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1f);
             if (hit.Length == 0)
             {
@@ -96,12 +107,30 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameObject.tag = "Traitor";
-        TraitorSetup();
+        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.tag = "Traitor";
+            gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
+            TraitorSetup();
+        }
+    }
+    //Returns the amount of traitor cards there should be
+    public string GetAmountOfTraitors()
+    {
+        return "single";
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void WinCondition()
+    {
+            
     }
 }

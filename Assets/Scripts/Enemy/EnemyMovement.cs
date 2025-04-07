@@ -68,10 +68,12 @@ public class EnemyMovement : MonoBehaviour
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
-            if (Vector3.Distance(movePoint.transform.position, transform.position) < aggroRange)
+            if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange)
             {
                 movePoint = enemyPathfinder.ClosestPlayer(transform.position);
-
+            }
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= aggroRange)
+            {
                 transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, -1f * moveSpeed * Time.deltaTime);
             }
             if (Vector3.Distance(movePoint.transform.position, transform.position) >= attackRange)
