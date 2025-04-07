@@ -6,6 +6,12 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> playerList = new List<GameObject>();
 
+    public DungeonManager dungeonManager;
+    public CardManager cardManager;
+    public TraitorManager traitorManager;
+    private List<ITraitor> traitorTypeList = new List<ITraitor>();
+    private ITraitor currentTraitorType;
+
     public void Win() 
     {
         SceneManager.LoadScene("WinScreen");
@@ -26,13 +32,40 @@ public class GameManager : MonoBehaviour
         Debug.Log("WIN");
     }
 
+    void AddTraitorTypes() 
+    {
+        traitorTypeList.Add(new CloneTraitor());
+        traitorTypeList.Add(new PVPTraitor());
+    }
+
+    void DecideTraitor() 
+    {
+        AddTraitorTypes();
+
+        currentTraitorType = traitorTypeList[Random.Range(1, traitorTypeList.Count)];
+
+        traitorManager.SetTraitorType(currentTraitorType);
+        cardManager.SetTraitorType(currentTraitorType);
+    }
+
+    public void ShowCardSelection(DungeonCamera lastDunCam)
+    {
+        Debug.Log($"traitorNum: {traitorManager.GetTraitorAmount()}");
+        if (traitorManager.CheckTraitorAppear())
+        {
+            cardManager.ShowCardSelection(lastDunCam, traitorManager.GetTraitorAmount());
+        }
+        else 
+        {
+            cardManager.ShowCardSelection(lastDunCam, 0);
+        }
+    }
+
     void Start() 
     {
-        Debug.Log("AddingPlayers");
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            playerList.Add(player);
-        }
+        playerList = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>().GetPlayers();
+
+        DecideTraitor();
     }
 
     public void CheckGameState() 
@@ -40,7 +73,7 @@ public class GameManager : MonoBehaviour
         bool allDead = true;
         bool traitor = false;
 
-        foreach (GameObject player in GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>().GetPlayers())
+        foreach (GameObject player in playerList)
         {
             traitor = player.CompareTag("Traitor");
             if (player.GetComponent<HealthComponent>().GetIsDead() == false && player.CompareTag("Traitor") == false) 
