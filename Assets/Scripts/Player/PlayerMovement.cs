@@ -1,6 +1,7 @@
 // AUTHOR: Alistair
 // Handles player movement input
 
+using System.Collections;
 using Unity.Collections;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     private Animator animator;
     private SpriteRenderer sprite;
+    private float knockbackTime = 0.0f;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
@@ -43,8 +45,15 @@ public class PlayerMovement : MonoBehaviour
     // Update moveDirection and facingDirection then linearVelocity in moveDirection
     void Update()
     {
-        moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
-        rb.linearVelocity = moveDirection*moveSpeed;
+        if (knockbackTime > 0)
+        {
+            knockbackTime -= Time.deltaTime;
+        } else
+        {
+            moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
+            rb.linearVelocity = moveDirection*moveSpeed;
+        }
+        
         //controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
         
         // Setting facingDirection to a vector with
@@ -88,5 +97,12 @@ public class PlayerMovement : MonoBehaviour
         else if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y >= 0) {
             animator.SetBool("isBack", true);
         }
+    }
+
+    public void KnockbackPlayer(float knockbackMultiplier, float knockbackTime, Vector3 knockbackDirection)
+    {
+        moveDirection = knockbackDirection.normalized;
+        rb.linearVelocity = moveDirection * moveSpeed * knockbackMultiplier;
+        this.knockbackTime = knockbackTime;
     }
 }

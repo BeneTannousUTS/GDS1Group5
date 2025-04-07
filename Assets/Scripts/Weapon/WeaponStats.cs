@@ -12,29 +12,31 @@ public class WeaponStats : MonoBehaviour
     public float weaponLifetime;
     protected string sourceType;
     public float attackCooldownWindow;
+    public float knockbackMultiplier = 0.9f;
+    public float knockbackTime = 0.1f;
     public bool friendlyFire;
     public GameObject projectile;
 
     // Sets the value of sourceType
-    public void SetSourceType(string type) 
+    public void SetSourceType(string type)
     {
         sourceType = type;
     }
 
     // Gets the value of sourceType
-    public string GetSourceType() 
+    public string GetSourceType()
     {
         return sourceType;
     }
 
     // Gets the value of sourceType
-    public bool GetFriendlyFire() 
+    public bool GetFriendlyFire()
     {
         return friendlyFire;
     }
 
     // Sets the value of sourceType
-    public void SetDamageMod(float modifier) 
+    public void SetDamageMod(float modifier)
     {
         damageMod = modifier;
     }
@@ -43,6 +45,15 @@ public class WeaponStats : MonoBehaviour
     public void DealDamage(HealthComponent healthComponent)
     {
         healthComponent.TakeDamage(damageValue * damageMod);
+
+        if (healthComponent.gameObject.CompareTag("Player") && damageValue > 0)
+        {
+            if (healthComponent.gameObject.GetComponent<PlayerMovement>() != null)
+            {
+                Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.parent.transform.position;
+                healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
+            }
+        }
     }
 
     // Destroys the weapon after its lifetime is up

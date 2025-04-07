@@ -1,6 +1,7 @@
 // AUTHOR: Alistair
 // Handles projectile movement and dealing damage
 
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -9,6 +10,8 @@ public class Projectile : MonoBehaviour
     private string sourceType;
     private bool friendlyFire;
     public float moveSpeed;
+    public float knockbackMultiplier = 0.7f;
+    public float knockbackTime = 0.1f;
 
     private Vector3 shotDirection = Vector3.zero;
 
@@ -53,6 +56,15 @@ public class Projectile : MonoBehaviour
     public void DealDamage(HealthComponent healthComponent)
     {
         healthComponent.TakeDamage(damageValue);
+
+        if (healthComponent.gameObject.CompareTag("Player") && damageValue > 0)
+        {
+            if (healthComponent.gameObject.GetComponent<PlayerMovement>() != null)
+            {
+                Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.position;
+                healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
+            }
+        }
     }
 
     // Moves projectile
