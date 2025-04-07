@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1072834508020684496}
   - component: {fileID: 7511903213717552802}
-  - component: {fileID: 5009072514227388063}
+  - component: {fileID: 9000292481973933975}
   m_Layer: 0
   m_Name: EnemyGun
   m_TagString: Weapon
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5009072514227388063
+--- !u!114 &9000292481973933975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,10 +97,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4087922522623041382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25320242185ccad499f7087f796f947b, type: 3}
+  m_Script: {fileID: 11500000, guid: e44fd2c98fab84f9f948615f8c479782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageValue: 10
   weaponLifetime: 0.05
+  attackCooldownWindow: 0
   friendlyFire: 0
   projectile: {fileID: 1570946151084272314, guid: a802dbd16ef096c478e5992059b0d7bb, type: 3}
