@@ -1,3 +1,7 @@
+//AUTHOR: Benedict
+/*This script passes values to the text mesh pro elements in the HUD to show how stats have been influenced
+by passive cards*/
+
 using TMPro;
 using UnityEngine;
 
@@ -27,23 +31,19 @@ public class StatsDisplayHelper : MonoBehaviour
         
     }
 
-    public void SetBaseStats(float health, float speed, float attack)
-    {
-        baseHealth = health;
-        baseSpeed = speed;
-        baseDamage = attack;
-    }
-
+    //Set the health modifier text
     public void UpdateHealthText(float healthMod)
     {
         healthMultText.text = healthMod + "% Health";
     }
     
+    //Set the speed modifier text
     public void UpdateSpeedText(float speedMod)
     {
         speedMultText.text = speedMod * 100 + "% Speed";
     }
     
+    //Set the damage modifier text
     public void UpdateDamageText(float damageMod)
     {
         damageMultText.text = damageMod * 100 + "% Damage";
