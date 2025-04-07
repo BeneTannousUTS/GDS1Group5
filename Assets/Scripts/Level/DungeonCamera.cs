@@ -53,7 +53,7 @@ public class DungeonCamera : MonoBehaviour
 
             roomChange = false;
 
-            FindAnyObjectByType<CardManager>().ShowCardSelection(this);
+            FindAnyObjectByType<GameManager>().ShowCardSelection(this);
         }
     }
     void Start()
