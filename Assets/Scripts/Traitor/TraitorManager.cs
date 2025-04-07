@@ -22,8 +22,8 @@ public class TraitorManager : MonoBehaviour
     //called by the card manager when cards are being decided to tell if the traitor card should appear
     public bool CheckTraitorAppear()
     {
-        Debug.Log($"currentRoom: {dungeonManager.GetRoomCount()}, traitorRoom: {traitorRoom - 1}, isFinal: {dungeonManager.GetRoomCount() == traitorRoom - 1}");
-        if (dungeonManager.GetRoomCount() == traitorRoom - 1)
+        Debug.Log($"currentRoom: {dungeonManager.GetRoomCount()}, traitorRoom: {traitorRoom}, isFinal: {dungeonManager.GetRoomCount() == traitorRoom}, traitorType: {traitorType}");
+        if (dungeonManager.GetRoomCount() == traitorRoom)
         {
             return true;
         }
