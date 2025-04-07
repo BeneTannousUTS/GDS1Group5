@@ -9,7 +9,7 @@ public class TraitorManager : MonoBehaviour
     private ITraitor traitorType;
     private float traitorRoom;
     private bool traitorCardAppear;
-    private DungeonManager dungeonManager;
+    public DungeonManager dungeonManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
@@ -22,17 +22,18 @@ public class TraitorManager : MonoBehaviour
     //called by the card manager when cards are being decided to tell if the traitor card should appear
     public bool CheckTraitorAppear()
     {
-        if (dungeonManager.GetRoomCount() == traitorRoom)
+        Debug.Log($"currentRoom: {dungeonManager.GetRoomCount()}, traitorRoom: {traitorRoom - 1}, isFinal: {dungeonManager.GetRoomCount() == traitorRoom - 1}");
+        if (dungeonManager.GetRoomCount() == traitorRoom - 1)
         {
             return true;
         }
         return false;
     }
 
-    public float GetTraitorAmount()
+    public int GetTraitorAmount()
     {
         string amount = traitorType.GetAmountOfTraitors();
-        float playerAmount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
+        int playerAmount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
         if (amount == "single")
         {
             return 1;
@@ -51,6 +52,7 @@ public class TraitorManager : MonoBehaviour
         }
         return 0;
     }
+    
     void Start()
     {
         dungeonManager = FindAnyObjectByType<DungeonManager>();

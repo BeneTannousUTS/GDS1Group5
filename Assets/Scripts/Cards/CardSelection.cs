@@ -69,7 +69,7 @@ public class CardSelection : MonoBehaviour
     }
 
     // Sets the value of final room
-    void SetIsFinalRoom(int num)
+    public void SetIsFinalRoom(int num)
     {
         numOfTraitors = num;
     }

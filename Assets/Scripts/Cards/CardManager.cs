@@ -13,13 +13,19 @@ public class CardManager : MonoBehaviour
     DungeonCamera lastDunCam = null;
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
-    int traitorIndex = 1; // only temp until game manager is active
+    ITraitor traitorType;
 
-    public void ShowCardSelection(DungeonCamera lastDunCam)
+    public void SetTraitorType(ITraitor type) 
+    {
+        traitorType = type;
+    }
+
+    public void ShowCardSelection(DungeonCamera lastDunCam, int isFinalRoom)
     {
         cardCanvas = Instantiate(cardCanvasPrefab);
         this.lastDunCam = lastDunCam;
         cardCanvas.GetComponentInChildren<CardSelection>().SelectionSetup();
+        cardCanvas.GetComponentInChildren<CardSelection>().SetIsFinalRoom(isFinalRoom);
     }
 
     public void HidePlayer(GameObject player)
@@ -83,18 +89,7 @@ public class CardManager : MonoBehaviour
 
             if (abilityObject == null)
             {
-                if (traitorIndex == 0)
-                {
-                    players[i].AddComponent<CloneTraitor>();
-                }
-                else if (traitorIndex == 1)
-                {
-                    foreach (GameObject player in players)
-                    {
-                        if (player == null) continue;
-                        player.AddComponent<PVPTraitor>();
-                    }
-                }
+                players[i].AddComponent(traitorType.GetType());
             }
             else if (abilityObject.GetComponent<WeaponStats>())
             {
@@ -110,6 +105,7 @@ public class CardManager : MonoBehaviour
             {
                 players[i].GetComponent<PlayerStats>().SetPassive(abilityObject);
                 players[i].GetComponent<PlayerHUD>().UpdateStatsDisplay();
+                players[i].GetComponent<HealthComponent>().UpdateHUDHealthBar();
             }
         }
     }

@@ -101,11 +101,13 @@ public class PlayerHUD : MonoBehaviour
     public void SetPrimarySprite(Sprite sprite)
     {
         helper.primaryAbility.sprite = sprite;
+        helper.primaryAbilityBackground.sprite = sprite;
     }
 
     public void SetSecondarySprite(Sprite sprite)
     {
         helper.secondaryAbility.sprite = sprite;
+        helper.secondaryAbilityBackground.sprite = sprite;
     }
 
     // Make sure the HUD exists before setting values
@@ -121,7 +123,13 @@ public class PlayerHUD : MonoBehaviour
     public void UpdateStatsDisplay()
     {
         helper.statsHelper.UpdateDamageText(GetComponent<PlayerStats>().GetStrengthStat());
-        helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
         helper.statsHelper.UpdateSpeedText(GetComponent<PlayerStats>().GetMoveStat());
+        helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
+    }
+
+    public void SetStatsAlpha(int alpha)
+    {
+        helper.statsHelper.UpdateDamageTextAlpha(alpha);
+        helper.statsHelper.UpdateSpeedTextAlpha(alpha);
     }
 }

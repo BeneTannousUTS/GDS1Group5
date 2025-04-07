@@ -164,6 +164,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerList: []
+  dungeonManager: {fileID: 339811105}
+  cardManager: {fileID: 636423220}
+  traitorManager: {fileID: 2075478537}
 --- !u!1 &256539784
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,6 +3917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bb4beb299f9bc43928ff5594cfd35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeonManager: {fileID: 339811105}
 --- !u!4 &2075478538
 Transform:
   m_ObjectHideFlags: 0
