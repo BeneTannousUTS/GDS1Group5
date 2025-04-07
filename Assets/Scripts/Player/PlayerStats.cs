@@ -14,8 +14,16 @@ public class PlayerStats : MonoBehaviour
 
     public void SetPassive(GameObject passive) 
     {
-        passives.Add(passive);
-        gameObject.GetComponent<HealthComponent>().SetMaxHealth(GetHealthStat());
+        //check if card gotten is to revive player, otherwise normal passive effect occurs
+        if (passive.GetComponent<PassiveStats>().GetRevivePlayer())
+        {
+            gameObject.GetComponent<HealthComponent>().Revive();
+        }
+        else
+        {
+            passives.Add(passive);
+            gameObject.GetComponent<HealthComponent>().SetMaxHealth(GetHealthStat());
+        }
     }
 
     public float GetMoveStat() 

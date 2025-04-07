@@ -20,6 +20,7 @@ public enum CardType
 public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
+    [SerializeField] Card reviveCard; //specific reference to the revive card because it should not be apart of the regualr card set
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -236,8 +237,12 @@ public class CardSelection : MonoBehaviour
             }
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
-
-            if (cardType == CardType.Weapon)
+            //Before cards are decided, check if player is alive and if not make the card a revive card
+            if (playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            {
+                cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(reviveCard);
+            }
+            else if (cardType == CardType.Weapon)
             {
                 GameObject filterWeapon = playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards

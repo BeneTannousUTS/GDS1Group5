@@ -30,6 +30,15 @@ public class HealthComponent : MonoBehaviour
             maxHealth = health;
         }
     }
+    //Brings back player back to life with half there max health
+    public void Revive()
+    {
+        isDead = false;
+        currentHealth = maxHealth / 2;
+        GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+        gameObject.GetComponent<Animator>().SetTrigger("revived");
+
+    }
 
     IEnumerator DamageFlash() 
     {
@@ -104,6 +113,7 @@ public class HealthComponent : MonoBehaviour
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
+            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
         }
 
         else if (invincible == false) 
