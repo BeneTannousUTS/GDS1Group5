@@ -2,20 +2,17 @@ using UnityEngine;
 
 public class Hammer : WeaponStats
 {
-    public float knockbackRadius = 3f;
-    public float knockbackForce = 10f;
+    public float friendlyKnockbackRadius = 2f;
 
     protected override void TriggerAttack()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, knockbackRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, friendlyKnockbackRadius);
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Player"))
             {
-                // Knockback player
-            } else if (collider.CompareTag("Enemy"))
-            {
-                // Knockback Enemy
+                Vector3 knockbackDirection = collider.transform.position - transform.position;
+                collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
             }
         }
         base.TriggerAttack();

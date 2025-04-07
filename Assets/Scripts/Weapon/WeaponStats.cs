@@ -53,13 +53,30 @@ public class WeaponStats : MonoBehaviour
                 Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.parent.transform.position;
                 healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
             }
+        } else if (healthComponent.gameObject.CompareTag("Enemy") && damageValue > 0)
+        {
+            if (healthComponent.gameObject.GetComponent<EnemyMovement>() != null)
+            {
+                Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.parent.transform.position;
+                healthComponent.gameObject.GetComponent<EnemyMovement>().KnockbackEnemy(knockbackMultiplier, knockbackTime,knockbackDirection);
+            }
         }
     }
 
     // Destroys the weapon after its lifetime is up
     IEnumerator DestroyWeapon(float lifetime)
     {
-        yield return new WaitForSeconds(lifetime);
+        yield return new WaitForSeconds(lifetime/2f);
+
+        if (GetComponent<BoxCollider2D>() != null)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+        } else if (GetComponent<CircleCollider2D>() != null)
+        {
+            GetComponent<CircleCollider2D>().enabled = false;
+        }
+
+        yield return new WaitForSeconds(lifetime/2f);
         Destroy(gameObject);
     }
 

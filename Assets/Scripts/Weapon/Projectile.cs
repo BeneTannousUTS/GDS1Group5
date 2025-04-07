@@ -64,6 +64,13 @@ public class Projectile : MonoBehaviour
                 Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.position;
                 healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
             }
+        } else if (healthComponent.gameObject.CompareTag("Enemy") && damageValue > 0)
+        {
+            if (healthComponent.gameObject.GetComponent<EnemyMovement>() != null)
+            {
+                Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.position;
+                healthComponent.gameObject.GetComponent<EnemyMovement>().KnockbackEnemy(knockbackMultiplier, knockbackTime,knockbackDirection);
+            }
         }
     }
 

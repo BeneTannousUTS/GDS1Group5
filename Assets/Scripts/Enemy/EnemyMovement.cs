@@ -25,6 +25,7 @@ public class EnemyMovement : MonoBehaviour
 
     private Animator animator;
     private SpriteRenderer sprite;
+    private float knockbackTime = 0.0f;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection() 
@@ -108,7 +109,11 @@ public class EnemyMovement : MonoBehaviour
 
     // Move based on the AI type
     void Update() {
-        if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
+        if (knockbackTime > 0)
+        {
+            knockbackTime -= Time.deltaTime;
+        }
+        else if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             if (currentAiType == aiType.Aggressive) 
             {
@@ -144,5 +149,11 @@ public class EnemyMovement : MonoBehaviour
         else if (facingDirection.x < 0 && !sprite.flipX) {
             sprite.flipX = true;
         }
+    }
+
+    public void KnockbackEnemy(float knockbackMultiplier, float knockbackTime, Vector3 knockbackDirection)
+    {
+        GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
+        this.knockbackTime = knockbackTime;
     }
 }
