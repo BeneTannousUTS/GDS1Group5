@@ -141,10 +141,25 @@ public class CardSelection : MonoBehaviour
             selectingImage.sprite = playerSprites[playerIndex];
             selectingParent.SetActive(true);
 
-            //VibrateController(playerSelectionOrder[playerIndex].playerInput);
+            UIInputModule.actionsAsset = playerSelectionOrder[playerIndex].playerInput.actions;
 
-            yield return new WaitForSeconds(2.0f);
+            for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
+            {
+                if (!playerSelectionOrder[pIndex].isJoined) break;
 
+                if (pIndex == playerIndex)
+                {
+                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Skip");
+                }
+                else
+                {
+                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Locked");
+                }
+            }
+
+            yield return WaitForSecondsOrSkip(1.5f);
+
+            playerSelectionOrder[playerIndex].playerInput.SwitchCurrentActionMap("CardSelection");
             selectingParent.SetActive(false);
             bottomText.gameObject.SetActive(true);
 
@@ -161,24 +176,7 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            //Debug.Log(UIInputModule);
-            //Debug.Log(playerSelectionOrder[playerIndex].playerInput.actions);
-
-            UIInputModule.actionsAsset = playerSelectionOrder[playerIndex].playerInput.actions;
-
-            for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
-            {
-                if (!playerSelectionOrder[pIndex].isJoined) break;
-
-                if (pIndex == playerIndex)
-                {
-                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("CardSelection");
-                }
-                else
-                {
-                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Locked");
-                }
-            }
+            
 
             yield return new WaitUntil(() => selectedCard != null);
 
@@ -322,6 +320,21 @@ public class CardSelection : MonoBehaviour
         }
 
         selectionOrder[numOfCardSelected++] = abilityIndex;
+    }
+
+    private IEnumerator WaitForSecondsOrSkip(float seconds)
+    {
+        float timer = 0f;
+        InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
+        while (timer < seconds)
+        {
+            if (skipAction != null && skipAction.triggered)
+            {
+                break;
+            }
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 
     void VibrateController(PlayerInput playerInput)

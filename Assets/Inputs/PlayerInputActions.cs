@@ -466,6 +466,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PassCard"",
+                    ""type"": ""Button"",
+                    ""id"": ""b24e2b83-41e5-4256-9a7c-c380d9748dcf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -501,6 +510,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""CardSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f362a914-2f45-4572-af24-11579d6bc816"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PassCard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -509,6 +529,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""d6426445-6ca5-428c-a5cd-936d7f9b1324"",
             ""actions"": [],
             ""bindings"": []
+        },
+        {
+            ""name"": ""Skip"",
+            ""id"": ""3eb59fc2-9cc9-4e77-b884-60df0b4b760a"",
+            ""actions"": [
+                {
+                    ""name"": ""SkipButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""27578d5f-5dad-4646-a9cf-aacd1263c0ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""76a61a59-4389-427a-aa4e-1a13239e6415"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -555,8 +603,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_CardSelection = asset.FindActionMap("CardSelection", throwIfNotFound: true);
         m_CardSelection_CardNav = m_CardSelection.FindAction("CardNav", throwIfNotFound: true);
         m_CardSelection_CardSelect = m_CardSelection.FindAction("CardSelect", throwIfNotFound: true);
+        m_CardSelection_PassCard = m_CardSelection.FindAction("PassCard", throwIfNotFound: true);
         // Locked
         m_Locked = asset.FindActionMap("Locked", throwIfNotFound: true);
+        // Skip
+        m_Skip = asset.FindActionMap("Skip", throwIfNotFound: true);
+        m_Skip_SkipButton = m_Skip.FindAction("SkipButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -566,6 +618,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, PlayerInputActions.Gameplay.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_CardSelection.enabled, "This will cause a leak and performance issues, PlayerInputActions.CardSelection.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Locked.enabled, "This will cause a leak and performance issues, PlayerInputActions.Locked.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Skip.enabled, "This will cause a leak and performance issues, PlayerInputActions.Skip.Disable() has not been called.");
     }
 
     /// <summary>
@@ -997,6 +1050,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<ICardSelectionActions> m_CardSelectionActionsCallbackInterfaces = new List<ICardSelectionActions>();
     private readonly InputAction m_CardSelection_CardNav;
     private readonly InputAction m_CardSelection_CardSelect;
+    private readonly InputAction m_CardSelection_PassCard;
     /// <summary>
     /// Provides access to input actions defined in input action map "CardSelection".
     /// </summary>
@@ -1016,6 +1070,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CardSelection/CardSelect".
         /// </summary>
         public InputAction @CardSelect => m_Wrapper.m_CardSelection_CardSelect;
+        /// <summary>
+        /// Provides access to the underlying input action "CardSelection/PassCard".
+        /// </summary>
+        public InputAction @PassCard => m_Wrapper.m_CardSelection_PassCard;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1048,6 +1106,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @CardSelect.started += instance.OnCardSelect;
             @CardSelect.performed += instance.OnCardSelect;
             @CardSelect.canceled += instance.OnCardSelect;
+            @PassCard.started += instance.OnPassCard;
+            @PassCard.performed += instance.OnPassCard;
+            @PassCard.canceled += instance.OnPassCard;
         }
 
         /// <summary>
@@ -1065,6 +1126,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @CardSelect.started -= instance.OnCardSelect;
             @CardSelect.performed -= instance.OnCardSelect;
             @CardSelect.canceled -= instance.OnCardSelect;
+            @PassCard.started -= instance.OnPassCard;
+            @PassCard.performed -= instance.OnPassCard;
+            @PassCard.canceled -= instance.OnPassCard;
         }
 
         /// <summary>
@@ -1183,6 +1247,102 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="LockedActions" /> instance referencing this action map.
     /// </summary>
     public LockedActions @Locked => new LockedActions(this);
+
+    // Skip
+    private readonly InputActionMap m_Skip;
+    private List<ISkipActions> m_SkipActionsCallbackInterfaces = new List<ISkipActions>();
+    private readonly InputAction m_Skip_SkipButton;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Skip".
+    /// </summary>
+    public struct SkipActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public SkipActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Skip/SkipButton".
+        /// </summary>
+        public InputAction @SkipButton => m_Wrapper.m_Skip_SkipButton;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Skip; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="SkipActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(SkipActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="SkipActions" />
+        public void AddCallbacks(ISkipActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SkipActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SkipActionsCallbackInterfaces.Add(instance);
+            @SkipButton.started += instance.OnSkipButton;
+            @SkipButton.performed += instance.OnSkipButton;
+            @SkipButton.canceled += instance.OnSkipButton;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="SkipActions" />
+        private void UnregisterCallbacks(ISkipActions instance)
+        {
+            @SkipButton.started -= instance.OnSkipButton;
+            @SkipButton.performed -= instance.OnSkipButton;
+            @SkipButton.canceled -= instance.OnSkipButton;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SkipActions.UnregisterCallbacks(ISkipActions)" />.
+        /// </summary>
+        /// <seealso cref="SkipActions.UnregisterCallbacks(ISkipActions)" />
+        public void RemoveCallbacks(ISkipActions instance)
+        {
+            if (m_Wrapper.m_SkipActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="SkipActions.AddCallbacks(ISkipActions)" />
+        /// <seealso cref="SkipActions.RemoveCallbacks(ISkipActions)" />
+        /// <seealso cref="SkipActions.UnregisterCallbacks(ISkipActions)" />
+        public void SetCallbacks(ISkipActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SkipActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SkipActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="SkipActions" /> instance referencing this action map.
+    /// </summary>
+    public SkipActions @Skip => new SkipActions(this);
     private int m_NewControlSchemeSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -1317,6 +1477,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCardSelect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PassCard" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPassCard(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Locked" which allows adding and removing callbacks.
@@ -1325,5 +1492,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// <seealso cref="LockedActions.RemoveCallbacks(ILockedActions)" />
     public interface ILockedActions
     {
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Skip" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="SkipActions.AddCallbacks(ISkipActions)" />
+    /// <seealso cref="SkipActions.RemoveCallbacks(ISkipActions)" />
+    public interface ISkipActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "SkipButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkipButton(InputAction.CallbackContext context);
     }
 }
