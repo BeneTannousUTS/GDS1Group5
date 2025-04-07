@@ -8,9 +8,9 @@ using System.Collections;
 public class WeaponStats : MonoBehaviour
 {
     public float damageValue;
-    private float damageMod = 1f;
+    protected float damageMod = 1f;
     public float weaponLifetime;
-    private string sourceType;
+    protected string sourceType;
     public float attackCooldownWindow;
     public bool friendlyFire;
     public GameObject projectile;
@@ -54,19 +54,16 @@ public class WeaponStats : MonoBehaviour
 
     // Starts the DestroyWeapon coroutine
     void Start()
-    {   
-        if (projectile != null) 
-        {
-            GameObject currentProjectile = Instantiate(projectile, transform.position + transform.up, transform.rotation);
-            currentProjectile.GetComponent<Projectile>().SetDamageValue(damageValue * damageMod);
-            currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
-            currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
-        }
+    {
+        TriggerAttack();
+    }
 
+    protected virtual void TriggerAttack()
+    {
         Debug.Log($"sourceType: {sourceType}");
 
         StartCoroutine(DestroyWeapon(weaponLifetime));
-        
+
         transform.position += 0.001f * transform.up;
     }
 }

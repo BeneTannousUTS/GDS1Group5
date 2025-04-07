@@ -120,10 +120,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3633519047022515863}
   - component: {fileID: 1356155925502953923}
-  - component: {fileID: 3603222115381406741}
+  - component: {fileID: 4844158572580466591}
   - component: {fileID: 8355393513242553781}
   m_Layer: 0
-  m_Name: PlayerGun
+  m_Name: PlayerCrossbow
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1897805832558085138, guid: 4acdaf06a7a73fe439af6a6bfbe2108a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.80319375, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -200,7 +200,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3603222115381406741
+--- !u!114 &4844158572580466591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,14 +209,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8746877494208805321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b08200fdf9388184abf44829834537ac, type: 3}
+  m_Script: {fileID: 11500000, guid: d8ae7b3e1b33d9c4cbe14aa754ecf5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 10
+  damageValue: 7.5
   weaponLifetime: 0.35
-  attackCooldownWindow: 0.35
+  attackCooldownWindow: 0.2
   friendlyFire: 0
   projectile: {fileID: 2315427121274295933, guid: 7457b2a8d39bd39439cef5f37b709b10, type: 3}
+  numOfArrows: 3
+  spacing: 0.5
 --- !u!95 &8355393513242553781
 Animator:
   serializedVersion: 7
