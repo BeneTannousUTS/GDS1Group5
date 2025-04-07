@@ -23,7 +23,6 @@ public class PlayerHUD : MonoBehaviour
 
     private void Start()
     {
-        SetupStatsDisplay();
     }
 
     // Called every frame
@@ -117,13 +116,6 @@ public class PlayerHUD : MonoBehaviour
             hud = Instantiate(playerHUDPrefab, GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform, false);
             helper = hud.GetComponentInChildren<UIComponentHelper>();
         }
-    }
-
-    void SetupStatsDisplay()
-    {
-        EnsureHUD();
-        GetComponentInChildren<StatsDisplayHelper>().SetBaseStats(GetComponent<HealthComponent>().maxHealth, 
-            GetComponent<PlayerMovement>().moveSpeed, GetComponent<WeaponStats>().damageValue);
     }
 
     public void UpdateStatsDisplay()
