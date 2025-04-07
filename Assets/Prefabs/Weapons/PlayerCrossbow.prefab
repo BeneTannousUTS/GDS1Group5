@@ -190,7 +190,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1897805832558085138, guid: 4acdaf06a7a73fe439af6a6bfbe2108a, type: 3}
-  m_Color: {r: 1, g: 0.80319375, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -212,13 +212,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ae7b3e1b33d9c4cbe14aa754ecf5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 7.5
-  weaponLifetime: 0.35
-  attackCooldownWindow: 0.2
+  damageValue: 5
+  weaponLifetime: 0.3
+  attackCooldownWindow: 0.3
   friendlyFire: 0
   projectile: {fileID: 2315427121274295933, guid: 7457b2a8d39bd39439cef5f37b709b10, type: 3}
-  numOfArrows: 3
-  spacing: 0.5
 --- !u!95 &8355393513242553781
 Animator:
   serializedVersion: 7

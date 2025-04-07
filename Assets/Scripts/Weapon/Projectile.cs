@@ -10,6 +10,15 @@ public class Projectile : MonoBehaviour
     private bool friendlyFire;
     public float moveSpeed;
 
+    private Vector3 shotDirection = Vector3.zero;
+
+    // Sets the projectile's shot direction. Normalizes the direction vector.
+    public void SetShotDirection(Vector3 direction)
+    {
+        shotDirection = direction.normalized;
+        transform.up = shotDirection;
+    }
+
     // Sets the value of sourceType
     public void SetSourceType(string type) 
     {
@@ -49,7 +58,7 @@ public class Projectile : MonoBehaviour
     // Moves projectile
     void Update()
     {   
-        transform.position += transform.up * moveSpeed * Time.deltaTime;
+        transform.position += shotDirection * moveSpeed * Time.deltaTime;
     }
 
     bool ColliderType(Collider2D otherCollider) 
