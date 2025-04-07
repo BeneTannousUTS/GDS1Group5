@@ -35,7 +35,7 @@ public class HealthComponent : MonoBehaviour
     {
         isDead = false;
         currentHealth = maxHealth / 2;
-        GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+        UpdateHUDHealthBar();
         gameObject.GetComponent<Animator>().SetTrigger("revived");
 
     }
@@ -108,7 +108,7 @@ public class HealthComponent : MonoBehaviour
             {
                 if (gameObject.GetComponent<PlayerHUD>() != null)
                 {
-                    GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                    UpdateHUDHealthBar();
                 }
             }
             
@@ -132,7 +132,7 @@ public class HealthComponent : MonoBehaviour
             {
                 if (gameObject.GetComponent<PlayerHUD>() != null)
                 {
-                    gameObject.GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+                    UpdateHUDHealthBar();
                 }
             }
             
@@ -157,4 +157,10 @@ public class HealthComponent : MonoBehaviour
        currentHealth = maxHealth;
        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>(); 
     }
+
+    public void UpdateHUDHealthBar()
+    {
+        GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+    }
+    
 }

@@ -9,12 +9,15 @@ public class PlayerInfo : MonoBehaviour
 {
     public GameObject playerLocateArrow;
     
+    PlayerHUD playerHud;
+    
     bool infoButtonPressed;
     bool isArrowLarge;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerHud = GetComponent<PlayerHUD>();
     }
 
     // Update is called once per frame
@@ -39,15 +42,17 @@ public class PlayerInfo : MonoBehaviour
         Debug.unityLogger.Log(infoButtonPressed);
     }
     
-    //Enlarge arrow above player
+    //Enlarge arrow above player & turn on attack and speed modifier display
     void ShowPlayerInfo()
     {
+        playerHud.SetStatsAlpha(255);
         playerLocateArrow.transform.localScale *= 2;
     }
 
-    //Shrink arrow above player
+    //Shrink arrow above player & turn off attack and speed modifier display
     void HidePlayerInfo()
     {
+        playerHud.SetStatsAlpha(0);
         playerLocateArrow.transform.localScale /= 2;
     }
 }

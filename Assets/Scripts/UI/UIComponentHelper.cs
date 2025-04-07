@@ -11,6 +11,8 @@ public class UIComponentHelper : MonoBehaviour
     public TextMeshProUGUI playerNumTMP;
     public Image primaryAbility;
     public Image secondaryAbility;
+    public Image primaryAbilityBackground;
+    public Image secondaryAbilityBackground;
     public Image healthSlider;
     public TextMeshProUGUI healthTextOver;
     public TextMeshProUGUI healthTextUnder;

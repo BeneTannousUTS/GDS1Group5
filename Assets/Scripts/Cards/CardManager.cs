@@ -110,6 +110,7 @@ public class CardManager : MonoBehaviour
             {
                 players[i].GetComponent<PlayerStats>().SetPassive(abilityObject);
                 players[i].GetComponent<PlayerHUD>().UpdateStatsDisplay();
+                players[i].GetComponent<HealthComponent>().UpdateHUDHealthBar();
             }
         }
     }
