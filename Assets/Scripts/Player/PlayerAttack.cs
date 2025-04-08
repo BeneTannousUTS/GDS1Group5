@@ -34,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        tempWeapon.GetComponent<WeaponStats>().SetSourceObject(gameObject);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
 
         // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used

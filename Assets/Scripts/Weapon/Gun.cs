@@ -11,6 +11,7 @@ public class Gun : WeaponStats
             currentProjectile.GetComponent<Projectile>().SetDamageValue(damageValue * damageMod);
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
+            currentProjectile.GetComponent<Projectile>().SetSourceObject(sourceObject);
         }
 
         base.TriggerAttack();

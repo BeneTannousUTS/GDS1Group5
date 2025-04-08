@@ -29,6 +29,7 @@ public class Crossbow : WeaponStats
                 proj.SetDamageValue(damageValue * damageMod);
                 proj.SetFriendlyFire(friendlyFire);
                 proj.SetSourceType(sourceType);
+                proj.SetSourceObject(sourceObject);
             }
         }
 

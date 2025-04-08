@@ -95,17 +95,20 @@ public class CardManager : MonoBehaviour
             {
                 players[i].GetComponent<PlayerAttack>().currentWeapon = abilityObject;
                 players[i].GetComponent<PlayerHUD>().SetPrimarySprite(cardList[abilityIndex].GetComponent<Card>().cardFrontSprite);
+                players[i].GetComponent<PlayerScore>().IncrementWeaponsPicked();
             }
             else if (abilityObject.GetComponent<SecondaryStats>())
             {
                 players[i].GetComponent<PlayerSecondary>().currentSecondary = abilityObject;
                 players[i].GetComponent<PlayerHUD>().SetSecondarySprite(cardList[abilityIndex].GetComponent<Card>().cardFrontSprite);
+                players[i].GetComponent<PlayerScore>().IncrementSecondariesPicked();
             }
             else if (abilityObject.GetComponent<PassiveStats>())
             {
                 players[i].GetComponent<PlayerStats>().SetPassive(abilityObject);
                 players[i].GetComponent<PlayerHUD>().UpdateStatsDisplay();
                 players[i].GetComponent<HealthComponent>().UpdateHUDHealthBar();
+                players[i].GetComponent<PlayerScore>().IncrementPassivesPicked();
             }
         }
     }

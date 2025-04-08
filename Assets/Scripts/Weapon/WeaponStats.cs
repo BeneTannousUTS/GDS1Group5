@@ -11,6 +11,7 @@ public class WeaponStats : MonoBehaviour
     protected float damageMod = 1f;
     public float weaponLifetime;
     protected string sourceType;
+    protected GameObject sourceObject;
     public float attackCooldownWindow;
     public float knockbackMultiplier = 0.9f;
     public float knockbackTime = 0.1f;
@@ -29,6 +30,14 @@ public class WeaponStats : MonoBehaviour
         return sourceType;
     }
 
+    public void SetSourceObject(GameObject source) {
+        sourceObject = source;
+    }
+
+    public GameObject GetSourceObject() {
+        return sourceObject;
+    }
+
     // Gets the value of sourceType
     public bool GetFriendlyFire()
     {
@@ -44,7 +53,20 @@ public class WeaponStats : MonoBehaviour
     // Deals damage to a specified HealthComponent
     public void DealDamage(HealthComponent healthComponent)
     {
+        float preDamageHealth = healthComponent.GetCurrentHealth(); 
         healthComponent.TakeDamage(damageValue * damageMod);
+        if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
+            if (damageValue < 0) {
+                GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);
+            }
+            else {
+                GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
+                if (healthComponent.GetCurrentHealth() <= 0) {
+                    GetSourceObject().GetComponent<PlayerScore>().IncrementKills();
+                }
+            }
+        }
+
 
         if (healthComponent.gameObject.CompareTag("Player") && damageValue > 0)
         {

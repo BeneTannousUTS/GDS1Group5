@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
 {
     private float damageValue;
     private string sourceType;
+    protected GameObject sourceObject;
     private bool friendlyFire;
     public float moveSpeed;
     public float knockbackMultiplier = 0.7f;
@@ -26,6 +27,14 @@ public class Projectile : MonoBehaviour
     public void SetSourceType(string type) 
     {
         sourceType = type;
+    }
+
+    public void SetSourceObject(GameObject source) {
+        sourceObject = source;
+    }
+
+    public GameObject GetSourceObject() {
+        return sourceObject;
     }
 
     // Sets the value of sourceType
@@ -55,7 +64,19 @@ public class Projectile : MonoBehaviour
     // Deals damage to a specified HealthComponent & Applies Knockback
     public void DealDamage(HealthComponent healthComponent)
     {
+        float preDamageHealth = healthComponent.GetCurrentHealth(); 
         healthComponent.TakeDamage(damageValue);
+        if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
+            if (damageValue < 0) {
+                GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);
+            }
+            else {
+                GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
+                if (healthComponent.GetCurrentHealth() <= 0) {
+                    GetSourceObject().GetComponent<PlayerScore>().IncrementKills();
+                }
+            }
+        }
 
         if (healthComponent.gameObject.CompareTag("Player") && damageValue > 0)
         {

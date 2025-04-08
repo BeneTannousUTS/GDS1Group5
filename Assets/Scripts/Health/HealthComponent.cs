@@ -15,7 +15,6 @@ public class HealthComponent : MonoBehaviour
     private AudioManager audioManager;
     [SerializeField] private GameObject healParticles;
     [SerializeField] private float flashDuration = 0.25f;
-    private MaterialPropertyBlock materialPropertyBlock; // Used so the damage flash only affects this object
 
     public bool GetIsDead() 
     {
@@ -42,10 +41,6 @@ public class HealthComponent : MonoBehaviour
 
     IEnumerator DamageFlash() 
     {
-        /*Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = baseColor;*/
         float currentFlash = 0f;
         float lerpTime = 0f;
         while (lerpTime < flashDuration) {
@@ -58,10 +53,6 @@ public class HealthComponent : MonoBehaviour
 
     IEnumerator HealingFlash() 
     {
-        /*Color baseColor = gameObject.GetComponent<SpriteRenderer>().color;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-        yield return new WaitForSeconds(0.1f);
-        gameObject.GetComponent<SpriteRenderer>().color = baseColor;*/
         GameObject healParticle = Instantiate(healParticles, gameObject.transform);
         //healParticle.transform.position = gameObject.transform.position;
         yield return null;
@@ -86,6 +77,7 @@ public class HealthComponent : MonoBehaviour
             Debug.Log("Die");
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().CheckGameState();
             gameObject.GetComponent<Animator>().SetTrigger("dead");
+            gameObject.GetComponent<PlayerScore>().IncrementDeaths();
         }
     }
 
@@ -130,6 +122,7 @@ public class HealthComponent : MonoBehaviour
             // Call HUD component function to update healthbar if player
             if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
             {
+                GetComponent<PlayerScore>().AddDamageTaken(damageValue);
                 if (gameObject.GetComponent<PlayerHUD>() != null)
                 {
                     UpdateHUDHealthBar();
@@ -161,6 +154,10 @@ public class HealthComponent : MonoBehaviour
     public void UpdateHUDHealthBar()
     {
         GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
+    }
+
+    public float GetCurrentHealth() {
+        return currentHealth;
     }
     
 }

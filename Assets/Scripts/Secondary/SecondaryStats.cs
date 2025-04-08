@@ -9,12 +9,21 @@ public class SecondaryStats : MonoBehaviour
 {
     public float secondaryLifetime;
     private string sourceType;
+    private GameObject sourceObject;
     public GameObject projectile;
 
     // Sets the value of sourceType
     public void SetSourceType(string type)
     {
         sourceType = type;
+    }
+
+    public void SetSourceObject(GameObject source) {
+        sourceObject = source;
+    }
+
+    public GameObject GetSourceObject() {
+        return sourceObject;
     }
 
     // Gets the value of sourceType

@@ -31,6 +31,7 @@ public class PlayerSecondary : MonoBehaviour
             Vector3 secondaryDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
             GameObject tempSecondary = Instantiate(currentSecondary, transform.position, Quaternion.identity);
             tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
+            tempSecondary.GetComponent<SecondaryStats>().SetSourceObject(gameObject);
         }
         secondaryCooldownTimer = 0f;
         
