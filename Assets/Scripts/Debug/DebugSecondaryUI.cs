@@ -43,7 +43,7 @@ public class DebugSecondaryUI : MonoBehaviour
         }
     }
 
-    public void GiveWeapon()
+    public void GiveSecondary()
     {
         if (selectedPlayer != null)
         {
@@ -52,7 +52,7 @@ public class DebugSecondaryUI : MonoBehaviour
         }
     }
 
-    public void WeaponDropdown()
+    public void SecondaryDropdown()
     {
         int pickedEntry = dropdown.value;
         Debug.Log(pickedEntry);
