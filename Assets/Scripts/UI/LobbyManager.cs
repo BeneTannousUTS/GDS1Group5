@@ -1,8 +1,7 @@
 // AUTHOR: BENEDICT
 // This script handles player joining and logic to update the UI as players join and leave
 
-using System;
-using Unity.VisualScripting.Dependencies.Sqlite;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;

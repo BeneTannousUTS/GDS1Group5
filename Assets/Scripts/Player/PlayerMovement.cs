@@ -1,12 +1,8 @@
 // AUTHOR: Alistair
 // Handles player movement input
 
-using System.Collections;
-using Unity.Collections;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {

@@ -1,7 +1,6 @@
 // AUTHOR: BENEDICT
 // This script uses the PlayerInputManager to join new players with unique controller identities
 
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

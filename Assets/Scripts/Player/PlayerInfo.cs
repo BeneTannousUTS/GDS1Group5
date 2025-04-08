@@ -39,7 +39,7 @@ public class PlayerInfo : MonoBehaviour
     public void OnInfoButtonPressed(InputAction.CallbackContext context)
     {
         infoButtonPressed = context.ReadValueAsButton();
-        Debug.unityLogger.Log(infoButtonPressed);
+        //Debug.unityLogger.Log(infoButtonPressed);
     }
     
     //Enlarge arrow above player & turn on attack and speed modifier display
@@ -47,6 +47,7 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsAlpha(255);
         playerLocateArrow.transform.localScale *= 2;
+        Gamepad.current.SetMotorSpeeds(1f, 1f);
     }
 
     //Shrink arrow above player & turn off attack and speed modifier display
@@ -54,5 +55,6 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsAlpha(0);
         playerLocateArrow.transform.localScale /= 2;
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
 }

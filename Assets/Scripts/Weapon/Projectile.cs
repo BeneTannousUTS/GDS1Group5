@@ -1,7 +1,6 @@
 // AUTHOR: Alistair
 // Handles projectile movement and dealing damage
 
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
