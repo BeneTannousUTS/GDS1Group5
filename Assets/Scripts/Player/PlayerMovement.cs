@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
     private Vector2 movementInput;
-    
+
     public float moveSpeed;
     private Animator animator;
     private SpriteRenderer sprite;
@@ -48,53 +48,61 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackTime > 0)
         {
             knockbackTime -= Time.deltaTime;
-        } else
+        }
+        else
         {
             moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
-            rb.linearVelocity = moveDirection*moveSpeed;
+            rb.linearVelocity = moveDirection * moveSpeed;
+
+            // Setting facingDirection to a vector with
+            if (moveDirection != Vector3.zero)
+            {
+                animator.SetBool("isMoving", true);
+                SetSpriteDirection();
+                if (moveDirection.x > 0 && sprite.flipX)
+                {
+                    sprite.flipX = false;
+                }
+                else if (moveDirection.x < 0 && !sprite.flipX)
+                {
+                    sprite.flipX = true;
+                }
+                //gameObject.transform.up = moveDirection;
+                facingDirection = moveDirection;
+            }
+            else animator.SetBool("isMoving", false);
         }
-        
+
         //controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
-        
-        // Setting facingDirection to a vector with
-        if (moveDirection != Vector3.zero)
-        {
-            animator.SetBool("isMoving", true);
-            SetSpriteDirection();
-            if (moveDirection.x > 0 && sprite.flipX) {
-                sprite.flipX = false;
-            }
-            else if (moveDirection.x < 0 && !sprite.flipX) {
-                sprite.flipX = true;
-            }
-            //gameObject.transform.up = moveDirection;
-            facingDirection = moveDirection;
-        }
-        else animator.SetBool("isMoving", false);
-        
         //controller.Move(playerVelocity * Time.deltaTime);
     }
 
     // Sets the direction of the sprite in the animator
-    private void SetSpriteDirection() {
+    private void SetSpriteDirection()
+    {
         animator.SetBool("isFront", false);
         animator.SetBool("isFrontDiag", false);
         animator.SetBool("isSide", false);
         animator.SetBool("isBackDiag", false);
         animator.SetBool("isBack", false);
-        if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y <= 0) {
+        if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y <= 0)
+        {
             animator.SetBool("isFront", true);
         }
-        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y <= -0.15) {
+        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y <= -0.15)
+        {
             animator.SetBool("isFrontDiag", true);
         }
-        else if (moveDirection.y >= -0.15 && moveDirection.y <= 0.15) {
+        else if (moveDirection.y >= -0.15 && moveDirection.y <= 0.15)
+        {
             animator.SetBool("isSide", true);
         }
-        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y >= 0.15) {
+        else if ((moveDirection.x >= 0.15 || moveDirection.x <= -0.15) && moveDirection.y >= 0.15)
+        {
             animator.SetBool("isBackDiag", true);
         }
-        else if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y >= 0) {
+        else if (moveDirection.x <= 0.15 && moveDirection.x >= -0.15 && moveDirection.y >= 0)
+        {
             animator.SetBool("isBack", true);
         }
     }

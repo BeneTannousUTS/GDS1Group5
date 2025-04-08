@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public enum aiType {
+    public enum aiType
+    {
         Aggressive,
         Passive,
         Teleporter
@@ -28,19 +29,19 @@ public class EnemyMovement : MonoBehaviour
     private float knockbackTime = 0.0f;
 
     // Gets the value of facingDirection
-    public Vector3 GetFacingDirection() 
+    public Vector3 GetFacingDirection()
     {
         return facingDirection;
     }
 
     // Aggressive AI movement meant to run towards closest player
-    void MoveAggressive() 
+    void MoveAggressive()
     {
         if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
-            if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange) 
+            if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange)
             {
                 movePoint = enemyPathfinder.ClosestPlayer(transform.position);
             }
@@ -52,20 +53,20 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
-                
+
                 transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, moveSpeed * Time.deltaTime);
             }
         }
-        else 
+        else
         {
             movePoint = enemyPathfinder.ClosestPlayer(transform.position);
         }
     }
 
     // Passive AI movement meant to run to be a certain distance from the closest player
-    void MovePassive() 
+    void MovePassive()
     {
-        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false) 
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
@@ -81,19 +82,19 @@ public class EnemyMovement : MonoBehaviour
             {
                 gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
             }
-            else 
+            else
             {
                 gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
             }
         }
-        else 
+        else
         {
             movePoint = enemyPathfinder.ClosestPlayer(transform.position);
         }
     }
 
     // STRETCH GOAL: Teleporter AI movement meant to teleport to the furthest position from the closest player
-    void MoveTeleporter() 
+    void MoveTeleporter()
     {
 
     }
@@ -108,18 +109,21 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Move based on the AI type
-    void Update() {
+    void Update()
+    {
         if (knockbackTime > 0)
         {
             knockbackTime -= Time.deltaTime;
         }
         else if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (currentAiType == aiType.Aggressive) 
+            GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
+
+            if (currentAiType == aiType.Aggressive)
             {
                 MoveAggressive();
             }
-            else if (currentAiType == aiType.Passive) 
+            else if (currentAiType == aiType.Passive)
             {
                 MovePassive();
             }
@@ -127,26 +131,31 @@ public class EnemyMovement : MonoBehaviour
             {
                 MoveTeleporter();
             }
+
+            SetSpriteDirection();
+            if (facingDirection.x == 0 && facingDirection.y == 0) animator.SetBool("isMoving", false);
+            else animator.SetBool("isMoving", true);
         }
-        SetSpriteDirection();
-        if (facingDirection.x == 0 && facingDirection.y == 0) animator.SetBool("isMoving", false);
-        else animator.SetBool("isMoving", true);
     }
 
     // Sets the direction of the sprite in the animator
-    void SetSpriteDirection() {
+    void SetSpriteDirection()
+    {
         animator.SetBool("isFront", false);
         animator.SetBool("isSide", false);
         animator.SetBool("isBack", false);
-        if (((facingDirection.x <= 0 && facingDirection.x >= facingDirection.y) || (facingDirection.x >= 0 && facingDirection.x < facingDirection.y * -1)) && facingDirection.y < 0) {
+        if (((facingDirection.x <= 0 && facingDirection.x >= facingDirection.y) || (facingDirection.x >= 0 && facingDirection.x < facingDirection.y * -1)) && facingDirection.y < 0)
+        {
             animator.SetBool("isFront", true);
         }
-        else if (((facingDirection.x >= 0 && facingDirection.x <= facingDirection.y) || (facingDirection.x <= 0 && facingDirection.x > facingDirection.y * -1)) && facingDirection.y > 0) {
+        else if (((facingDirection.x >= 0 && facingDirection.x <= facingDirection.y) || (facingDirection.x <= 0 && facingDirection.x > facingDirection.y * -1)) && facingDirection.y > 0)
+        {
             animator.SetBool("isBack", true);
         }
         else animator.SetBool("isSide", true);
         if (facingDirection.x > 0 && sprite.flipX) sprite.flipX = false;
-        else if (facingDirection.x < 0 && !sprite.flipX) {
+        else if (facingDirection.x < 0 && !sprite.flipX)
+        {
             sprite.flipX = true;
         }
     }

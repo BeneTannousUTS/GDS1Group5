@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
         damageValue = damage;
     }
 
-    // Deals damage to a specified HealthComponent
+    // Deals damage to a specified HealthComponent & Applies Knockback
     public void DealDamage(HealthComponent healthComponent)
     {
         healthComponent.TakeDamage(damageValue);

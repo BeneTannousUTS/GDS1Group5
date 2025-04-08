@@ -66,17 +66,7 @@ public class WeaponStats : MonoBehaviour
     // Destroys the weapon after its lifetime is up
     IEnumerator DestroyWeapon(float lifetime)
     {
-        yield return new WaitForSeconds(lifetime/2f);
-
-        if (GetComponent<BoxCollider2D>() != null)
-        {
-            GetComponent<BoxCollider2D>().enabled = false;
-        } else if (GetComponent<CircleCollider2D>() != null)
-        {
-            GetComponent<CircleCollider2D>().enabled = false;
-        }
-
-        yield return new WaitForSeconds(lifetime/2f);
+        yield return new WaitForSeconds(lifetime);
         Destroy(gameObject);
     }
 

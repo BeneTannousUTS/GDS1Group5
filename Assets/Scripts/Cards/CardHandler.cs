@@ -49,6 +49,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void showNameAsCard()
     {
+        nameText.GetComponent<TMP_Text>().color = new Vector4(1,1,1,1);
         nameText.GetComponent<TMP_Text>().text = card.cardName;
         nameText.SetActive(true);
     }
