@@ -13,7 +13,7 @@ public class CardManager : MonoBehaviour
     DungeonCamera lastDunCam = null;
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
-    ITraitor traitorType;
+    public ITraitor traitorType;
 
     public void SetTraitorType(ITraitor type) 
     {

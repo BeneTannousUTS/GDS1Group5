@@ -10,10 +10,11 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     private Vector3 spawnPos;
     private bool realTraitor = true;
     private List<GameObject> cloneList = new List<GameObject>();
-    [SerializeField] GameObject cloneObject;
-    [SerializeField] Sprite abilitySprite;
+    private GameObject cloneObject;
+    private Sprite abilitySprite;
     private float cooldownLength = 10;
     private float traitorRoom = 1;
+    private TraitorManager traitorManager;
     public float getTraitorRoom()
     {
         return traitorRoom;
@@ -81,20 +82,14 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     private void ClonePosition(GameObject clone)
     {
         bool validPos = false;
-        int test = 0;
         while (!validPos)
         {
-            test++;
             Vector3 checkPos = new Vector3(Random.Range(-14, 14), Random.Range(-6, 5), 0) + spawnPos;
-            Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1f);
+            Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f);
             if (hit.Length == 0)
             {
                 validPos = true;
                 clone.transform.position = checkPos;
-            }
-            if (test > 10)
-            {
-                validPos = true;
             }
         }
     }
@@ -107,6 +102,9 @@ public class CloneTraitor : MonoBehaviour, ITraitor
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        traitorManager = FindAnyObjectByType<TraitorManager>();
+        cloneObject = traitorManager.GetSummonRef(0);
+        abilitySprite = traitorManager.GetCardRef(0);
         if (gameObject.GetComponent<HealthComponent>().GetIsDead())
         {
             Destroy(gameObject);

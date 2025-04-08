@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class DungeonBuilder : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class DungeonBuilder : MonoBehaviour
         return currentRoom;
     }
 
+    public void UpdateRoomCount(int count)
+    {
+        dManager.SetRoomCount(count + 1);
+    }
+
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {
@@ -42,7 +48,6 @@ public class DungeonBuilder : MonoBehaviour
     //Activates rooms when the player reaches the end of the prior room (called upon by DungeonCamera)
     public void ActivateRooms(int position)
     {
-        dManager.SetRoomCount(position+1);
         if (position+1<numberRooms && spawnedRooms[position + 1] != null)
         {
             spawnedRooms[position + 1].SetActive(true);

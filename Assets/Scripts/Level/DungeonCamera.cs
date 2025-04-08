@@ -19,13 +19,15 @@ public class DungeonCamera : MonoBehaviour
             GameObject player = collision.gameObject;
             FindAnyObjectByType<CardManager>().HidePlayer(player);
             roomChange = true;
+            dungeonBuild.UpdateRoomCount((int)((transform.position.y - 9.5) / 18));
         }
     }
 
     void MoveCamera()
     {
         Camera.main.transform.position = transform.parent.transform.position + new Vector3(0,18, -10);
-        dungeonBuild.ActivateRooms((int)(transform.position.y / 18));
+        Debug.Log("Transform y: " + transform.position.y);
+        dungeonBuild.ActivateRooms((int)((transform.position.y-9.5) / 18));
     }
 
     public void RoomChangeTime()

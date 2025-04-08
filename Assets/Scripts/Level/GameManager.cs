@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public DungeonManager dungeonManager;
     public CardManager cardManager;
     public TraitorManager traitorManager;
-    private List<ITraitor> traitorTypeList = new List<ITraitor>();
+    [SerializeField] private List<ITraitor> traitorTypeList = new List<ITraitor>();
     private ITraitor currentTraitorType;
 
     public void Win() 
@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
         AddTraitorTypes();
 
         currentTraitorType = traitorTypeList[Random.Range(1, traitorTypeList.Count)];
-
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
     }
