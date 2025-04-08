@@ -13,5 +13,6 @@ public class Bomb : MonoBehaviour, ISecondary
     {
             GameObject tempProjectile = Instantiate(gameObject.GetComponent<SecondaryStats>().GetProjectile(), transform.position, Quaternion.identity);
             tempProjectile.GetComponent<WeaponStats>().SetSourceType(gameObject.GetComponent<SecondaryStats>().GetSourceType());
+            tempProjectile.GetComponent<WeaponStats>().SetSourceObject(gameObject.GetComponent<SecondaryStats>().GetSourceObject());
     }
 }

@@ -74,6 +74,11 @@ public class PlayerHUD : MonoBehaviour
         secondaryCooldown = cooldown;
     }
 
+    // Update score visual
+    public void UpdateScoreText(float score) {
+        helper.scoreText.text = score.ToString();
+    }
+
     // Check which cooldown panels need to be updated and update accordingly
     void UpdateCooldowns()
     {

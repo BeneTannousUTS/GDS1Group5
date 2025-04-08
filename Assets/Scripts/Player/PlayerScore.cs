@@ -12,6 +12,7 @@ public class PlayerScore : MonoBehaviour
 
     public void AddScore(float additionalScore) {
         score += additionalScore;
+        GetComponent<PlayerHUD>().UpdateScoreText(score);
     }
 
     public void AddDamageDealt(float additionalDamage) {

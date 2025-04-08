@@ -17,4 +17,5 @@ public class UIComponentHelper : MonoBehaviour
     public TextMeshProUGUI healthTextOver;
     public TextMeshProUGUI healthTextUnder;
     public StatsDisplayHelper statsHelper;
+    public TextMeshProUGUI scoreText;
 }

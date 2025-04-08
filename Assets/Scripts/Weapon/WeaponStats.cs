@@ -58,6 +58,7 @@ public class WeaponStats : MonoBehaviour
         if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
             if (damageValue < 0) {
                 GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);
+                Debug.Log("Healing CHECK");
             }
             else {
                 GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
