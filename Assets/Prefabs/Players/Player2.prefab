@@ -122,7 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
-  attackCooldownWindow: 0.1
   attackBufferWindow: 0.05
 --- !u!114 &1063567501580656127
 MonoBehaviour:
@@ -236,6 +235,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 59834894-fb96-4a04-ae1c-572089a97bc8
     m_ActionName: 'Gameplay/PlayerInfo[/XInputControllerWindows/leftShoulder,/DualShock4GamepadHID/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b24e2b83-41e5-4256-9a7c-c380d9748dcf
+    m_ActionName: 'CardSelection/PassCard[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 27578d5f-5dad-4646-a9cf-aacd1263c0ba
+    m_ActionName: 'Skip/SkipButton[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -254,7 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSecondary: {fileID: 5015723690770620291, guid: 4f6042785d78eab429d30250e8d37a43, type: 3}
-  secondaryCooldownWindow: 5
   secondaryBufferWindow: 0.5
 --- !u!114 &1567399964300713035
 MonoBehaviour:

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     void AddTraitorTypes() 
     {
         traitorTypeList.Add(new CloneTraitor());
-        traitorTypeList.Add(new CloneTraitor());
+        traitorTypeList.Add(new PVPTraitor());
     }
 
     void DecideTraitor() 

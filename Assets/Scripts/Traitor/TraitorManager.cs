@@ -10,6 +10,8 @@ public class TraitorManager : MonoBehaviour
     private float traitorRoom;
     private bool traitorCardAppear;
     public DungeonManager dungeonManager;
+    [SerializeField] GameObject[] summonRef;
+    [SerializeField] Sprite[] cardRef;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
@@ -17,6 +19,16 @@ public class TraitorManager : MonoBehaviour
     {
         traitorType = traitor;
         traitorRoom = dungeonManager.GetDungeonLength() - traitorType.getTraitorRoom();
+    }
+
+    public GameObject GetSummonRef(int pos)
+    {
+        return summonRef[pos];
+    }
+
+    public Sprite GetCardRef(int pos)
+    {
+        return cardRef[pos];
     }
 
     //called by the card manager when cards are being decided to tell if the traitor card should appear
