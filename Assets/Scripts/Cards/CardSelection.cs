@@ -76,6 +76,7 @@ public class CardSelection : MonoBehaviour
 
     public void SelectionSetup()
     {
+        UIInputModule.actionsAsset = null;
         List<GameObject> tempCardList = new List<GameObject>();
 
         GameObject weapon = cards
@@ -141,7 +142,11 @@ public class CardSelection : MonoBehaviour
             selectingImage.sprite = playerSprites[playerIndex];
             selectingParent.SetActive(true);
 
-            UIInputModule.actionsAsset = playerSelectionOrder[playerIndex].playerInput.actions;
+            InputActionAsset playerActions = playerSelectionOrder[playerIndex].playerInput.actions;
+            UIInputModule.actionsAsset = playerActions;
+            UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
+            UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
+
 
             for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
             {

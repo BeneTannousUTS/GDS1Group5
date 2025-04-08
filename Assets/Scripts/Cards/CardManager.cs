@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +15,15 @@ public class CardManager : MonoBehaviour
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
     public ITraitor traitorType;
+
+    InputSystemUIInputModule UIInputModule;
+    [SerializeField]
+    InputActionAsset defaultActions;
+
+    void Awake()
+    {
+        UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
+    }
 
     public void SetTraitorType(ITraitor type) 
     {
@@ -108,5 +118,9 @@ public class CardManager : MonoBehaviour
                 players[i].GetComponent<HealthComponent>().UpdateHUDHealthBar();
             }
         }
+
+        UIInputModule.actionsAsset = defaultActions;
+        UIInputModule.point = InputActionReference.Create(defaultActions.FindAction("UI/Point"));
+        UIInputModule.leftClick = InputActionReference.Create(defaultActions.FindAction("UI/Click"));
     }
 }
