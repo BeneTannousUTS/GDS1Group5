@@ -61,4 +61,16 @@ public class PlayerStats : MonoBehaviour
 
         return modifier;
     }
+    
+    public float GetCooldownStat() 
+    {
+        float modifier = 1f;
+
+        foreach (GameObject passive in passives) 
+        {
+            modifier *= passive.GetComponent<PassiveStats>().GetCooldownMod();
+        }
+
+        return modifier;
+    }
 }

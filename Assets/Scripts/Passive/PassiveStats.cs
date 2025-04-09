@@ -5,6 +5,10 @@ public class PassiveStats : MonoBehaviour
     public float strengthMod = 1f;
     public float moveMod = 1f;
     public float healthMod = 0f;
+    
+    //float used for cooldown multipliers
+    public float cooldownMultiplier;
+    
     //bool used for revive player
     public bool revivePlayer;
 
@@ -25,5 +29,10 @@ public class PassiveStats : MonoBehaviour
     public bool GetRevivePlayer()
     {
         return revivePlayer;
+    }
+    
+    public float GetCooldownMod()
+    {
+        return cooldownMultiplier;
     }
 }
