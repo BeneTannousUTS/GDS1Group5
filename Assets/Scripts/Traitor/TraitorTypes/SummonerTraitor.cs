@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -28,9 +29,9 @@ public class SummonerTraitor : BaseTraitor
         while (!validPos)
         {
             exitTime++;
-            Vector3 checkPos = new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(-6, 5), 0) + summonPos;
-            Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f);
-            if (hit.Length == 0 || exitTime == 20)
+            Vector3 checkPos = new Vector3(Random.Range(-14f, 14f), Random.Range(-6, 5), 0) + summonPos;
+            Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f, LayerMask.GetMask("Default"));
+            if (hit.Length == 0 || exitTime == 100)
             {
                 validPos = true;
                 summon.transform.position = checkPos;

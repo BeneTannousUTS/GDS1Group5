@@ -66,6 +66,7 @@ public class DebugWeaponUI : MonoBehaviour
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData(weapon.name));
         }
+        dropdown.value = -1;
     }
 
     // Update is called once per frame

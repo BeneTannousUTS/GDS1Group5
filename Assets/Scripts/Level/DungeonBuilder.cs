@@ -55,7 +55,6 @@ public class DungeonBuilder : MonoBehaviour
             if (i <= cRoom)
             {
                 tempArray[i] = spawnedRooms[i];
-                Debug.Log("AAA");
             }
             else
             {

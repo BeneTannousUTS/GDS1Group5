@@ -66,6 +66,7 @@ public class DebugSecondaryUI : MonoBehaviour
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData(sec.name));
         }
+        dropdown.value = -1;
     }
 
     // Update is called once per frame

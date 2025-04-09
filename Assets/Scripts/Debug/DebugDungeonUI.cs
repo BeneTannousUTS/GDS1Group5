@@ -30,15 +30,18 @@ public class DebugDungeonUI : MonoBehaviour
 
     public void UpdateRoom()
     {
-        db.ReplaceRoom(roomNumber, selectedRoom);
-        roomDropdown.options.Clear();
-        foreach (GameObject room in db.GetSpawnedRooms())
+        if (selectedRoom != null)
         {
-            if (room != null)
+            db.ReplaceRoom(roomNumber, selectedRoom);
+            roomDropdown.options.Clear();
+            foreach (GameObject room in db.GetSpawnedRooms())
             {
-                roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
+                if (room != null)
+                {
+                    roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
+                }
+
             }
-            
         }
     }
 
@@ -82,6 +85,9 @@ public class DebugDungeonUI : MonoBehaviour
                 roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
             }
         }
+        dropdown.value = -1;
+        roomDropdown.value = -1;
+        dropdownRoomLength.value = -1;
     }
 
     // Update is called once per frame
