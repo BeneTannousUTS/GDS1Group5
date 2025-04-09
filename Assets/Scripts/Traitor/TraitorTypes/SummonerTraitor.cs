@@ -24,11 +24,13 @@ public class SummonerTraitor : BaseTraitor
     private void SummonPosition(GameObject summon)
     {
         bool validPos = false;
+        float exitTime = 0;
         while (!validPos)
         {
+            exitTime++;
             Vector3 checkPos = new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(-6, 5), 0) + summonPos;
             Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f);
-            if (hit.Length == 0)
+            if (hit.Length == 0 || exitTime == 20)
             {
                 validPos = true;
                 summon.transform.position = checkPos;
