@@ -1,57 +1,20 @@
-// AUTHOR: James
-// Handles the pvp traitor type
-
-using System;
 using UnityEngine;
 
-public class PVPTraitor : MonoBehaviour, ITraitor
+public class PVPTraitor : BaseTraitor
 {
-    private float cooldownLength = 10;
-    private float traitorRoom = 1;
-    public float GetCooldownLength()
+
+    public override void TraitorAbility()
     {
-        return cooldownLength;
+        base.TraitorAbility();
     }
 
-    public int GetMaxHealth()
+    public override void TraitorSetup()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public Sprite GetSprite()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public float getTraitorRoom()
-    {
-        return traitorRoom;
-    }
-
-    public void LoseCondition()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void TraitorAbility()
-    {
-        
-    }
-
-    public void TraitorSetup()
-    {
-        gameObject.tag = "Traitor";
+        base.TraitorSetup();
         gameObject.GetComponent<PlayerCollision>().SetPlayerPVP(true);
-        //gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
-        //insert code for moving players into the corners of the rooms
     }
 
-    public void WinCondition()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void OnDestroy()
+    public override void LoseCondition()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Traitor");
         if (temp.Length == 1)
@@ -59,23 +22,15 @@ public class PVPTraitor : MonoBehaviour, ITraitor
             Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
         }
     }
-    //Returns the amount of traitor cards there should be
-    public string GetAmountOfTraitors()
-    {
-        return "everyone";
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (gameObject.GetComponent<HealthComponent>().GetIsDead())
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            TraitorSetup();
-        }
+        Revive();
+        traitorManager = FindAnyObjectByType<TraitorManager>();
+        cooldownLength = 10;
+        traitorSprite = traitorManager.GetCardRef(0);
+        TraitorSetup();
     }
 
     // Update is called once per frame

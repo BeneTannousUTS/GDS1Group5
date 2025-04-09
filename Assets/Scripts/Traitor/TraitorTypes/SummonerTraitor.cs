@@ -26,7 +26,7 @@ public class SummonerTraitor : BaseTraitor
         bool validPos = false;
         while (!validPos)
         {
-            Vector3 checkPos = new Vector3(Random.Range(-14, 14), Random.Range(-6, 5), 0) + summonPos;
+            Vector3 checkPos = new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(-6, 5), 0) + summonPos;
             Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f);
             if (hit.Length == 0)
             {
@@ -41,7 +41,6 @@ public class SummonerTraitor : BaseTraitor
         for (int i = 0; i < 10; i++)
         {
             GameObject summon = Instantiate(summonObject);
-            summon.tag = "Traitor";
             summonList.Add(summon);
             SummonPosition(summon);
         }
