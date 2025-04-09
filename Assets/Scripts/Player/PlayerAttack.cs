@@ -15,6 +15,8 @@ public class PlayerAttack : MonoBehaviour
     private float attackBufferTimer = 10f;
 
     private bool attackButtonPressed;
+    
+    
 
     private AudioManager audioManager;
 
@@ -27,7 +29,8 @@ public class PlayerAttack : MonoBehaviour
     // Instantiates a weapon in front of the players current facing direction
     void Attack() 
     {
-        attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow;
+        attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
+        attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0) {
