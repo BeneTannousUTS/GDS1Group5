@@ -1,6 +1,7 @@
 // AUTHOR: James
 // Handles building the dungeon
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -11,7 +12,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
     private int numberRooms;
-    private int currentRoom = 1;
+    [SerializeField] private int currentRoom = 1;
     private GameObject[] spawnedRooms;
     private DungeonManager dManager;
     public int roomsCleared = 0;
@@ -26,14 +27,62 @@ public class DungeonBuilder : MonoBehaviour
         return currentRoom;
     }
 
+    public GameObject[] getRooms()
+    {
+        return rooms;
+    }
+
+    public void ReplaceRoom(int roomPos, GameObject room)
+    {
+        Destroy(spawnedRooms[roomPos]);
+        spawnedRooms[roomPos] = Instantiate(room);  
+        spawnedRooms[roomPos].transform.position += new Vector3(0, 18 * (roomPos), 0);
+        if (roomPos != (currentRoom-1))
+        {
+            spawnedRooms[roomPos].SetActive(false);
+        }
+    }
+
+    public void ChangeDungeonLength(int cRoom, int newLength)
+    {
+        GameObject[] tempArray = new GameObject[newLength+1];
+        for (int i = 0; i < spawnedRooms.Length; i++)
+        {
+            if (i < cRoom)
+            {
+                tempArray[i] = spawnedRooms[i];
+            }
+            else
+            {
+                Destroy (tempArray[i]);
+            }
+        }
+        cRoom++;
+        spawnedRooms = tempArray;
+        while (cRoom < newLength - cRoom)
+        {
+            spawnedRooms[cRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
+            spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
+            spawnedRooms[cRoom].SetActive(false);
+            cRoom += 1;
+        }
+        spawnedRooms[cRoom] = Instantiate(finalRoom);
+        spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
+        spawnedRooms[cRoom].SetActive(false);
+        cRoom = dManager.GetRoomCount();
+
+    }
+
     public void UpdateRoomCount(int count)
     {
         dManager.SetRoomCount(count + 1);
+        currentRoom++;
     }
 
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {
+        spawnedRooms[0] = Instantiate(startRoom);
         while (currentRoom < numberRooms - 1)
         {
             spawnedRooms[currentRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
@@ -44,6 +93,7 @@ public class DungeonBuilder : MonoBehaviour
         spawnedRooms[currentRoom] = Instantiate(finalRoom);
         spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
         spawnedRooms[currentRoom].SetActive(false);
+        currentRoom = 1;
     }
     //Activates rooms when the player reaches the end of the prior room (called upon by DungeonCamera)
     public void ActivateRooms(int position)
