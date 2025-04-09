@@ -8,4 +8,7 @@ public class WinLoseMenu : MonoBehaviour
         Application.Quit();
         // SceneManager.LoadScene("MainMenu");
     }
+    public void LoadResultsScene() {
+        SceneManager.LoadScene("ResultsScene");
+    }
 }
