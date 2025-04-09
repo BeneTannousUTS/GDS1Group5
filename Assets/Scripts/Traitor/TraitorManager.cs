@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TraitorManager : MonoBehaviour
 {
-    private ITraitor traitorType;
+    private BaseTraitor traitorType;
     private float traitorRoom;
     private bool traitorCardAppear;
     public DungeonManager dungeonManager;
@@ -15,7 +15,7 @@ public class TraitorManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
-    public void SetTraitorType(ITraitor traitor)
+    public void SetTraitorType(BaseTraitor traitor)
     {
         traitorType = traitor;
         traitorRoom = dungeonManager.GetDungeonLength() - traitorType.getTraitorRoom();

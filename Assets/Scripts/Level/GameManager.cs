@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     public DungeonManager dungeonManager;
     public CardManager cardManager;
     public TraitorManager traitorManager;
-    [SerializeField] private List<ITraitor> traitorTypeList = new List<ITraitor>();
-    private ITraitor currentTraitorType;
+    [SerializeField] private List<BaseTraitor> traitorTypeList = new List<BaseTraitor>();
+    private BaseTraitor currentTraitorType;
 
     public void Win() 
     {
@@ -34,8 +34,9 @@ public class GameManager : MonoBehaviour
 
     void AddTraitorTypes() 
     {
-        traitorTypeList.Add(new CloneTraitor());
-        traitorTypeList.Add(new PVPTraitor());
+        //traitorTypeList.Add(new PVPTest());
+        //traitorTypeList.Add(new PVPTest());
+        //traitorTypeList.Add(new PVPTraitor());
     }
 
     void DecideTraitor() 

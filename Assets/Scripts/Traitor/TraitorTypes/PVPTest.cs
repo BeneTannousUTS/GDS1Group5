@@ -22,10 +22,14 @@ public class PVPTest : BaseTraitor
             Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
         }
     }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        traitorManager = FindAnyObjectByType<TraitorManager>();
+        cooldownLength = 10;
+        traitorSprite = traitorManager.GetCardRef(0);
+        TraitorSetup();
     }
 
     // Update is called once per frame

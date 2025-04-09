@@ -69,7 +69,11 @@ public class HealthComponent : MonoBehaviour
     {
         isDead = true;
         yield return new WaitForSeconds(0.05f);
-        if (gameObject.CompareTag("Player") == false) {
+        if (gameObject.CompareTag("Traitor") == true)
+        {
+            gameObject.GetComponent<BaseTraitor>().LoseCondition();
+        }
+        else if (gameObject.CompareTag("Player") == false) {
             Destroy(gameObject);
         }
         else {

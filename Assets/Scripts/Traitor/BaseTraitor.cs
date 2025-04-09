@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class BaseTraitor : MonoBehaviour
 {
-    [SerializeField] private float cooldownLength = 10;
-    [SerializeField] private float traitorRoom = 1;
-    [SerializeField] Sprite traitorSprite;
-    [SerializeField] string amountOfTraitors = "";
-    private TraitorManager traitorManager;
+    protected float cooldownLength = 10;
+    [SerializeField] protected float traitorRoom = 1;
+    protected Sprite traitorSprite;
+    [SerializeField] protected string amountOfTraitors = "";
+    protected TraitorManager traitorManager;
 
-    float getTraitorRoom()
+    public float getTraitorRoom()
     {
         return traitorRoom;
     }
@@ -42,9 +42,11 @@ public class BaseTraitor : MonoBehaviour
     public virtual void TraitorSetup()
     {
         gameObject.tag = "Traitor";
+        gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(traitorSprite);
+        FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
     }
 
-    string GetAmountOfTraitors()
+    public string GetAmountOfTraitors()
     {
         return amountOfTraitors;
     }
