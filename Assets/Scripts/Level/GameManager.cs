@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<BaseTraitor> traitorTypeList = new List<BaseTraitor>();
     private BaseTraitor currentTraitorType;
     public ResultsManager resultsManager;
-    [SerializeField] private List<ITraitor> traitorTypeList = new List<ITraitor>();
-    private ITraitor currentTraitorType;
 
     public void Win() 
     {
