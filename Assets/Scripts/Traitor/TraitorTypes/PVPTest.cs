@@ -26,6 +26,7 @@ public class PVPTest : BaseTraitor
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Revive();
         traitorManager = FindAnyObjectByType<TraitorManager>();
         cooldownLength = 10;
         traitorSprite = traitorManager.GetCardRef(0);

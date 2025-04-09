@@ -34,6 +34,14 @@ public class BaseTraitor : MonoBehaviour
 
     }
 
+    protected void Revive()
+    {
+        HealthComponent health = gameObject.GetComponent<HealthComponent>();
+        if (health.GetIsDead())
+        {
+            health.Revive();
+        }
+    }
     void WinCondition()
     {
 
@@ -44,6 +52,7 @@ public class BaseTraitor : MonoBehaviour
         gameObject.tag = "Traitor";
         gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(traitorSprite);
         FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
+        gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
     }
 
     public string GetAmountOfTraitors()
