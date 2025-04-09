@@ -75,20 +75,6 @@ public class CardManager : MonoBehaviour
             players[player.playerIndex] = player.playerInput.gameObject;
         }
 
-        // Destroy all children of each player (fix for left over weapons?)
-        // Commenting out this code to avoid destroying healthbar - no observed problems so far
-        /*foreach (GameObject player in players)
-        {
-            if (player == null) continue;
-
-            Transform parentTransform = player.transform;
-            for (int i = parentTransform.childCount - 1; i >= 0; i--)
-            {
-                Transform child = parentTransform.GetChild(i);
-                Destroy(child.gameObject);
-            }
-        }*/
-
         // Grant players their items
         for (int i = 0; i < selectionOrder.Length; ++i)
         {
@@ -100,6 +86,10 @@ public class CardManager : MonoBehaviour
             if (abilityObject == null)
             {
                 players[i].AddComponent(traitorType.GetType());
+            }
+            else if (abilityObject.name.Equals("Pass"))
+            {
+                continue;
             }
             else if (abilityObject.GetComponent<WeaponStats>())
             {

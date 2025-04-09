@@ -21,6 +21,8 @@ public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
     [SerializeField] Card reviveCard; //specific reference to the revive card because it should not be apart of the regualr card set
+    [SerializeField]
+    GameObject passObject;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -32,6 +34,8 @@ public class CardSelection : MonoBehaviour
     private int currentPlayerIndex = -1;
     [SerializeField]
     private TMP_Text bottomText;
+    [SerializeField]
+    private GameObject bottomGroup;
     [SerializeField]
     private GameObject selectingParent;
     [SerializeField]
@@ -137,6 +141,7 @@ public class CardSelection : MonoBehaviour
                 card.GetComponent<CardHandler>().OnDeselect(null);
             }
 
+            bottomGroup.SetActive(false);
             bottomText.gameObject.SetActive(false);
             middleText.text = $"Player {playerIndex + 1} is Selecting a Card";
             selectingImage.sprite = playerSprites[playerIndex];
@@ -166,6 +171,7 @@ public class CardSelection : MonoBehaviour
 
             playerSelectionOrder[playerIndex].playerInput.SwitchCurrentActionMap("CardSelection");
             selectingParent.SetActive(false);
+            bottomGroup.SetActive(true);
             bottomText.gameObject.SetActive(true);
 
             currentPlayerIndex = playerIndex;
@@ -177,17 +183,29 @@ public class CardSelection : MonoBehaviour
                 if (card.GetComponent<Button>() != null)
                 {
                     card.GetComponent<Button>().Select();
+                    card.GetComponent<CardHandler>().OnSelect(null);
                     break;
                 }
             }
 
-            
+            //StartCoroutine(WaitingForPass());
 
-            yield return new WaitUntil(() => selectedCard != null);
+            if (numOfTraitors > 0 || playerSelectionOrder[playerIndex].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            {
+                bottomGroup.SetActive(false);
+                yield return new WaitUntil(() => selectedCard != null);
+            } else
+            {
+                yield return WaitingForPass();
+            }
 
-            Destroy(selectedCard.GetComponent<Button>());
-            selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
-            selectedCard.GetComponent<CardHandler>().OnDeselect(null);
+            if (!selectedCard.name.Equals("Pass"))
+            {
+                Destroy(selectedCard.GetComponent<Button>());
+                selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+                selectedCard.GetComponent<CardHandler>().OnDeselect(null);
+            }
+
             selectedCard = null;
             yield return new WaitForSeconds(0.6f);
         }
@@ -202,7 +220,8 @@ public class CardSelection : MonoBehaviour
             card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
-        bottomText.text = "";
+        bottomGroup.SetActive(false);
+        bottomText.gameObject.SetActive(false);
         currentPlayerIndex = -1;
 
         DetermineCards();
@@ -311,8 +330,10 @@ public class CardSelection : MonoBehaviour
 
     public void SelectCard(GameObject card)
     {
+        Debug.Log($"Card Selected: {card.name}");
         selectedCard = card;
-        card.GetComponent<CardHandler>().showPlayerIcon(playerSprites[currentPlayerIndex]);
+        CardHandler cardHandler = card.GetComponent<CardHandler>();
+        if (cardHandler) cardHandler.showPlayerIcon(playerSprites[currentPlayerIndex]);
         int abilityIndex = -1;
 
         for (int i = 0; i < cardList.Length; ++i)
@@ -338,6 +359,35 @@ public class CardSelection : MonoBehaviour
                 break;
             }
             timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitingForPass()
+    {
+        float holdTimer = 0f;
+        InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
+        if (skipAction == null)
+        {
+            Debug.LogWarning("SkipButton action not found!");
+            yield break;
+        }
+
+        while (selectedCard == null)
+        {
+            if (skipAction.IsPressed())
+            {
+                holdTimer += Time.deltaTime;
+                if (holdTimer >= 0.7f)
+                {
+                    SelectCard(passObject);
+                    break;
+                }
+            }
+            else
+            {
+                holdTimer = 0f;
+            }
             yield return null;
         }
     }
