@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 
 public class PlayerHUD : MonoBehaviour
@@ -77,7 +78,7 @@ public class PlayerHUD : MonoBehaviour
     // Update score visual
     public void UpdateScoreText(float score) {
         if (helper.scoreText != null) {
-            helper.scoreText.text = score.ToString();
+            helper.scoreText.text = score.ToString(CultureInfo.CurrentCulture);
         }
     }
 
