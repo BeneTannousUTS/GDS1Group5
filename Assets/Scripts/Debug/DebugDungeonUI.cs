@@ -15,16 +15,12 @@ public class DebugDungeonUI : MonoBehaviour
     [SerializeField] int newDungeonLength = 5;
     public TMP_Dropdown dropdown;
     public TMP_Dropdown dropdownRoomLength;
+    public TMP_Dropdown roomDropdown;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public void SelectCurrentRoom()
+    public void SelectRoom()
     {
-        roomNumber = -1;
-    }
-
-    public void SelectNextRoom()
-    {
-        roomNumber = 0;
+        roomNumber = roomDropdown.value;
     }
 
     public void RoomCountDropdown()
@@ -34,12 +30,33 @@ public class DebugDungeonUI : MonoBehaviour
 
     public void UpdateRoom()
     {
-        db.ReplaceRoom((db.GetCurrentRoom() + roomNumber), selectedRoom);
+        db.ReplaceRoom(roomNumber, selectedRoom);
+        roomDropdown.options.Clear();
+        foreach (GameObject room in db.GetSpawnedRooms())
+        {
+            if (room != null)
+            {
+                roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
+            }
+            
+        }
     }
 
     public void ChangeDungeonLength()
     {
-        db.ChangeDungeonLength(db.GetCurrentRoom()-1, newDungeonLength);
+        if (db.GetCurrentRoom() < newDungeonLength - 1)
+        {
+            db.ChangeDungeonLength(db.GetCurrentRoom(), newDungeonLength);
+            roomDropdown.options.Clear();
+            foreach (GameObject room in db.GetSpawnedRooms())
+            {
+                if (room != null)
+                {
+                    roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
+                }
+
+            }
+        }
     }
 
     public void DungeonDropdown()
@@ -57,6 +74,13 @@ public class DebugDungeonUI : MonoBehaviour
         foreach (GameObject room in db.getRooms())
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData(room.name));
+        }
+        foreach (GameObject room in db.GetSpawnedRooms())
+        {
+            if (room != null)
+            {
+                roomDropdown.options.Add(new TMP_Dropdown.OptionData(((room.transform.position.y / 18) + 1) + ": " + room.name));
+            }
         }
     }
 

@@ -22,6 +22,10 @@ public class DungeonBuilder : MonoBehaviour
         return numberRooms;
     }
 
+    public GameObject[] GetSpawnedRooms()
+    {
+        return spawnedRooms;
+    }
     public int GetCurrentRoom()
     {
         return currentRoom;
@@ -37,7 +41,7 @@ public class DungeonBuilder : MonoBehaviour
         Destroy(spawnedRooms[roomPos]);
         spawnedRooms[roomPos] = Instantiate(room);  
         spawnedRooms[roomPos].transform.position += new Vector3(0, 18 * (roomPos), 0);
-        if (roomPos != (currentRoom-1))
+        if (roomPos != (currentRoom))
         {
             spawnedRooms[roomPos].SetActive(false);
         }
@@ -48,18 +52,19 @@ public class DungeonBuilder : MonoBehaviour
         GameObject[] tempArray = new GameObject[newLength+1];
         for (int i = 0; i < spawnedRooms.Length; i++)
         {
-            if (i < cRoom)
+            if (i <= cRoom)
             {
                 tempArray[i] = spawnedRooms[i];
+                Debug.Log("AAA");
             }
             else
             {
-                Destroy (tempArray[i]);
+                Destroy (spawnedRooms[i]);
             }
         }
         cRoom++;
         spawnedRooms = tempArray;
-        while (cRoom < newLength - cRoom)
+        while (cRoom < (newLength - currentRoom))
         {
             spawnedRooms[cRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
             spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
@@ -69,7 +74,7 @@ public class DungeonBuilder : MonoBehaviour
         spawnedRooms[cRoom] = Instantiate(finalRoom);
         spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
         spawnedRooms[cRoom].SetActive(false);
-        cRoom = dManager.GetRoomCount();
+        dManager.SetDungeonLength(newLength);
 
     }
 
@@ -93,7 +98,7 @@ public class DungeonBuilder : MonoBehaviour
         spawnedRooms[currentRoom] = Instantiate(finalRoom);
         spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
         spawnedRooms[currentRoom].SetActive(false);
-        currentRoom = 1;
+        currentRoom = 0;
     }
     //Activates rooms when the player reaches the end of the prior room (called upon by DungeonCamera)
     public void ActivateRooms(int position)

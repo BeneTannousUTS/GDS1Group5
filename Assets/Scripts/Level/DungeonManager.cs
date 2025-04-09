@@ -13,6 +13,7 @@ public class DungeonManager : MonoBehaviour
     public int GetRoomCount() { 
         return roomCount; }
     public int GetDungeonLength() { return dungeonLength; }
+    public void SetDungeonLength(int length) { roomCount = length; }
     public void SetRoomCount(int count) {roomCount = count; roomPos = new Vector3(0, roomCount * 18, 0); }
     public Vector3 GetRoomPos() { return roomPos; }
 
