@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public DungeonManager dungeonManager;
     public CardManager cardManager;
     public TraitorManager traitorManager;
+    public ResultsManager resultsManager;
     [SerializeField] private List<ITraitor> traitorTypeList = new List<ITraitor>();
     private ITraitor currentTraitorType;
 
@@ -63,7 +64,6 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         playerList = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>().GetPlayers();
-
         DecideTraitor();
     }
 
@@ -84,10 +84,12 @@ public class GameManager : MonoBehaviour
 
         if (allDead && traitor) 
         {
+            resultsManager.GetPlayerScores();
             TraitorWin();
         }
         else if (allDead)
         {
+            resultsManager.GetPlayerScores();
             Lose();
         }
     }
