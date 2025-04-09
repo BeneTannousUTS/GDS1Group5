@@ -24,7 +24,7 @@ public class PlayerSecondary : MonoBehaviour
     {
         if (hasTraitorAbility)
         {
-            gameObject.GetComponent<ITraitor>().TraitorAbility();
+            gameObject.GetComponent<BaseTraitor>().TraitorAbility();
         }
         else
         {
@@ -55,7 +55,7 @@ public class PlayerSecondary : MonoBehaviour
     public void SetTraitorAbility()
     {
         hasTraitorAbility = true;
-        secondaryCooldownWindow = gameObject.GetComponent<ITraitor>().GetCooldownLength();
+        secondaryCooldownWindow = gameObject.GetComponent<BaseTraitor>().GetCooldownLength();
     }
 
     private void Start()

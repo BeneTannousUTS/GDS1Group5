@@ -303,6 +303,9 @@ MonoBehaviour:
   dungeonManager: {fileID: 339811105}
   cardManager: {fileID: 636423220}
   traitorManager: {fileID: 2075478537}
+  traitorTypeList:
+  - {fileID: -2326979661217828287, guid: 495754650fdcac4408a36c36c5cbf2d1, type: 3}
+  - {fileID: 8733092448949787612, guid: 79b2cbf457c78b54fa8ba46632fbd056, type: 3}
 --- !u!1 &143635863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,6 +3000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardCanvasPrefab: {fileID: 1333800606592741220, guid: 316e31af3f152ea4b98febffa26340d8, type: 3}
+  traitorType: {fileID: 0}
   defaultActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!4 &636423221
 Transform:

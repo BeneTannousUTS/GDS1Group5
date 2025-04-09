@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloneTraitor : MonoBehaviour, ITraitor
+public class OLD_CloneTraitor : MonoBehaviour, ITraitor
 {
     private Vector3 spawnPos;
     private bool realTraitor = true;

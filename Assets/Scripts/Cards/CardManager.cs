@@ -14,7 +14,7 @@ public class CardManager : MonoBehaviour
     DungeonCamera lastDunCam = null;
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
-    public ITraitor traitorType;
+    public BaseTraitor traitorType;
 
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
@@ -25,7 +25,7 @@ public class CardManager : MonoBehaviour
         UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
     }
 
-    public void SetTraitorType(ITraitor type) 
+    public void SetTraitorType(BaseTraitor type) 
     {
         traitorType = type;
     }
