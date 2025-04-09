@@ -1,13 +1,9 @@
 // AUTHOR: Zac
 // Loads the card scene and handles giving the players items
 
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -25,7 +21,7 @@ public class CardManager : MonoBehaviour
         UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
     }
 
-    public void SetTraitorType(BaseTraitor type) 
+    public void SetTraitorType(BaseTraitor type)
     {
         traitorType = type;
     }
@@ -41,8 +37,20 @@ public class CardManager : MonoBehaviour
     public void HidePlayer(GameObject player)
     {
         player.GetComponent<Animator>().enabled = false;
-        player.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,0);
+        player.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 0);
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
+
+        foreach (Transform child in player.transform)
+        {
+            if (child.GetComponent<WeaponStats>())
+            {
+                Destroy(child.gameObject);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ShowPlayers()
@@ -56,8 +64,13 @@ public class CardManager : MonoBehaviour
             GameObject playerObj = player.playerInput.gameObject;
 
             playerObj.GetComponent<Animator>().enabled = true;
-            playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,1);
+            playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 1);
             playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
+
+            foreach (Transform child in playerObj.transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
