@@ -51,9 +51,7 @@ public class DebugEnemyUI : MonoBehaviour
 
     public void EnemyDropdown()
     {
-        int pickedEntry = dropdown.value;
-        Debug.Log(pickedEntry);
-        enemyObject = enemies[pickedEntry];
+        enemyObject = enemies[dropdown.value];
     }
 
     void Start()

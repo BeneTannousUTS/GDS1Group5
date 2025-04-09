@@ -54,9 +54,7 @@ public class DebugSecondaryUI : MonoBehaviour
 
     public void SecondaryDropdown()
     {
-        int pickedEntry = dropdown.value;
-        Debug.Log(pickedEntry);
-        secondary = secondaries[pickedEntry];
+        secondary = secondaries[dropdown.value];
     }
 
     void Start()

@@ -163,5 +163,11 @@ public class HealthComponent : MonoBehaviour
     public float GetCurrentHealth() {
         return currentHealth;
     }
+    //Used when removing all passives a player has gained with debug
+    public void ResetPlayerHealth()
+    {
+        maxHealth = 100;
+        currentHealth = 100;
+    }
     
 }
