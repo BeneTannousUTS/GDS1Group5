@@ -10,6 +10,9 @@ public class DebugManager : MonoBehaviour
     [SerializeField] Canvas passiveCanvas;
     [SerializeField] Canvas enemyCanvas;
     [SerializeField] Canvas dungeonCanvas;
+    [SerializeField] Canvas traitorCanvas;
+    [SerializeField] Canvas statsCanvas;
+    [SerializeField] Canvas cheatsCanvas;
 
 
     void debugStart()
@@ -55,6 +58,24 @@ public class DebugManager : MonoBehaviour
         enemyCanvas.gameObject.SetActive(true);
     }
 
+    public void LoadTraitorCanvas()
+    {
+        UnloadAllCanvas();
+        traitorCanvas.gameObject.SetActive(true);
+    }
+
+    public void LoadStatsCanvas()
+    {
+        UnloadAllCanvas();
+        statsCanvas.gameObject.SetActive(true);
+    }
+
+    public void LoadCheatsCanvas()
+    {
+        UnloadAllCanvas();
+        cheatsCanvas.gameObject.SetActive(true);
+    }
+
     private void UnloadAllCanvas()
     {
         weaponCanvas.gameObject.SetActive(false);
@@ -62,6 +83,9 @@ public class DebugManager : MonoBehaviour
         passiveCanvas.gameObject.SetActive(false);
         enemyCanvas.gameObject.SetActive(false);
         dungeonCanvas.gameObject.SetActive(false);
+        statsCanvas.gameObject.SetActive(false);
+        traitorCanvas.gameObject.SetActive(false);
+        cheatsCanvas.gameObject.SetActive(false);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

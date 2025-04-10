@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
         return playerList;
     }
 
+    public List<BaseTraitor> GetTraitorList()
+    {
+        return traitorTypeList;
+    }
+
     void Lose()
     {
         SceneManager.LoadScene("LoseScreen");
