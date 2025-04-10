@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     protected GameObject sourceObject;
     private bool friendlyFire;
     public float moveSpeed;
-    public float knockbackMultiplier = 0.7f;
+    public float knockbackStrength = 0.7f;
     public float knockbackTime = 0.1f;
 
     private Vector3 shotDirection = Vector3.zero;
@@ -85,14 +85,15 @@ public class Projectile : MonoBehaviour
             if (healthComponent.gameObject.GetComponent<PlayerMovement>() != null)
             {
                 Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.position;
-                healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
+                healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength + GetSourceObject().GetComponent<PlayerStats>().GetKnockbackStat(), knockbackTime,knockbackDirection);
             }
         } else if (healthComponent.gameObject.CompareTag("Enemy") && damageValue > 0)
         {
             if (healthComponent.gameObject.GetComponent<EnemyMovement>() != null)
             {
                 Vector3 knockbackDirection = healthComponent.gameObject.transform.position - transform.position;
-                healthComponent.gameObject.GetComponent<EnemyMovement>().KnockbackEnemy(knockbackMultiplier, knockbackTime,knockbackDirection);
+                healthComponent.gameObject.GetComponent<EnemyMovement>().KnockbackEnemy(
+                    knockbackStrength + GetSourceObject().GetComponent<PlayerStats>().GetKnockbackStat(), knockbackTime,knockbackDirection);
             }
         }
     }

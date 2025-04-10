@@ -91,4 +91,16 @@ public class PlayerStats : MonoBehaviour
 
         return modifier;
     }
+    
+    public float GetKnockbackStat() 
+    {
+        float modifier = 1f;
+
+        foreach (GameObject passive in passives) 
+        {
+            modifier += passive.GetComponent<PassiveStats>().GetKnockbackMod();
+        }
+
+        return modifier;
+    }
 }

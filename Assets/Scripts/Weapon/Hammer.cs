@@ -1,3 +1,4 @@
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 public class Hammer : WeaponStats
@@ -12,7 +13,7 @@ public class Hammer : WeaponStats
             if (collider.CompareTag("Player"))
             {
                 Vector3 knockbackDirection = collider.transform.position - transform.position;
-                collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackMultiplier, knockbackTime,knockbackDirection);
+                collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength + GetComponent<PlayerStats>().GetKnockbackStat(), knockbackTime,knockbackDirection);
             }
         }
         base.TriggerAttack();
