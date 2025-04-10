@@ -84,7 +84,7 @@ public class CardManager : MonoBehaviour
 
         foreach (PlayerData player in PlayerManager.instance.players)
         {
-            if (player.playerIndex == -1) break;
+            if (player.playerIndex == -1) continue;
             players[player.playerIndex] = player.playerInput.gameObject;
         }
 
