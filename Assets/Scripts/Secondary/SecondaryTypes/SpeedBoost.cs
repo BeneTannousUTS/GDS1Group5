@@ -14,6 +14,6 @@ public class SpeedBoost : MonoBehaviour, ISecondary
     {
             GameObject player = gameObject.GetComponent<SecondaryStats>().GetSourceObject();
             player.GetComponent<PlayerStats>().SetPassive(buff.GetPassive());
-            gameObject.GetComponent<PlayerStats>().RemoveTempBuff(buff.GetBuffTime(), buff.GetPassive());
+            gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(buff.GetBuffTime(), buff.GetPassive());
     }
 }

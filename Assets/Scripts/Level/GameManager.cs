@@ -13,9 +13,16 @@ public class GameManager : MonoBehaviour
     private BaseTraitor currentTraitorType;
     public ResultsManager resultsManager;
 
-    public void Win() 
+    public void Win(GameObject winner) 
     {
-        SceneManager.LoadScene("WinScreen");
+        resultsManager.GetPlayerScores();
+        if (winner.CompareTag("Traitor")) 
+        {
+            TraitorWin();
+        }
+        else {
+            SceneManager.LoadScene("WinScreen");
+        }
     }
 
     public List<GameObject> GetPlayerList()
@@ -30,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     void TraitorWin() 
     {
-        Debug.Log("WIN");
+        SceneManager.LoadScene("TraitorWinScreen");
     }
 
     void AddTraitorTypes() 
@@ -71,24 +78,17 @@ public class GameManager : MonoBehaviour
     public void CheckGameState() 
     {
         bool allDead = true;
-        bool traitor = false;
 
         foreach (GameObject player in playerList)
         {
-            traitor = player.CompareTag("Traitor");
-            if (player.GetComponent<HealthComponent>().GetIsDead() == false && player.CompareTag("Traitor") == false) 
+            if (player.GetComponent<HealthComponent>().GetIsDead() == false) 
             {
                 allDead = false;
                 break;
             }
         }
 
-        if (allDead && traitor) 
-        {
-            resultsManager.GetPlayerScores();
-            TraitorWin();
-        }
-        else if (allDead)
+        if (allDead)
         {
             resultsManager.GetPlayerScores();
             Lose();
