@@ -10,7 +10,7 @@ public class PassiveStats : MonoBehaviour
     public float cooldownMultiplier = 1f;
     
     //float used for cooldown multipliers
-    public float lifestealMultiplier = 0;
+    public float lifestealMulitplier = 0;
     
     //bool used for revive player
     public bool revivePlayer;
@@ -41,6 +41,6 @@ public class PassiveStats : MonoBehaviour
 
     public float GetLifestealMod()
     {
-        return lifestealMultiplier;
+        return lifestealMulitplier;
     }
 }
