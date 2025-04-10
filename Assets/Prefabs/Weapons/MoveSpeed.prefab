@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5198658256432536468}
   - component: {fileID: 5038387332676766473}
   m_Layer: 0
-  m_Name: Strength
+  m_Name: MoveSpeed
   m_TagString: TempBuff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1885429011361648116, guid: d2760832b4ddfd94ba618ca636c6a2d1, type: 3}
+  m_Sprite: {fileID: -6028864097281216164, guid: 17d696f20a2e14643b634ad6cd513f47, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8253a390a408ced418e6b3e5cc74caf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passive: {fileID: 957674621904353159, guid: 699d1f3a041778b4ba1b340fcf2cb46a, type: 3}
+  passive: {fileID: 3282388460192430714, guid: cbdb8e17f1f41d44989057af6bbb3b8e, type: 3}
   buffLifetime: 0.8
   buffTime: 10
   isProjectile: 1
@@ -152,7 +152,7 @@ Animator:
   m_GameObject: {fileID: 1406864928331478087}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9054db5e02012494588b428f8ee1dfa4, type: 2}
+  m_Controller: {fileID: 9100000, guid: a020f4cefb4099d43a7abf391136ff3f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
