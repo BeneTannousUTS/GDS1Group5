@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DebugManager : MonoBehaviour
 {
@@ -74,6 +75,11 @@ public class DebugManager : MonoBehaviour
     {
         UnloadAllCanvas();
         cheatsCanvas.gameObject.SetActive(true);
+    }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void UnloadAllCanvas()
