@@ -36,7 +36,7 @@ public class PlayerSecondary : MonoBehaviour
         secondaryCooldownTimer = 0f;
         
         // Call HUD component function for cooldown animation.
-        GetComponent<PlayerHUD>().StartSecondaryCooldownAnim(secondaryCooldownWindow);
+        GetComponent<PlayerHUD>().StartSecondaryCooldownAnim(secondaryCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());
     }
 
     // Updates timers by deltaTime
@@ -79,7 +79,7 @@ public class PlayerSecondary : MonoBehaviour
                 secondaryBufferTimer = 0f;
             }
 
-            if (secondaryCooldownTimer >= secondaryCooldownWindow && secondaryBufferTimer <= secondaryBufferWindow) 
+            if (secondaryCooldownTimer >= secondaryCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat() && secondaryBufferTimer <= secondaryBufferWindow) 
             {
                 Secondary();
             }
