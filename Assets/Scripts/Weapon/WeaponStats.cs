@@ -1,4 +1,4 @@
-// AUTHOR: Alistair
+  // AUTHOR: Alistair
 // Handles the storing of weapon stats and destroys the weapon
 // after its lifetime is over
 
@@ -62,6 +62,8 @@ public class WeaponStats : MonoBehaviour
             }
             else {
                 GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
+                GetSourceObject().GetComponent<HealthComponent>().TakeDamage(-((preDamageHealth-healthComponent.GetCurrentHealth()) 
+                                                                               * GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat()));
                 if (healthComponent.GetCurrentHealth() <= 0) {
                     GetSourceObject().GetComponent<PlayerScore>().IncrementKills();
                 }
