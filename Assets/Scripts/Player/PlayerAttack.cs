@@ -15,8 +15,6 @@ public class PlayerAttack : MonoBehaviour
     private float attackBufferTimer = 10f;
 
     private bool attackButtonPressed;
-    
-    
 
     private AudioManager audioManager;
 
