@@ -26,7 +26,7 @@ public class CardSelection : MonoBehaviour
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
-    private GameObject[] cardList = new GameObject[4];
+    private GameObject[] cardList = new GameObject[5];
     private int[] selectedCards = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     PlayerData[] playerSelectionOrder = new PlayerData[4];
     private GameObject selectedCard = null;
@@ -44,7 +44,7 @@ public class CardSelection : MonoBehaviour
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
     Sprite[] playerSprites; // this will need to be changed once score order is implemented
-    private float[] oldPlayerScores = new float[4];
+    //private float[] oldPlayerScores = new float[4];
 
     void Awake()
     {
@@ -101,6 +101,20 @@ public class CardSelection : MonoBehaviour
 
         List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
         tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+
+        int numOfJoinedPlayers = 0;
+
+        foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
+        {
+            if (playerData.isJoined) numOfJoinedPlayers++;
+        }
+
+        if (numOfJoinedPlayers >= 4)
+        {
+            remainingCards = cards.Except(tempCardList).ToList();
+            tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+        }
+
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
         int i = 0;
@@ -126,22 +140,22 @@ public class CardSelection : MonoBehaviour
         playerSelectionOrder = FindAnyObjectByType<PlayerManager>().GetPlayers()
             .Where(playerData => playerData.isJoined)
             .OrderBy(playerData => playerData.playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
-            .ThenByDescending(playerData =>
-            {
+            .ThenByDescending(playerData => playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore()
+            /*{
                 float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
                 float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
                 return scoreChange;
-            })
+            }*/)
             .ToArray();
         currentPlayerIndex = -1;
 
-        foreach (PlayerData playerData in playerSelectionOrder)
-    {
-        float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
-        float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
-        Debug.Log($"Player {playerData.playerIndex + 1} score change: {scoreChange}");
-        oldPlayerScores[playerData.playerIndex] = currentScore;
-    }
+        // foreach (PlayerData playerData in playerSelectionOrder)
+        // {
+        //     float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
+        //     float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
+        //     Debug.Log($"Player {playerData.playerIndex + 1} score change: {scoreChange}");
+        //     oldPlayerScores[playerData.playerIndex] = currentScore;
+        // }
 
         foreach (GameObject card in cardList)
         {
