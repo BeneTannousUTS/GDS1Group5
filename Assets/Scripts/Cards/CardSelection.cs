@@ -27,7 +27,7 @@ public class CardSelection : MonoBehaviour
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
-    private GameObject[] cardList = new GameObject[5];
+    private GameObject[] cardList = new GameObject[4];
     private int[] selectedCards = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     PlayerData[] playerSelectionOrder = new PlayerData[4];
     private GameObject selectedCard = null;
@@ -105,18 +105,18 @@ public class CardSelection : MonoBehaviour
         List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
         tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
 
-        int numOfJoinedPlayers = 0;
+        // int numOfJoinedPlayers = 0;
 
-        foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
-        {
-            if (playerData.isJoined) numOfJoinedPlayers++;
-        }
+        // foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
+        // {
+        //     if (playerData.isJoined) numOfJoinedPlayers++;
+        // }
 
-        if (numOfJoinedPlayers >= 4)
-        {
-            remainingCards = cards.Except(tempCardList).ToList();
-            tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-        }
+        // if (numOfJoinedPlayers >= 4)
+        // {
+        //     remainingCards = cards.Except(tempCardList).ToList();
+        //     tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+        // }
 
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
