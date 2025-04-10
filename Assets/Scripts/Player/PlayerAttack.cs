@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
         attackCooldownTimer = 0f;
         
         // Call HUD component function for cooldown animation.
-        GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow);
+        GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
@@ -88,7 +88,7 @@ public class PlayerAttack : MonoBehaviour
                 attackBufferTimer = 0f;
             }
 
-            if (attackCooldownTimer >= attackCooldownWindow && attackBufferTimer <= attackBufferWindow) 
+            if (attackCooldownTimer >= attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat() && attackBufferTimer <= attackBufferWindow) 
             {
                 Attack();
             }

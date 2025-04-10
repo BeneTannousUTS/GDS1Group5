@@ -6,10 +6,16 @@ public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private List<GameObject> passives = new List<GameObject>();
 
-    public IEnumerator RemoveTempBuff(float time, GameObject passive) 
+    public void public_RemoveTempBuff(float time, GameObject passive)
+    {
+        StartCoroutine(RemoveTempBuff(time, passive));
+    }
+
+    private IEnumerator RemoveTempBuff(float time, GameObject passive) 
     {
         yield return new WaitForSeconds(time);
         passives.Remove(passive);
+        Debug.Log("Temp buff time up");
     }
 
     public void SetPassive(GameObject passive) 
