@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.UI;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public enum CardType
 {
@@ -49,6 +50,9 @@ public class CardSelection : MonoBehaviour
     void Awake()
     {
         UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
+        UIInputModule.actionsAsset = null;
+        UIInputModule.point = null;
+        UIInputModule.leftClick = null;
     }
 
     // Flips all cards
@@ -80,7 +84,6 @@ public class CardSelection : MonoBehaviour
 
     public void SelectionSetup()
     {
-        UIInputModule.actionsAsset = null;
         List<GameObject> tempCardList = new List<GameObject>();
 
         GameObject weapon = cards
@@ -202,6 +205,8 @@ public class CardSelection : MonoBehaviour
 
             yield return WaitForSecondsOrSkip(1.5f);
 
+            EventSystem.current.SetSelectedGameObject(null);
+
             playerSelectionOrder[playerSelectionPos].playerInput.SwitchCurrentActionMap("CardSelection");
             selectingParent.SetActive(false);
             bottomGroup.SetActive(true);
@@ -236,6 +241,17 @@ public class CardSelection : MonoBehaviour
                 Destroy(selectedCard.GetComponent<Button>());
                 selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
                 selectedCard.GetComponent<CardHandler>().OnDeselect(null);
+            }
+            else
+            {
+                foreach (GameObject card in cardList)
+                {
+                    if (card.GetComponent<Button>() != null)
+                    {
+                        card.GetComponent<Button>().OnDeselect(null);
+                        card.GetComponent<CardHandler>().OnDeselect(null);
+                    }
+                }
             }
 
             selectedCard = null;
