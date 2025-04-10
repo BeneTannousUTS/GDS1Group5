@@ -73,4 +73,16 @@ public class PlayerStats : MonoBehaviour
 
         return modifier;
     }
+    
+    public float GetLifestealStat() 
+    {
+        float modifier = 1f;
+
+        foreach (GameObject passive in passives) 
+        {
+            modifier *= passive.GetComponent<PassiveStats>().GetLifestealMod();
+        }
+
+        return modifier;
+    }
 }
