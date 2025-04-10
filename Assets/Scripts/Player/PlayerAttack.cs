@@ -48,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
-    Quaternion CalculateQuaternion(Vector3 direction) 
+    public Quaternion CalculateQuaternion(Vector3 direction) 
     {
         float angle = Mathf.Abs((Mathf.Acos(direction.x) * 180)/Mathf.PI);
 

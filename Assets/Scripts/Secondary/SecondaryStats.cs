@@ -9,7 +9,7 @@ public class SecondaryStats : MonoBehaviour
 {
     public float secondaryLifetime;
     private string sourceType;
-    private GameObject sourceObject;
+    [SerializeField] private GameObject sourceObject;
     public GameObject projectile;
 
     // Sets the value of sourceType
