@@ -61,6 +61,21 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    public void ResetPlayers()
+    {
+        if (players.Length > 0)
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].isJoined = false;
+                players[i].gamepad = null;
+                players[i].playerIndex = i;
+            }
+        }
+        
+        Debug.Log("Players reset!");
+    }
+
     //Get player data
     public PlayerData[] GetPlayers()
     {
