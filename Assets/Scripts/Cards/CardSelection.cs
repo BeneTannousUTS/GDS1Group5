@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.UI;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public enum CardType
 {
@@ -21,17 +22,20 @@ public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
     [SerializeField] Card reviveCard; //specific reference to the revive card because it should not be apart of the regualr card set
+    [SerializeField]
+    GameObject passObject;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
     private GameObject[] cardList = new GameObject[4];
-    private int[] selectionOrder = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
+    private int[] selectedCards = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     PlayerData[] playerSelectionOrder = new PlayerData[4];
-    private int numOfCardSelected = 0;
     private GameObject selectedCard = null;
     private int currentPlayerIndex = -1;
     [SerializeField]
     private TMP_Text bottomText;
+    [SerializeField]
+    private GameObject bottomGroup;
     [SerializeField]
     private GameObject selectingParent;
     [SerializeField]
@@ -41,10 +45,14 @@ public class CardSelection : MonoBehaviour
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
     Sprite[] playerSprites; // this will need to be changed once score order is implemented
+    //private float[] oldPlayerScores = new float[4];
 
     void Awake()
     {
         UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
+        UIInputModule.actionsAsset = null;
+        UIInputModule.point = null;
+        UIInputModule.leftClick = null;
     }
 
     // Flips all cards
@@ -65,7 +73,7 @@ public class CardSelection : MonoBehaviour
         }
 
         yield return new WaitForSeconds(4f);
-        FindAnyObjectByType<CardManager>().ResumeGameplay(selectionOrder, cardList);
+        FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
     }
 
     // Sets the value of final room
@@ -76,7 +84,6 @@ public class CardSelection : MonoBehaviour
 
     public void SelectionSetup()
     {
-        UIInputModule.actionsAsset = null;
         List<GameObject> tempCardList = new List<GameObject>();
 
         GameObject weapon = cards
@@ -97,6 +104,20 @@ public class CardSelection : MonoBehaviour
 
         List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
         tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+
+        // int numOfJoinedPlayers = 0;
+
+        // foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
+        // {
+        //     if (playerData.isJoined) numOfJoinedPlayers++;
+        // }
+
+        // if (numOfJoinedPlayers >= 4)
+        // {
+        //     remainingCards = cards.Except(tempCardList).ToList();
+        //     tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+        // }
+
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
         int i = 0;
@@ -119,17 +140,36 @@ public class CardSelection : MonoBehaviour
     {
         // get a list of joined players
         // This array will need to be reorder with score once that is implemented...
-        playerSelectionOrder = FindAnyObjectByType<PlayerManager>().GetPlayers();
+        playerSelectionOrder = FindAnyObjectByType<PlayerManager>().GetPlayers()
+            .Where(playerData => playerData.isJoined)
+            .OrderBy(playerData => playerData.playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            .ThenByDescending(playerData => playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore()
+            /*{
+                float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
+                float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
+                return scoreChange;
+            }*/)
+            .ToArray();
         currentPlayerIndex = -1;
+
+        // foreach (PlayerData playerData in playerSelectionOrder)
+        // {
+        //     float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
+        //     float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
+        //     Debug.Log($"Player {playerData.playerIndex + 1} score change: {scoreChange}");
+        //     oldPlayerScores[playerData.playerIndex] = currentScore;
+        // }
 
         foreach (GameObject card in cardList)
         {
             card.GetComponent<CardHandler>().showNameAsType();
         }
 
-        for (int playerIndex = 0; playerIndex < playerSelectionOrder.Length; ++playerIndex)
+        for (int playerSelectionPos = 0; playerSelectionPos < playerSelectionOrder.Length; ++playerSelectionPos)
         {
-            if (!playerSelectionOrder[playerIndex].isJoined) break;
+            if (!playerSelectionOrder[playerSelectionPos].isJoined) break;
+
+            int playerIndex = playerSelectionOrder[playerSelectionPos].playerIndex;
 
             foreach (GameObject card in cardList)
             {
@@ -137,12 +177,13 @@ public class CardSelection : MonoBehaviour
                 card.GetComponent<CardHandler>().OnDeselect(null);
             }
 
+            bottomGroup.SetActive(false);
             bottomText.gameObject.SetActive(false);
             middleText.text = $"Player {playerIndex + 1} is Selecting a Card";
             selectingImage.sprite = playerSprites[playerIndex];
             selectingParent.SetActive(true);
 
-            InputActionAsset playerActions = playerSelectionOrder[playerIndex].playerInput.actions;
+            InputActionAsset playerActions = playerSelectionOrder[playerSelectionPos].playerInput.actions;
             UIInputModule.actionsAsset = playerActions;
             UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
             UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
@@ -152,7 +193,7 @@ public class CardSelection : MonoBehaviour
             {
                 if (!playerSelectionOrder[pIndex].isJoined) break;
 
-                if (pIndex == playerIndex)
+                if (pIndex == playerSelectionPos)
                 {
                     playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Skip");
                 }
@@ -164,8 +205,11 @@ public class CardSelection : MonoBehaviour
 
             yield return WaitForSecondsOrSkip(1.5f);
 
-            playerSelectionOrder[playerIndex].playerInput.SwitchCurrentActionMap("CardSelection");
+            EventSystem.current.SetSelectedGameObject(null);
+
+            playerSelectionOrder[playerSelectionPos].playerInput.SwitchCurrentActionMap("CardSelection");
             selectingParent.SetActive(false);
+            bottomGroup.SetActive(true);
             bottomText.gameObject.SetActive(true);
 
             currentPlayerIndex = playerIndex;
@@ -177,17 +221,39 @@ public class CardSelection : MonoBehaviour
                 if (card.GetComponent<Button>() != null)
                 {
                     card.GetComponent<Button>().Select();
+                    card.GetComponent<CardHandler>().OnSelect(null);
                     break;
                 }
             }
 
-            
+            if (numOfTraitors > 0 || playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            {
+                bottomGroup.SetActive(false);
+                yield return new WaitUntil(() => selectedCard != null);
+            }
+            else
+            {
+                yield return WaitingForPass();
+            }
 
-            yield return new WaitUntil(() => selectedCard != null);
+            if (!selectedCard.name.Equals("Pass"))
+            {
+                Destroy(selectedCard.GetComponent<Button>());
+                selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+                selectedCard.GetComponent<CardHandler>().OnDeselect(null);
+            }
+            else
+            {
+                foreach (GameObject card in cardList)
+                {
+                    if (card.GetComponent<Button>() != null)
+                    {
+                        card.GetComponent<Button>().OnDeselect(null);
+                        card.GetComponent<CardHandler>().OnDeselect(null);
+                    }
+                }
+            }
 
-            Destroy(selectedCard.GetComponent<Button>());
-            selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
-            selectedCard.GetComponent<CardHandler>().OnDeselect(null);
             selectedCard = null;
             yield return new WaitForSeconds(0.6f);
         }
@@ -202,7 +268,8 @@ public class CardSelection : MonoBehaviour
             card.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
         }
 
-        bottomText.text = "";
+        bottomGroup.SetActive(false);
+        bottomText.gameObject.SetActive(false);
         currentPlayerIndex = -1;
 
         DetermineCards();
@@ -216,12 +283,12 @@ public class CardSelection : MonoBehaviour
         Debug.Log("Determine Card");
 
         List<int> cardIndices = new List<int> { 0, 1, 2, 3 };
+        PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
 
         // at playerSelectionPos = 0, selectionOrder[0] will hold the index of which card in the card list that player selected
-        for (int playerSelectionPos = 0; playerSelectionPos < selectionOrder.Length; playerSelectionPos++)
+        for (int playerIndex = 0; playerIndex < selectedCards.Length; playerIndex++)
         {
-            Debug.Log($"Player Selection Pos: {playerSelectionOrder}");
-            int cardIndex = selectionOrder[playerSelectionPos];
+            int cardIndex = selectedCards[playerIndex];
 
             cardIndices.Remove(cardIndex);
 
@@ -241,13 +308,13 @@ public class CardSelection : MonoBehaviour
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
             //Before cards are decided, check if player is alive and if not make the card a revive card
-            if (playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            if (players[playerIndex].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
             {
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(reviveCard);
             }
             else if (cardType == CardType.Weapon)
             {
-                GameObject filterWeapon = playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
+                GameObject filterWeapon = players[playerIndex].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
                     && card.GetComponent<Card>().abilityObject != filterWeapon)
@@ -257,7 +324,7 @@ public class CardSelection : MonoBehaviour
             }
             else if (cardType == CardType.Secondary)
             {
-                GameObject filterSecondary = playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerSecondary>().currentSecondary;
+                GameObject filterSecondary = players[playerIndex].playerInput.gameObject.GetComponent<PlayerSecondary>().currentSecondary;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
                     && card.GetComponent<Card>().abilityObject != filterSecondary)
@@ -277,12 +344,6 @@ public class CardSelection : MonoBehaviour
 
         if (numOfTraitors > 0)
         {
-            if (numOfTraitors > numOfCardSelected && numOfTraitors != 4)
-            {
-                Debug.LogError("More traitors than players!!! This should not happen! Someone messed up >:(");
-                return;
-            }
-
             if (numOfTraitors == 4)
             {
                 for (int i = 0; i < numOfTraitors; ++i)
@@ -292,7 +353,7 @@ public class CardSelection : MonoBehaviour
             }
             else
             {
-                int[] traitorOrder = selectionOrder
+                int[] traitorOrder = selectedCards
                     .Where(numOfCardSelected => numOfCardSelected != -1)
                     .OrderBy(player => Random.value)
                     .ToArray();
@@ -311,8 +372,10 @@ public class CardSelection : MonoBehaviour
 
     public void SelectCard(GameObject card)
     {
+        Debug.Log($"Card Selected: {card.name}");
         selectedCard = card;
-        card.GetComponent<CardHandler>().showPlayerIcon(playerSprites[currentPlayerIndex]);
+        CardHandler cardHandler = card.GetComponent<CardHandler>();
+        if (cardHandler) cardHandler.showPlayerIcon(playerSprites[currentPlayerIndex]);
         int abilityIndex = -1;
 
         for (int i = 0; i < cardList.Length; ++i)
@@ -324,7 +387,7 @@ public class CardSelection : MonoBehaviour
             }
         }
 
-        selectionOrder[numOfCardSelected++] = abilityIndex;
+        selectedCards[currentPlayerIndex] = abilityIndex;
     }
 
     private IEnumerator WaitForSecondsOrSkip(float seconds)
@@ -338,6 +401,35 @@ public class CardSelection : MonoBehaviour
                 break;
             }
             timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitingForPass()
+    {
+        float holdTimer = 0f;
+        InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
+        if (skipAction == null)
+        {
+            Debug.LogWarning("SkipButton action not found!");
+            yield break;
+        }
+
+        while (selectedCard == null)
+        {
+            if (skipAction.IsPressed())
+            {
+                holdTimer += Time.deltaTime;
+                if (holdTimer >= 0.7f)
+                {
+                    SelectCard(passObject);
+                    break;
+                }
+            }
+            else
+            {
+                holdTimer = 0f;
+            }
             yield return null;
         }
     }

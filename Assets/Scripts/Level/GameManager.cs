@@ -11,10 +11,18 @@ public class GameManager : MonoBehaviour
     public TraitorManager traitorManager;
     [SerializeField] private List<BaseTraitor> traitorTypeList = new List<BaseTraitor>();
     private BaseTraitor currentTraitorType;
+    public ResultsManager resultsManager;
 
-    public void Win() 
+    public void Win(GameObject winner) 
     {
-        SceneManager.LoadScene("WinScreen");
+        resultsManager.GetPlayerScores();
+        if (winner.CompareTag("Traitor")) 
+        {
+            TraitorWin();
+        }
+        else {
+            SceneManager.LoadScene("WinScreen");
+        }
     }
 
     public List<GameObject> GetPlayerList()
@@ -34,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void TraitorWin() 
     {
-        Debug.Log("WIN");
+        SceneManager.LoadScene("TraitorWinScreen");
     }
 
     void AddTraitorTypes() 
@@ -69,31 +77,25 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         playerList = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>().GetPlayers();
-
         DecideTraitor();
     }
 
     public void CheckGameState() 
     {
         bool allDead = true;
-        bool traitor = false;
 
         foreach (GameObject player in playerList)
         {
-            traitor = player.CompareTag("Traitor");
-            if (player.GetComponent<HealthComponent>().GetIsDead() == false && player.CompareTag("Traitor") == false) 
+            if (player.GetComponent<HealthComponent>().GetIsDead() == false) 
             {
                 allDead = false;
                 break;
             }
         }
 
-        if (allDead && traitor) 
+        if (allDead)
         {
-            TraitorWin();
-        }
-        else if (allDead)
-        {
+            resultsManager.GetPlayerScores();
             Lose();
         }
     }

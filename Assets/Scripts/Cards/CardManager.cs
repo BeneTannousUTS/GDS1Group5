@@ -1,13 +1,9 @@
 // AUTHOR: Zac
 // Loads the card scene and handles giving the players items
 
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -25,7 +21,7 @@ public class CardManager : MonoBehaviour
         UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
     }
 
-    public void SetTraitorType(BaseTraitor type) 
+    public void SetTraitorType(BaseTraitor type)
     {
         traitorType = type;
     }
@@ -41,8 +37,20 @@ public class CardManager : MonoBehaviour
     public void HidePlayer(GameObject player)
     {
         player.GetComponent<Animator>().enabled = false;
-        player.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,0);
+        player.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 0);
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
+
+        foreach (Transform child in player.transform)
+        {
+            if (child.GetComponent<WeaponStats>())
+            {
+                Destroy(child.gameObject);
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ShowPlayers()
@@ -56,8 +64,13 @@ public class CardManager : MonoBehaviour
             GameObject playerObj = player.playerInput.gameObject;
 
             playerObj.GetComponent<Animator>().enabled = true;
-            playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1,1,1,1);
+            playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 1);
             playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
+
+            foreach (Transform child in playerObj.transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -71,23 +84,9 @@ public class CardManager : MonoBehaviour
 
         foreach (PlayerData player in PlayerManager.instance.players)
         {
-            if (player.playerIndex == -1) break;
+            if (player.playerIndex == -1) continue;
             players[player.playerIndex] = player.playerInput.gameObject;
         }
-
-        // Destroy all children of each player (fix for left over weapons?)
-        // Commenting out this code to avoid destroying healthbar - no observed problems so far
-        /*foreach (GameObject player in players)
-        {
-            if (player == null) continue;
-
-            Transform parentTransform = player.transform;
-            for (int i = parentTransform.childCount - 1; i >= 0; i--)
-            {
-                Transform child = parentTransform.GetChild(i);
-                Destroy(child.gameObject);
-            }
-        }*/
 
         // Grant players their items
         for (int i = 0; i < selectionOrder.Length; ++i)
@@ -100,6 +99,10 @@ public class CardManager : MonoBehaviour
             if (abilityObject == null)
             {
                 players[i].AddComponent(traitorType.GetType());
+            }
+            else if (abilityObject.name.Equals("Pass"))
+            {
+                continue;
             }
             else if (abilityObject.GetComponent<WeaponStats>())
             {

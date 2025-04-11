@@ -7,6 +7,8 @@ public class TempBuff : MonoBehaviour
     public float buffLifetime;
     public float buffTime;
 
+    public bool isProjectile = false;
+
     public GameObject GetPassive() 
     {
         return passive;
@@ -25,8 +27,10 @@ public class TempBuff : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DestroyTempBuff(buffLifetime));
+        if (isProjectile) {
+            StartCoroutine(DestroyTempBuff(buffLifetime));
+            transform.position += 0.001f * transform.up;
+        }
 
-        transform.position += 0.001f * transform.up;
     }
 }

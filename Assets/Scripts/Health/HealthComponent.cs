@@ -29,6 +29,7 @@ public class HealthComponent : MonoBehaviour
             maxHealth = health;
         }
     }
+    
     //Brings back player back to life with half there max health
     public void Revive()
     {
