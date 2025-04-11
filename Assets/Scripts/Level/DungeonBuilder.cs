@@ -63,7 +63,7 @@ public class DungeonBuilder : MonoBehaviour
         }
         cRoom++;
         spawnedRooms = tempArray;
-        while (cRoom < (newLength - currentRoom))
+        while (cRoom < (newLength - currentRoom-1))
         {
             spawnedRooms[cRoom] = Instantiate(rooms[Random.Range(0, rooms.Length)]);
             spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);

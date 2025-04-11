@@ -12,9 +12,10 @@ public class DebugCheatsUI : MonoBehaviour
     [SerializeField] TMP_Text playerTxt;
     List<GameObject> players = new List<GameObject>();
     public TMP_Dropdown dropdown;
+    public TMP_Dropdown worldDropdown;
     [SerializeField] List<BaseTraitor> traitors;
-    private int cheatSelection;
-    GameObject strengthPassive;
+    private int playerCheatSelection;
+    private int worldCheatSelection;
     [SerializeField] GameObject[] instakills;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -87,18 +88,23 @@ public class DebugCheatsUI : MonoBehaviour
 
     public void CheatDropdown()
     {
-        cheatSelection = dropdown.value;
+        playerCheatSelection = dropdown.value;
     }
 
-    public void ApplyCheat()
+    public void WorldCheatDropdown()
+    {
+        worldCheatSelection = worldDropdown.value;
+    }
+
+    public void ApplyPlayerCheat()
     {
         foreach (GameObject player in selectedPlayer)
         {
-            if (cheatSelection == 0)
+            if (playerCheatSelection == 0)
             {
                 player.GetComponent<HealthComponent>().ToggleInvincible();
             }
-            else if (cheatSelection == 1)
+            else if (playerCheatSelection == 1)
             {
                 if (player.GetComponent<PlayerStats>().GetStrengthStat() >= 1000)
                 {
@@ -111,11 +117,15 @@ public class DebugCheatsUI : MonoBehaviour
                 
             }
         }
-        if (cheatSelection == 2)
+    }
+
+    public void ApplyWorldCheats()
+    {
+        if (worldCheatSelection == 0)
         {
             gameManager.dungeonManager.SetAutoUnlock();
         }
-        if (cheatSelection == 3)
+        if (worldCheatSelection == 1)
         {
             gameManager.dungeonManager.SetAutoDefeat();
         }
