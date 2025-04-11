@@ -18,7 +18,7 @@ public class TraitorManager : MonoBehaviour
     public void SetTraitorType(BaseTraitor traitor)
     {
         traitorType = traitor;
-        traitorRoom = dungeonManager.GetDungeonLength() - traitorType.getTraitorRoom();
+        traitorRoom = dungeonManager.GetDungeonLength() - traitorType.GetTraitorRoom();
     }
 
     public GameObject GetObjectRef(int pos)
@@ -34,7 +34,7 @@ public class TraitorManager : MonoBehaviour
     //called by the card manager when cards are being decided to tell if the traitor card should appear
     public bool CheckTraitorAppear()
     {
-        traitorRoom = dungeonManager.GetDungeonLength() - traitorType.getTraitorRoom();
+        traitorRoom = dungeonManager.GetDungeonLength() - traitorType.GetTraitorRoom();
         Debug.Log($"currentRoom: {dungeonManager.GetRoomCount()}, traitorRoom: {traitorRoom}, isFinal: {dungeonManager.GetRoomCount() == traitorRoom}, traitorType: {traitorType}");
         if (dungeonManager.GetRoomCount() == traitorRoom)
         {

@@ -13,7 +13,7 @@ public class BaseTraitor : MonoBehaviour
     [SerializeField] protected string traitorAbilityName = "";
     [SerializeField] protected string traitorAbilityDesc = "";
 
-    public float getTraitorRoom()
+    public float GetTraitorRoom()
     {
         return traitorRoom;
     }
