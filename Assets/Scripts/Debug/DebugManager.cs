@@ -16,10 +16,16 @@ public class DebugManager : MonoBehaviour
     [SerializeField] Canvas traitorCanvas;
     [SerializeField] Canvas statsCanvas;
     [SerializeField] Canvas cheatsCanvas;
+    public GameObject[] cards;
 
 
     void debugStart()
     {
+        cards = FindAnyObjectByType<CardManager>().cardCanvasPrefab.GetComponentInChildren<CardSelection>().cards;
+        foreach (GameObject card in cards)
+        {
+            Debug.Log(card.name);
+        }
         debugMode = !debugMode;
         if (debugMode)
         {

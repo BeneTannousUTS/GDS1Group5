@@ -16,7 +16,7 @@ public class DebugWeaponUI : MonoBehaviour
     public GameObject weapon;
     List<GameObject> players = new List<GameObject>();
     public TMP_Dropdown dropdown;
-    [SerializeField] GameObject[] weapons;
+    [SerializeField] List<GameObject> weaponsList = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void SelectPlayer1()
@@ -97,15 +97,19 @@ public class DebugWeaponUI : MonoBehaviour
 
     public void WeaponDropdown()
     {
-        weapon = weapons[dropdown.value];
+        weapon = weaponsList[dropdown.value];
     }
 
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        foreach (GameObject weapon in weapons)
+        foreach (GameObject card in FindAnyObjectByType<DebugManager>().cards)
         {
-            dropdown.options.Add(new TMP_Dropdown.OptionData(weapon.name));
+            if (card.GetComponent<Card>().cardType == CardType.Weapon)
+            {
+                weaponsList.Add(card);
+                dropdown.options.Add(new TMP_Dropdown.OptionData(card.name));
+            }
         }
         dropdown.value = -1;
         foreach (GameObject pla in gameManager.GetPlayerList())

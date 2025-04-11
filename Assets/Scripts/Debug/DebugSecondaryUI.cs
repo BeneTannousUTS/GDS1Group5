@@ -16,7 +16,7 @@ public class DebugSecondaryUI : MonoBehaviour
     public GameObject secondary;
     List<GameObject> players = new List<GameObject>();
     public TMP_Dropdown dropdown;
-    [SerializeField] GameObject[] secondaries;
+    [SerializeField] List<GameObject> secondaryList = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void SelectPlayer1()
@@ -97,15 +97,19 @@ public class DebugSecondaryUI : MonoBehaviour
 
     public void SecondaryDropdown()
     {
-        secondary = secondaries[dropdown.value];
+        secondary = secondaryList[dropdown.value];
     }
 
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        foreach (GameObject sec in secondaries)
+        foreach (GameObject card in FindAnyObjectByType<DebugManager>().cards)
         {
-            dropdown.options.Add(new TMP_Dropdown.OptionData(sec.name));
+            if (card.GetComponent<Card>().cardType == CardType.Secondary)
+            {
+                secondaryList.Add(card);
+                dropdown.options.Add(new TMP_Dropdown.OptionData(card.name));
+            }
         }
         dropdown.value = -1;
         foreach (GameObject pla in gameManager.GetPlayerList())
