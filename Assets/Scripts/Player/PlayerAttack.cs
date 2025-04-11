@@ -39,10 +39,20 @@ public class PlayerAttack : MonoBehaviour
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
 
         // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used
-        string audioAttackType = currentWeapon.name.Equals("Sword") ? "PlayerMeleeAttack" : "PlayerRangedAttack"; 
-        audioManager.PlaySoundEffect(audioAttackType);
 
+        if (currentWeapon.GetComponent<WeaponStats>().projectile == null) // is melee
+        {
+            audioManager.PlaySoundEffect("PlayerMeleeAttack");
+            gameObject.GetComponent<Animator>().SetTrigger("attack");
+        } else
+        {
+            audioManager.PlaySoundEffect("PlayerRangedAttack");
+            gameObject.GetComponent<Animator>().SetTrigger("range");
+        }
+        
         attackCooldownTimer = 0f;
+
+        
         
         // Call HUD component function for cooldown animation.
         GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());
