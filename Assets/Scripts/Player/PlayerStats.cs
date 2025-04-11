@@ -98,4 +98,16 @@ public class PlayerStats : MonoBehaviour
         passives.Clear();
         gameObject.GetComponent<HealthComponent>().ResetPlayerHealth();
     }
+    
+    public float GetKnockbackStat() 
+    {
+        float modifier = 1f;
+
+        foreach (GameObject passive in passives) 
+        {
+            modifier += passive.GetComponent<PassiveStats>().GetKnockbackMod();
+        }
+
+        return modifier;
+    }
 }

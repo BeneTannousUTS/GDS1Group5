@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2081992107495565343}
   - component: {fileID: 2835848605395030507}
   m_Layer: 0
-  m_Name: Lifesteal
+  m_Name: KnockbackUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,5 +48,6 @@ MonoBehaviour:
   moveMod: 1
   healthMod: 0
   cooldownMultiplier: 1
-  lifestealMulitplier: 0.05
+  lifestealMulitplier: 0
+  knockbackMult: 0.1
   revivePlayer: 0
