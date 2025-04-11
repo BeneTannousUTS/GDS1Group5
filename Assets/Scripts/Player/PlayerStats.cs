@@ -6,7 +6,6 @@ public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private List<GameObject> passives = new List<GameObject>();
     
-    public IEnumerator RemoveTempBuff(float time, GameObject passive) 
 
     public void public_RemoveTempBuff(float time, GameObject passive)
     {
@@ -74,6 +73,7 @@ public class PlayerStats : MonoBehaviour
     {
         passives.Clear();
         gameObject.GetComponent<HealthComponent>().ResetPlayerHealth();
+    }
     
     public float GetCooldownStat() 
     {
