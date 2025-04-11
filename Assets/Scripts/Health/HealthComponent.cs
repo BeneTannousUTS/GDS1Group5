@@ -170,4 +170,8 @@ public class HealthComponent : MonoBehaviour
         currentHealth = 100;
     }
     
+    public void ToggleInvincible()
+    {
+        invincible = !invincible;
+    }
 }

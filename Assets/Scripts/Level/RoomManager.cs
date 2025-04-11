@@ -12,6 +12,7 @@ public class RoomManager : MonoBehaviour
     private EnemyMovement[] enemyCount;
     private float checkTimer;
     private AudioManager audioManager;
+    private DungeonManager dungeonManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //Checks if there are still enemies in the room, if not then destroy the door (only checks every second)
@@ -20,6 +21,10 @@ public class RoomManager : MonoBehaviour
         checkTimer += Time.deltaTime;
         if (checkTimer > 1f)
         {
+            if (dungeonManager.GetAutoDefeat())
+            {
+                ClearRoom();
+            }
             openDoor = true;
             foreach (EnemyMovement enemy in enemyCount)
             {
@@ -27,6 +32,10 @@ public class RoomManager : MonoBehaviour
                 {
                     openDoor = false;
                 }
+            }
+            if (dungeonManager.GetAutoUnlock())
+            {
+                openDoor = true;
             }
             if (openDoor)
             {
@@ -41,10 +50,22 @@ public class RoomManager : MonoBehaviour
             checkTimer = 0;
         }
     }
+
+    public void ClearRoom()
+    {
+        foreach (EnemyMovement enemy in enemyCount)
+        {
+            if (enemy != null)
+            {
+                enemy.GetComponent<HealthComponent>().TakeDamage(100000);
+            }
+        }
+    }
     void Start()
     {
         enemyCount = transform.GetComponentsInChildren<EnemyMovement>();
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        dungeonManager = FindAnyObjectByType<DungeonManager>();
     }
 
     // Update is called once per frame
