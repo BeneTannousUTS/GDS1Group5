@@ -2,6 +2,7 @@
 // Handles enemy movement and stores ai type
 
 using UnityEngine;
+using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class EnemyMovement : MonoBehaviour
     {
         Aggressive,
         Passive,
-        Teleporter
+        Teleporter,
+        Cautious,
+        Stationary
     }
 
     public aiType currentAiType;
@@ -17,6 +20,9 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange;
     public float aggroRange;
     public float moveSpeed;
+    public float chargeMultiplier;
+
+    private Vector3 movementOffset = Vector3.zero;
 
     private EnemyPathfinder enemyPathfinder;
 
@@ -24,9 +30,12 @@ public class EnemyMovement : MonoBehaviour
 
     private Vector3 facingDirection = Vector3.right;
 
+    private bool teleporting = false;
+
     private Animator animator;
     private SpriteRenderer sprite;
     private float knockbackTime = 0.0f;
+    private float dashTime = 0f;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
@@ -37,7 +46,7 @@ public class EnemyMovement : MonoBehaviour
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive()
     {
-        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false && CheckLineOfSight(facingDirection) == true)
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
@@ -54,7 +63,7 @@ public class EnemyMovement : MonoBehaviour
             {
                 gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
 
-                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + new Vector3(Random.Range(-1.7f, 1.7f), Random.Range(-1.7f, 1.7f), 0f), moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + movementOffset, moveSpeed * Time.deltaTime);
             }
         }
         else
@@ -93,10 +102,128 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // STRETCH GOAL: Teleporter AI movement meant to teleport to the furthest position from the closest player
+    // Cautious AI movement meant move in range of the player but stay at range
+    void MoveCautious()
+    {
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
+        {
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange) 
+            {
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + movementOffset, -1 * moveSpeed * Time.deltaTime);
+            }
+            else if (Vector3.Distance(movePoint.transform.position, transform.position) <= aggroRange)
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else
+            {
+                movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + movementOffset, moveSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+        }
+    }
+
+    // Teleporter AI movement meant to teleport to the random position if the players are too close
     void MoveTeleporter()
     {
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
 
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= aggroRange) 
+            {
+                if (teleporting == false) {
+                    StartCoroutine(Teleport());
+                }
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+            }
+            else if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange) 
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else 
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+            }
+        }
+        else
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+        }
+    }
+
+    // Stationary AI meant to stay still and fire at players when in range
+    void MoveStationary()
+    {
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange) 
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else 
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+            }
+        }
+        else
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+        }
+    }
+
+    IEnumerator Teleport() 
+    {
+        teleporting = true;
+        yield return new WaitForSeconds(0.5f);
+        Vector3 summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
+        bool validPos = false;
+        float exitTime = 0;
+        while (!validPos)
+        {
+            exitTime++;
+            Vector3 checkPos = new Vector3(Random.Range(-14f, 14f), Random.Range(-6, 5), 0) + summonPos;
+            Collider2D[] hit = Physics2D.OverlapCircleAll(checkPos, 1.5f, LayerMask.GetMask("Default"));
+            if (hit.Length == 0 || exitTime == 100)
+            {
+                validPos = true;
+                transform.position = checkPos;
+            }
+        }
+
+        teleporting = false;
+    }
+
+    IEnumerator ChangeOffset() 
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        movementOffset = new Vector3(Random.Range(-1f, 1f), Random.Range(-0.8f, 0.8f), 0f);
+
+        StartCoroutine(ChangeOffset());
+    }
+
+    public void ActivateAttackSpecial() {
+        if (currentAiType == aiType.Aggressive) 
+        {
+            GetComponent<Rigidbody2D>().linearVelocity = facingDirection.normalized * moveSpeed * chargeMultiplier;
+            dashTime = Random.Range(0.2f, 0.4f);
+        }
     }
 
     // Get a reference to the enemyPathfinder
@@ -106,6 +233,8 @@ public class EnemyMovement : MonoBehaviour
         movePoint = enemyPathfinder.ClosestPlayer(transform.position);
         animator = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
+
+        StartCoroutine(ChangeOffset());
     }
 
     // Move based on the AI type
@@ -114,6 +243,10 @@ public class EnemyMovement : MonoBehaviour
         if (knockbackTime > 0)
         {
             knockbackTime -= Time.deltaTime;
+        }
+        if (dashTime > 0)
+        {
+            dashTime -= Time.deltaTime;
         }
         else if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
@@ -130,6 +263,14 @@ public class EnemyMovement : MonoBehaviour
             else if (currentAiType == aiType.Teleporter)
             {
                 MoveTeleporter();
+            }
+            else if (currentAiType == aiType.Cautious)
+            {
+                MoveCautious();
+            }
+            else if (currentAiType == aiType.Stationary)
+            {
+                MoveStationary();
             }
 
             SetSpriteDirection();
@@ -164,10 +305,5 @@ public class EnemyMovement : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
         this.knockbackTime = knockbackTime;
-    }
-
-    bool CheckLineOfSight(Vector3 direction) 
-    {
-        return Physics2D.Raycast(transform.position, direction, 2f);
     }
 }

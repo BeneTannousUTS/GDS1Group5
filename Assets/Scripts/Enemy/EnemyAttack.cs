@@ -11,6 +11,7 @@ public class EnemyAttack : MonoBehaviour
 
     public float attackCooldownWindow;
     private float attackCooldownTimer = 0f;
+    private float attackCooldownOffset = 0f;
 
     private bool canAttack = false;
     private AudioManager audioManager;
@@ -33,9 +34,10 @@ public class EnemyAttack : MonoBehaviour
     }
 
     // First shows a warning sign then spawns the weapon attack 0.5 seconds later
-    IEnumerator DoAttack() 
+    IEnumerator DoAttack()
     {
         attackCooldownTimer = 0f;
+        attackCooldownOffset = Random.Range(-0.7f, 0.7f);
         Vector3 attackDirection = gameObject.GetComponent<EnemyMovement>().GetFacingDirection().normalized;
         Instantiate(warningUI, transform.position + attackDirection, Quaternion.identity, transform);
         gameObject.GetComponent<Animator>().SetTrigger("attack");
@@ -45,6 +47,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        gameObject.GetComponent<EnemyMovement>().ActivateAttackSpecial();
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction
@@ -75,7 +78,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (attackCooldownTimer >= attackCooldownWindow && canAttack) 
+            if (attackCooldownTimer >= attackCooldownWindow + attackCooldownOffset && canAttack) 
             {
                 Attack();
             }

@@ -39,7 +39,7 @@ public class EnemyPathfinder : MonoBehaviour
 
         foreach (GameObject player in playerList)
         {
-            if (Vector3.Distance(player.transform.position, enemyPosition) < closestDistance && player.GetComponent<HealthComponent>().GetIsDead() == false && CheckLineOfSight(player.transform.position, player.transform.position - transform.position) == false)
+            if (Vector3.Distance(player.transform.position, enemyPosition) < closestDistance && player.GetComponent<HealthComponent>().GetIsDead() == false)
             {
                 closestDistance = Vector3.Distance(player.transform.position, enemyPosition);
                 closestPlayer = player;
