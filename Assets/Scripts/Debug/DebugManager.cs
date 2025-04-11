@@ -1,5 +1,6 @@
 // AUTHOR: James
 // Manages the debug menu
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,7 @@ public class DebugManager : MonoBehaviour
         if (debugMode)
         {
             debugCanvas.gameObject.SetActive(true);
+            StartCoroutine(LoadAllCanvas());
         }
         else
         {
@@ -91,6 +93,27 @@ public class DebugManager : MonoBehaviour
 
     private void UnloadAllCanvas()
     {
+        weaponCanvas.gameObject.SetActive(false);
+        secondaryCanvas.gameObject.SetActive(false);
+        passiveCanvas.gameObject.SetActive(false);
+        enemyCanvas.gameObject.SetActive(false);
+        dungeonCanvas.gameObject.SetActive(false);
+        statsCanvas.gameObject.SetActive(false);
+        traitorCanvas.gameObject.SetActive(false);
+        cheatsCanvas.gameObject.SetActive(false);
+    }
+
+    IEnumerator LoadAllCanvas()
+    {
+        weaponCanvas.gameObject.SetActive(true);
+        secondaryCanvas.gameObject.SetActive(true);
+        passiveCanvas.gameObject.SetActive(true);
+        enemyCanvas.gameObject.SetActive(true);
+        dungeonCanvas.gameObject.SetActive(true);
+        statsCanvas.gameObject.SetActive(true);
+        traitorCanvas.gameObject.SetActive(true);
+        cheatsCanvas.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.001f);
         weaponCanvas.gameObject.SetActive(false);
         secondaryCanvas.gameObject.SetActive(false);
         passiveCanvas.gameObject.SetActive(false);

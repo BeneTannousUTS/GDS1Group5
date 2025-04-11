@@ -7,6 +7,7 @@ public class PVPTraitor : BaseTraitor
 
     public override void TraitorAbility()
     {
+        gameObject.GetComponent<HealthComponent>().TakeDamage(15);
         gameObject.GetComponent<PlayerStats>().SetPassive(passive);
         gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(6, passive);
     }
@@ -22,8 +23,12 @@ public class PVPTraitor : BaseTraitor
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Traitor");
         if (temp.Length == 1)
         {
-            Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
+            if (GameObject.FindGameObjectWithTag("EscapeDoor") != null)
+            {
+                Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
+            }
         }
+        Destroy(gameObject);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
