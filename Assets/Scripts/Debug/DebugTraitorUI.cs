@@ -4,16 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugSecondaryUI : MonoBehaviour
+public class DebugTraitorUI : MonoBehaviour
 {
     List<GameObject> selectedPlayer = new List<GameObject>(4);
     [SerializeField] List<GameObject> playerList;
     GameManager gameManager;
     [SerializeField] TMP_Text playerTxt;
-    public GameObject secondary;
+    [SerializeField] TMP_Text countTxt;
+    public BaseTraitor traitor;
     List<GameObject> players = new List<GameObject>();
     public TMP_Dropdown dropdown;
-    [SerializeField] GameObject[] secondaries;
+    [SerializeField] List<BaseTraitor> traitors;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void SelectPlayer1()
@@ -72,37 +73,42 @@ public class DebugSecondaryUI : MonoBehaviour
         UpdatePlayersTxt();
     }
 
+    public void AssignTraitor()
+    {
+        foreach (GameObject pla in selectedPlayer)
+        {
+            Debug.Log(gameObject.GetComponent<BaseTraitor>());
+            if (gameObject.GetComponent(traitor.GetType()) == null)
+            {
+                pla.AddComponent(traitor.GetType());
+            }
+        }
+    }
+
     private void UpdatePlayersTxt()
     {
         string selectPlay = "Selected Players: ";
         foreach (GameObject player in selectedPlayer)
         {
-            selectPlay = selectPlay + "P" + (playerList.IndexOf(player) + 1) + " ";
+            selectPlay = selectPlay + "P" + (playerList.IndexOf(player)+1) + " ";
         }
         playerTxt.text = selectPlay;
 
     }
 
-    public void GiveSecondary()
+    public void TraitorDropdown()
     {
-        foreach (GameObject player in selectedPlayer)
-        {
-            player.GetComponent<PlayerSecondary>().currentSecondary = secondary.GetComponent<Card>().abilityObject;
-            player.GetComponent<PlayerHUD>().SetSecondarySprite(secondary.GetComponent<Card>().cardFrontSprite);
-        }
-    }
-
-    public void SecondaryDropdown()
-    {
-        secondary = secondaries[dropdown.value];
+        traitor = traitors[dropdown.value];
+        countTxt.text = "Amount of traitors: " + traitor.GetAmountOfTraitors();
     }
 
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        foreach (GameObject sec in secondaries)
+        foreach (BaseTraitor tra in gameManager.GetTraitorList())
         {
-            dropdown.options.Add(new TMP_Dropdown.OptionData(sec.name));
+            traitors.Add(tra);
+            dropdown.options.Add(new TMP_Dropdown.OptionData(tra.name));
         }
         dropdown.value = -1;
         foreach (GameObject pla in gameManager.GetPlayerList())

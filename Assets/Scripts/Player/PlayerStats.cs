@@ -90,5 +90,10 @@ public class PlayerStats : MonoBehaviour
         }
 
         return modifier;
+    //Removes all the passives that the player has collected
+    public void ResetPassives()
+    {
+        passives.Clear();
+        gameObject.GetComponent<HealthComponent>().ResetPlayerHealth();
     }
 }

@@ -16,6 +16,7 @@ public class DungeonCamera : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            gameObject.GetComponentInParent<RoomManager>().ClearRoom();
             GameObject player = collision.gameObject;
             FindAnyObjectByType<CardManager>().HidePlayer(player);
             roomChange = true;
