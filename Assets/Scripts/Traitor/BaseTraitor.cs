@@ -8,10 +8,34 @@ public class BaseTraitor : MonoBehaviour
     protected Sprite traitorSprite;
     [SerializeField] protected string amountOfTraitors = "";
     protected TraitorManager traitorManager;
+    [SerializeField] protected string traitorName = "";
+    [SerializeField] protected string traitorDesc = "";
+    [SerializeField] protected string traitorAbilityName = "";
+    [SerializeField] protected string traitorAbilityDesc = "";
 
     public float getTraitorRoom()
     {
         return traitorRoom;
+    }
+
+    public string GetTraitorName()
+    {
+        return traitorName;
+    }
+
+    public string GetTraitorDesc()
+    {
+        return traitorDesc;
+    }
+
+    public string GetAbilityName()
+    {
+        return traitorAbilityName;
+    }
+
+    public string GetAbilityDesc()
+    {
+        return traitorAbilityDesc;
     }
 
     public virtual void TraitorAbility()
