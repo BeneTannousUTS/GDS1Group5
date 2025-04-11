@@ -37,7 +37,7 @@ public class EnemyMovement : MonoBehaviour
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive()
     {
-        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false && CheckLineOfSight(facingDirection) == true)
         {
             facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
 
@@ -54,7 +54,7 @@ public class EnemyMovement : MonoBehaviour
             {
                 gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
 
-                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position, moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + new Vector3(Random.Range(-1.7f, 1.7f), Random.Range(-1.7f, 1.7f), 0f), moveSpeed * Time.deltaTime);
             }
         }
         else
@@ -164,5 +164,10 @@ public class EnemyMovement : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
         this.knockbackTime = knockbackTime;
+    }
+
+    bool CheckLineOfSight(Vector3 direction) 
+    {
+        return Physics2D.Raycast(transform.position, direction, 2f);
     }
 }
