@@ -79,17 +79,19 @@ public class PlayerStats : MonoBehaviour
 
         return modifier;
     }
-    
-    public float GetLifestealStat() 
+
+    public float GetLifestealStat()
     {
         float modifier = 0f;
 
-        foreach (GameObject passive in passives) 
+        foreach (GameObject passive in passives)
         {
             modifier += passive.GetComponent<PassiveStats>().GetLifestealMod();
         }
 
         return modifier;
+    }
+
     //Removes all the passives that the player has collected
     public void ResetPassives()
     {

@@ -1,3 +1,5 @@
+// AUTHOR: James
+// Handles the weapons debug menu
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;

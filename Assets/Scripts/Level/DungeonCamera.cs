@@ -57,6 +57,7 @@ public class DungeonCamera : MonoBehaviour
             roomChange = false;
 
             FindAnyObjectByType<GameManager>().ShowCardSelection(this);
+            Debug.Log("Wario");
         }
     }
     void Start()

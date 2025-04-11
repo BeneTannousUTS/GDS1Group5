@@ -1,3 +1,5 @@
+// AUTHOR: James
+// Handles the cheats debug menu
 using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
@@ -17,8 +19,8 @@ public class DebugCheatsUI : MonoBehaviour
     private int playerCheatSelection;
     private int worldCheatSelection;
     [SerializeField] GameObject[] instakills;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    //Adds player 1 to the list of selected players
     public void SelectPlayer1()
     {
         if (selectedPlayer.Contains(playerList[0]))
@@ -32,6 +34,7 @@ public class DebugCheatsUI : MonoBehaviour
         UpdatePlayersTxt();
     }
 
+    //Adds player 2 to the list of selected players
     public void SelectPlayer2()
     {
         if (selectedPlayer.Contains(playerList[1]))
@@ -44,6 +47,8 @@ public class DebugCheatsUI : MonoBehaviour
         }
         UpdatePlayersTxt();
     }
+
+    //Adds player 3 to the list of selected players
     public void SelectPlayer3()
     {
         if (playerList.Count > 2)
@@ -59,6 +64,8 @@ public class DebugCheatsUI : MonoBehaviour
         }
         UpdatePlayersTxt();
     }
+
+    //Adds player 4 to the list of selected players
     public void SelectPlayer4()
     {
         if (playerList.Count > 3)
@@ -75,6 +82,7 @@ public class DebugCheatsUI : MonoBehaviour
         UpdatePlayersTxt();
     }
 
+    //Updates the player selected text
     private void UpdatePlayersTxt()
     {
         string selectPlay = "Selected Players: ";
@@ -86,16 +94,17 @@ public class DebugCheatsUI : MonoBehaviour
 
     }
 
+    //Updates the selected player cheat from the dropdown
     public void CheatDropdown()
     {
         playerCheatSelection = dropdown.value;
     }
-
+    //Updates the selected world cheat from the dropdown
     public void WorldCheatDropdown()
     {
         worldCheatSelection = worldDropdown.value;
     }
-
+    //Applies the selected cheat to all selected players
     public void ApplyPlayerCheat()
     {
         foreach (GameObject player in selectedPlayer)
@@ -118,7 +127,7 @@ public class DebugCheatsUI : MonoBehaviour
             }
         }
     }
-
+    //Toggles the selected world cheat
     public void ApplyWorldCheats()
     {
         if (worldCheatSelection == 0)

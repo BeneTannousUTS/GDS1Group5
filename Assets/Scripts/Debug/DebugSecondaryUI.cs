@@ -1,3 +1,6 @@
+// AUTHOR: James
+// Handles the secondary debug menu
+
 using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;

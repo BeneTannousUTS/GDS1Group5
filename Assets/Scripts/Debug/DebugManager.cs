@@ -1,3 +1,5 @@
+// AUTHOR: James
+// Manages the debug menu
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,13 +16,10 @@ public class DebugManager : MonoBehaviour
     [SerializeField] Canvas traitorCanvas;
     [SerializeField] Canvas statsCanvas;
     [SerializeField] Canvas cheatsCanvas;
-    [SerializeField] GameObject[] cards;
-    [SerializeField] GameObject cardCanvas;
 
 
     void debugStart()
     {
-        cards = cardCanvas.GetComponentInChildren<CardSelection>().cards;
         debugMode = !debugMode;
         if (debugMode)
         {
@@ -31,12 +30,6 @@ public class DebugManager : MonoBehaviour
             debugCanvas.gameObject.SetActive(false);
         }
     }
-
-    public GameObject[] getCards()
-    {
-        return cards;
-    }
-
     public void LoadWeaponCanvas()
     {
         UnloadAllCanvas();
