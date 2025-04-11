@@ -103,7 +103,7 @@ public class OLD_CloneTraitor : MonoBehaviour, ITraitor
     void Start()
     {
         traitorManager = FindAnyObjectByType<TraitorManager>();
-        cloneObject = traitorManager.GetSummonRef(0);
+        cloneObject = traitorManager.GetObjectRef(0);
         abilitySprite = traitorManager.GetCardRef(0);
         if (gameObject.GetComponent<HealthComponent>().GetIsDead())
         {

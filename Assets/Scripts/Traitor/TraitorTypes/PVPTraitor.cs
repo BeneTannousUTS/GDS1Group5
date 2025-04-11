@@ -3,9 +3,12 @@ using UnityEngine;
 public class PVPTraitor : BaseTraitor
 {
 
+    GameObject passive;
+
     public override void TraitorAbility()
     {
-        base.TraitorAbility();
+        gameObject.GetComponent<PlayerStats>().SetPassive(passive);
+        gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(6, passive);
     }
 
     public override void TraitorSetup()
@@ -30,6 +33,7 @@ public class PVPTraitor : BaseTraitor
         traitorManager = FindAnyObjectByType<TraitorManager>();
         cooldownLength = 10;
         traitorSprite = traitorManager.GetCardRef(0);
+        passive = traitorManager.GetObjectRef(1);
         TraitorSetup();
     }
 

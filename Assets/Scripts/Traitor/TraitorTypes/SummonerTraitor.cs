@@ -69,7 +69,7 @@ public class SummonerTraitor : BaseTraitor
         traitorManager = FindAnyObjectByType<TraitorManager>();
         cooldownLength = 10;
         traitorSprite = traitorManager.GetCardRef(0);
-        summonObject = traitorManager.GetSummonRef(0);
+        summonObject = traitorManager.GetObjectRef(0);
         TraitorSetup();
     }
 

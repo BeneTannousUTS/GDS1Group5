@@ -10,7 +10,7 @@ public class TraitorManager : MonoBehaviour
     private float traitorRoom;
     private bool traitorCardAppear;
     public DungeonManager dungeonManager;
-    [SerializeField] GameObject[] summonRef;
+    [SerializeField] GameObject[] objectRef;
     [SerializeField] Sprite[] cardRef;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -21,9 +21,9 @@ public class TraitorManager : MonoBehaviour
         traitorRoom = dungeonManager.GetDungeonLength() - traitorType.getTraitorRoom();
     }
 
-    public GameObject GetSummonRef(int pos)
+    public GameObject GetObjectRef(int pos)
     {
-        return summonRef[pos];
+        return objectRef[pos];
     }
 
     public Sprite GetCardRef(int pos)
