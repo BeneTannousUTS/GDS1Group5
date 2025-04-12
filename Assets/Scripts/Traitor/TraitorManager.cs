@@ -21,6 +21,11 @@ public class TraitorManager : MonoBehaviour
         traitorRoom = dungeonManager.GetDungeonLength() - traitorType.GetTraitorRoom();
     }
 
+    public BaseTraitor GetTraitorType()
+    {
+        return traitorType;
+    }
+
     public GameObject GetObjectRef(int pos)
     {
         return objectRef[pos];

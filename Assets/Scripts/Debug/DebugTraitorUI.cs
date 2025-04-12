@@ -80,11 +80,7 @@ public class DebugTraitorUI : MonoBehaviour
     {
         foreach (GameObject pla in selectedPlayer)
         {
-            Debug.Log(gameObject.GetComponent<BaseTraitor>());
-            if (gameObject.GetComponent(traitor.GetType()) == null)
-            {
                 pla.AddComponent(traitor.GetType());
-            }
         }
     }
 
