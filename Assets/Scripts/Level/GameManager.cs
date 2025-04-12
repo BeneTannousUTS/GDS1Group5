@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
         return traitorTypeList;
     }
 
+    public void AddPlayer(GameObject player) 
+    {
+        playerList.Add(player);
+    }
+
     void Lose()
     {
         SceneManager.LoadScene("LoseScreen");
@@ -84,7 +89,6 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        playerList = GameObject.FindWithTag("EnemyAISystem").GetComponent<EnemyPathfinder>().GetPlayers();
         DecideTraitor();
     }
 

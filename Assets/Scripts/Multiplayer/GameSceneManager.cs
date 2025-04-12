@@ -28,6 +28,9 @@ public class GameSceneManager : MonoBehaviour
                 PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
                 PlayerManager.instance.players[i].playerInput = newPlayer;
 
+                // Add newPlayer to GameManager playerList
+                FindAnyObjectByType<GameManager>().AddPlayer(newPlayer.gameObject);
+
                 // Position the new player at the corresponding spawn point
                 newPlayer.transform.position = spawnPoints[i].transform.position;
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
