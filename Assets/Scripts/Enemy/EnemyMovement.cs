@@ -32,6 +32,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 facingDirection = Vector3.right;
 
     private bool teleporting = false;
+    public GameObject teleportParticles;
 
     private Animator animator;
     private SpriteRenderer sprite;
@@ -220,7 +221,8 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator Teleport() 
     {
         teleporting = true;
-        yield return new WaitForSeconds(0.5f);
+        Instantiate(teleportParticles, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(1.5f);
         Vector3 summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
         bool validPos = false;
         float exitTime = 0;
@@ -304,7 +306,7 @@ public class EnemyMovement : MonoBehaviour
             }
             else if (currentAiType == aiType.Charger)
             {
-                MoveStationary();
+                MoveCharger();
             }
 
             SetSpriteDirection();
