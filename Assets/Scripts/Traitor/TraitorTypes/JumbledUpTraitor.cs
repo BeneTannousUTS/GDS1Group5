@@ -81,10 +81,7 @@ public class JumbledUpTraitor : BaseTraitor
                 playerList[i].GetComponent<Animator>().runtimeAnimatorController = animCon[i];
             }
         }
-        if (GameObject.FindGameObjectWithTag("EscapeDoor") != null)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
-        }
+        DestroyDoor();
         Destroy(gameObject);
     }
 

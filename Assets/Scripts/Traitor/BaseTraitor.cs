@@ -43,6 +43,16 @@ public class BaseTraitor : MonoBehaviour
 
     }
 
+    protected void DestroyDoor()
+    {
+        GameObject finalDoor = GameObject.FindGameObjectWithTag("EscapeDoor");
+        if (finalDoor != null)
+        {
+           GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().PlaySoundJingle("RoomClear");
+            finalDoor.GetComponent<Animator>().SetTrigger("open");
+            Destroy(finalDoor, 1.2f);
+        }
+    }
     public float GetCooldownLength()
     {
         return cooldownLength;
