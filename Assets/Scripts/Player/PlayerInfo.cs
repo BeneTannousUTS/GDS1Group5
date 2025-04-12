@@ -45,7 +45,7 @@ public class PlayerInfo : MonoBehaviour
     //Enlarge arrow above player & turn on attack and speed modifier display
     void ShowPlayerInfo()
     {
-        playerHud.SetStatsAlpha(255);
+        playerHud.SetStatsFilling();
         playerLocateArrow.transform.localScale *= 2;
         Gamepad.current.SetMotorSpeeds(1f, 1f);
     }
@@ -53,7 +53,7 @@ public class PlayerInfo : MonoBehaviour
     //Shrink arrow above player & turn off attack and speed modifier display
     void HidePlayerInfo()
     {
-        playerHud.SetStatsAlpha(0);
+        playerHud.SetStatsUnfilling();
         playerLocateArrow.transform.localScale /= 2;
         Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
