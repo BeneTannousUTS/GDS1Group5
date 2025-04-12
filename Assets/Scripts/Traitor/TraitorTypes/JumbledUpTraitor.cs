@@ -82,7 +82,6 @@ public class JumbledUpTraitor : BaseTraitor
             }
         }
         DestroyDoor();
-        Destroy(gameObject);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -51,6 +51,7 @@ public class BaseTraitor : MonoBehaviour
            GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().PlaySoundJingle("RoomClear");
             finalDoor.GetComponent<Animator>().SetTrigger("open");
             Destroy(finalDoor, 1.2f);
+            gameObject.SetActive(false);
         }
     }
     public float GetCooldownLength()

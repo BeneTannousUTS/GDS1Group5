@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject player in playerList)
         {
-            if (player.GetComponent<HealthComponent>().GetIsDead() == false) 
+            if (player.GetComponent<HealthComponent>().GetIsDead() == false && player.CompareTag("Player"))
             {
                 allDead = false;
                 break;
@@ -107,8 +107,13 @@ public class GameManager : MonoBehaviour
 
         if (allDead)
         {
-            resultsManager.GetPlayerScores();
-            Lose();
+            GameObject finalDoor = GameObject.FindGameObjectWithTag("EscapeDoor");
+            if (finalDoor != null)
+            {
+                GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>().PlaySoundJingle("RoomClear");
+                finalDoor.GetComponent<Animator>().SetTrigger("open");
+                Destroy(finalDoor, 1.2f);
+            }
         }
     }
 }
