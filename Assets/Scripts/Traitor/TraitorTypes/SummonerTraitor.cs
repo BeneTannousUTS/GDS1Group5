@@ -58,10 +58,7 @@ public class SummonerTraitor : BaseTraitor
                 Destroy(sum);
             }
         }
-        if (GameObject.FindGameObjectWithTag("EscapeDoor") != null)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
-        }
+        DestroyDoor();
         Destroy(gameObject);
     }
 

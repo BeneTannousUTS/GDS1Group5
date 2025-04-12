@@ -21,12 +21,9 @@ public class PVPTraitor : BaseTraitor
     public override void LoseCondition()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Traitor");
-        if (temp.Length == 1)
+        if (temp.Length == 2)
         {
-            if (GameObject.FindGameObjectWithTag("EscapeDoor") != null)
-            {
-                Destroy(GameObject.FindGameObjectWithTag("EscapeDoor"));
-            }
+            DestroyDoor();
         }
         Destroy(gameObject);
     }
