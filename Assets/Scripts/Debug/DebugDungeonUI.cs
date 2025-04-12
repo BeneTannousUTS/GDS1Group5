@@ -62,6 +62,7 @@ public class DebugDungeonUI : MonoBehaviour
                 }
 
             }
+            gameManager.traitorManager.SetTraitorType(gameManager.traitorManager.GetTraitorType());
         }
     }
 

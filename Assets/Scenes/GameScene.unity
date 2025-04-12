@@ -170,6 +170,7 @@ MonoBehaviour:
   traitorTypeList:
   - {fileID: -2326979661217828287, guid: 495754650fdcac4408a36c36c5cbf2d1, type: 3}
   - {fileID: 8733092448949787612, guid: 79b2cbf457c78b54fa8ba46632fbd056, type: 3}
+  - {fileID: 6082305035975314543, guid: eade4929e2a671c4ca71819d947f7c95, type: 3}
   resultsManager: {fileID: 203779840}
 --- !u!1 &203779839
 GameObject:
@@ -409,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3608872461302519060, guid: 9a933a0a6c5eb6b4585b181ceadd4d0c, type: 3}
       propertyPath: enemies.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3608872461302519060, guid: 9a933a0a6c5eb6b4585b181ceadd4d0c, type: 3}
       propertyPath: 'enemies.Array.data[2]'
@@ -423,6 +424,10 @@ PrefabInstance:
       propertyPath: 'enemies.Array.data[4]'
       value: 
       objectReference: {fileID: 7408166887036550952, guid: 6f65fc182fcaa054188c023883980ecd, type: 3}
+    - target: {fileID: 3608872461302519060, guid: 9a933a0a6c5eb6b4585b181ceadd4d0c, type: 3}
+      propertyPath: 'enemies.Array.data[5]'
+      value: 
+      objectReference: {fileID: 7408166887036550952, guid: 2a70c3f43324d8a4485c13b94956eeca, type: 3}
     - target: {fileID: 3918831209185757810, guid: 9a933a0a6c5eb6b4585b181ceadd4d0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1679,6 +1684,7 @@ MonoBehaviour:
   objectRef:
   - {fileID: 6598206471771497136, guid: 73cecb45f29011248a0229ded0572cea, type: 3}
   - {fileID: 4141433749660600349, guid: 1bb0ce797782f6d409e7ff297a4614d5, type: 3}
+  - {fileID: 7408166887036550952, guid: 2a70c3f43324d8a4485c13b94956eeca, type: 3}
   cardRef:
   - {fileID: 7596846620669185672, guid: dd83780a790ef1748bd2afc51d5afaff, type: 3}
 --- !u!4 &2075478538
