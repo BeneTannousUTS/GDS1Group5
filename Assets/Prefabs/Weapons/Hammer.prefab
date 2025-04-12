@@ -79,8 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8177994726275641236, guid: 00834f28124241346819108dd17cf5cd, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -8917934352453247839, guid: d99f2b14e771f20499853dcf5f7a245b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -128,7 +128,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 4, y: 3.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -144,9 +144,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4882847367248088821}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f19fb55a532ffb64680c8394c8eef4e9, type: 2}
+  m_Controller: {fileID: 9100000, guid: b649438e89d2673449c11d151655731c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   damageValue: 17.5
   weaponLifetime: 0.6
   attackCooldownWindow: 2.5
-  knockbackMultiplier: 1.2
+  knockbackStrength: 0.9
   knockbackTime: 0.2
   friendlyFire: 0
   projectile: {fileID: 0}
