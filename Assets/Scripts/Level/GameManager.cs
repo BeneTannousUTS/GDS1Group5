@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
                 Destroy(finalDoor, 1.2f);
             }
         }
-        else 
+        else if (allDead)
         {
             resultsManager.GetPlayerScores();
             Lose();
