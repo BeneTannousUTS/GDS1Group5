@@ -10,7 +10,7 @@ public class EnemyCollision : MonoBehaviour
     private HashSet<int> processedColliderIDs = new HashSet<int>();
     bool FriendlyFire(bool friendlyFire, string sourceType) 
     {
-        return friendlyFire || gameObject.CompareTag(sourceType) == false;
+        return friendlyFire || (gameObject.CompareTag(sourceType) == false && !sourceType.Equals("Traitor"));
     }
 
     // On collision with a weapon or projectile take damage

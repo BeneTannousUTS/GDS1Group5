@@ -13,7 +13,11 @@ public class PlayerCollision : MonoBehaviour
     public void SetPlayerPVP(bool isPVP) { isPlayerPVP=isPVP; }
     bool FriendlyFire(bool friendlyFire, string sourceType) 
     {
-        return friendlyFire || gameObject.CompareTag(sourceType) == false || isPlayerPVP;
+        if (sourceType.Equals("Enemy") && gameObject.CompareTag("Traitor"))
+        {
+            return false;
+        }
+        return friendlyFire || isPlayerPVP || gameObject.CompareTag(sourceType) == false;
     }
 
     // On collision with a weapon or projectile take damage
