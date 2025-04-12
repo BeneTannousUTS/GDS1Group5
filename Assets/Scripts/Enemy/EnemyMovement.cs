@@ -12,7 +12,8 @@ public class EnemyMovement : MonoBehaviour
         Passive,
         Teleporter,
         Cautious,
-        Stationary
+        Stationary,
+        Charger
     }
 
     public aiType currentAiType;
@@ -45,6 +46,35 @@ public class EnemyMovement : MonoBehaviour
 
     // Aggressive AI movement meant to run towards closest player
     void MoveAggressive()
+    {
+        if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
+        {
+            facingDirection = new Vector3(movePoint.transform.position.x - transform.position.x, movePoint.transform.position.y - transform.position.y, 0f);
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) > aggroRange)
+            {
+                movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+            }
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= attackRange)
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(true);
+            }
+            else
+            {
+                gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+
+                transform.position = Vector3.MoveTowards(transform.position, movePoint.transform.position + movementOffset, moveSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+        }
+    }
+
+    // Charger AI movement meant to run towards closest player then charge when attacking
+    void MoveCharger()
     {
         if (movePoint != null && movePoint.GetComponent<HealthComponent>().GetIsDead() == false)
         {
@@ -219,7 +249,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     public void ActivateAttackSpecial() {
-        if (currentAiType == aiType.Aggressive) 
+        if (currentAiType == aiType.Charger) 
         {
             GetComponent<Rigidbody2D>().linearVelocity = facingDirection.normalized * moveSpeed * chargeMultiplier;
             dashTime = Random.Range(0.2f, 0.4f);
@@ -244,7 +274,7 @@ public class EnemyMovement : MonoBehaviour
         {
             knockbackTime -= Time.deltaTime;
         }
-        if (dashTime > 0)
+        else if (dashTime > 0)
         {
             dashTime -= Time.deltaTime;
         }
@@ -269,6 +299,10 @@ public class EnemyMovement : MonoBehaviour
                 MoveCautious();
             }
             else if (currentAiType == aiType.Stationary)
+            {
+                MoveStationary();
+            }
+            else if (currentAiType == aiType.Charger)
             {
                 MoveStationary();
             }
