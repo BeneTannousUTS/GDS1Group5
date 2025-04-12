@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
     public void CheckGameState() 
     {
         bool allDead = true;
+        bool isTraitor = false;
 
         foreach (GameObject player in playerList)
         {
@@ -103,9 +104,13 @@ public class GameManager : MonoBehaviour
                 allDead = false;
                 break;
             }
+            else if (player.CompareTag("Traitor"))
+            {
+                isTraitor = true;
+            }
         }
 
-        if (allDead)
+        if (allDead && isTraitor)
         {
             GameObject finalDoor = GameObject.FindGameObjectWithTag("EscapeDoor");
             if (finalDoor != null)
@@ -114,6 +119,11 @@ public class GameManager : MonoBehaviour
                 finalDoor.GetComponent<Animator>().SetTrigger("open");
                 Destroy(finalDoor, 1.2f);
             }
+        }
+        else 
+        {
+            resultsManager.GetPlayerScores();
+            Lose();
         }
     }
 }
