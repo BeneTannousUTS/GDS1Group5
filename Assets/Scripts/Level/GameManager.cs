@@ -60,9 +60,9 @@ public class GameManager : MonoBehaviour
 
     void DecideTraitor() 
     {
-        AddTraitorTypes();
+        //AddTraitorTypes();
 
-        currentTraitorType = traitorTypeList[Random.Range(1, traitorTypeList.Count)];
+        currentTraitorType = traitorTypeList[Random.Range(0, traitorTypeList.Count)];
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
     }
