@@ -44,6 +44,8 @@ public class CardSelection : MonoBehaviour
     private Image selectingImage;
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
+    GameObject traitorCanvasPrefab;
+    [SerializeField]
     Sprite[] playerSprites; // this will need to be changed once score order is implemented
     //private float[] oldPlayerScores = new float[4];
 
@@ -72,8 +74,16 @@ public class CardSelection : MonoBehaviour
             card.GetComponent<CardHandler>().showDesc();
         }
 
-        yield return new WaitForSeconds(4f);
-        FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+        yield return new WaitForSeconds(3f);
+
+        if (numOfTraitors > 0)
+        {
+            StartCoroutine(ShowTraitorCanvas(FindAnyObjectByType<CardManager>().traitorType));
+        } else
+        {
+            yield return new WaitForSeconds(1f);
+            FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+        }
     }
 
     // Sets the value of final room
@@ -420,7 +430,7 @@ public class CardSelection : MonoBehaviour
             if (skipAction.IsPressed())
             {
                 holdTimer += Time.deltaTime;
-                if (holdTimer >= 0.7f)
+                if (holdTimer >= 0.4f)
                 {
                     SelectCard(passObject);
                     break;
@@ -432,6 +442,17 @@ public class CardSelection : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    private IEnumerator ShowTraitorCanvas(BaseTraitor traitorType)
+    {
+        GameObject traitorCanvas = Instantiate(traitorCanvasPrefab, null);
+        traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
+
+        yield return WaitForSecondsOrSkip(5f);
+
+        Destroy(traitorCanvas);
+        FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
     }
 
     void VibrateController(PlayerInput playerInput)
