@@ -133,11 +133,20 @@ public class PlayerHUD : MonoBehaviour
         helper.statsHelper.UpdateDamageText(GetComponent<PlayerStats>().GetStrengthStat());
         helper.statsHelper.UpdateSpeedText(GetComponent<PlayerStats>().GetMoveStat());
         helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
+        helper.statsHelper.UpdateKnockbackText(GetComponent<PlayerStats>().GetKnockbackStat());
+        helper.statsHelper.UpdateLifestealText(GetComponent<PlayerStats>().GetLifestealStat());
+        helper.statsHelper.UpdateCooldownText(GetComponent<PlayerStats>().GetCooldownStat());
     }
 
-    public void SetStatsAlpha(int alpha)
+    public void SetStatsFilling()
     {
-        helper.statsHelper.UpdateDamageTextAlpha(alpha);
-        helper.statsHelper.UpdateSpeedTextAlpha(alpha);
+        helper.statsHelper.StopCoroutine("UnfillStatsBar");
+        helper.statsHelper.StartCoroutine("FillStatsBar");
+    }
+    
+    public void SetStatsUnfilling()
+    {
+        helper.statsHelper.StopCoroutine("FillStatsBar");
+        helper.statsHelper.StartCoroutine("UnfillStatsBar");
     }
 }
