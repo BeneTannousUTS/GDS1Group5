@@ -84,6 +84,11 @@ public class DebugTraitorUI : MonoBehaviour
         }
     }
 
+    public void SetFinalTraitor()
+    {
+        gameManager.DebugSetTraitor(traitor);
+    }
+
     private void UpdatePlayersTxt()
     {
         string selectPlay = "Selected Players: ";

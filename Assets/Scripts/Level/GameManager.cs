@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,6 +58,13 @@ public class GameManager : MonoBehaviour
         AddTraitorTypes();
 
         currentTraitorType = traitorTypeList[Random.Range(1, traitorTypeList.Count)];
+        traitorManager.SetTraitorType(currentTraitorType);
+        cardManager.SetTraitorType(currentTraitorType);
+    }
+
+    public void DebugSetTraitor(BaseTraitor traitor)
+    {
+        currentTraitorType = traitor;
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
     }
