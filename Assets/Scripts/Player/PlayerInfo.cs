@@ -10,6 +10,7 @@ public class PlayerInfo : MonoBehaviour
     public GameObject playerLocateArrow;
     
     PlayerHUD playerHud;
+    VibrationManager vibrationManager;
     
     bool infoButtonPressed;
     bool isArrowLarge;
@@ -18,6 +19,7 @@ public class PlayerInfo : MonoBehaviour
     void Start()
     {
         playerHud = GetComponent<PlayerHUD>();
+        vibrationManager = GetComponent<VibrationManager>();
     }
 
     // Update is called once per frame
@@ -47,7 +49,7 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsFilling();
         playerLocateArrow.transform.localScale *= 2;
-        Gamepad.current.SetMotorSpeeds(1f, 1f);
+        vibrationManager.StartInfoVibration(Gamepad.current);
     }
 
     //Shrink arrow above player & turn off attack and speed modifier display
@@ -55,6 +57,6 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsUnfilling();
         playerLocateArrow.transform.localScale /= 2;
-        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        vibrationManager.StopInfoVibration();
     }
 }

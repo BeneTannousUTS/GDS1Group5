@@ -27,11 +27,11 @@ public class VibrationManager : MonoBehaviour
         
     }
 
-    IEnumerator DamagePattern(Gamepad controller, float targetTime)
+    IEnumerator DamagePattern(Gamepad controller)
     {
         float vibTime = 0f;
         float vibFreq = 0.75f;
-        while (vibTime < 0.3f)
+        while (vibTime < 0.2f)
         {
             controller.SetMotorSpeeds(vibFreq,vibFreq) ;
             vibTime += Time.deltaTime;
@@ -42,7 +42,7 @@ public class VibrationManager : MonoBehaviour
         controller.SetMotorSpeeds(0,0);
     }
     
-    IEnumerator HealPattern(Gamepad controller, float targetTime)
+    IEnumerator HealPattern(Gamepad controller)
     {
         float vibTime = 0f;
         float vibFreq = 0f;
@@ -57,7 +57,24 @@ public class VibrationManager : MonoBehaviour
         controller.SetMotorSpeeds(0,0);
     }
 
-    IEnumerator InfoPatternLoop(Gamepad controller)
+    public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
+    {
+        switch (vibrationPattern)
+        {
+            case VibrationPattern.DamagePattern:
+                StartCoroutine(DamagePattern(controller));
+                break;
+            case VibrationPattern.HealPattern:
+                StartCoroutine(HealPattern(controller));
+                break;
+            default:
+                return;
+        }
+    }
+    
+    /*------------------------------------ Coroutine Logic -----------------------------*/
+
+    IEnumerator InfoPattern(Gamepad controller)
     {
         isInfoVibrating = true;
 
@@ -80,13 +97,14 @@ public class VibrationManager : MonoBehaviour
         
         controller.SetMotorSpeeds(0f, 0f);
         infoCoroutine = null;
+        isInfoVibrating = false;
     }
     
     public void StartInfoVibration(Gamepad controller)
     {
-        if(infoCoroutine == null)
+        if (!isInfoVibrating)
         {
-            infoCoroutine = StartCoroutine(InfoPatternLoop(controller));
+            infoCoroutine = StartCoroutine(InfoPattern(controller));
         }
     }
    
