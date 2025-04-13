@@ -4,6 +4,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Mathematics;
+using UnityEngine.InputSystem;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -107,6 +108,11 @@ public class HealthComponent : MonoBehaviour
                 {
                     UpdateHUDHealthBar();
                 }
+
+                if (gameObject.GetComponent<VibrationManager>() != null)
+                {
+                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(Gamepad.current, VibrationManager.VibrationPattern.HealPattern);
+                }
             }
             
             GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
@@ -131,6 +137,11 @@ public class HealthComponent : MonoBehaviour
                 if (gameObject.GetComponent<PlayerHUD>() != null)
                 {
                     UpdateHUDHealthBar();
+                }
+                
+                if (gameObject.GetComponent<VibrationManager>() != null)
+                {
+                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(Gamepad.current, VibrationManager.VibrationPattern.HealPattern);
                 }
             }
             
