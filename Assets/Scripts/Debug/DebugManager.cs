@@ -134,7 +134,7 @@ public class DebugManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            debugStart();
+            //debugStart();
         }
     }
 }
