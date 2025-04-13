@@ -49,7 +49,7 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsFilling();
         playerLocateArrow.transform.localScale *= 2;
-        vibrationManager.StartInfoVibration(Gamepad.current);
+        vibrationManager.StartInfoVibration(GetComponent<PlayerInput>().GetDevice<Gamepad>());
     }
 
     //Shrink arrow above player & turn off attack and speed modifier display
