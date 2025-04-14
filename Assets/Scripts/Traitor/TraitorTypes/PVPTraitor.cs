@@ -25,6 +25,7 @@ public class PVPTraitor : BaseTraitor
         {
             DestroyDoor();
         }
+        gameObject.SetActive(false);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
