@@ -76,10 +76,13 @@ public class CardSelection : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
+        // need an await until all players have selected here
+
         if (numOfTraitors > 0)
         {
             StartCoroutine(ShowTraitorCanvas(FindAnyObjectByType<CardManager>().traitorType));
-        } else
+        }
+        else
         {
             yield return new WaitForSeconds(1f);
             FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
@@ -189,15 +192,9 @@ public class CardSelection : MonoBehaviour
 
             bottomGroup.SetActive(false);
             bottomText.gameObject.SetActive(false);
-            middleText.text = $"Player {playerIndex + 1} is Selecting a Card";
+            middleText.text = $"Player {playerIndex + 1} is Selecting a Card \nScore: {playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerScore>().GetScore()}";
             selectingImage.sprite = playerSprites[playerIndex];
             selectingParent.SetActive(true);
-
-            InputActionAsset playerActions = playerSelectionOrder[playerSelectionPos].playerInput.actions;
-            UIInputModule.actionsAsset = playerActions;
-            UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
-            UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
-
 
             for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
             {
@@ -213,7 +210,13 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            yield return WaitForSecondsOrSkip(1.5f);
+            InputActionAsset playerActions = playerSelectionOrder[playerSelectionPos].playerInput.actions;
+            UIInputModule.actionsAsset = playerActions;
+
+            yield return WaitForContinue();
+
+            UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
+            UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
 
             EventSystem.current.SetSelectedGameObject(null);
 
@@ -236,7 +239,9 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            if (numOfTraitors > 0 || playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            // this is the code for the old passing card system
+
+            /*if (numOfTraitors > 0 || playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
             {
                 bottomGroup.SetActive(false);
                 yield return new WaitUntil(() => selectedCard != null);
@@ -262,7 +267,13 @@ public class CardSelection : MonoBehaviour
                         card.GetComponent<CardHandler>().OnDeselect(null);
                     }
                 }
-            }
+            }*/
+
+            yield return new WaitUntil(() => selectedCard != null);
+
+            Destroy(selectedCard.GetComponent<Button>());
+            selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+            selectedCard.GetComponent<CardHandler>().OnDeselect(null);
 
             selectedCard = null;
             yield return new WaitForSeconds(0.6f);
@@ -400,11 +411,11 @@ public class CardSelection : MonoBehaviour
         selectedCards[currentPlayerIndex] = abilityIndex;
     }
 
-    private IEnumerator WaitForSecondsOrSkip(float seconds)
+    private IEnumerator WaitForContinue()
     {
         float timer = 0f;
         InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
-        while (timer < seconds)
+        while (true)
         {
             if (skipAction != null && skipAction.triggered)
             {
@@ -415,64 +426,16 @@ public class CardSelection : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitingForPass()
-    {
-        float holdTimer = 0f;
-        InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
-        if (skipAction == null)
-        {
-            Debug.LogWarning("SkipButton action not found!");
-            yield break;
-        }
-
-        while (selectedCard == null)
-        {
-            if (skipAction.IsPressed())
-            {
-                holdTimer += Time.deltaTime;
-                if (holdTimer >= 0.4f)
-                {
-                    SelectCard(passObject);
-                    break;
-                }
-            }
-            else
-            {
-                holdTimer = 0f;
-            }
-            yield return null;
-        }
-    }
-
     private IEnumerator ShowTraitorCanvas(BaseTraitor traitorType)
     {
         GameObject traitorCanvas = Instantiate(traitorCanvasPrefab, null);
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
 
-        yield return WaitForSecondsOrSkip(5f);
+        yield return new WaitForSeconds(5f);
+
+        yield return WaitForContinue(); // i want to change this to an all player ready system
 
         Destroy(traitorCanvas);
         FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
-    }
-
-    void VibrateController(PlayerInput playerInput)
-    {
-        Gamepad gamepad = playerInput.devices.OfType<Gamepad>().FirstOrDefault();
-        if (gamepad != null)
-        {
-            string productName = gamepad.description.product.ToLower();
-            Debug.Log("Gamepad product name: " + productName);
-            if (productName.Contains("dualshock") || productName.Contains("dualsense"))
-            {
-                gamepad.SetMotorSpeeds(0.5f, 0.5f);
-                StartCoroutine(StopVibrations(gamepad, 0.5f));
-            }
-        }
-    }
-
-    IEnumerator StopVibrations(Gamepad gamepad, float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        gamepad.ResetHaptics();
     }
 }
