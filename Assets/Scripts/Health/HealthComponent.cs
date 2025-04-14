@@ -111,7 +111,8 @@ public class HealthComponent : MonoBehaviour
 
                 if (gameObject.GetComponent<VibrationManager>() != null)
                 {
-                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(Gamepad.current, VibrationManager.VibrationPattern.HealPattern);
+                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+                        VibrationManager.VibrationPattern.HealPattern);
                 }
             }
             
@@ -141,7 +142,8 @@ public class HealthComponent : MonoBehaviour
                 
                 if (gameObject.GetComponent<VibrationManager>() != null)
                 {
-                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(Gamepad.current, VibrationManager.VibrationPattern.HealPattern);
+                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+                        VibrationManager.VibrationPattern.HealPattern);
                 }
             }
             
