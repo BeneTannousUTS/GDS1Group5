@@ -53,7 +53,7 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     GameObject traitorCanvasPrefab;
     [SerializeField]
-    Sprite[] playerSprites; // this will need to be changed once score order is implemented
+    Sprite[] playerSprites;
     //private float[] oldPlayerScores = new float[4];
 
     void Awake()
@@ -424,6 +424,8 @@ public class CardSelection : MonoBehaviour
         }
 
         yield return WaitForAllConfirmations(handlers);
+        
+        yield return new WaitForSeconds(0.25f);
 
         if (numOfTraitors > 0)
         {
@@ -432,7 +434,7 @@ public class CardSelection : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(1f);
-            FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+            ResumeGameplay();
         }
     }
 
@@ -464,6 +466,11 @@ public class CardSelection : MonoBehaviour
     public void SetIsFinalRoom(int num)
     {
         numOfTraitors = num;
+    }
+
+    public void ResumeGameplay()
+    {
+        FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
     }
 
     #endregion
@@ -537,15 +544,26 @@ public class CardSelection : MonoBehaviour
 
     private IEnumerator ShowTraitorCanvas(BaseTraitor traitorType)
     {
+        PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
+
+        foreach (PlayerData playerData in players)
+        {
+            if (!playerData.isJoined) continue;
+            playerData.playerInput.SwitchCurrentActionMap("Locked");
+        }
+
         GameObject traitorCanvas = Instantiate(traitorCanvasPrefab, null);
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
-        
+        foreach (PlayerData playerData in players)
+        {
+            if (!playerData.isJoined) continue;
+            playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
+        }
 
-        Destroy(traitorCanvas);
-        FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+        traitorCanvas.GetComponent<TraitorCanvasManager>().StartReadyCheck(players);
     }
 
     #endregion
