@@ -64,6 +64,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         card.cardFrontSprite = traitorSprite;
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
+        card.cardType = CardType.Passive;
         card.abilityObject = null;
         card.cardName = "Traitor";
         card.cardDescription = "You are a traitor... Fight your once friends.";
@@ -72,6 +73,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void ReplaceCard(Card replacementCard)
     {
         card.cardName = replacementCard.cardName;
+        card.cardType = replacementCard.cardType;
         card.cardDescription = replacementCard.cardDescription;
         card.cardFrontSprite = replacementCard.cardFrontSprite;
         card.abilityObject = replacementCard.abilityObject;

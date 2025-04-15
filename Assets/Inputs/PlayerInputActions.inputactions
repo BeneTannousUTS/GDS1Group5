@@ -445,13 +445,22 @@
             "bindings": []
         },
         {
-            "name": "Skip",
+            "name": "Confirm/Skip",
             "id": "3eb59fc2-9cc9-4e77-b884-60df0b4b760a",
             "actions": [
                 {
                     "name": "SkipButton",
                     "type": "Button",
                     "id": "27578d5f-5dad-4646-a9cf-aacd1263c0ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ConfirmButton",
+                    "type": "Button",
+                    "id": "d65a4f9f-29e8-466e-8791-e4c84cec32ee",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -467,6 +476,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SkipButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9391ecf0-d809-4157-88e9-9c274dcf2de1",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ConfirmButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

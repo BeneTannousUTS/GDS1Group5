@@ -21,9 +21,16 @@ public enum CardType
 public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
-    [SerializeField] Card reviveCard; //specific reference to the revive card because it should not be apart of the regualr card set
+    [SerializeField]
+    Card reviveCard; // specific reference to the revive card because it should not be apart of the regualr card set
     [SerializeField]
     GameObject passObject;
+    [SerializeField]
+    GameObject confirmCanvas;
+    [SerializeField]
+    GameObject coverCanvas;
+    [SerializeField]
+    GameObject confirmCardPrefab;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -57,43 +64,7 @@ public class CardSelection : MonoBehaviour
         UIInputModule.leftClick = null;
     }
 
-    // Flips all cards
-    public IEnumerator FlipAll()
-    {
-        yield return new WaitForSeconds(0.5f);
-        foreach (GameObject card in cardList)
-        {
-            StartCoroutine(card.GetComponent<CardHandler>().ChangeSprite());
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        foreach (GameObject card in cardList)
-        {
-            card.GetComponent<CardHandler>().showNameAsCard();
-            card.GetComponent<CardHandler>().showDesc();
-        }
-
-        yield return new WaitForSeconds(3f);
-
-        // need an await until all players have selected here
-
-        if (numOfTraitors > 0)
-        {
-            StartCoroutine(ShowTraitorCanvas(FindAnyObjectByType<CardManager>().traitorType));
-        }
-        else
-        {
-            yield return new WaitForSeconds(1f);
-            FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
-        }
-    }
-
-    // Sets the value of final room
-    public void SetIsFinalRoom(int num)
-    {
-        numOfTraitors = num;
-    }
+    #region Selection Setup
 
     public void SelectionSetup()
     {
@@ -149,6 +120,10 @@ public class CardSelection : MonoBehaviour
         StartCoroutine(SelectionProcess());
     }
 
+    #endregion
+
+    #region Selection Process
+
     IEnumerator SelectionProcess()
     {
         // get a list of joined players
@@ -202,7 +177,7 @@ public class CardSelection : MonoBehaviour
 
                 if (pIndex == playerSelectionPos)
                 {
-                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Skip");
+                    playerSelectionOrder[pIndex].playerInput.SwitchCurrentActionMap("Confirm/Skip");
                 }
                 else
                 {
@@ -299,6 +274,10 @@ public class CardSelection : MonoBehaviour
         StartCoroutine(FlipAll());
     }
 
+    #endregion
+
+    #region Determine Cards
+
     void DetermineCards()
     {
         Debug.Log("Determine Card");
@@ -391,6 +370,74 @@ public class CardSelection : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region FlipAll
+
+    // Flips all cards
+    public IEnumerator FlipAll()
+    {
+        yield return new WaitForSeconds(0.5f);
+        foreach (GameObject card in cardList)
+        {
+            StartCoroutine(card.GetComponent<CardHandler>().ChangeSprite());
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        foreach (GameObject card in cardList)
+        {
+            card.GetComponent<CardHandler>().showNameAsCard();
+            card.GetComponent<CardHandler>().showDesc();
+        }
+
+        yield return new WaitForSeconds(3f); // maybe turn this into a ready check
+
+        UIInputModule.actionsAsset = null;
+
+        PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
+        List<ConfirmCardHandler> handlers = new List<ConfirmCardHandler>(); // at the player's index will hold the confirm card
+
+        foreach (PlayerData playerData in players)
+        {
+            if (!playerData.isJoined) continue;
+
+            if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
+            || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
+            {
+                coverCanvas.SetActive(true);
+                GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
+                playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
+
+                ConfirmCardHandler confirmCardHandler = confirmCard.GetComponent<ConfirmCardHandler>();
+                confirmCardHandler.playerText.text = $"Player {playerData.playerIndex + 1}";
+                confirmCardHandler.playerIcon.sprite = playerSprites[playerData.playerIndex];
+                confirmCardHandler.prevCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
+                playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite;
+                confirmCardHandler.newCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite;
+                confirmCardHandler.assignedInput = playerData.playerInput;
+                confirmCardHandler.playerIndex = playerData.playerIndex;
+
+                handlers.Add(confirmCardHandler);
+            }
+        }
+
+        yield return WaitForAllConfirmations(handlers);
+
+        if (numOfTraitors > 0)
+        {
+            StartCoroutine(ShowTraitorCanvas(FindAnyObjectByType<CardManager>().traitorType));
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+            FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+        }
+    }
+
+    #region Helper Functions
+
     public void SelectCard(GameObject card)
     {
         Debug.Log($"Card Selected: {card.name}");
@@ -411,17 +458,79 @@ public class CardSelection : MonoBehaviour
         selectedCards[currentPlayerIndex] = abilityIndex;
     }
 
+    #endregion
+
+    // Sets the value of final room
+    public void SetIsFinalRoom(int num)
+    {
+        numOfTraitors = num;
+    }
+
+    #endregion
+
+    #region IEnums
+
     private IEnumerator WaitForContinue()
     {
         float timer = 0f;
-        InputAction skipAction = UIInputModule.actionsAsset.FindAction("SkipButton");
+        InputAction confirmAction = UIInputModule.actionsAsset.FindAction("ConfirmButton");
         while (true)
         {
-            if (skipAction != null && skipAction.triggered)
+            if (confirmAction != null && confirmAction.triggered)
             {
                 break;
             }
             timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public IEnumerator WaitForAllConfirmations(List<ConfirmCardHandler> allCardHandlers)
+    {
+        List<Coroutine> activeCoroutines = new();
+
+        foreach (ConfirmCardHandler handler in allCardHandlers)
+        {
+            if (handler.assignedInput == null) continue; // skip players with no input
+            Debug.Log($"All Handlers: Registered handler to p{handler.playerIndex}");
+            activeCoroutines.Add(StartCoroutine(WaitForConfirm(handler)));
+        }
+
+        while (!allCardHandlers.Where(h => h.assignedInput != null).All(h => h.hasConfirmed))
+            yield return null;
+    }
+
+    public IEnumerator WaitForConfirm(ConfirmCardHandler cardHandler)
+    {
+        InputAction confirmAction = cardHandler.assignedInput.actions.FindAction("ConfirmButton");
+        InputAction skipAction = cardHandler.assignedInput.actions.FindAction("SkipButton");
+
+        Debug.Log($"Card Handler p{cardHandler.playerIndex}");
+
+        while (!cardHandler.hasConfirmed)
+        {
+            if (confirmAction != null && confirmAction.WasPressedThisFrame())
+            {
+                cardHandler.confirmedChoice = true;
+                cardHandler.hasConfirmed = true;
+
+                Debug.Log($"Card Handler p{cardHandler.playerIndex} YES");
+
+                cardHandler.yesText.color = Color.green;
+                cardHandler.noText.color = Color.black;
+            }
+            else if (skipAction != null && skipAction.WasPressedThisFrame())
+            {
+                cardHandler.confirmedChoice = false;
+                cardHandler.hasConfirmed = true;
+
+                Debug.Log($"Card Handler p{cardHandler.playerIndex} NO");
+                selectedCards[cardHandler.playerIndex] = -1;
+
+                cardHandler.yesText.color = Color.black;
+                cardHandler.noText.color = Color.red;
+            }
+
             yield return null;
         }
     }
@@ -433,9 +542,11 @@ public class CardSelection : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        yield return WaitForContinue(); // i want to change this to an all player ready system
+        
 
         Destroy(traitorCanvas);
         FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
     }
+
+    #endregion
 }

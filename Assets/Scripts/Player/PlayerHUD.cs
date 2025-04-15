@@ -149,4 +149,9 @@ public class PlayerHUD : MonoBehaviour
         helper.statsHelper.StopCoroutine("FillStatsBar");
         helper.statsHelper.StartCoroutine("UnfillStatsBar");
     }
+
+    public UIComponentHelper GetUIComponentHelper()
+    {
+        return helper;
+    }
 }

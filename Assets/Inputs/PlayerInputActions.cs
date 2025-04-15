@@ -531,13 +531,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": []
         },
         {
-            ""name"": ""Skip"",
+            ""name"": ""Confirm/Skip"",
             ""id"": ""3eb59fc2-9cc9-4e77-b884-60df0b4b760a"",
             ""actions"": [
                 {
                     ""name"": ""SkipButton"",
                     ""type"": ""Button"",
                     ""id"": ""27578d5f-5dad-4646-a9cf-aacd1263c0ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ConfirmButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""d65a4f9f-29e8-466e-8791-e4c84cec32ee"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -553,6 +562,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SkipButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9391ecf0-d809-4157-88e9-9c274dcf2de1"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ConfirmButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -606,9 +626,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_CardSelection_SkipButton = m_CardSelection.FindAction("SkipButton", throwIfNotFound: true);
         // Locked
         m_Locked = asset.FindActionMap("Locked", throwIfNotFound: true);
-        // Skip
-        m_Skip = asset.FindActionMap("Skip", throwIfNotFound: true);
-        m_Skip_SkipButton = m_Skip.FindAction("SkipButton", throwIfNotFound: true);
+        // Confirm/Skip
+        m_ConfirmSkip = asset.FindActionMap("Confirm/Skip", throwIfNotFound: true);
+        m_ConfirmSkip_SkipButton = m_ConfirmSkip.FindAction("SkipButton", throwIfNotFound: true);
+        m_ConfirmSkip_ConfirmButton = m_ConfirmSkip.FindAction("ConfirmButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -618,7 +639,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Gameplay.enabled, "This will cause a leak and performance issues, PlayerInputActions.Gameplay.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_CardSelection.enabled, "This will cause a leak and performance issues, PlayerInputActions.CardSelection.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Locked.enabled, "This will cause a leak and performance issues, PlayerInputActions.Locked.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_Skip.enabled, "This will cause a leak and performance issues, PlayerInputActions.Skip.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ConfirmSkip.enabled, "This will cause a leak and performance issues, PlayerInputActions.ConfirmSkip.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1248,29 +1269,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// </summary>
     public LockedActions @Locked => new LockedActions(this);
 
-    // Skip
-    private readonly InputActionMap m_Skip;
-    private List<ISkipActions> m_SkipActionsCallbackInterfaces = new List<ISkipActions>();
-    private readonly InputAction m_Skip_SkipButton;
+    // Confirm/Skip
+    private readonly InputActionMap m_ConfirmSkip;
+    private List<IConfirmSkipActions> m_ConfirmSkipActionsCallbackInterfaces = new List<IConfirmSkipActions>();
+    private readonly InputAction m_ConfirmSkip_SkipButton;
+    private readonly InputAction m_ConfirmSkip_ConfirmButton;
     /// <summary>
-    /// Provides access to input actions defined in input action map "Skip".
+    /// Provides access to input actions defined in input action map "Confirm/Skip".
     /// </summary>
-    public struct SkipActions
+    public struct ConfirmSkipActions
     {
         private @PlayerInputActions m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public SkipActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public ConfirmSkipActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Skip/SkipButton".
+        /// Provides access to the underlying input action "ConfirmSkip/SkipButton".
         /// </summary>
-        public InputAction @SkipButton => m_Wrapper.m_Skip_SkipButton;
+        public InputAction @SkipButton => m_Wrapper.m_ConfirmSkip_SkipButton;
+        /// <summary>
+        /// Provides access to the underlying input action "ConfirmSkip/ConfirmButton".
+        /// </summary>
+        public InputAction @ConfirmButton => m_Wrapper.m_ConfirmSkip_ConfirmButton;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Skip; }
+        public InputActionMap Get() { return m_Wrapper.m_ConfirmSkip; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -1278,9 +1304,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="SkipActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="ConfirmSkipActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(SkipActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(ConfirmSkipActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -1288,14 +1314,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="SkipActions" />
-        public void AddCallbacks(ISkipActions instance)
+        /// <seealso cref="ConfirmSkipActions" />
+        public void AddCallbacks(IConfirmSkipActions instance)
         {
-            if (instance == null || m_Wrapper.m_SkipActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_SkipActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_ConfirmSkipActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ConfirmSkipActionsCallbackInterfaces.Add(instance);
             @SkipButton.started += instance.OnSkipButton;
             @SkipButton.performed += instance.OnSkipButton;
             @SkipButton.canceled += instance.OnSkipButton;
+            @ConfirmButton.started += instance.OnConfirmButton;
+            @ConfirmButton.performed += instance.OnConfirmButton;
+            @ConfirmButton.canceled += instance.OnConfirmButton;
         }
 
         /// <summary>
@@ -1304,21 +1333,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="SkipActions" />
-        private void UnregisterCallbacks(ISkipActions instance)
+        /// <seealso cref="ConfirmSkipActions" />
+        private void UnregisterCallbacks(IConfirmSkipActions instance)
         {
             @SkipButton.started -= instance.OnSkipButton;
             @SkipButton.performed -= instance.OnSkipButton;
             @SkipButton.canceled -= instance.OnSkipButton;
+            @ConfirmButton.started -= instance.OnConfirmButton;
+            @ConfirmButton.performed -= instance.OnConfirmButton;
+            @ConfirmButton.canceled -= instance.OnConfirmButton;
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SkipActions.UnregisterCallbacks(ISkipActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ConfirmSkipActions.UnregisterCallbacks(IConfirmSkipActions)" />.
         /// </summary>
-        /// <seealso cref="SkipActions.UnregisterCallbacks(ISkipActions)" />
-        public void RemoveCallbacks(ISkipActions instance)
+        /// <seealso cref="ConfirmSkipActions.UnregisterCallbacks(IConfirmSkipActions)" />
+        public void RemoveCallbacks(IConfirmSkipActions instance)
         {
-            if (m_Wrapper.m_SkipActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_ConfirmSkipActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -1328,21 +1360,21 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="SkipActions.AddCallbacks(ISkipActions)" />
-        /// <seealso cref="SkipActions.RemoveCallbacks(ISkipActions)" />
-        /// <seealso cref="SkipActions.UnregisterCallbacks(ISkipActions)" />
-        public void SetCallbacks(ISkipActions instance)
+        /// <seealso cref="ConfirmSkipActions.AddCallbacks(IConfirmSkipActions)" />
+        /// <seealso cref="ConfirmSkipActions.RemoveCallbacks(IConfirmSkipActions)" />
+        /// <seealso cref="ConfirmSkipActions.UnregisterCallbacks(IConfirmSkipActions)" />
+        public void SetCallbacks(IConfirmSkipActions instance)
         {
-            foreach (var item in m_Wrapper.m_SkipActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_ConfirmSkipActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_SkipActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_ConfirmSkipActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="SkipActions" /> instance referencing this action map.
+    /// Provides a new <see cref="ConfirmSkipActions" /> instance referencing this action map.
     /// </summary>
-    public SkipActions @Skip => new SkipActions(this);
+    public ConfirmSkipActions @ConfirmSkip => new ConfirmSkipActions(this);
     private int m_NewControlSchemeSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -1494,11 +1526,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Skip" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Confirm/Skip" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="SkipActions.AddCallbacks(ISkipActions)" />
-    /// <seealso cref="SkipActions.RemoveCallbacks(ISkipActions)" />
-    public interface ISkipActions
+    /// <seealso cref="ConfirmSkipActions.AddCallbacks(IConfirmSkipActions)" />
+    /// <seealso cref="ConfirmSkipActions.RemoveCallbacks(IConfirmSkipActions)" />
+    public interface IConfirmSkipActions
     {
         /// <summary>
         /// Method invoked when associated input action "SkipButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
@@ -1507,5 +1539,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkipButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ConfirmButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnConfirmButton(InputAction.CallbackContext context);
     }
 }
