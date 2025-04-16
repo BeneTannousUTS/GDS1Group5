@@ -37,8 +37,8 @@ public class HealthComponent : MonoBehaviour
         isDead = false;
         currentHealth = maxHealth / 2;
         UpdateHUDHealthBar();
+        FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, "Revived!", gameObject.GetComponent<PlayerColour>().playerColour);
         gameObject.GetComponent<Animator>().SetTrigger("revived");
-
     }
 
     IEnumerator DamageFlash() 
@@ -81,6 +81,7 @@ public class HealthComponent : MonoBehaviour
         else {
             //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
+            FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, "You Died!", gameObject.GetComponent<PlayerColour>().playerColour);
             GameObject.FindWithTag("GameManager").GetComponent<GameManager>().CheckGameState();
             gameObject.GetComponent<Animator>().SetTrigger("dead");
             gameObject.GetComponent<PlayerScore>().IncrementDeaths();

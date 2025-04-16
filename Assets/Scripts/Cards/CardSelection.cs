@@ -188,7 +188,7 @@ public class CardSelection : MonoBehaviour
 
             foreach (GameObject card in cardList)
             {
-                card.GetComponent<CardHandler>().setArrowIcon(null); // this will later be changed to an arrow of the player's colour
+                card.GetComponent<CardHandler>().setArrowIcon(playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerColour>().playerColour);
                 card.GetComponent<CardHandler>().OnDeselect(null);
             }
 

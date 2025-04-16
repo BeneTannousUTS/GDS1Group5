@@ -18,6 +18,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     GameObject nameText;
     [SerializeField]
     GameObject descriptionText;
+    Color playerColour = Color.white;
 
     public IEnumerator ChangeSprite() 
     {
@@ -33,12 +34,9 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
         playerIcon.sprite = playerSprite;  
     }
 
-    public void setArrowIcon(Sprite playerArrowSprite)
+    public void setArrowIcon(Color playerColour)
     {
-        if (playerArrowSprite != null)
-        {
-            playerArrowIcon.sprite = playerArrowSprite;
-        }
+        this.playerColour = playerColour;
     }
 
     public void showNameAsType()
@@ -81,7 +79,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
-        playerArrowIcon.color = new Vector4(1,1,1,1);
+        playerArrowIcon.color = playerColour;
         nameText.GetComponent<TMP_Text>().color = new Vector4(1,1,1,1);
         playerArrowIcon.gameObject.GetComponent<Animator>().enabled = true;
     }
