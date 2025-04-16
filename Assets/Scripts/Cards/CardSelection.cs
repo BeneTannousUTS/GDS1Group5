@@ -540,9 +540,12 @@ public class CardSelection : MonoBehaviour
         InputAction skipAction = cardHandler.assignedInput.actions.FindAction("SkipButton");
 
         Debug.Log($"Card Handler p{cardHandler.playerIndex}");
+        float timePassed = 0f;
 
         while (!cardHandler.hasConfirmed)
         {
+            timePassed += Time.deltaTime;
+
             if (confirmAction != null && confirmAction.WasPressedThisFrame())
             {
                 cardHandler.confirmedChoice = true;
@@ -563,6 +566,11 @@ public class CardSelection : MonoBehaviour
 
                 cardHandler.yesText.color = Color.black;
                 cardHandler.noText.color = Color.red;
+            } 
+            else if (timePassed >= 5f && !cardHandler.hasConfirmed)
+            {
+                timePassed = 0;
+                cardHandler.ShakeCard();
             }
 
             yield return null;
