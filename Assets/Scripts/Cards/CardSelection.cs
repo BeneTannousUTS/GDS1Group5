@@ -335,11 +335,11 @@ public class CardSelection : MonoBehaviour
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
             //Before cards are decided, check if player is alive and if not make the card a revive card
-            if (players[playerIndex].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
+            /*if (players[playerIndex].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
             {
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(reviveCard);
             }
-            else if (cardType == CardType.Weapon)
+            else */if (cardType == CardType.Weapon)
             {
                 GameObject filterWeapon = players[playerIndex].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards

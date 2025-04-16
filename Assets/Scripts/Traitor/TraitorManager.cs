@@ -8,7 +8,7 @@ public class TraitorManager : MonoBehaviour
 {
     private BaseTraitor traitorType;
     private float traitorRoom;
-    private bool traitorCardAppear;
+    private bool traitorActive = false;
     public DungeonManager dungeonManager;
     [SerializeField] GameObject[] objectRef;
     [SerializeField] Sprite[] cardRef;
@@ -43,6 +43,7 @@ public class TraitorManager : MonoBehaviour
         Debug.Log($"currentRoom: {dungeonManager.GetRoomCount()}, traitorRoom: {traitorRoom}, isFinal: {dungeonManager.GetRoomCount() == traitorRoom}, traitorType: {traitorType}");
         if (dungeonManager.GetRoomCount() == traitorRoom)
         {
+            traitorActive = true;
             return true;
         }
         return false;
@@ -70,6 +71,8 @@ public class TraitorManager : MonoBehaviour
         }
         return 0;
     }
+
+    public bool IsTraitorActive() { return traitorActive; }
     
     void Start()
     {
