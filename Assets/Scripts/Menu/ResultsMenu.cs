@@ -10,4 +10,8 @@ public class ResultsMenu : MonoBehaviour
     {
         FindAnyObjectByType<ResultsManager>().OnSceneLoaded();
     }
+
+    public void ResetResults() {
+        Destroy(FindAnyObjectByType<ResultsManager>());
+    }
 }

@@ -1,11 +1,30 @@
+using System.Collections;
 using UnityEngine;
 
 public class Shield : WeaponStats
 {
     public float detectionRadius = 2f;
+    public float deflectionDuration = 0.5f;
+    public float projectilePushDistance = 2f;
+    public float deflectCheckInterval = 0.005f;
+    private Coroutine activeShieldRoutine;
 
     protected override void TriggerAttack()
     {
+        if (activeShieldRoutine != null)
+        {
+            StopCoroutine(activeShieldRoutine);
+        }
+
+        activeShieldRoutine = StartCoroutine(ShieldDeflectWindow());
+        
+        base.TriggerAttack();
+    }
+
+    IEnumerator ShieldDeflectWindow()
+    {
+        float timer = 0f;
+
         Vector3 facingDirection = Vector3.up;
         if (transform.parent.CompareTag("Player") || transform.parent.CompareTag("Traitor"))
         {
@@ -13,24 +32,40 @@ public class Shield : WeaponStats
         }
         else
         {
-
             facingDirection = transform.parent.GetComponent<EnemyMovement>().GetFacingDirection();
         }
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position + facingDirection * 0.25f, detectionRadius);
-        foreach (Collider2D hit in hits)
+
+        while (timer < deflectionDuration)
         {
-            // Check if the collider has a Projectile component.
-            Projectile projectile = hit.GetComponent<Projectile>();
-            if (projectile != null)
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
+            foreach (Collider2D hit in hits)
             {
-                // Calculate the deflection direction from the shield's center.
-                //Vector3 deflectionDirection = (projectile.transform.position - transform.position).normalized;
-                projectile.SetShotDirection(facingDirection);
-                projectile.transform.position = projectile.transform.position + facingDirection * 0.25f;
-                projectile.SetFriendlyFire(true);
+                Projectile projectile = hit.GetComponent<Projectile>();
+                if (projectile != null)
+                {
+                    StartCoroutine(ProjNoCollisionTimer(hit));
+                    Debug.Log($"Shield trying to deflect {hit.name}");
+                    projectile.SetShotDirection(facingDirection);
+                    projectile.transform.position += facingDirection * projectilePushDistance;
+                    projectile.SetSourceType("Player");
+                }
             }
+
+            timer += deflectCheckInterval;
+            yield return new WaitForSeconds(deflectCheckInterval);
         }
-        
-        base.TriggerAttack();
+
+        activeShieldRoutine = null;
     }
+
+    IEnumerator ProjNoCollisionTimer(Collider2D collider)
+{
+    collider.enabled = false;
+    
+    yield return new WaitForSeconds(0.125f);
+
+    collider.enabled = true;
 }
+}
+
+
