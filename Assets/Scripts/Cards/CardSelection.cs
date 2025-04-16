@@ -69,6 +69,8 @@ public class CardSelection : MonoBehaviour
     public void SelectionSetup()
     {
         List<GameObject> tempCardList = new List<GameObject>();
+        int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
+        Debug.Log($"Current Room: {roomNum}");
 
         GameObject weapon = cards
             .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
@@ -82,12 +84,37 @@ public class CardSelection : MonoBehaviour
             .Where(card => card.GetComponent<Card>().cardType == CardType.Passive)
             .FirstOrDefault();
 
-        if (weapon != null) tempCardList.Add(weapon);
-        if (passive != null) tempCardList.Add(passive);
-        if (secondary != null) tempCardList.Add(secondary);
+        if (roomNum == 1)
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                List<GameObject> remainingCards = cards
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+                .ToList();
 
-        List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
-        tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            }
+        }
+        else if (roomNum == 2)
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                List<GameObject> remainingCards = cards
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+                .ToList();
+
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            }
+        }
+        else
+        {
+            if (weapon != null) tempCardList.Add(weapon);
+            if (passive != null) tempCardList.Add(passive);
+            if (secondary != null) tempCardList.Add(secondary);
+
+            List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
+            tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+        }
 
         // int numOfJoinedPlayers = 0;
 
@@ -424,7 +451,7 @@ public class CardSelection : MonoBehaviour
         }
 
         yield return WaitForAllConfirmations(handlers);
-        
+
         yield return new WaitForSeconds(0.25f);
 
         if (numOfTraitors > 0)
