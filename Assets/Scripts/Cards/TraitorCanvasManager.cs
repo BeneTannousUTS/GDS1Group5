@@ -7,6 +7,10 @@ public class TraitorCanvasManager : MonoBehaviour
     public TMP_Text traitorDesc;
     public TMP_Text abilityName;
     public TMP_Text abilityDesc;
+    [SerializeField]
+    GameObject readyCheckCanvas;
+    [SerializeField]
+    GameObject readyTextGroup;
 
     public void SetTraitorType(BaseTraitor traitorType)
     {
@@ -14,5 +18,17 @@ public class TraitorCanvasManager : MonoBehaviour
         traitorDesc.text = traitorType.GetTraitorDesc();
         abilityName.text = traitorType.GetAbilityName();
         abilityDesc.text = traitorType.GetAbilityDesc();
+    }
+
+    public void StartReadyCheck(PlayerData[] players)
+    {
+        readyTextGroup.SetActive(true);
+        readyCheckCanvas.GetComponent<ReadyCanvasManager>().StartReadyCheck(players);
+    }
+
+    public void DestroyTraitorCanvas()
+    {
+        FindAnyObjectByType<CardSelection>().ResumeGameplay();
+        Destroy(gameObject);
     }
 }

@@ -12,13 +12,10 @@ public class Hammer : WeaponStats
         {
             if (collider.CompareTag("Player"))
             {
-                if (collider.gameObject == transform.parent.gameObject)
-                {
-                    collider.GetComponent<PlayerMovement>().KnockbackPlayer(0, weaponLifetime + 0.05f, Vector3.zero);
-                } else
+                if (collider.gameObject != transform.parent.gameObject)
                 {
                     Vector3 knockbackDirection = collider.transform.position - transform.position;
-                    collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength, knockbackTime,knockbackDirection);
+                    collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength, knockbackTime, knockbackDirection);
                 }
             }
         }

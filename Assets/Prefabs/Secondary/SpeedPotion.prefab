@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8785713001592165823, guid: d4c28bf5803203b40ad21a6832a4bb3a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,7 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff85a0dedb4c1f846a4d4567ff488d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondaryLifetime: 1
+  secondaryLifetime: 0.1
+  sourceObject: {fileID: 0}
   projectile: {fileID: 1406864928331478087, guid: d45ecd9b60a84034d8cda1aaca44f346, type: 3}
 --- !u!114 &2198177820516779214
 MonoBehaviour:
@@ -115,4 +116,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5786d5a47df618042b47ea4e356f53b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownLength: 10
+  cooldownLength: 8

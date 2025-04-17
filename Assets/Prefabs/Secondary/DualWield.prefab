@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff85a0dedb4c1f846a4d4567ff488d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondaryLifetime: 10
+  secondaryLifetime: 0.1
+  sourceObject: {fileID: 0}
   projectile: {fileID: 0}
 --- !u!114 &4743507094659051209
 MonoBehaviour:
@@ -59,4 +60,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0afb96dc64964cb6ef8a7822335b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownLength: 5
+  cooldownLength: 2

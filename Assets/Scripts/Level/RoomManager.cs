@@ -1,7 +1,7 @@
 // AUTHOR: James
 // Handles each room functions such as opening door
 
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
@@ -44,6 +44,28 @@ public class RoomManager : MonoBehaviour
                     door.GetComponent<Animator>().SetTrigger("open");
                     Destroy(door, 1.2f);
                     doorBeingDestroyed = true;
+
+                    TraitorManager traitorManager = FindAnyObjectByType<TraitorManager>();
+
+                    if (traitorManager.IsTraitorActive()) return;
+
+                    GameManager gameManager = FindAnyObjectByType<GameManager>();
+                    List<GameObject> players = gameManager.GetPlayerList();
+
+                    foreach (GameObject playerObject in players)
+                    {
+                        HealthComponent healthComponent = playerObject.GetComponent<HealthComponent>();
+
+                        if (healthComponent != null)
+                        {
+                            if (healthComponent.GetIsDead())
+                            {
+                                healthComponent.Revive();
+                            }
+
+                            healthComponent.TakeDamage(-99999);
+                        }
+                    }
                 }
                 
             }

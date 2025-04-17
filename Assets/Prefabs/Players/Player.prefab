@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 9206343895499957772}
   - component: {fileID: 7100055283759772095}
   - component: {fileID: -935837174318254583}
+  - component: {fileID: 674060503190337482}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7101d0f717200d54e84cb72948fcf2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
+  currentWeapon: {fileID: 4882847367248088821, guid: 49779bbdff92e40ad91b62a19a917478, type: 3}
   attackBufferWindow: 0.05
 --- !u!114 &1063567501580656127
 MonoBehaviour:
@@ -290,6 +291,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 27578d5f-5dad-4646-a9cf-aacd1263c0ba
     m_ActionName: 'Skip/SkipButton[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d65a4f9f-29e8-466e-8791-e4c84cec32ee
+    m_ActionName: 'Confirm/Skip/ConfirmButton[/DualShock4GamepadHID/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -307,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ac57b8294977b4dad17c1a6b13d227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSecondary: {fileID: 5015723690770620291, guid: 4f6042785d78eab429d30250e8d37a43, type: 3}
+  currentSecondary: {fileID: 21740387793767394, guid: 1c2e8b98a4ac8426b8f857616827bcf5, type: 3}
   secondaryBufferWindow: 0.5
 --- !u!114 &1567399964300713035
 MonoBehaviour:
@@ -490,6 +495,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dacf80fb5001a4aba01830fbb77c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &674060503190337482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293369937120540139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1010600bc70fc495395db711472759f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1325268251588932483
 GameObject:
   m_ObjectHideFlags: 0
