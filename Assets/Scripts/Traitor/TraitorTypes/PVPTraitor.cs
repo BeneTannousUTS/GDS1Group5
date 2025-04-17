@@ -7,7 +7,7 @@ public class PVPTraitor : BaseTraitor
 
     public override void TraitorAbility()
     {
-        gameObject.GetComponent<HealthComponent>().TakeDamage(15);
+        gameObject.GetComponent<HealthComponent>().TakeDamage(25);
         gameObject.GetComponent<PlayerStats>().SetPassive(passive);
         gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(6, passive);
     }
