@@ -87,4 +87,9 @@ public class PlayerSecondary : MonoBehaviour
             UpdateTimers(Time.deltaTime);
         }
     }
+
+    public void SetSecondaryCooldownWindow(float secondaryCooldownWindow)
+    {
+        this.secondaryCooldownWindow = secondaryCooldownWindow;
+    }
 }
