@@ -12,6 +12,10 @@ public class Card : MonoBehaviour
     [SerializeField]
     public string cardDescription;
     [SerializeField]
+    public CardRarity cardRarity;
+    [SerializeField]
+    public int cardLevel = 1;
+    [SerializeField]
     public Sprite cardFrontSprite;
     [SerializeField]
     Sprite cardBackSprite;

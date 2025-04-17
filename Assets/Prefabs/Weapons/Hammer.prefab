@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -8917934352453247839, guid: d99f2b14e771f20499853dcf5f7a245b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -170,11 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215a743fff69f419780e43ec6e8ed7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: 17.5
-  weaponLifetime: 0.6
-  attackCooldownWindow: 2.5
-  knockbackStrength: 0.9
+  damageValue: 25
+  weaponLifetime: 1
+  attackCooldownWindow: 2
+  knockbackStrength: 1.2
   knockbackTime: 0.2
   friendlyFire: 0
   projectile: {fileID: 0}
-  friendlyKnockbackRadius: 2
+  friendlyKnockbackRadius: 3

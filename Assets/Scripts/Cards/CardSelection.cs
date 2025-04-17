@@ -18,6 +18,15 @@ public enum CardType
     Passive
 }
 
+public enum CardRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
+
 public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
@@ -307,10 +316,11 @@ public class CardSelection : MonoBehaviour
 
     void DetermineCards()
     {
-        Debug.Log("Determine Card");
-
         List<int> cardIndices = new List<int> { 0, 1, 2, 3 };
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
+        float dungeonCompletionPercent = FindAnyObjectByType<DungeonManager>().GetRoomCount() / FindAnyObjectByType<DungeonManager>().GetDungeonLength();
+
+        Debug.Log($"Determine Card | Completion Percentage: {dungeonCompletionPercent}");
 
         // at playerSelectionPos = 0, selectionOrder[0] will hold the index of which card in the card list that player selected
         for (int playerIndex = 0; playerIndex < selectedCards.Length; playerIndex++)
@@ -328,25 +338,20 @@ public class CardSelection : MonoBehaviour
                 GameObject[] cardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == ranCardType)
                     .ToArray();
-                Card replacementCard = cardsOfSameType[Random.Range(0, cardsOfSameType.Length)].GetComponent<Card>();
+                Card replacementCard = GetWeightedRandomCard(cardsOfSameType, dungeonCompletionPercent);
                 cardList[newIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
                 continue;
             }
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
-            //Before cards are decided, check if player is alive and if not make the card a revive card
-            /*if (players[playerIndex].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
-            {
-                cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(reviveCard);
-            }
-            else */if (cardType == CardType.Weapon)
+            if (cardType == CardType.Weapon)
             {
                 GameObject filterWeapon = players[playerIndex].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
                     && card.GetComponent<Card>().abilityObject != filterWeapon)
                     .ToArray();
-                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
             }
             else if (cardType == CardType.Secondary)
@@ -356,7 +361,7 @@ public class CardSelection : MonoBehaviour
                     .Where(card => card.GetComponent<Card>().cardType == cardType
                     && card.GetComponent<Card>().abilityObject != filterSecondary)
                     .ToArray();
-                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
             }
             else
@@ -364,7 +369,7 @@ public class CardSelection : MonoBehaviour
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType)
                     .ToArray();
-                Card replacementCard = filteredCardsOfSameType[Random.Range(0, filteredCardsOfSameType.Length)].GetComponent<Card>();
+                Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
             }
         }
@@ -450,7 +455,12 @@ public class CardSelection : MonoBehaviour
             }
         }
 
-        yield return WaitForAllConfirmations(handlers);
+        int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
+
+        if (roomNum >= 3)
+        {
+            yield return WaitForAllConfirmations(handlers);
+        }
 
         yield return new WaitForSeconds(0.25f);
 
@@ -498,6 +508,45 @@ public class CardSelection : MonoBehaviour
     public void ResumeGameplay()
     {
         FindAnyObjectByType<CardManager>().ResumeGameplay(selectedCards, cardList);
+    }
+
+    float GetRarityWeight(CardRarity rarity, float completion)
+    {
+        switch (rarity)
+        {
+            case CardRarity.Common: return 1f - completion * 0.6f;
+            case CardRarity.Rare: return 0.3f + completion * 0.3f;
+            case CardRarity.Epic: return completion * 0.3f;
+            case CardRarity.Legendary: return completion * 0.1f;
+            default: return 0f;
+        }
+    }
+    Card GetWeightedRandomCard(GameObject[] cardPool, float completion)
+    {
+        float totalWeight = 0f;
+        List<float> weights = new();
+
+        foreach (GameObject cardObj in cardPool)
+        {
+            Card card = cardObj.GetComponent<Card>();
+            float weight = GetRarityWeight(card.cardRarity, completion);
+            weights.Add(weight);
+            totalWeight += weight;
+        }
+
+        float rand = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        for (int i = 0; i < cardPool.Length; i++)
+        {
+            cumulative += weights[i];
+            if (rand <= cumulative)
+            {
+                return cardPool[i].GetComponent<Card>();
+            }
+        }
+
+        return cardPool[0].GetComponent<Card>(); // fallback
     }
 
     #endregion
@@ -566,7 +615,7 @@ public class CardSelection : MonoBehaviour
 
                 cardHandler.yesText.color = Color.black;
                 cardHandler.noText.color = Color.red;
-            } 
+            }
             else if (timePassed >= 5f && !cardHandler.hasConfirmed)
             {
                 timePassed = 0;

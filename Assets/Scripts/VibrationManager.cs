@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -59,6 +60,8 @@ public class VibrationManager : MonoBehaviour
 
     public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
     {
+        return;
+
         switch (vibrationPattern)
         {
             case VibrationPattern.DamagePattern:
@@ -102,6 +105,7 @@ public class VibrationManager : MonoBehaviour
     
     public void StartInfoVibration(Gamepad controller)
     {
+        return;
         if (!isInfoVibrating)
         {
             infoCoroutine = StartCoroutine(InfoPattern(controller));
