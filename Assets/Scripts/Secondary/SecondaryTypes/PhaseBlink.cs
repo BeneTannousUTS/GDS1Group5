@@ -36,6 +36,8 @@ public class PhaseBlink : MonoBehaviour, ISecondary
         }
 
         playerTransform.position = targetPosition;
+
+        Destroy(gameObject, 0.1f);
     }
 
     public float GetCooldownLength()
