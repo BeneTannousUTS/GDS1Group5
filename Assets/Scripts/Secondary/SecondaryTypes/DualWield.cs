@@ -12,22 +12,52 @@ public class DualWield : MonoBehaviour, ISecondary
         return cooldownLength;
     }
 
-    public void DoSecondary() // current issue: for some reason it can't get the reference of the player object, so it can't get the weapon
+    public void DoSecondary()
     {
-        Debug.Log(gameObject.GetComponent<SecondaryStats>().GetSourceObject().transform.name);
-        gameObject.transform.parent = gameObject.GetComponent<SecondaryStats>().GetSourceObject().transform;
-        GameObject parent = gameObject.transform.parent.gameObject;
-        GameObject tempWeapon = parent.GetComponent<PlayerAttack>().currentWeapon;
-        Vector3 attackDirection = parent.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        GameObject secondWeapon = Instantiate(tempWeapon, transform.position + attackDirection, parent.GetComponent<PlayerAttack>().CalculateQuaternion(attackDirection), transform);
-        if (attackDirection.x > 0 && secondWeapon.transform.childCount != 0) { // Flipping the sprite of projectile weapons 
-            secondWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
+        Transform playerTransform = GetComponent<SecondaryStats>().GetSourceObject().transform;
+        GameObject currentWeapon = playerTransform.GetComponent<PlayerAttack>().currentWeapon;
+        Debug.Log($"Attack Cooldown Window: {currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow}");
+        playerTransform.GetComponent<PlayerSecondary>().SetSecondaryCooldownWindow(currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * 1.5f);
+
+        Vector3 attackDirection = playerTransform.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
+        GameObject tempWeapon = Instantiate(currentWeapon, playerTransform.position + attackDirection, CalculateQuaternion(attackDirection), playerTransform);
+        if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0)
+        {
+            tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
-        else if (secondWeapon.transform.childCount == 0) { // Flipping the sprite of melee weapons
-            secondWeapon.GetComponent<SpriteRenderer>().flipX = true;
+        tempWeapon.GetComponent<WeaponStats>().SetSourceType(playerTransform.tag);
+        tempWeapon.GetComponent<WeaponStats>().SetSourceObject(playerTransform.gameObject);
+        tempWeapon.GetComponent<WeaponStats>().SetDamageMod(playerTransform.GetComponent<PlayerStats>().GetStrengthStat());
+
+        // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used
+
+        AudioManager audioManager = FindAnyObjectByType<AudioManager>();
+
+        if (currentWeapon.GetComponent<WeaponStats>().projectile == null) // is melee
+        {
+            audioManager.PlaySoundEffect("PlayerMeleeAttack");
+            playerTransform.GetComponent<Animator>().SetTrigger("attack");
         }
-        secondWeapon.GetComponent<WeaponStats>().SetSourceType(parent.tag);
-        secondWeapon.GetComponent<WeaponStats>().SetSourceObject(parent);
-        secondWeapon.GetComponent<WeaponStats>().SetDamageMod(parent.GetComponent<PlayerStats>().GetStrengthStat());
+        else
+        {
+            audioManager.PlaySoundEffect("PlayerRangedAttack");
+            playerTransform.GetComponent<Animator>().SetTrigger("range");
+        }
+    }
+
+    public Quaternion CalculateQuaternion(Vector3 direction) 
+    {
+        float angle = Mathf.Abs((Mathf.Acos(direction.x) * 180)/Mathf.PI);
+
+        if (direction.y >= 0)
+        {
+            angle -= 90;
+        }
+        else if (direction.y < 0)
+        {
+            angle = 270 - angle;
+        }
+
+        return Quaternion.Euler(0f, 0f, angle);
     }
 }
