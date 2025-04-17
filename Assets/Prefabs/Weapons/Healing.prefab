@@ -138,8 +138,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25320242185ccad499f7087f796f947b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageValue: -30
+  damageValue: -15
   weaponLifetime: 0.8
+  attackCooldownWindow: 0
+  knockbackStrength: 0.9
+  knockbackTime: 0.1
   friendlyFire: 0
   projectile: {fileID: 0}
 --- !u!95 &3914467505645150817
