@@ -426,39 +426,38 @@ public class CardSelection : MonoBehaviour
         yield return new WaitForSeconds(3f); // maybe turn this into a ready check
 
         UIInputModule.actionsAsset = null;
-
-        PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-        List<ConfirmCardHandler> handlers = new List<ConfirmCardHandler>(); // at the player's index will hold the confirm card
-
-        foreach (PlayerData playerData in players)
-        {
-            if (!playerData.isJoined) continue;
-
-            if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
-            || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
-            {
-                coverCanvas.SetActive(true);
-                GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
-                playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
-
-                ConfirmCardHandler confirmCardHandler = confirmCard.GetComponent<ConfirmCardHandler>();
-                confirmCardHandler.playerText.text = $"Player {playerData.playerIndex + 1}";
-                confirmCardHandler.playerIcon.sprite = playerSprites[playerData.playerIndex];
-                confirmCardHandler.prevCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
-                playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite;
-                confirmCardHandler.newCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite;
-                confirmCardHandler.assignedInput = playerData.playerInput;
-                confirmCardHandler.playerIndex = playerData.playerIndex;
-
-                handlers.Add(confirmCardHandler);
-            }
-        }
-
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
 
         if (roomNum >= 3)
         {
+
+            PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
+            List<ConfirmCardHandler> handlers = new List<ConfirmCardHandler>(); // at the player's index will hold the confirm card
+
+            foreach (PlayerData playerData in players)
+            {
+                if (!playerData.isJoined) continue;
+
+                if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
+                || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
+                {
+                    coverCanvas.SetActive(true);
+                    GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
+                    playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
+
+                    ConfirmCardHandler confirmCardHandler = confirmCard.GetComponent<ConfirmCardHandler>();
+                    confirmCardHandler.playerText.text = $"Player {playerData.playerIndex + 1}";
+                    confirmCardHandler.playerIcon.sprite = playerSprites[playerData.playerIndex];
+                    confirmCardHandler.prevCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                    playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
+                    playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite;
+                    confirmCardHandler.newCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite;
+                    confirmCardHandler.assignedInput = playerData.playerInput;
+                    confirmCardHandler.playerIndex = playerData.playerIndex;
+
+                    handlers.Add(confirmCardHandler);
+                }
+            }
             yield return WaitForAllConfirmations(handlers);
         }
 

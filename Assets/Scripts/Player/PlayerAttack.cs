@@ -30,10 +30,16 @@ public class PlayerAttack : MonoBehaviour
         attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
         attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
+        float weaponTypeMod = currentWeapon.GetComponent<WeaponStats>().projectile == null ? 1.5f : 1.0f;
+        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
         if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0) {
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
+
+        if (attackDirection.y < 0 && currentWeapon.GetComponent<WeaponStats>().projectile && tempWeapon.transform.childCount != 0) {
+            tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 2;
+        }
+
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
         tempWeapon.GetComponent<WeaponStats>().SetSourceObject(gameObject);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());

@@ -1,4 +1,4 @@
-using Unity.Services.Lobbies.Models;
+using System.Collections;
 using UnityEngine;
 
 public class Hammer : WeaponStats
@@ -7,6 +7,15 @@ public class Hammer : WeaponStats
 
     protected override void TriggerAttack()
     {
+        GetSourceObject().GetComponent<PlayerMovement>().KnockbackPlayer(0, weaponLifetime, Vector3.zero);
+        StartCoroutine(FriendlyKnockback());
+        base.TriggerAttack();
+    }
+
+    IEnumerator FriendlyKnockback()
+    {
+        yield return new WaitForSeconds(weaponLifetime * 0.5f);
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, friendlyKnockbackRadius);
         foreach (Collider2D collider in colliders)
         {
@@ -19,6 +28,5 @@ public class Hammer : WeaponStats
                 }
             }
         }
-        base.TriggerAttack();
     }
 }
