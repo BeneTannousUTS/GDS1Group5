@@ -25,9 +25,10 @@ public class PlayerCollision : MonoBehaviour
     {
         int colliderID = otherCollider.GetInstanceID();
         if (processedColliderIDs.Contains(colliderID)) return;
-
-        processedColliderIDs.Add(colliderID);
-
+        if (!otherCollider.CompareTag("Hazard"))
+        {
+            processedColliderIDs.Add(colliderID);
+        }
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false) 
         {
             if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType()))
@@ -38,6 +39,10 @@ public class PlayerCollision : MonoBehaviour
             {
                 otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 Destroy(otherCollider.gameObject);
+            }
+            else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
+            {
+                otherCollider.GetComponentInParent<Hazards>().DealDamage(gameObject.GetComponent<HealthComponent>());
             }
             else if (otherCollider.gameObject.CompareTag("TempBuff")) 
             {
