@@ -84,7 +84,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7255536306395488613, guid: 09af5e80de3f70a4d89d335afd3d8c94, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -185,6 +185,8 @@ MonoBehaviour:
   attackRange: 3
   aggroRange: 4
   moveSpeed: 2
+  chargeMultiplier: 0
+  teleportParticles: {fileID: 0}
 --- !u!114 &8270662909666959767
 MonoBehaviour:
   m_ObjectHideFlags: 0

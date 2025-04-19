@@ -18,9 +18,10 @@ public class EnemyCollision : MonoBehaviour
     {
         int colliderID = otherCollider.GetInstanceID();
         if (processedColliderIDs.Contains(colliderID)) return;
-
-        processedColliderIDs.Add(colliderID);
-
+        if (!otherCollider.CompareTag("Hazard"))
+        {
+            processedColliderIDs.Add(colliderID);
+        }
         if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType()))
         {
             otherCollider.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
@@ -29,6 +30,10 @@ public class EnemyCollision : MonoBehaviour
         {
             otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
             Destroy(otherCollider.gameObject);
+        }
+        else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
+        {
+            otherCollider.GetComponentInParent<Hazards>().DealDamage(gameObject.GetComponent<HealthComponent>());
         }
     }
 
