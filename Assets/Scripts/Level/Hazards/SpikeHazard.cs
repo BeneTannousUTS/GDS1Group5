@@ -1,12 +1,14 @@
 using UnityEngine;
 
-public class SpikeHazard : Hazards
+public class SpikeHazard : Hazards, IPressed
 {
     [SerializeField] GameObject hitbox;
     [SerializeField] bool switchActivated;
+    [SerializeField] bool activeStart;
     [SerializeField] float spikeOffset;
     [SerializeField] Animator animator;
     [SerializeField] float waitTime = 0;
+    private float amountPressed;
     private bool active;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,12 +16,19 @@ public class SpikeHazard : Hazards
         SetSourceType(gameObject.tag);
         SetDamageValue(10);
         waitTime -= spikeOffset;
+        if (activeStart)
+        {
+            ActivateSpikes();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        if (!switchActivated)
+        {
+            Attack();
+        }
     }
 
     void ActivateSpikes()
@@ -61,6 +70,36 @@ public class SpikeHazard : Hazards
             animator.SetTrigger("deactivate");
             waitTime = 0;
             active = false;
+        }
+    }
+
+    public void Pressed()
+    {
+        amountPressed += 1;
+        if (activeStart)
+        {
+            DeactivateSpikes();
+        }
+        else
+        {
+            ActivateSpikes();
+        }
+        
+    }
+
+    public void Unpressed()
+    {
+        amountPressed -= 1;
+        if (amountPressed == 0)
+        {
+            if (activeStart)
+            {
+                ActivateSpikes();
+            }
+            else
+            {
+                DeactivateSpikes();
+            }
         }
     }
 }
