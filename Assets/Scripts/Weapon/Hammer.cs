@@ -23,7 +23,7 @@ public class Hammer : WeaponStats
             {
                 if (collider.gameObject != transform.parent.gameObject)
                 {
-                    Vector3 knockbackDirection = collider.transform.position - transform.position;
+                    Vector3 knockbackDirection = collider.transform.position - GetSourceObject().transform.position;
                     collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength, knockbackTime, knockbackDirection);
                 }
             }

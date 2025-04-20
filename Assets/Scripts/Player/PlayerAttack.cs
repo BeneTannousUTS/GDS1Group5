@@ -30,14 +30,29 @@ public class PlayerAttack : MonoBehaviour
         attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
         attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        float weaponTypeMod = currentWeapon.GetComponent<WeaponStats>().projectile == null ? 1.5f : 1.0f;
+        bool isMelee = currentWeapon.GetComponent<WeaponStats>().projectile == null;
+        float weaponTypeMod = isMelee ? 1.5f : 0.7f;
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
-        if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0) {
+        if (attackDirection.x < 0 && !isMelee && tempWeapon.transform.childCount != 0) {
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
 
-        if (attackDirection.y < 0 && currentWeapon.GetComponent<WeaponStats>().projectile && tempWeapon.transform.childCount != 0) {
-            tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 2;
+        if (attackDirection.y < 0) {
+            if (tempWeapon.transform.childCount != 0)
+            {
+                tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 2;
+            } else
+            {
+                tempWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }
+            
+            if (isMelee)
+            {
+                tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
+            } else
+            {
+                tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
+            }
         }
 
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
