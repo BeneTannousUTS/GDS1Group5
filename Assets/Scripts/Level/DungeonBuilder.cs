@@ -38,6 +38,7 @@ public class DungeonBuilder : MonoBehaviour
 
     public void ReplaceRoom(int roomPos, GameObject room)
     {
+        Debug.Log(roomPos);
         Destroy(spawnedRooms[roomPos]);
         spawnedRooms[roomPos] = Instantiate(room);  
         spawnedRooms[roomPos].transform.position += new Vector3(0, 18 * (roomPos), 0);

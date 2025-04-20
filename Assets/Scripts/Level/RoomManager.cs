@@ -40,9 +40,7 @@ public class RoomManager : MonoBehaviour
             if (openDoor)
             {
                 if (door & !doorBeingDestroyed) {
-                    audioManager.PlaySoundJingle("RoomClear");
-                    door.GetComponent<Animator>().SetTrigger("open");
-                    Destroy(door, 1.2f);
+                    door.GetComponent<Door>().RoomClear();
                     doorBeingDestroyed = true;
 
                     TraitorManager traitorManager = FindAnyObjectByType<TraitorManager>();

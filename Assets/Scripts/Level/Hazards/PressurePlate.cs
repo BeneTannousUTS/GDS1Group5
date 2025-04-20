@@ -6,6 +6,7 @@ public class PressurePlate : MonoBehaviour
     bool switchActivated = false;
     [SerializeField] Animator animator;
     [SerializeField] GameObject[] connectedObjects;
+    float pressedCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,7 +19,8 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!switchActivated && collision.CompareTag("Player"))
+        pressedCount++;
+        if (!switchActivated && collision.CompareTag("Player") && pressedCount==1)
         {
             switchActivated = true;
             animator.SetTrigger("down");
@@ -31,7 +33,8 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (switchActivated && collision.CompareTag("Player"))
+        pressedCount--;
+        if (switchActivated && collision.CompareTag("Player") && pressedCount == 0)
         {
             switchActivated = false;
             animator.SetTrigger("up");

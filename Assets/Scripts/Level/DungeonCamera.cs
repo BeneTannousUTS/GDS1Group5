@@ -11,16 +11,23 @@ public class DungeonCamera : MonoBehaviour
     private float roomChangeTimer;
     private bool roomChange = false;
     private EnemyPathfinder ePath;
+    bool roomCleared;
     // Moves the camera to the position of the room that the player has just entered
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !roomCleared)
         {
+            roomCleared = true;
             gameObject.GetComponentInParent<RoomManager>().ClearRoom();
             GameObject player = collision.gameObject;
             FindAnyObjectByType<CardManager>().HidePlayer(player);
             roomChange = true;
             dungeonBuild.UpdateRoomCount((int)((transform.position.y - 9.5) / 18));
+        }
+        else if(collision.gameObject.CompareTag("Player"))
+        {
+            GameObject player = collision.gameObject;
+            FindAnyObjectByType<CardManager>().HidePlayer(player);
         }
     }
 
