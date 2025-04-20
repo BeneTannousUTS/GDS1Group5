@@ -64,6 +64,10 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     Sprite[] playerSprites;
     //private float[] oldPlayerScores = new float[4];
+    [SerializeField]
+    GameObject damagePassiveCard;
+    [SerializeField]
+    GameObject cooldownPassiveCard;
 
     void Awake()
     {
@@ -451,6 +455,10 @@ public class CardSelection : MonoBehaviour
                     confirmCardHandler.prevCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
                     playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
                     playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite;
+                    confirmCardHandler.yesText.text = $"Swap to the {cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardName}.";
+                    confirmCardHandler.noText.text = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                    $"Reject and increase damage." :
+                    $"Reject and reduced cooldowns.";
                     confirmCardHandler.newCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite;
                     confirmCardHandler.assignedInput = playerData.playerInput;
                     confirmCardHandler.playerIndex = playerData.playerIndex;
@@ -511,13 +519,41 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        switch (rarity)
+        if (completion < 0.5f) // Early Game (First Half)
         {
-            case CardRarity.Common: return 1f - completion * 0.6f;
-            case CardRarity.Rare: return 0.3f + completion * 0.3f;
-            case CardRarity.Epic: return completion * 0.3f;
-            case CardRarity.Legendary: return completion * 0.1f;
-            default: return 0f;
+            float t = completion * 2f;
+
+            switch (rarity)
+            {
+                case CardRarity.Common:
+                    return Mathf.Lerp(0.50f, 0.30f, t);
+                case CardRarity.Uncommon:
+                    return Mathf.Lerp(0.40f, 0.30f, t);
+                case CardRarity.Rare:
+                    return Mathf.Lerp(0.10f, 0.40f, t);
+                default:
+                    return 0f;
+            }
+        }
+        else // Late Game (Second Half)
+        {
+            float t = (completion - 0.5f) * 2f;
+
+            switch (rarity)
+            {
+                case CardRarity.Common:
+                    return Mathf.Lerp(0.30f, 0.08f, t);
+                case CardRarity.Uncommon:
+                    return Mathf.Lerp(0.30f, 0.12f, t);
+                case CardRarity.Rare:
+                    return Mathf.Lerp(0.40f, 0.20f, t);
+                case CardRarity.Epic:
+                    return Mathf.Lerp(0.00f, 0.35f, t);
+                case CardRarity.Legendary:
+                    return Mathf.Lerp(0.00f, 0.25f, t);
+                default:
+                    return 0f;
+            }
         }
     }
     Card GetWeightedRandomCard(GameObject[] cardPool, float completion)
@@ -610,7 +646,10 @@ public class CardSelection : MonoBehaviour
                 cardHandler.hasConfirmed = true;
 
                 Debug.Log($"Card Handler p{cardHandler.playerIndex} NO");
-                selectedCards[cardHandler.playerIndex] = -1;
+                // selectedCards[cardHandler.playerIndex] = -1;
+                cardList[selectedCards[cardHandler.playerIndex]] =
+                cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                damagePassiveCard : cooldownPassiveCard;
 
                 cardHandler.yesText.color = Color.black;
                 cardHandler.noText.color = Color.red;

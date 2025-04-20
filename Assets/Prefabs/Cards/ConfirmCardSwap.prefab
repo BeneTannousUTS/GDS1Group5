@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.499992, y: -48.760006}
-  m_SizeDelta: {x: 20, y: 10}
+  m_AnchoredPosition: {x: 30, y: -45}
+  m_SizeDelta: {x: 25, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2640007452377389112
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: No
+  m_text: Reject and reduced cooldowns.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
   m_sharedMaterial: {fileID: -1200644347661419171, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 2.5
+  m_fontSizeBase: 2.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 48
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -245,7 +245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27.1, y: -48.9}
+  m_AnchoredPosition: {x: -35, y: -45}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2622904519101992749
@@ -395,8 +395,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.300008, y: -48.760006}
-  m_SizeDelta: {x: 20, y: 10}
+  m_AnchoredPosition: {x: -15, y: -45}
+  m_SizeDelta: {x: 25, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6192701436859099275
 CanvasRenderer:
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Yes
+  m_text: Swap for the Gun.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
   m_sharedMaterial: {fileID: -1200644347661419171, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
@@ -453,8 +453,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 2.5
+  m_fontSizeBase: 2.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 48
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -606,7 +606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12.899993, y: -48.900005}
+  m_AnchoredPosition: {x: 10, y: -45}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5641283795819322605
@@ -706,12 +706,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e693594f102364083bf6895f6a4e1b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasConfirmed: 0
   playerText: {fileID: 6258946791486285993}
   playerIcon: {fileID: 5452593208668934618}
   prevCard: {fileID: 1646065943703920439}
   newCard: {fileID: 3941040653367248753}
   yesText: {fileID: 1938469207896151342}
   noText: {fileID: 2362019681389236564}
+  playerIndex: 0
   assignedInput: {fileID: 0}
 --- !u!1 &5837743281783370177
 GameObject:
@@ -747,7 +749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -37.3}
+  m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 90, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7831192550050936930
