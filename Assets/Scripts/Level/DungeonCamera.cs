@@ -36,7 +36,6 @@ public class DungeonCamera : MonoBehaviour
         foreach (GameObject player in ePath.GetPlayers())
         {
             FindAnyObjectByType<CardManager>().ShowPlayers();
-            player.transform.position = gameObject.transform.position + Vector3.up;
         }
         MoveCamera();
         gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
