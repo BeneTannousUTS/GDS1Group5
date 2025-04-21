@@ -82,7 +82,7 @@ public class WeaponStats : MonoBehaviour
                     healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength + GetSourceObject().GetComponent<PlayerStats>().GetKnockbackStat(), knockbackTime,knockbackDirection); 
                 }
             }
-        } else if (healthComponent.gameObject.CompareTag("Enemy") && damageValue > 0)
+        } else if (healthComponent.gameObject.CompareTag("Enemy"))
         {
             if (healthComponent.gameObject.GetComponent<EnemyMovement>() != null)
             {
