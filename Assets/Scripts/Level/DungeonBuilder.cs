@@ -1,6 +1,7 @@
 // AUTHOR: James
 // Handles building the dungeon
 
+using System.Collections.Generic;
 using System.Reflection;
 using Unity.Multiplayer.Tools.NetStats;
 using UnityEditor;
@@ -17,6 +18,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
     private int numberRooms;
+    List<GameObject> allRooms = new List<GameObject>();
     [SerializeField] private int currentRoom = 1;
     private GameObject[] spawnedRooms;
     private DungeonManager dManager;
@@ -36,9 +38,9 @@ public class DungeonBuilder : MonoBehaviour
         return currentRoom;
     }
 
-    public GameObject[] getRooms()
+    public List<GameObject> getRooms()
     {
-        return MiddleRooms;
+        return allRooms;
     }
 
     public void ReplaceRoom(int roomPos, GameObject room)
@@ -164,12 +166,29 @@ public class DungeonBuilder : MonoBehaviour
         }
     }
 
+    void AllRooms()
+    {
+        foreach (GameObject room in EarlyRooms)
+        {
+            allRooms.Add(room);
+        }
+        foreach (GameObject room in MiddleRooms)
+        {
+            allRooms.Add(room);
+        }
+        foreach (GameObject room in LateRooms)
+        {
+            allRooms.Add(room);
+        }
+    }
+
     void Start()
     {
         dManager = gameObject.GetComponent<DungeonManager>();
         numberRooms = dManager.GetDungeonLength();
         spawnedRooms = new GameObject[numberRooms + 1];
         GenerateRooms();
+        AllRooms();
     }
 
     void Update()
