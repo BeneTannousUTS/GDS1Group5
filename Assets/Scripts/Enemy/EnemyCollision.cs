@@ -31,10 +31,11 @@ public class EnemyCollision : MonoBehaviour
             otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
             Destroy(otherCollider.gameObject);
         }
-        else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
-        {
-            otherCollider.GetComponentInParent<Hazards>().DealDamage(gameObject.GetComponent<HealthComponent>());
-        }
+        // Enemy collision with hazards turned off for now
+        //else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
+        //{
+          //  otherCollider.GetComponentInParent<Hazards>().DealDamage(gameObject.GetComponent<HealthComponent>());
+        //}
     }
 
     public void ClearColliderIDs()

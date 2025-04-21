@@ -1,17 +1,24 @@
 // AUTHOR: James
 // Handles building the dungeon
 
+using System.Collections.Generic;
+using System.Reflection;
+using Unity.Multiplayer.Tools.NetStats;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class DungeonBuilder : MonoBehaviour
 {
-    [SerializeField] GameObject[] rooms;
+    [SerializeField] GameObject[] EarlyRooms;
+    [SerializeField] GameObject[] MiddleRooms;
+    [SerializeField] GameObject[] LateRooms;
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
     private int numberRooms;
+    List<GameObject> allRooms = new List<GameObject>();
     [SerializeField] private int currentRoom = 1;
     private GameObject[] spawnedRooms;
     private DungeonManager dManager;
@@ -31,9 +38,9 @@ public class DungeonBuilder : MonoBehaviour
         return currentRoom;
     }
 
-    public GameObject[] getRooms()
+    public List<GameObject> getRooms()
     {
-        return rooms;
+        return allRooms;
     }
 
     public void ReplaceRoom(int roomPos, GameObject room)
@@ -64,26 +71,43 @@ public class DungeonBuilder : MonoBehaviour
         }
         cRoom++;
         spawnedRooms = tempArray;
+        int middle = Random.Range(6, 7);
         GameObject previousRoom = startRoom;
-        GameObject newRoom;
         while (cRoom < (newLength - currentRoom-1))
         {
-            newRoom = rooms[Random.Range(0, rooms.Length)];
-            while (newRoom == previousRoom)
+            if (cRoom <= 3)
             {
-                newRoom = rooms[Random.Range(0, rooms.Length)];
+                previousRoom = SpawnRooms(EarlyRooms, cRoom, previousRoom);
             }
-            spawnedRooms[cRoom] = Instantiate(newRoom);
-            spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
-            spawnedRooms[cRoom].SetActive(false);
+            else if (cRoom <= middle)
+            {
+                previousRoom = SpawnRooms(MiddleRooms, cRoom, previousRoom);
+            }
+            else
+            {
+                previousRoom = SpawnRooms(LateRooms, cRoom, previousRoom);
+            }
             cRoom += 1;
-            previousRoom = newRoom;
         }
         spawnedRooms[cRoom] = Instantiate(finalRoom);
         spawnedRooms[cRoom].transform.position += new Vector3(0, 18 * cRoom, 0);
         spawnedRooms[cRoom].SetActive(false);
         dManager.SetDungeonLength(newLength);
 
+    }
+
+    GameObject SpawnRooms(GameObject[] rooms, int pos, GameObject previousRoom)
+    {
+        GameObject newRoom;
+        newRoom = rooms[Random.Range(0, rooms.Length)];
+        while (newRoom == previousRoom)
+        {
+            newRoom = rooms[Random.Range(0, rooms.Length)];
+        }
+        spawnedRooms[pos] = Instantiate(newRoom);
+        spawnedRooms[pos].transform.position += new Vector3(0, 18 * pos, 0);
+        spawnedRooms[pos].SetActive(false);
+        return newRoom;
     }
 
     public void UpdateRoomCount(int count)
@@ -96,20 +120,23 @@ public class DungeonBuilder : MonoBehaviour
     void GenerateRooms()
     {
         spawnedRooms[0] = Instantiate(startRoom);
+        int middle = Random.Range(6, 7);
         GameObject previousRoom = startRoom;
-        GameObject newRoom;
         while (currentRoom < numberRooms - 1)
         {
-            newRoom = rooms[Random.Range(0, rooms.Length)];
-            while (newRoom == previousRoom)
+            if (currentRoom <= 3)
             {
-                newRoom = rooms[Random.Range(0, rooms.Length)];
+                previousRoom = SpawnRooms(EarlyRooms, currentRoom, previousRoom);
             }
-            spawnedRooms[currentRoom] = Instantiate(newRoom);
-            spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
-            spawnedRooms[currentRoom].SetActive(false);
+            else if (currentRoom <= middle)
+            {
+                previousRoom = SpawnRooms(MiddleRooms, currentRoom, previousRoom);
+            }
+            else
+            {
+                previousRoom = SpawnRooms(LateRooms, currentRoom, previousRoom);
+            }
             currentRoom += 1;
-            previousRoom = newRoom;
         }
         spawnedRooms[currentRoom] = Instantiate(finalRoom);
         spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
@@ -139,12 +166,29 @@ public class DungeonBuilder : MonoBehaviour
         }
     }
 
+    void AllRooms()
+    {
+        foreach (GameObject room in EarlyRooms)
+        {
+            allRooms.Add(room);
+        }
+        foreach (GameObject room in MiddleRooms)
+        {
+            allRooms.Add(room);
+        }
+        foreach (GameObject room in LateRooms)
+        {
+            allRooms.Add(room);
+        }
+    }
+
     void Start()
     {
         dManager = gameObject.GetComponent<DungeonManager>();
         numberRooms = dManager.GetDungeonLength();
         spawnedRooms = new GameObject[numberRooms + 1];
         GenerateRooms();
+        AllRooms();
     }
 
     void Update()

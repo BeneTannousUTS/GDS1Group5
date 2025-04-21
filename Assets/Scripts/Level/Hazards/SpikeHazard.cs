@@ -54,7 +54,7 @@ public class SpikeHazard : Hazards, IPressed
     void Attack()
     {
         waitTime += Time.deltaTime;
-        if (waitTime >= 4)
+        if (waitTime >= 3)
         {
             if (!active)
             {
@@ -63,7 +63,7 @@ public class SpikeHazard : Hazards, IPressed
                 active = true;
             }
         }
-        if (waitTime >= 7)
+        if (waitTime >= 6)
         {
             hitbox.SetActive(false);
             animator.SetTrigger("deactivate");
