@@ -4,6 +4,8 @@ using UnityEngine;
 public class Door : MonoBehaviour, IPressed
 {
     [SerializeField] bool switchActivated;
+    [SerializeField] bool normalDoor;
+    [SerializeField] float doorUnlockCount;
     float playerCount;
     float switchCount;
     bool active = true;
@@ -53,6 +55,10 @@ public class Door : MonoBehaviour, IPressed
         if (switchActivated)
         {
             playerCount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
+            if (normalDoor)
+            {
+                playerCount = doorUnlockCount;
+            }
         }
     }
 
