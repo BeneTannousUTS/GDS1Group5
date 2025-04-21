@@ -38,7 +38,7 @@ public class DungeonBuilder : MonoBehaviour
 
     public GameObject[] getRooms()
     {
-        return EarlyRooms;
+        return MiddleRooms;
     }
 
     public void ReplaceRoom(int roomPos, GameObject room)

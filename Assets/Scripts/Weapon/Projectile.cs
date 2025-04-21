@@ -113,7 +113,7 @@ public class Projectile : MonoBehaviour
 
     bool ColliderType(Collider2D otherCollider) 
     {
-        return otherCollider.gameObject.CompareTag("Enemy") == false && otherCollider.gameObject.CompareTag("Weapon") == false && otherCollider.gameObject.CompareTag("TempBuff") == false && otherCollider.gameObject.CompareTag("Player") == false && otherCollider.gameObject.CompareTag("Projectile") == false;
+        return otherCollider.gameObject.CompareTag("Enemy") == false && otherCollider.gameObject.CompareTag("Weapon") == false && otherCollider.gameObject.CompareTag("TempBuff") == false && otherCollider.gameObject.CompareTag("Player") == false && otherCollider.gameObject.CompareTag("Projectile") == false && otherCollider.gameObject.CompareTag("Hazard") == false && otherCollider.gameObject.CompareTag("PressurePlate") == false;
     }
 
     void OnTriggerEnter2D(Collider2D otherCollider) 

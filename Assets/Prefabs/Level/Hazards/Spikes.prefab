@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -384993086378907398, guid: a20e9d18a13fef84ea69b5a9b79c0daa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -176,8 +176,10 @@ MonoBehaviour:
   knockbackTime: 0.5
   hitbox: {fileID: 6148532579896004526}
   switchActivated: 0
+  activeStart: 0
   spikeOffset: 0
   animator: {fileID: 8311366170211196982}
+  waitTime: 0
 --- !u!1 &6148532579896004526
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4768178277052348301
 Transform:
   m_ObjectHideFlags: 0
