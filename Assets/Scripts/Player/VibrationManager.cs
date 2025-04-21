@@ -60,7 +60,7 @@ public class VibrationManager : MonoBehaviour
 
     public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
     {
-        if (Application.platform != RuntimePlatform.OSXPlayer || Application.platform != RuntimePlatform.OSXEditor)
+        if (!(Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor))
         {
             switch (vibrationPattern)
             {
@@ -106,8 +106,7 @@ public class VibrationManager : MonoBehaviour
     
     public void StartInfoVibration(Gamepad controller)
     {
-        if (!isInfoVibrating && (Application.platform != RuntimePlatform.OSXPlayer ||
-                                 Application.platform != RuntimePlatform.OSXEditor))
+        if (!isInfoVibrating && !(Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor))
         {
             infoCoroutine = StartCoroutine(InfoPattern(controller));
         }
