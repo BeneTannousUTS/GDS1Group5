@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.016059637, y: 0}
-  m_Radius: 0.20594811
+  m_Radius: 0.35
 --- !u!114 &9054431468669508346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +139,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 15
+  knockbackStrength: 0.7
+  knockbackTime: 0.1
 --- !u!50 &-7366011515478736965
 Rigidbody2D:
   serializedVersion: 5

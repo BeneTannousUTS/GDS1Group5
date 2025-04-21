@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerAttack : MonoBehaviour
 {
     public GameObject currentWeapon;
+    public GameObject ghostWeapon;
 
     private float attackCooldownWindow;
     private float attackCooldownTimer = 10f;
@@ -25,14 +26,14 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Instantiates a weapon in front of the players current facing direction
-    void Attack() 
+    void Attack(GameObject weapon) 
     {
-        attackCooldownWindow = currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
+        attackCooldownWindow = weapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
         attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        bool isMelee = currentWeapon.GetComponent<WeaponStats>().projectile == null;
+        bool isMelee = weapon.GetComponent<WeaponStats>().projectile == null;
         float weaponTypeMod = isMelee ? 1.5f : 0.7f;
-        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
+        GameObject tempWeapon = Instantiate(weapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
         if (attackDirection.x < 0 && !isMelee && tempWeapon.transform.childCount != 0) {
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
@@ -61,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
 
         // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used
 
-        if (currentWeapon.GetComponent<WeaponStats>().projectile == null) // is melee
+        if (weapon.GetComponent<WeaponStats>().projectile == null) // is melee
         {
             audioManager.PlaySoundEffect("PlayerMeleeAttack");
             gameObject.GetComponent<Animator>().SetTrigger("attack");
@@ -121,7 +122,20 @@ public class PlayerAttack : MonoBehaviour
 
             if (attackCooldownTimer >= attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat() && attackBufferTimer <= attackBufferWindow) 
             {
-                Attack();
+                Attack(currentWeapon);
+            }
+
+            UpdateTimers(Time.deltaTime);
+        }
+        else {
+            if (attackButtonPressed) 
+            {
+                attackBufferTimer = 0f;
+            }
+
+            if (attackCooldownTimer >= attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat() && attackBufferTimer <= attackBufferWindow) 
+            {
+                Attack(ghostWeapon);
             }
 
             UpdateTimers(Time.deltaTime);
