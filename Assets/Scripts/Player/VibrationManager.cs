@@ -60,16 +60,19 @@ public class VibrationManager : MonoBehaviour
 
     public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
     {
-        switch (vibrationPattern)
+        if (Application.platform != RuntimePlatform.OSXPlayer || Application.platform != RuntimePlatform.OSXEditor)
         {
-            case VibrationPattern.DamagePattern:
-                StartCoroutine(DamagePattern(controller));
-                break;
-            case VibrationPattern.HealPattern:
-                StartCoroutine(HealPattern(controller));
-                break;
-            default:
-                return;
+            switch (vibrationPattern)
+            {
+                case VibrationPattern.DamagePattern:
+                    StartCoroutine(DamagePattern(controller));
+                    break;
+                case VibrationPattern.HealPattern:
+                    StartCoroutine(HealPattern(controller));
+                    break;
+                default:
+                    return;
+            }
         }
     }
     
@@ -103,7 +106,8 @@ public class VibrationManager : MonoBehaviour
     
     public void StartInfoVibration(Gamepad controller)
     {
-        if (!isInfoVibrating)
+        if (!isInfoVibrating && (Application.platform != RuntimePlatform.OSXPlayer ||
+                                 Application.platform != RuntimePlatform.OSXEditor))
         {
             infoCoroutine = StartCoroutine(InfoPattern(controller));
         }
