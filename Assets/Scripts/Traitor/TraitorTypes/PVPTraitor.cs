@@ -14,7 +14,8 @@ public class PVPTraitor : BaseTraitor
 
     public override void TraitorSetup()
     {
-        base.TraitorSetup();
+        gameObject.tag = "Traitor";
+        FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
         gameObject.GetComponent<PlayerCollision>().SetPlayerPVP(true);
     }
 
@@ -34,7 +35,6 @@ public class PVPTraitor : BaseTraitor
         Revive();
         traitorManager = FindAnyObjectByType<TraitorManager>();
         cooldownLength = 10;
-        traitorSprite = traitorManager.GetCardRef(0);
         passive = traitorManager.GetObjectRef(1);
         TraitorSetup();
     }
