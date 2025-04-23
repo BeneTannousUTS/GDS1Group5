@@ -57,6 +57,9 @@ public class PlayerAttack : MonoBehaviour
         }
 
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        if (tempWeapon.transform.childCount != 0 && tempWeapon.transform.GetChild(0).GetComponent<WeaponStats>()) {
+            tempWeapon.transform.GetChild(0).GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        }
         tempWeapon.GetComponent<WeaponStats>().SetSourceObject(gameObject);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(gameObject.GetComponent<PlayerStats>().GetStrengthStat());
 
