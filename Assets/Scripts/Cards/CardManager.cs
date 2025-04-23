@@ -66,6 +66,7 @@ public class CardManager : MonoBehaviour
             playerObj.GetComponent<Animator>().enabled = true;
             playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 1);
             playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
+            playerObj.GetComponent<PlayerScore>().SetTimeStarted();
 
             foreach (Transform child in playerObj.transform)
             {
@@ -99,6 +100,7 @@ public class CardManager : MonoBehaviour
             if (abilityObject == null)
             {
                 players[i].AddComponent(traitorType.GetType());
+                players[i].GetComponent<PlayerScore>().SetTraitor();
             }
             else if (abilityObject.name.Equals("Pass"))
             {

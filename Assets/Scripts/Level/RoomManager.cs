@@ -60,6 +60,10 @@ public class RoomManager : MonoBehaviour
                             {
                                 healthComponent.Revive();
                             }
+                            else
+                            {
+                                healthComponent.gameObject.GetComponent<PlayerScore>().AddTimeAlive(Time.time);
+                            }
 
                             healthComponent.TakeDamage(-99999);
                         }
