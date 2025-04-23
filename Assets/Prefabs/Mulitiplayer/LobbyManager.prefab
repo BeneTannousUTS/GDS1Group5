@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &514723245381949584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1086511758287781966}
+  - component: {fileID: 2869108334118008486}
+  m_Layer: 0
+  m_Name: LobbyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1086511758287781966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514723245381949584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1230.4714, y: 718.2812, z: -8.237971}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2869108334118008486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514723245381949584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c0b03b80db2df4997b33c6feb71b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressStartPrefab: {fileID: 0}
+  playerSlots:
+  - slotPanel: {fileID: 0}
+    unjoinedIndicator: {fileID: 0}
+    joinedIndicator: {fileID: 0}
+    isOccupied: 0
+  - slotPanel: {fileID: 0}
+    unjoinedIndicator: {fileID: 0}
+    joinedIndicator: {fileID: 0}
+    isOccupied: 0
+  - slotPanel: {fileID: 0}
+    unjoinedIndicator: {fileID: 0}
+    joinedIndicator: {fileID: 0}
+    isOccupied: 0
+  - slotPanel: {fileID: 0}
+    unjoinedIndicator: {fileID: 0}
+    joinedIndicator: {fileID: 0}
+    isOccupied: 0

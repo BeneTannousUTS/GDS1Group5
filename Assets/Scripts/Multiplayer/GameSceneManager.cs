@@ -1,6 +1,8 @@
 // AUTHOR: BENEDICT
 // This script uses the PlayerInputManager to join new players with unique controller identities
 
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,41 +11,112 @@ public class GameSceneManager : MonoBehaviour
     public GameObject[] spawnPoints;
     public Color[] playerColours;
     public AnimatorOverrideController[] playerAnimators;
+    public GameObject dungeonManager;
+    public GameObject[] players;
+    
+    private int joinedPlayers = 0;
+    private int maxPlayers = 4;
+    private bool canStartGame = false;
         
     void Start()
     {
         
+        
     }
 
-    // Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
-    public void SpawnPlayers()
+    private void Update()
     {
-        PlayerData[] players = PlayerManager.instance.players;
-
-        for (int i = 0; i < players.Length; i++)
+        if (dungeonManager != null && dungeonManager.GetComponent<DungeonBuilder>().GetCurrentRoom() == 1)
         {
-            if (players[i].isJoined)
+            // Loop through all connected gamepads
+            foreach (Gamepad gamepad in Gamepad.all)
             {
-                // Use PlayerInputManager to spawn a new player and pair it with the gamepad
-                PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
-                PlayerManager.instance.players[i].playerInput = newPlayer;
-
-                // Add newPlayer to GameManager playerList
-                FindAnyObjectByType<GameManager>().AddPlayer(newPlayer.gameObject);
-
-                // Position the new player at the corresponding spawn point
-                newPlayer.transform.position = spawnPoints[i].transform.position;
-                newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
-                newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
-                newPlayer.gameObject.GetComponent<PlayerColour>().playerColour = playerColours[i];
-                newPlayer.gameObject.GetComponentsInChildren<SpriteRenderer>()[1].color = playerColours[i];
-                
-                if (i != 0)
+                // Check if the player wants to join
+                if (gamepad.leftShoulder.wasPressedThisFrame && gamepad.rightShoulder.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
                 {
-                    newPlayer.GetComponent<Animator>().runtimeAnimatorController = playerAnimators[i - 1];
+                    OnControlsChanged(gamepad);
+                    AssignGamepad(gamepad);
                 }
+                // Check if the player wants to leave
+                else if (gamepad.startButton.wasPressedThisFrame && gamepad.selectButton.wasPressedThisFrame && IsGamepadAssigned(gamepad))
+                {
+                    OnControlsChanged(gamepad);
+                    UnassignGamepad(gamepad);
+                }
+            }
+        }
+    }
+    
+    // Assign the gamepad to the first available player
+    void AssignGamepad(Gamepad gamepad)
+    {
+        // Check if we’ve reached the max number of players
+        if (joinedPlayers >= maxPlayers)
+        {
+            Debug.Log("Max players reached. Cannot join more players.");
+            return;
+        }
 
-                Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
+        foreach (var player in players)
+        {
+            if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() != gamepad)
+            {
+                //Assign gamepad to player
+                PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: gamepad);
+
+                joinedPlayers++;
+                PlayerManager.instance.JoinPlayer(gamepad);
+
+                Debug.Log($"Gamepad {gamepad.deviceId} assigned to slot.");
+                break;
+            }
+        }
+    }
+
+    // Unassign the gamepad from its current slot
+    void UnassignGamepad(Gamepad gamepad)
+    {
+        foreach (var player in players)
+        {
+            if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
+            {
+                // Update slot state
+                
+
+                joinedPlayers--;
+                PlayerManager.instance.UnjoinPlayer(gamepad);
+
+                Debug.Log($"Gamepad {gamepad.deviceId} unassigned from slot.");
+                break;
+            }
+        }
+    }
+
+    // Check if this gamepad has already been assigned to another slot
+    bool IsGamepadAssigned(Gamepad gamepad)
+    {
+        foreach (var player in players)
+        {
+            if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
+    private void OnControlsChanged(Gamepad gamepad)
+    {
+        if (gamepad is UnityEngine.InputSystem.Switch.SwitchProControllerHID)
+        {
+            foreach (var item in Gamepad.all)
+            {
+                if ((item is UnityEngine.InputSystem.XInput.XInputController) && (Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1))
+                {
+                    Debug.Log($"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
+                    InputSystem.DisableDevice(item);
+                }
             }
         }
     }
