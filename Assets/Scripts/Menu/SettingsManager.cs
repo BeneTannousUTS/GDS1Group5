@@ -6,7 +6,7 @@ using UnityEngine;
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager instance;
-    public float masterVolumeLevel = 0.5f;
+    public float masterVolumeLevel = 1.0f;
     public float musicVolumeLevel = 1.0f;
     public float effectVolumeLevel = 1.0f;
 

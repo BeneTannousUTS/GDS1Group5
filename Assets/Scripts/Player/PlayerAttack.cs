@@ -28,10 +28,14 @@ public class PlayerAttack : MonoBehaviour
     // Instantiates a weapon in front of the players current facing direction
     void Attack(GameObject weapon) 
     {
+        GetComponent<PlayerScore>().IncrementWeaponActivated();
         attackCooldownWindow = weapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
         attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         bool isMelee = weapon.GetComponent<WeaponStats>().projectile == null;
+
+        if (!isMelee) GetComponent<PlayerScore>().IncrementProjectilesShot();
+
         float weaponTypeMod = isMelee ? 1.5f : 0.7f;
         GameObject tempWeapon = Instantiate(weapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
         if (attackDirection.x < 0 && !isMelee && tempWeapon.transform.childCount != 0) {

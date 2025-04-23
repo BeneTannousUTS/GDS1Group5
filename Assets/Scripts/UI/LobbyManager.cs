@@ -51,6 +51,14 @@ public class LobbyManager : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (PlayerManager.instance.players[0].isJoined)
+            {
+                AssignGamepadSlot(PlayerManager.instance.players[0].gamepad);
+            }
+        }
+
         if (playerSlots[0].isOccupied && (playerSlots[1].isOccupied || playerSlots[2].isOccupied || playerSlots[3].isOccupied))
         {
             pressStartPrefab.SetActive(true);

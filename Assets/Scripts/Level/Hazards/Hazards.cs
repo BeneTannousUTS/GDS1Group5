@@ -62,7 +62,8 @@ public class Hazards : MonoBehaviour
                 Debug.Log("Healing CHECK");
             }
             else {
-                GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
+                GetSourceObject().GetComponent<PlayerScore>().AddDamageTaken(preDamageHealth-healthComponent.GetCurrentHealth());
+                GetSourceObject().GetComponent<PlayerScore>().IncrementHazardsRanInto();
                 if (GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat() > 0) {
                     GetSourceObject().GetComponent<HealthComponent>().TakeDamage(-((preDamageHealth-healthComponent.GetCurrentHealth()) 
                                                                                * GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat()));

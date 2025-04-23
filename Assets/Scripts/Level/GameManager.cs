@@ -14,16 +14,10 @@ public class GameManager : MonoBehaviour
     private BaseTraitor currentTraitorType;
     public ResultsManager resultsManager;
 
-    public void Win(GameObject winner) 
+    public void Win() 
     {
         resultsManager.GetPlayerScores();
-        if (winner.CompareTag("Traitor")) 
-        {
-            TraitorWin();
-        }
-        else {
-            SceneManager.LoadScene("WinScreen");
-        }
+        SceneManager.LoadScene("ResultsScene");
     }
 
     public List<GameObject> GetPlayerList()
@@ -43,12 +37,8 @@ public class GameManager : MonoBehaviour
 
     void Lose()
     {
-        SceneManager.LoadScene("LoseScreen");
-    }
-
-    void TraitorWin() 
-    {
-        SceneManager.LoadScene("TraitorWinScreen");
+        resultsManager.didLose = true;
+        SceneManager.LoadScene("ResultsScene");
     }
 
     void AddTraitorTypes() 
