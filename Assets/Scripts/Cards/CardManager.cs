@@ -38,6 +38,7 @@ public class CardManager : MonoBehaviour
     {
         player.GetComponent<Animator>().enabled = false;
         player.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 0);
+        player.GetComponent<Collider2D>().enabled = false;
         player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Locked");
 
         foreach (Transform child in player.transform)
@@ -65,6 +66,7 @@ public class CardManager : MonoBehaviour
 
             playerObj.GetComponent<Animator>().enabled = true;
             playerObj.GetComponent<SpriteRenderer>().color = new Vector4(1, 1, 1, 1);
+            playerObj.GetComponent<Collider2D>().enabled = true;
             playerObj.GetComponent<PlayerInput>().SwitchCurrentActionMap("Gameplay");
             playerObj.GetComponent<PlayerScore>().SetTimeStarted();
 
