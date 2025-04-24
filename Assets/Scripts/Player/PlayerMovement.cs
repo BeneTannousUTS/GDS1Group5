@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     private Vector3 moveDirection;
-    private Vector3 facingDirection = Vector3.up;
+    private Vector3 facingDirection = Vector3.down;
     private Vector3 playerVelocity;
     //private CharacterController controller;
     public Rigidbody2D rb;
