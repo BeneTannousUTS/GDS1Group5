@@ -27,8 +27,18 @@ public enum CardRarity
     Legendary
 }
 
+public enum SelectionState
+    {
+        InGame,
+        ConfirmingTurn,
+        Selecting,
+        Waiting,
+        ConfirmingSwap,
+        TraitorConfirming
+    }
+
 public class CardSelection : MonoBehaviour
-{
+{   
     public GameObject[] cards;
     [SerializeField]
     Card reviveCard; // specific reference to the revive card because it should not be apart of the regualr card set
@@ -43,11 +53,11 @@ public class CardSelection : MonoBehaviour
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
-    private GameObject[] cardList = new GameObject[4];
+    public GameObject[] cardList = new GameObject[4];
     private int[] selectedCards = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     PlayerData[] playerSelectionOrder = new PlayerData[4];
     private GameObject selectedCard = null;
-    private int currentPlayerIndex = -1;
+    public int currentPlayerIndex = -1;
     [SerializeField]
     private TMP_Text bottomText;
     [SerializeField]
@@ -68,6 +78,7 @@ public class CardSelection : MonoBehaviour
     GameObject damagePassiveCard;
     [SerializeField]
     GameObject cooldownPassiveCard;
+    public SelectionState selectionState = SelectionState.InGame;
 
     void Awake()
     {
@@ -197,7 +208,10 @@ public class CardSelection : MonoBehaviour
         {
             if (!playerSelectionOrder[playerSelectionPos].isJoined) break;
 
+            selectionState = SelectionState.ConfirmingTurn;
+
             int playerIndex = playerSelectionOrder[playerSelectionPos].playerIndex;
+            currentPlayerIndex = playerIndex;
 
             foreach (GameObject card in cardList)
             {
@@ -230,6 +244,8 @@ public class CardSelection : MonoBehaviour
 
             yield return WaitForContinue();
 
+            selectionState = SelectionState.Selecting;
+
             UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
             UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
 
@@ -239,8 +255,6 @@ public class CardSelection : MonoBehaviour
             selectingParent.SetActive(false);
             bottomGroup.SetActive(true);
             bottomText.gameObject.SetActive(true);
-
-            currentPlayerIndex = playerIndex;
 
             bottomText.text = $"Player {playerIndex + 1} is Selecting a Card";
 
@@ -285,6 +299,8 @@ public class CardSelection : MonoBehaviour
             }*/
 
             yield return new WaitUntil(() => selectedCard != null);
+
+            selectionState = SelectionState.Waiting;
 
             Destroy(selectedCard.GetComponent<Button>());
             selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
@@ -446,6 +462,7 @@ public class CardSelection : MonoBehaviour
                 || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
                 {
                     coverCanvas.SetActive(true);
+                    selectionState = SelectionState.ConfirmingSwap;
                     GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
@@ -469,6 +486,8 @@ public class CardSelection : MonoBehaviour
             yield return WaitForAllConfirmations(handlers);
         }
 
+        selectionState = SelectionState.Waiting;
+
         yield return new WaitForSeconds(0.25f);
 
         if (numOfTraitors > 0)
@@ -478,6 +497,7 @@ public class CardSelection : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(1f);
+            selectionState = SelectionState.InGame;
             ResumeGameplay();
         }
     }
@@ -679,6 +699,8 @@ public class CardSelection : MonoBehaviour
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
 
         yield return new WaitForSeconds(3f);
+
+        selectionState = SelectionState.TraitorConfirming;
 
         foreach (PlayerData playerData in players)
         {

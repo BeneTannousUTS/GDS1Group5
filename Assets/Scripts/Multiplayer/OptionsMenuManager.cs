@@ -52,6 +52,7 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.masterVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
@@ -61,6 +62,7 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.musicVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
@@ -70,6 +72,7 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.effectVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
