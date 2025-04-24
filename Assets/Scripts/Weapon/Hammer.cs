@@ -7,7 +7,12 @@ public class Hammer : WeaponStats
 
     protected override void TriggerAttack()
     {
-        GetSourceObject().GetComponent<PlayerMovement>().KnockbackPlayer(0, weaponLifetime, Vector3.zero);
+        
+        if (GetSourceObject().TryGetComponent<PlayerMovement>(out var playerMovement))
+        {
+            playerMovement.KnockbackPlayer(0, weaponLifetime, Vector3.zero);
+        }
+
         StartCoroutine(FriendlyKnockback());
         base.TriggerAttack();
     }
