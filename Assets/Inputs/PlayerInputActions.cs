@@ -189,7 +189,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d4f092b4-2cbe-4fa2-a329-e25bee5860b2"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -200,7 +200,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c5dd94a0-157c-4a83-8963-e825ab6f15b8"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -454,63 +454,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""e976fd97-c773-4082-a580-f3825ee827e9"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""27783c4f-f653-493b-aa67-9b69533b79e1"",
-                    ""path"": ""<SwitchProControllerHID>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""dfeeadb5-cc72-438c-a6de-c3eb519ed500"",
-                    ""path"": ""<SwitchProControllerHID>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""735eb100-df7f-4501-b033-a042bbdac24d"",
-                    ""path"": ""<SwitchProControllerHID>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""d6dcd8bb-76fa-4ef3-94f7-e298c5e12b42"",
-                    ""path"": ""<SwitchProControllerHID>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";SwitchProCon"",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""2D Vector"",
                     ""id"": ""3cd5dac5-1311-4458-bbe5-d5e473ddd4ea"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -686,7 +631,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""caa3276f-8d64-4f6a-9d9b-d317337ebce3"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -697,7 +642,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f362a914-2f45-4572-af24-11579d6bc816"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -762,7 +707,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""76a61a59-4389-427a-aa4e-1a13239e6415"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -773,7 +718,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9391ecf0-d809-4157-88e9-9c274dcf2de1"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
