@@ -41,8 +41,10 @@ public class SecondaryStats : MonoBehaviour
     // Destroys the weapon after its lifetime is up
     IEnumerator DestroySecondary(float lifetime)
     {
-        yield return new WaitForSeconds(lifetime);
         gameObject.GetComponent<ISecondary>().DoSecondary();
+
+        yield return new WaitForSeconds(lifetime);
+
         Destroy(gameObject);
     }
 

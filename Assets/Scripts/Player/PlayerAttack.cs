@@ -28,6 +28,14 @@ public class PlayerAttack : MonoBehaviour
     // Instantiates a weapon in front of the players current facing direction
     void Attack(GameObject weapon) 
     {
+        foreach (Transform child in gameObject.transform)
+        {
+            if (child.tag.Equals("Weapon") && child.GetComponent<DualWield>() == null)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         GetComponent<PlayerScore>().IncrementWeaponActivated();
         attackCooldownWindow = weapon.GetComponent<WeaponStats>().attackCooldownWindow * GetComponent<PlayerStats>().GetCooldownStat();
         attackBufferWindow *= GetComponent<PlayerStats>().GetCooldownStat();

@@ -19,12 +19,36 @@ public class DualWield : MonoBehaviour, ISecondary
         Debug.Log($"Attack Cooldown Window: {currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow}");
         playerTransform.GetComponent<PlayerSecondary>().SetSecondaryCooldownWindow(currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * 1.5f);
 
+        bool isMelee = currentWeapon.GetComponent<WeaponStats>().projectile == null;
+        if (!isMelee) GetComponent<PlayerScore>().IncrementProjectilesShot();
+        float weaponTypeMod = isMelee ? 1.5f : 0.7f;
+
         Vector3 attackDirection = playerTransform.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        GameObject tempWeapon = Instantiate(currentWeapon, playerTransform.position + attackDirection, CalculateQuaternion(attackDirection), playerTransform);
-        if (attackDirection.x < 0 && tempWeapon.transform.childCount != 0)
-        {
+        GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), playerTransform);
+        tempWeapon.AddComponent<DualWield>();
+
+        if (attackDirection.x < 0 && !isMelee && tempWeapon.transform.childCount != 0) {
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
+
+        if (attackDirection.y < 0) {
+            if (tempWeapon.transform.childCount != 0)
+            {
+                tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder = 2;
+            } else
+            {
+                tempWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }
+            
+            if (isMelee)
+            {
+                tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
+            } else
+            {
+                tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
+            }
+        }
+
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(playerTransform.tag);
         tempWeapon.GetComponent<WeaponStats>().SetSourceObject(playerTransform.gameObject);
         tempWeapon.GetComponent<WeaponStats>().SetDamageMod(playerTransform.GetComponent<PlayerStats>().GetStrengthStat());
