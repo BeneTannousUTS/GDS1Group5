@@ -322,9 +322,9 @@ public class CardSelection : MonoBehaviour
     {
         List<int> cardIndices = new List<int> { 0, 1, 2, 3 };
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-        float dungeonCompletionPercent = FindAnyObjectByType<DungeonManager>().GetRoomCount() / FindAnyObjectByType<DungeonManager>().GetDungeonLength();
+        float dungeonCompletionPercent = (float) FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float) FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
-        Debug.Log($"Determine Card | Completion Percentage: {dungeonCompletionPercent}");
+        Debug.Log($"Determine Card | Completion Percentage: {dungeonCompletionPercent * 100}%");
 
         // at playerSelectionPos = 0, selectionOrder[0] will hold the index of which card in the card list that player selected
         for (int playerIndex = 0; playerIndex < selectedCards.Length; playerIndex++)
@@ -519,38 +519,38 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        if (completion < 0.5f) // Early Game (First Half)
+        if (completion < 0.25f) // Early Game (First Quarter)
         {
-            float t = completion * 2f;
+            float t = completion * 4f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.50f, 0.30f, t);
+                    return Mathf.Lerp(0.50f, 0.35f, t);
                 case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.40f, 0.30f, t);
+                    return Mathf.Lerp(0.40f, 0.35f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.10f, 0.40f, t);
+                    return Mathf.Lerp(0.10f, 0.30f, t);
                 default:
                     return 0f;
             }
         }
-        else // Late Game (Second Half)
+        else // Late Game
         {
-            float t = (completion - 0.5f) * 2f;
+            float t = (completion - 0.25f) * 4f / 3f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.30f, 0.08f, t);
+                    return Mathf.Lerp(0.30f, 0.00f, t);
                 case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.30f, 0.12f, t);
+                    return Mathf.Lerp(0.35f, 0.10f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.40f, 0.20f, t);
+                    return Mathf.Lerp(0.30f, 0.15f, t);
                 case CardRarity.Epic:
-                    return Mathf.Lerp(0.00f, 0.35f, t);
+                    return Mathf.Lerp(0.05f, 0.35f, t);
                 case CardRarity.Legendary:
-                    return Mathf.Lerp(0.00f, 0.25f, t);
+                    return Mathf.Lerp(0.00f, 0.40f, t);
                 default:
                     return 0f;
             }
@@ -646,6 +646,7 @@ public class CardSelection : MonoBehaviour
                 cardHandler.hasConfirmed = true;
 
                 Debug.Log($"Card Handler p{cardHandler.playerIndex} NO");
+
                 // selectedCards[cardHandler.playerIndex] = -1;
                 cardList[selectedCards[cardHandler.playerIndex]] =
                 cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?

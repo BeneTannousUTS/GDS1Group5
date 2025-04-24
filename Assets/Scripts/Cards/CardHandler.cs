@@ -65,7 +65,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
         card.cardType = CardType.Passive;
         card.abilityObject = null;
         card.cardName = "Traitor";
-        card.cardDescription = "You are a traitor... Fight your once friends.";
+        card.cardDescription = "You are a traitor...";
     }
 
     public void ReplaceCard(Card replacementCard)
