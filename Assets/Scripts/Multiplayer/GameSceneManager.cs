@@ -27,6 +27,7 @@ public class GameSceneManager : MonoBehaviour
                 // Use PlayerInputManager to spawn a new player and pair it with the gamepad
                 PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
                 PlayerManager.instance.players[i].playerInput = newPlayer;
+                PlayerManager.instance.players[i].playerColour = playerColours[i];
 
                 // Add newPlayer to GameManager playerList
                 FindAnyObjectByType<GameManager>().AddPlayer(newPlayer.gameObject);
@@ -35,7 +36,7 @@ public class GameSceneManager : MonoBehaviour
                 newPlayer.transform.position = spawnPoints[i].transform.position;
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(i);
                 newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[i]);
-                newPlayer.gameObject.GetComponent<PlayerColour>().playerColour = playerColours[i];
+                newPlayer.GetComponent<PlayerIndex>().playerIndex = i;
                 newPlayer.gameObject.GetComponentsInChildren<SpriteRenderer>()[1].color = playerColours[i];
                 
                 if (i != 0)

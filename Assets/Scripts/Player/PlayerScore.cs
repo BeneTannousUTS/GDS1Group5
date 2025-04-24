@@ -6,22 +6,23 @@ using UnityEngine;
 
 public class PlayerScore : MonoBehaviour
 {
-
     [SerializeField] public ScoreStats scoreStats;
-
     public ScoreStats _ScoreStats {get{return scoreStats;}}
+    public float timeStartedRoom;
+
+
     public float GetScore() {
         return scoreStats.score;
     }
 
-    public void AddScore(float additionalScore) {
+    public void AddScore(int additionalScore) {
         scoreStats.score += additionalScore;
         GetComponent<PlayerHUD>().UpdateScoreText(scoreStats.score);
     }
 
     public void AddDamageDealt(float additionalDamage) {
         scoreStats.damageDealt += additionalDamage;
-        AddScore(additionalDamage*10);
+        AddScore((int) additionalDamage * 10);
     }
 
     public void AddDamageTaken(float additionalDamage) {
@@ -30,7 +31,7 @@ public class PlayerScore : MonoBehaviour
 
     public void AddHealing(float healing) {
         scoreStats.healingGiven += healing;
-        AddScore(healing*15);
+        AddScore((int) healing * 15);
     }
 
     public void IncrementKills() {
@@ -41,6 +42,18 @@ public class PlayerScore : MonoBehaviour
     public void IncrementDeaths() {
         scoreStats.deaths++;
         AddScore(-1000);
+    }
+
+    public void IncrementProjectilesHit() {
+        scoreStats.projectilesHit++;
+    }
+
+    public void IncrementProjectilesShot() {
+        scoreStats.projectilesShot++;
+    }
+
+    public void IncrementHazardsRanInto() {
+        scoreStats.hazardsRanInto++;
     }
 
     public void IncrementWeaponsPicked() {
@@ -55,32 +68,37 @@ public class PlayerScore : MonoBehaviour
         scoreStats.passivesPicked++;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    public void IncrementWeaponActivated() {
+        scoreStats.weaponActivated++;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void IncrementSecondaryActivated() {
+        scoreStats.secondaryActivated++;
+    }
+
+    public void SetTimeStarted()
     {
-        
+        timeStartedRoom = Time.time;
+    }
+
+    public void AddTimeAlive(float currentTime)
+    {
+        scoreStats.timeAlive += (currentTime - timeStartedRoom);
+    }
+
+    public void SetWonGame()
+    {
+        scoreStats.wonGame = true;
+    }
+
+    public void SetTraitor()
+    {
+        scoreStats.isTraitor = true;
     }
 }
 
 [Serializable] public struct ScoreStats {
-    public float score, damageDealt, damageTaken, healingGiven;
-    public int kills, deaths, weaponsPicked, secondariesPicked, passivesPicked;
-
-    public ScoreStats(float SCORE, float DAMAGEDEALT, float DAMAGETAKEN, float HEALINGGIVEN, int KILLS, int DEATHS, int WEAPONSPICKED, int SECONDARIESPICKED, int PASSIVESPICKED) {
-        score = SCORE;
-        damageDealt = DAMAGEDEALT;
-        damageTaken = DAMAGETAKEN;
-        healingGiven = HEALINGGIVEN;
-        kills = KILLS;
-        deaths = DEATHS;
-        weaponsPicked = WEAPONSPICKED;
-        secondariesPicked = SECONDARIESPICKED;
-        passivesPicked = PASSIVESPICKED; 
-    }
+    public float damageDealt, damageTaken, healingGiven, timeAlive;
+    public int score, kills, deaths, weaponsPicked, secondariesPicked, passivesPicked, weaponActivated, secondaryActivated, projectilesHit, projectilesShot, hazardsRanInto;
+    public bool isTraitor, wonGame;
 }

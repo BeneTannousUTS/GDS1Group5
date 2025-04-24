@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 9206343895499957772}
   - component: {fileID: 7100055283759772095}
   - component: {fileID: -935837174318254583}
-  - component: {fileID: 674060503190337482}
+  - component: {fileID: 1720416129026208711}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: {fileID: 4882847367248088821, guid: 49779bbdff92e40ad91b62a19a917478, type: 3}
+  ghostWeapon: {fileID: 4882847367248088821, guid: 49779bbdff92e40ad91b62a19a917478, type: 3}
   attackBufferWindow: 0.05
 --- !u!114 &1063567501580656127
 MonoBehaviour:
@@ -483,6 +484,8 @@ MonoBehaviour:
     weaponsPicked: 0
     secondariesPicked: 0
     passivesPicked: 0
+    isTraitor: 0
+    wonGame: 0
 --- !u!114 &-935837174318254583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dacf80fb5001a4aba01830fbb77c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &674060503190337482
+--- !u!114 &1720416129026208711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -504,10 +507,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 293369937120540139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1010600bc70fc495395db711472759f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f9a82910492646deb13d8127b125b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColour: {r: 0, g: 0, b: 0, a: 0}
+  playerIndex: 0
 --- !u!1 &1325268251588932483
 GameObject:
   m_ObjectHideFlags: 0

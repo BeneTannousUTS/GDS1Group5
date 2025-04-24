@@ -1,5 +1,6 @@
 using System;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
     [Serializable]
@@ -10,4 +11,5 @@ using UnityEngine.InputSystem;
         public Gamepad gamepad;
         public bool isJoined;
         public PlayerInput playerInput;
+        public Color playerColour;
     }
