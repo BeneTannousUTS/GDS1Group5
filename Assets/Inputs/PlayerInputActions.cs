@@ -189,7 +189,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d4f092b4-2cbe-4fa2-a329-e25bee5860b2"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -200,7 +200,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c5dd94a0-157c-4a83-8963-e825ab6f15b8"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -448,7 +448,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""caa3276f-8d64-4f6a-9d9b-d317337ebce3"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -459,7 +459,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f362a914-2f45-4572-af24-11579d6bc816"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
