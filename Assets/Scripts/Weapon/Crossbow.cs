@@ -32,9 +32,12 @@ public class Crossbow : WeaponStats
                 proj.SetSourceObject(sourceObject);
             }
         }
-        
-        GetComponent<PlayerScore>().IncrementProjectilesShot();
-        GetComponent<PlayerScore>().IncrementProjectilesShot();
+
+        if (GetSourceObject() != null)
+        {
+            GetSourceObject().GetComponent<PlayerScore>().IncrementProjectilesShot();
+            GetSourceObject().GetComponent<PlayerScore>().IncrementProjectilesShot();
+        }
 
         base.TriggerAttack();
     }

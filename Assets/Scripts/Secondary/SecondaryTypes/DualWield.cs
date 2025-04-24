@@ -20,7 +20,7 @@ public class DualWield : MonoBehaviour, ISecondary
         playerTransform.GetComponent<PlayerSecondary>().SetSecondaryCooldownWindow(currentWeapon.GetComponent<WeaponStats>().attackCooldownWindow * 1.5f);
 
         bool isMelee = currentWeapon.GetComponent<WeaponStats>().projectile == null;
-        if (!isMelee) GetComponent<PlayerScore>().IncrementProjectilesShot();
+        if (!isMelee) playerTransform.GetComponent<PlayerScore>().IncrementProjectilesShot();
         float weaponTypeMod = isMelee ? 1.5f : 0.7f;
 
         Vector3 attackDirection = playerTransform.GetComponent<PlayerMovement>().GetFacingDirection().normalized;

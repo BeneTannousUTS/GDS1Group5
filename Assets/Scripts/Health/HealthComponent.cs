@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine.InputSystem;
+using System;
 
 public class HealthComponent : MonoBehaviour
 {
@@ -94,7 +95,7 @@ public class HealthComponent : MonoBehaviour
     {
         if (damageValue < 0f) 
         {
-            currentHealth -= damageValue;
+            currentHealth = Math.Max(0, currentHealth - damageValue);
             
             StartCoroutine(HealingFlash());
 
@@ -124,7 +125,7 @@ public class HealthComponent : MonoBehaviour
 
         else if (invincible == false) 
         {
-            currentHealth -= damageValue;
+            currentHealth = Math.Max(0, currentHealth - damageValue);
 
             // this is a really scuffed way to determine if it is a player or not but it works
             string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
