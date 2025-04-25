@@ -20,7 +20,7 @@ public class PlayerSecondary : MonoBehaviour
     private bool hasTraitorAbility = false;
 
     // Instantiates a secondary at the player's position
-    void Secondary() 
+    public void Secondary() 
     {
         GetComponent<PlayerScore>().IncrementSecondaryActivated();
 
