@@ -76,6 +76,11 @@ public class HealthComponent : MonoBehaviour
         {
             gameObject.GetComponent<BaseTraitor>().LoseCondition();
         }
+        else if (gameObject.CompareTag("Destructible"))
+        {
+            gameObject.GetComponent<Destructible>().SpawnItems();
+            Destroy(gameObject);
+        }
         else if (gameObject.CompareTag("Player") == false) {
             Destroy(gameObject);
         }
@@ -93,69 +98,72 @@ public class HealthComponent : MonoBehaviour
     // Takes damage equal to the damageValue then checks if is dead
     public void TakeDamage(float damageValue) 
     {
-        if (damageValue < 0f) 
+        if (damageValue != 0)
         {
-            currentHealth = Math.Max(0, currentHealth - damageValue);
-            
-            StartCoroutine(HealingFlash());
-
-            if (currentHealth >= maxHealth) 
+            if (damageValue < 0f)
             {
-                currentHealth = maxHealth;
+                currentHealth = Math.Max(0, currentHealth - damageValue);
+
+                StartCoroutine(HealingFlash());
+
+                if (currentHealth >= maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+
+                // Call HUD component function to update healthbar if player
+                if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
+                {
+                    if (gameObject.GetComponent<PlayerHUD>() != null)
+                    {
+                        UpdateHUDHealthBar();
+                    }
+
+                    if (gameObject.GetComponent<VibrationManager>() != null)
+                    {
+                        gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+                            VibrationManager.VibrationPattern.HealPattern);
+                    }
+                }
+
+                GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
+                GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
             }
-            
-            // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
+
+            else if (invincible == false)
             {
-                if (gameObject.GetComponent<PlayerHUD>() != null)
+                currentHealth = Math.Max(0, currentHealth - damageValue);
+
+                // this is a really scuffed way to determine if it is a player or not but it works
+                string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage";
+                audioManager.PlaySoundEffect(audioDamageType);
+
+                StartCoroutine(DamageFlash());
+                StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+
+                // Call HUD component function to update healthbar if player
+                if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
                 {
-                    UpdateHUDHealthBar();
+                    GetComponent<PlayerScore>().AddDamageTaken(damageValue);
+                    if (gameObject.GetComponent<PlayerHUD>() != null)
+                    {
+                        UpdateHUDHealthBar();
+                    }
+
+                    if (gameObject.GetComponent<VibrationManager>() != null)
+                    {
+                        gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+                            VibrationManager.VibrationPattern.HealPattern);
+                    }
                 }
 
-                if (gameObject.GetComponent<VibrationManager>() != null)
+                GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
+
+                if (currentHealth <= 0f)
                 {
-                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
-                        VibrationManager.VibrationPattern.HealPattern);
+                    currentHealth = 0f;
+                    StartCoroutine(Die());
                 }
-            }
-            
-            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
-            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
-        }
-
-        else if (invincible == false) 
-        {
-            currentHealth = Math.Max(0, currentHealth - damageValue);
-
-            // this is a really scuffed way to determine if it is a player or not but it works
-            string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage"; 
-            audioManager.PlaySoundEffect(audioDamageType);
-
-            StartCoroutine(DamageFlash());
-            StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
-            
-            // Call HUD component function to update healthbar if player
-            if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
-            {
-                GetComponent<PlayerScore>().AddDamageTaken(damageValue);
-                if (gameObject.GetComponent<PlayerHUD>() != null)
-                {
-                    UpdateHUDHealthBar();
-                }
-                
-                if (gameObject.GetComponent<VibrationManager>() != null)
-                {
-                    gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
-                        VibrationManager.VibrationPattern.HealPattern);
-                }
-            }
-            
-            GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth/maxHealth);
-
-            if (currentHealth <= 0f) 
-            {
-                currentHealth = 0f;
-                StartCoroutine(Die());
             }
         }
     }

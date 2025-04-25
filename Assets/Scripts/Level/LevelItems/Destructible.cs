@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 
 public class Destructible : MonoBehaviour
 {
-    public GameObject money;
+    public GameObject spawnedItem;
+    protected Vector3 hitDirection;
 
     private HashSet<int> processedColliderIDs = new HashSet<int>();
 
@@ -20,19 +22,22 @@ public class Destructible : MonoBehaviour
             if (collision.gameObject.CompareTag("Weapon"))
             {
                 collision.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
+                hitDirection = (collision.transform.position - collision.transform.parent.transform.position).normalized;
             }
             else if (collision.gameObject.CompareTag("Projectile"))
             {
                 collision.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
+                hitDirection = collision.GetComponent<Projectile>().GetShotDirection();
             }
+            
         }
     }
 
-    private void OnDestroy()
+    public virtual void SpawnItems()
     {
         if (Random.Range(0, 2) == 1)
         {
-            Instantiate(money).transform.position = gameObject.transform.position;
+            Instantiate(spawnedItem).transform.position = gameObject.transform.position;
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

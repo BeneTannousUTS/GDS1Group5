@@ -88,10 +88,10 @@ GameObject:
   - component: {fileID: 1039725486544950459}
   - component: {fileID: 8311366170211196982}
   - component: {fileID: 6200606269826687592}
-  - component: {fileID: 2513784375903708474}
   - component: {fileID: -5287617118837668722}
+  - component: {fileID: 2585597457708579967}
   m_Layer: 0
-  m_Name: Pot
+  m_Name: BARREL
   m_TagString: Destructible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: -7252654856233017133, guid: 6810b2e9120c49d49bb2be4b5383cdd2, type: 3}
+  m_Sprite: {fileID: -8568042794190644651, guid: 9bf6ab724a7d78e4d82b171c3fe04e98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -207,13 +207,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0625, y: 1}
+    oldSize: {x: 1.5, y: 1.875}
     newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.3, y: 1.8}
   m_EdgeRadius: 0
 --- !u!95 &8311366170211196982
 Animator:
@@ -225,7 +225,7 @@ Animator:
   m_GameObject: {fileID: 3001577975093241167}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fe76a25f95129aa47bf82b3005b5d7a6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6192a9ec95c965d41a4c7b885add60cb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -249,24 +249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b81c83b8209e26438871c83e27cd75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 10
   invicibilityFrameTime: 0
-  currentHealth: 20
+  currentHealth: 10
   healParticles: {fileID: 0}
   flashDuration: 0.25
---- !u!114 &2513784375903708474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3001577975093241167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9dcd3163886ac469679a82d0f17797, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnedItem: {fileID: 3001577975093241167, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
 --- !u!114 &-5287617118837668722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +267,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 3954275974669967200}
+--- !u!114 &2585597457708579967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001577975093241167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348b0e603b221a74e9202efaac1dc135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedItem: {fileID: 3001577975093241167, guid: 0695e4d86886b59478395a76b09670ac, type: 3}
 --- !u!1 &3364537136876684026
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +568,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6885323771783696424}
-  - component: {fileID: 2118665461881118526}
   - component: {fileID: 2181221699787320164}
   m_Layer: 0
   m_Name: Pot
@@ -593,61 +592,6 @@ Transform:
   - {fileID: 3470242297686085835}
   m_Father: {fileID: 6160579104990169491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2118665461881118526
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7615318897528881177}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: -7252654856233017133, guid: 6810b2e9120c49d49bb2be4b5383cdd2, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!61 &2181221699787320164
 BoxCollider2D:
   m_ObjectHideFlags: 0

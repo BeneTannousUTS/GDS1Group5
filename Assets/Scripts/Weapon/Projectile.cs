@@ -22,6 +22,11 @@ public class Projectile : MonoBehaviour
         transform.up = shotDirection;
     }
 
+    public Vector3 GetShotDirection()
+    {
+        return shotDirection;
+    }
+
     // Sets the value of sourceType
     public void SetSourceType(string type) 
     {
@@ -121,6 +126,10 @@ public class Projectile : MonoBehaviour
     {
         if (ColliderType(otherCollider)) 
         {
+            if (gameObject.GetComponent<Explosion>() != null)
+            {
+                gameObject.GetComponent<Explosion>().SpawnExplosion();
+            }
             Destroy(gameObject);
         }
     }
