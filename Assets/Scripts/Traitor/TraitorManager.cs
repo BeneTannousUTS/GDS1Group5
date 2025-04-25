@@ -12,6 +12,7 @@ public class TraitorManager : MonoBehaviour
     public DungeonManager dungeonManager;
     [SerializeField] GameObject[] objectRef;
     [SerializeField] Sprite[] cardRef;
+    [SerializeField] GameObject healthBoost;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
@@ -82,5 +83,10 @@ public class TraitorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public GameObject GetHealthBoost()
+    {
+        return healthBoost;
     }
 }
