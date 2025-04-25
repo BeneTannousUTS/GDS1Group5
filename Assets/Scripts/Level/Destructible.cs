@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Destructible : MonoBehaviour
 {
+    public GameObject money;
 
     private HashSet<int> processedColliderIDs = new HashSet<int>();
 
@@ -24,6 +25,14 @@ public class Destructible : MonoBehaviour
             {
                 collision.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Random.Range(0, 2) == 1)
+        {
+            Instantiate(money).transform.position = gameObject.transform.position;
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
