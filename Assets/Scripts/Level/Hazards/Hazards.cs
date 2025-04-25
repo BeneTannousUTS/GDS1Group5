@@ -9,6 +9,7 @@ public class Hazards : MonoBehaviour
     private string sourceType;
     protected GameObject sourceObject;
     private bool friendlyFire;
+    protected bool roomCleared;
     public float moveSpeed;
     public float knockbackStrength = 0.7f;
     public float knockbackTime = 0.1f;
@@ -17,6 +18,11 @@ public class Hazards : MonoBehaviour
     public void SetSourceType(string type) 
     {
         sourceType = type;
+    }
+
+    public void SetRoomCleared()
+    {
+        roomCleared = true;
     }
 
     public void SetSourceObject(GameObject source) {
@@ -56,20 +62,16 @@ public class Hazards : MonoBehaviour
     {
         float preDamageHealth = healthComponent.GetCurrentHealth(); 
         healthComponent.TakeDamage(damageValue);
-        if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
+        if (GetSourceObject()) {
             if (damageValue < 0) {
-                GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);
                 Debug.Log("Healing CHECK");
             }
             else {
-                GetSourceObject().GetComponent<PlayerScore>().AddDamageTaken(preDamageHealth-healthComponent.GetCurrentHealth());
-                GetSourceObject().GetComponent<PlayerScore>().IncrementHazardsRanInto();
                 if (GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat() > 0) {
                     GetSourceObject().GetComponent<HealthComponent>().TakeDamage(-((preDamageHealth-healthComponent.GetCurrentHealth()) 
                                                                                * GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat()));
                 }
                 if (healthComponent.GetCurrentHealth() <= 0) {
-                    GetSourceObject().GetComponent<PlayerScore>().IncrementKills();
                 }
             }
         }

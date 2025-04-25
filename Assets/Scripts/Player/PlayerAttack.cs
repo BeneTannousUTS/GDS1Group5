@@ -26,7 +26,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Instantiates a weapon in front of the players current facing direction
-    void Attack(GameObject weapon) 
+    public void Attack(GameObject weapon) 
     {
         foreach (Transform child in gameObject.transform)
         {

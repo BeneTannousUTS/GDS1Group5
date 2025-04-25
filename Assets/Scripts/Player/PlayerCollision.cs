@@ -38,6 +38,10 @@ public class PlayerCollision : MonoBehaviour
             else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType()))
             {
                 otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
+                if (otherCollider.GetComponent<Explosion>() != null)
+                {
+                    otherCollider.GetComponent<Explosion>().SpawnExplosion();
+                }
                 Destroy(otherCollider.gameObject);
             }
             else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))

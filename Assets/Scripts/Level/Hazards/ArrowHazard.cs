@@ -1,7 +1,7 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class ArrowHazard : MonoBehaviour, IPressed
+public class ArrowHazard : Hazards, IPressed
 {
     [SerializeField] GameObject projectile;
     [SerializeField] bool switchActivated;
@@ -24,10 +24,12 @@ public class ArrowHazard : MonoBehaviour, IPressed
 
     void FireArrow()
     {
-        if (projectile != null)
+        if (!roomCleared)
         {
-            Vector3 baseDirection = transform.up;
-            Vector3 perpendicular = new Vector3(-baseDirection.y, baseDirection.x, 0f);
+            if (projectile != null)
+            {
+                Vector3 baseDirection = transform.up;
+                Vector3 perpendicular = new Vector3(-baseDirection.y, baseDirection.x, 0f);
 
                 Vector3 shotDirection = (baseDirection).normalized;
 
@@ -39,6 +41,7 @@ public class ArrowHazard : MonoBehaviour, IPressed
                 proj.SetFriendlyFire(true);
                 proj.SetSourceType(gameObject.tag);
                 proj.SetSourceObject(gameObject);
+            }
         }
     }
     // Update is called once per frame

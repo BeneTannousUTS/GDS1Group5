@@ -12,6 +12,7 @@ public class BaseTraitor : MonoBehaviour
     [SerializeField] protected string traitorDesc = "";
     [SerializeField] protected string traitorAbilityName = "";
     [SerializeField] protected string traitorAbilityDesc = "";
+    private GameObject healthBoost;
 
     public float GetTraitorRoom()
     {
@@ -87,6 +88,12 @@ public class BaseTraitor : MonoBehaviour
         gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(traitorSprite);
         FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
         gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();
+        healthBoost = FindAnyObjectByType<TraitorManager>().GetHealthBoost();
+        for (int i = 0; i < GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList().Count-1; i++)
+        {
+            gameObject.GetComponent<PlayerStats>().SetPassive(healthBoost);
+        }
+        gameObject.GetComponent<HealthComponent>().UpdateHUDHealthBar();
     }
 
     public string GetAmountOfTraitors()
@@ -96,7 +103,6 @@ public class BaseTraitor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame

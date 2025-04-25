@@ -33,7 +33,7 @@ public class SpikeHazard : Hazards, IPressed
 
     void ActivateSpikes()
     {
-        if (!active)
+        if (!active && !roomCleared)
         {
             hitbox.SetActive(true);
             animator.SetTrigger("activate");
@@ -53,23 +53,26 @@ public class SpikeHazard : Hazards, IPressed
 
     void Attack()
     {
-        waitTime += Time.deltaTime;
-        if (waitTime >= 3)
+        if (!roomCleared)
         {
-            if (!active)
+            waitTime += Time.deltaTime;
+            if (waitTime >= 3)
             {
-                hitbox.SetActive(true);
-                animator.SetTrigger("activate");
-                active = true;
+                if (!active)
+                {
+                    hitbox.SetActive(true);
+                    animator.SetTrigger("activate");
+                    active = true;
+                }
             }
-        }
-        if (waitTime >= 6)
-        {
-            hitbox.SetActive(false);
-            animator.SetTrigger("deactivate");
-            animator.SetTrigger("deactivate");
-            waitTime = 0;
-            active = false;
+            if (waitTime >= 6)
+            {
+                hitbox.SetActive(false);
+                animator.SetTrigger("deactivate");
+                animator.SetTrigger("deactivate");
+                waitTime = 0;
+                active = false;
+            }
         }
     }
 
