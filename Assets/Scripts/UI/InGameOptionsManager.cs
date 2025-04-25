@@ -2,148 +2,154 @@
 // Manages the options pop up
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class InGameOptionsManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject optionsMenu;
+    [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private InputActionAsset defaultActions;
+    [SerializeField] private Button audioMenuButton;
+
     private PlayerInput activeInput = null;
     private PlayerManager playerManager;
-    InputSystemUIInputModule UIInputModule;
-    [SerializeField]
-    InputActionAsset defaultActions;
-    [SerializeField]
-    Button audioMenuButton;
+    private InputSystemUIInputModule UIInputModule;
 
     void Awake()
     {
         playerManager = FindAnyObjectByType<PlayerManager>();
+        UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
     }
 
     public void ToggleOptionsMenu(PlayerInput playerInput)
     {
         if (optionsMenu.activeSelf)
         {
-            if (playerInput == activeInput)
-            {
-                optionsMenu.SetActive(false);
-            }
+            if (playerInput != activeInput) return;
 
-            PlayerData[] players = playerManager.GetPlayers();
-
-            CardSelection cardSelection = FindAnyObjectByType<CardSelection>();
-
-            if (cardSelection == null)
-            {
-                foreach (PlayerData playerData in players)
-                {
-                    if (!playerData.isJoined) break;
-
-                    playerData.playerInput.SwitchCurrentActionMap("Gameplay");
-                }
-
-                UIInputModule.actionsAsset = defaultActions;
-                UIInputModule.point = InputActionReference.Create(defaultActions.FindAction("UI/Point"));
-                UIInputModule.leftClick = InputActionReference.Create(defaultActions.FindAction("UI/Click"));
-            }
-            else if (cardSelection.selectionState == SelectionState.ConfirmingTurn)
-            {
-                foreach (PlayerData playerData in players)
-                {
-                    if (!playerData.isJoined) break;
-
-                    if (playerData.playerIndex == cardSelection.currentPlayerIndex)
-                    {
-                        playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
-                    }
-                    else
-                    {
-                        playerData.playerInput.SwitchCurrentActionMap("Locked");
-                    }
-                }
-            }
-            else if (cardSelection.selectionState == SelectionState.Selecting)
-            {
-                foreach (PlayerData playerData in players)
-                {
-                    if (!playerData.isJoined) break;
-
-                    if (playerData.playerIndex == cardSelection.currentPlayerIndex)
-                    {
-                        playerData.playerInput.SwitchCurrentActionMap("CardSelection");
-                    }
-                    else
-                    {
-                        playerData.playerInput.SwitchCurrentActionMap("Locked");
-                    }
-
-                    foreach (GameObject card in cardSelection.cardList)
-                    {
-                        if (card.GetComponent<Button>() != null)
-                        {
-                            card.GetComponent<Button>().Select();
-                            card.GetComponent<CardHandler>().OnSelect(null);
-                            break;
-                        }
-                    }
-                }
-            }
-            else if (cardSelection.selectionState == SelectionState.Waiting)
-            {
-                foreach (PlayerData playerData in players)
-                {
-                    if (!playerData.isJoined) break;
-
-                    playerData.playerInput.SwitchCurrentActionMap("Locked");
-                }
-            }
-            else if (cardSelection.selectionState == SelectionState.ConfirmingSwap || cardSelection.selectionState == SelectionState.TraitorConfirming)
-            {
-                foreach (PlayerData playerData in players)
-                {
-                    if (!playerData.isJoined) break;
-
-                    playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
-                }
-            }
-
-
-
+            Debug.Log("Closing Menu");
+            optionsMenu.SetActive(false);
             Time.timeScale = 1;
 
+            ResetActionMapsAfterClosing();
+            activeInput = null;
         }
         else
         {
-            // TO DO: ADD TEXT AT THE TOP OF THE SCREEN TO SHOW WHO IS THE CONTROLLING PLAYER
+            Debug.Log("Opening Menu");
+
+            EventSystem.current.SetSelectedGameObject(null);
 
             Time.timeScale = 0;
-
-            activeInput = playerInput;
             optionsMenu.SetActive(true);
+            activeInput = playerInput;
 
-            UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
-            UIInputModule.point = null;
-            UIInputModule.leftClick = null;
-
-            PlayerData[] players = playerManager.GetPlayers();
-
-            foreach (PlayerData playerData in players)
+            // Lock all players
+            foreach (PlayerData playerData in playerManager.GetPlayers())
             {
                 if (!playerData.isJoined) break;
-
                 playerData.playerInput.SwitchCurrentActionMap("Locked");
             }
 
             activeInput.SwitchCurrentActionMap("Menu");
-            InputActionAsset playerActions = activeInput.actions;
-            UIInputModule.actionsAsset = playerActions;
-            UIInputModule.move = InputActionReference.Create(playerActions.FindAction("InGameOptions/Navigation"));
-            UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("InGameOptions/Select"));
+
+            // Update UI module
+            UIInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
+            UIInputModule.actionsAsset = activeInput.actions;
+            UIInputModule.move = InputActionReference.Create(activeInput.actions.FindAction("Menu/Navigation"));
+            UIInputModule.submit = InputActionReference.Create(activeInput.actions.FindAction("Menu/Select"));
+            UIInputModule.point = null;
+            UIInputModule.leftClick = null;
 
             audioMenuButton.Select();
         }
     }
+
+    private void ResetActionMapsAfterClosing()
+    {
+        CardSelection cardSelection = FindAnyObjectByType<CardSelection>();
+        PlayerData[] players = playerManager.GetPlayers();
+
+        if (cardSelection == null)
+        {
+            foreach (PlayerData playerData in players)
+            {
+                if (!playerData.isJoined) break;
+                playerData.playerInput.SwitchCurrentActionMap("Gameplay");
+            }
+
+            RestoreDefaultUIInputModule();
+        }
+        else
+        {
+            foreach (PlayerData playerData in players)
+            {
+                if (!playerData.isJoined) break;
+
+                int currentIndex = cardSelection.currentPlayerIndex;
+                var state = cardSelection.selectionState;
+
+                switch (state)
+                {
+                    case SelectionState.ConfirmingTurn:
+                        playerData.playerInput.SwitchCurrentActionMap(playerData.playerIndex == currentIndex ? "Confirm/Skip" : "Locked");
+                        break;
+                    case SelectionState.ConfirmingSwap:
+                    case SelectionState.TraitorConfirming:
+                        playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
+                        break;
+                    case SelectionState.Selecting:
+                        playerData.playerInput.SwitchCurrentActionMap(playerData.playerIndex == currentIndex ? "CardSelection" : "Locked");
+
+                        if (playerData.playerIndex == currentIndex)
+                        {
+                            foreach (GameObject card in cardSelection.cardList)
+                            {
+                                if (card.TryGetComponent(out Button btn))
+                                {
+                                    btn.Select();
+                                    card.GetComponent<CardHandler>().OnSelect(null);
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+
+                    case SelectionState.Waiting:
+                        playerData.playerInput.SwitchCurrentActionMap("Locked");
+                        break;
+                }
+            }
+            RestoreCardUIInputModule();
+        }
+    }
+
+    private void RestoreDefaultUIInputModule()
+    {
+        if (UIInputModule == null) return;
+
+        UIInputModule.actionsAsset = defaultActions;
+        UIInputModule.point = InputActionReference.Create(defaultActions.FindAction("UI/Point"));
+        UIInputModule.leftClick = InputActionReference.Create(defaultActions.FindAction("UI/Click"));
+        UIInputModule.move = null;
+        UIInputModule.submit = null;
+    }
+
+    private void RestoreCardUIInputModule()
+    {
+        PlayerData[] players = PlayerManager.instance.GetPlayers();
+
+        InputActionAsset playerActions = players[FindAnyObjectByType<CardSelection>().currentPlayerIndex].playerInput.actions;
+        UIInputModule.actionsAsset = playerActions;
+        UIInputModule.point = null;
+        UIInputModule.leftClick = null;
+        UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
+        UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
+    }
+
+    public bool IsOptionsOpen() => optionsMenu.activeSelf;
+
+    public PlayerInput GetActiveInput() => activeInput;
 }

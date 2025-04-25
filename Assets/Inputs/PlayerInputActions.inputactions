@@ -125,149 +125,6 @@
             ]
         },
         {
-            "name": "InGameOptions",
-            "id": "6b92a892-5ec5-4594-acc9-5027d973fc63",
-            "actions": [
-                {
-                    "name": "Navigation",
-                    "type": "PassThrough",
-                    "id": "c784da0c-9125-45ed-88bb-43696a8fe34d",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "OptionsMenu",
-                    "type": "PassThrough",
-                    "id": "8c5bd27a-b1d9-4790-813f-665df8078ebf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Select",
-                    "type": "Button",
-                    "id": "ebd1bd18-014d-4a39-b2cd-8f21b3188abb",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Deselect",
-                    "type": "Button",
-                    "id": "6d3848ca-473b-4c24-8ba0-f8bfcb8ddfd1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "f403eaeb-9b81-45eb-b71d-eff174204f82",
-                    "path": "<SwitchProControllerHID>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "fcc81467-82d3-4ae5-965b-ceb56aee0491",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "93eef51e-8cf8-44b2-b564-101b619fb994",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "d6b202bc-675d-4f9f-a052-8e592d4a725a",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "1bf1f415-cf4e-40b1-8c11-c352a69256c6",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "67fbff4c-c954-471e-bd6a-193a961c68e0",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Navigation",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "d70b7c21-e491-4656-b813-24f03737973e",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OptionsMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d168920f-fbd4-48bc-9a1c-a1a626ec6eaf",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4433f284-7894-4d07-8ede-2adbbc2bfe43",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Deselect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "PlayerJoin",
             "id": "da2af409-be78-406d-b1c4-5649d10fc268",
             "actions": [
@@ -353,15 +210,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "OptionsMenu",
-                    "type": "PassThrough",
-                    "id": "59baac30-fb7b-41e2-b671-5a22cc331141",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -453,17 +301,6 @@
                     "action": "PlayerInfo",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "30584d07-de31-438e-9507-2c46a70795f7",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OptionsMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -478,15 +315,6 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "OptionsMenu",
-                    "type": "PassThrough",
-                    "id": "af8436ee-e83b-4f92-bc20-1f36a43249e6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -533,17 +361,6 @@
                 },
                 {
                     "name": "",
-                    "id": "0a51e758-c65e-4293-9b9d-d785681cebc1",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OptionsMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "caa3276f-8d64-4f6a-9d9b-d317337ebce3",
                     "path": "*/{Submit}",
                     "interactions": "",
@@ -569,30 +386,8 @@
         {
             "name": "Locked",
             "id": "d6426445-6ca5-428c-a5cd-936d7f9b1324",
-            "actions": [
-                {
-                    "name": "OptionsMenu",
-                    "type": "PassThrough",
-                    "id": "99ba4bba-4378-459d-b975-1e7e6d80ce89",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "c00e3cf8-2f0c-4409-8606-8b9ab6a3a3d3",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OptionsMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
+            "actions": [],
+            "bindings": []
         },
         {
             "name": "Confirm/Skip",
@@ -637,6 +432,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "ConfirmButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Meta",
+            "id": "a0fd27ea-b318-46d4-9139-ca7b49bc19c0",
+            "actions": [
+                {
+                    "name": "OptionsMenu",
+                    "type": "PassThrough",
+                    "id": "4103895d-cd6e-4ec4-96ae-d2a20d599ee6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "11002f33-4d82-4834-8452-729d6f6ee670",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OptionsMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
