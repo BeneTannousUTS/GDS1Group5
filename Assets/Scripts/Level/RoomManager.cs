@@ -42,6 +42,14 @@ public class RoomManager : MonoBehaviour
                 if (door & !doorBeingDestroyed) {
                     door.GetComponent<Door>().RoomClear();
                     doorBeingDestroyed = true;
+                    foreach (Hazards haz in gameObject.GetComponentsInChildren<Hazards>())
+                    {
+                        if (haz.gameObject.GetComponent<SpikeHazard>() != null)
+                        {
+                            haz.gameObject.GetComponent<SpikeHazard>().DeactivateSpikes();
+                        }
+                        haz.SetRoomCleared();
+                    }
 
                     TraitorManager traitorManager = FindAnyObjectByType<TraitorManager>();
 
