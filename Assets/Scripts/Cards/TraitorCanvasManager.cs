@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +12,10 @@ public class TraitorCanvasManager : MonoBehaviour
     [SerializeField]
     GameObject readyCheckCanvas;
     [SerializeField]
+    GameObject readyPlayerPrefab;
+    [SerializeField]
     GameObject readyTextGroup;
+    private List<BaseConfirmHandler> readyCheckHandlers = new();
 
     public void SetTraitorType(BaseTraitor traitorType)
     {
@@ -23,7 +28,35 @@ public class TraitorCanvasManager : MonoBehaviour
     public void StartReadyCheck(PlayerData[] players)
     {
         readyTextGroup.SetActive(true);
-        readyCheckCanvas.GetComponent<ReadyCanvasManager>().StartReadyCheck(players);
+        StartCoroutine(ReadyCheckSequence(players));
+    }
+
+        IEnumerator ReadyCheckSequence(PlayerData[] players)
+    {
+        SetPlayerPrefabs(players);
+        yield return ConfirmManager.Instance.WaitForAllConfirmations(readyCheckHandlers);
+
+        Debug.Log("All players confirmed traitor");
+
+        yield return new WaitForSeconds(0.25f);
+
+        DestroyTraitorCanvas();
+    }
+
+    private void SetPlayerPrefabs(PlayerData[] players)
+    {
+        foreach (PlayerData playerData in players)
+        {
+            if (!playerData.isJoined) continue;
+
+            GameObject readyCheckObject = Instantiate(readyPlayerPrefab, readyCheckCanvas.transform);
+            ReadyCheckHandler handler = readyCheckObject.GetComponent<ReadyCheckHandler>();
+
+            handler.init(playerData.playerInput, playerData.playerIndex);
+            handler.Setup(PlayerManager.instance.playerSprites[playerData.playerIndex]);
+
+            readyCheckHandlers.Add(handler);
+        }
     }
 
     public void DestroyTraitorCanvas()

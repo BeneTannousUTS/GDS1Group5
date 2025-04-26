@@ -266,6 +266,7 @@ MonoBehaviour:
   abilityName: {fileID: 1449287421616308714}
   abilityDesc: {fileID: 3651018886829551429}
   readyCheckCanvas: {fileID: 6582812260529854716}
+  readyPlayerPrefab: {fileID: 2606042198323214047, guid: d0cd134e8a20a4d25807ef79a4ceb09d, type: 3}
   readyTextGroup: {fileID: 6228812457283520333}
 --- !u!1 &4244597410644882209
 GameObject:
@@ -736,7 +737,6 @@ GameObject:
   - component: {fileID: 517129067918357317}
   - component: {fileID: 547787892116624045}
   - component: {fileID: 9163653223717066459}
-  - component: {fileID: 3653488690475680732}
   m_Layer: 5
   m_Name: ReadyCanvas
   m_TagString: Untagged
@@ -852,24 +852,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &3653488690475680732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6582812260529854716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a09f0e24b44e34d4ab8873edfcb71e28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  readyPlayerPrefab: {fileID: 2606042198323214047, guid: d0cd134e8a20a4d25807ef79a4ceb09d, type: 3}
-  playerSprites:
-  - {fileID: 7896879507418422366, guid: a5644a1f4f4d4c948bc0f694f393ca43, type: 3}
-  - {fileID: 3345508739736421500, guid: 593edbef6cd8d514c8cf3c5e460b19b6, type: 3}
-  - {fileID: -2474250949257483082, guid: 695a25fb955617742b55a9d0193268e4, type: 3}
-  - {fileID: -1700074410155479159, guid: b357e34620944e74eab820277bbadda0, type: 3}
 --- !u!1 &6645917183909350020
 GameObject:
   m_ObjectHideFlags: 0

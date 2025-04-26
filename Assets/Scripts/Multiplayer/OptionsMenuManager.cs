@@ -5,15 +5,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class OptionsMenuManager : MonoBehaviour
 {
     // Reference these in the Inspector by dragging your Slider components
+    public Button audioTabButton;
+    public Button visualTabButton;
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider effectVolumeSlider;
     public TMP_Dropdown windowModeDropdown;
     public Button backButton;
+    public GameObject confirmQuitPrefab;
 
     void Start()
     {
@@ -78,16 +83,54 @@ public class OptionsMenuManager : MonoBehaviour
 
     public void LoadAudio()
     {
-        Navigation nav = backButton.navigation;
-        nav.selectOnUp = effectVolumeSlider;
-        backButton.navigation = nav;
+        Navigation backNav = backButton.navigation;
+        backNav.selectOnUp = effectVolumeSlider;
+        backButton.navigation = backNav;
+
+        Navigation audioNav = audioTabButton.navigation;
+        audioNav.selectOnDown = masterVolumeSlider;
+        audioTabButton.navigation = audioNav;
+
+        Navigation visualNav = visualTabButton.navigation;
+        visualNav.selectOnDown = masterVolumeSlider;
+        visualTabButton.navigation = visualNav;
     }
 
     public void LoadVisuals()
     {
-        Navigation nav = backButton.navigation;
-        nav.selectOnUp = windowModeDropdown;
-        backButton.navigation = nav;
+        Navigation backNav = backButton.navigation;
+        backNav.selectOnUp = windowModeDropdown;
+        backButton.navigation = backNav;
+
+        Navigation audioNav = audioTabButton.navigation;
+        audioNav.selectOnDown = windowModeDropdown;
+        audioTabButton.navigation = audioNav;
+
+        Navigation visualNav = visualTabButton.navigation;
+        visualNav.selectOnDown = windowModeDropdown;
+        visualTabButton.navigation = visualNav;
+    }
+
+    public void OnToMenuButton()
+    {
+        StartCoroutine(MenuConfirmSequence());
+    }
+
+    IEnumerator MenuConfirmSequence()
+    {
+        GameObject quitConfirmObject = Instantiate(confirmQuitPrefab, transform);
+        QuitConfirmHandler quitConfirmHandler = quitConfirmObject.GetComponent<QuitConfirmHandler>();
+
+        List<BaseConfirmHandler> handlerList = new List<BaseConfirmHandler> { quitConfirmHandler };
+        yield return ConfirmManager.Instance.WaitForAllConfirmations(handlerList);
+
+        if (quitConfirmHandler.confirmedChoice == true)
+        {
+            SceneManager.LoadScene("MainMenu");
+        } else
+        {
+            Destroy(quitConfirmObject);
+        }
     }
 
     private int GetWindowModeDropdownIndex()

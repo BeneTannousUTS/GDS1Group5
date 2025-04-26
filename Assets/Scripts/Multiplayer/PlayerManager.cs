@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
 
     public PlayerData[] players = new PlayerData[4];
+    public Sprite[] playerSprites;
 
     private void Awake()
     {
