@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager instance;
+
     // BGM Tracks
     private AudioSource menuThemeSource;
     private AudioSource mainThemeSource;
@@ -26,6 +28,15 @@ public class AudioManager : MonoBehaviour
     {
         // Fetch init audio settings from setting manager
         // Note these levels can change during the game so these values are not fixed/final
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else
+        {
+            Destroy(gameObject);
+        }
 
         // Create dictionary from list created in the inspector
         foreach (var entry in effectClipEntries)
@@ -63,6 +74,14 @@ public class AudioManager : MonoBehaviour
         bossThemeSource = audioSources[3];
 
         PlayMainTheme(); // THIS IS ONLY TEMP I WANT THE GAME MANAGER TO CALL THE PLAY THEME.
+    }
+
+    public void OptionsUpdated()
+    {
+        menuThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
+        mainThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
+        traitorThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
+        bossThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
     }
 
     public void PlayMenuTheme()

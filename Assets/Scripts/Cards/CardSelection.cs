@@ -27,13 +27,23 @@ public enum CardRarity
     Legendary
 }
 
+public enum SelectionState
+{
+    InGame,
+    ConfirmingTurn,
+    Selecting,
+    Waiting,
+    ConfirmingSwap,
+    TraitorConfirming
+}
+
 public class CardSelection : MonoBehaviour
 {
     public GameObject[] cards;
-    [SerializeField]
-    Card reviveCard; // specific reference to the revive card because it should not be apart of the regualr card set
-    [SerializeField]
-    GameObject passObject;
+    // [SerializeField]
+    // Card reviveCard; // specific reference to the revive card because it should not be apart of the regualr card set
+    // [SerializeField]
+    // GameObject passObject;
     [SerializeField]
     GameObject confirmCanvas;
     [SerializeField]
@@ -43,31 +53,25 @@ public class CardSelection : MonoBehaviour
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
-    private GameObject[] cardList = new GameObject[4];
+    public GameObject[] cardList = new GameObject[4];
     private int[] selectedCards = new int[] { -1, -1, -1, -1 }; // player 1's card index will be in the first slot.
     PlayerData[] playerSelectionOrder = new PlayerData[4];
     private GameObject selectedCard = null;
-    private int currentPlayerIndex = -1;
+    public int currentPlayerIndex = -1;
     [SerializeField]
     private TMP_Text bottomText;
     [SerializeField]
     private GameObject bottomGroup;
     [SerializeField]
-    private GameObject selectingParent;
-    [SerializeField]
-    private TMP_Text middleText;
-    [SerializeField]
-    private Image selectingImage;
+    private GameObject continuePromptPrefab;
     InputSystemUIInputModule UIInputModule;
     [SerializeField]
     GameObject traitorCanvasPrefab;
     [SerializeField]
-    Sprite[] playerSprites;
-    //private float[] oldPlayerScores = new float[4];
-    [SerializeField]
     GameObject damagePassiveCard;
     [SerializeField]
     GameObject cooldownPassiveCard;
+    public SelectionState selectionState = SelectionState.InGame;
 
     void Awake()
     {
@@ -166,27 +170,13 @@ public class CardSelection : MonoBehaviour
 
     IEnumerator SelectionProcess()
     {
-        // get a list of joined players
-        // This array will need to be reorder with score once that is implemented...
+        // get a list of joined players and sort by score
         playerSelectionOrder = FindAnyObjectByType<PlayerManager>().GetPlayers()
             .Where(playerData => playerData.isJoined)
             .OrderBy(playerData => playerData.playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
-            .ThenByDescending(playerData => playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore()
-            /*{
-                float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
-                float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
-                return scoreChange;
-            }*/)
+            .ThenByDescending(playerData => playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore())
             .ToArray();
         currentPlayerIndex = -1;
-
-        // foreach (PlayerData playerData in playerSelectionOrder)
-        // {
-        //     float currentScore = playerData.playerInput.gameObject.GetComponent<PlayerScore>().GetScore();
-        //     float scoreChange = currentScore - oldPlayerScores[playerData.playerIndex];
-        //     Debug.Log($"Player {playerData.playerIndex + 1} score change: {scoreChange}");
-        //     oldPlayerScores[playerData.playerIndex] = currentScore;
-        // }
 
         foreach (GameObject card in cardList)
         {
@@ -197,7 +187,10 @@ public class CardSelection : MonoBehaviour
         {
             if (!playerSelectionOrder[playerSelectionPos].isJoined) break;
 
+            selectionState = SelectionState.ConfirmingTurn;
+
             int playerIndex = playerSelectionOrder[playerSelectionPos].playerIndex;
+            currentPlayerIndex = playerIndex;
 
             foreach (GameObject card in cardList)
             {
@@ -207,9 +200,15 @@ public class CardSelection : MonoBehaviour
 
             bottomGroup.SetActive(false);
             bottomText.gameObject.SetActive(false);
-            middleText.text = $"Player {playerIndex + 1} is Selecting a Card \nScore: {playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerScore>().GetScore()}";
-            selectingImage.sprite = playerSprites[playerIndex];
-            selectingParent.SetActive(true);
+
+            GameObject continuePromptObject = Instantiate(continuePromptPrefab, confirmCanvas.transform);
+            ContinueConfirmHandler continueHandler = continuePromptObject.GetComponent<ContinueConfirmHandler>();
+
+            continueHandler.init(playerSelectionOrder[playerSelectionPos].playerInput);
+            continueHandler.Setup(
+                $"Player {playerIndex + 1} is Selecting a Card\nScore: {playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerScore>().GetScore()}",
+                PlayerManager.instance.playerSprites[playerIndex]
+            );
 
             for (int pIndex = 0; pIndex < playerSelectionOrder.Length; ++pIndex)
             {
@@ -228,7 +227,12 @@ public class CardSelection : MonoBehaviour
             InputActionAsset playerActions = playerSelectionOrder[playerSelectionPos].playerInput.actions;
             UIInputModule.actionsAsset = playerActions;
 
-            yield return WaitForContinue();
+            List<BaseConfirmHandler> handlerList = new List<BaseConfirmHandler> { continueHandler };
+            yield return ConfirmManager.Instance.WaitForAllConfirmations(handlerList);
+
+            Destroy(continuePromptObject);
+
+            selectionState = SelectionState.Selecting;
 
             UIInputModule.move = InputActionReference.Create(playerActions.FindAction("CardSelection/CardNav"));
             UIInputModule.submit = InputActionReference.Create(playerActions.FindAction("CardSelection/CardSelect"));
@@ -236,12 +240,8 @@ public class CardSelection : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
 
             playerSelectionOrder[playerSelectionPos].playerInput.SwitchCurrentActionMap("CardSelection");
-            selectingParent.SetActive(false);
             bottomGroup.SetActive(true);
             bottomText.gameObject.SetActive(true);
-
-            currentPlayerIndex = playerIndex;
-
             bottomText.text = $"Player {playerIndex + 1} is Selecting a Card";
 
             foreach (GameObject card in cardList)
@@ -254,37 +254,9 @@ public class CardSelection : MonoBehaviour
                 }
             }
 
-            // this is the code for the old passing card system
-
-            /*if (numOfTraitors > 0 || playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<HealthComponent>().GetIsDead())
-            {
-                bottomGroup.SetActive(false);
-                yield return new WaitUntil(() => selectedCard != null);
-            }
-            else
-            {
-                yield return WaitingForPass();
-            }
-
-            if (!selectedCard.name.Equals("Pass"))
-            {
-                Destroy(selectedCard.GetComponent<Button>());
-                selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
-                selectedCard.GetComponent<CardHandler>().OnDeselect(null);
-            }
-            else
-            {
-                foreach (GameObject card in cardList)
-                {
-                    if (card.GetComponent<Button>() != null)
-                    {
-                        card.GetComponent<Button>().OnDeselect(null);
-                        card.GetComponent<CardHandler>().OnDeselect(null);
-                    }
-                }
-            }*/
-
             yield return new WaitUntil(() => selectedCard != null);
+
+            selectionState = SelectionState.Waiting;
 
             Destroy(selectedCard.GetComponent<Button>());
             selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
@@ -322,7 +294,7 @@ public class CardSelection : MonoBehaviour
     {
         List<int> cardIndices = new List<int> { 0, 1, 2, 3 };
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-        float dungeonCompletionPercent = (float) FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float) FindAnyObjectByType<DungeonManager>().GetDungeonLength();
+        float dungeonCompletionPercent = (float)FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float)FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
         Debug.Log($"Determine Card | Completion Percentage: {dungeonCompletionPercent * 100}%");
 
@@ -436,7 +408,7 @@ public class CardSelection : MonoBehaviour
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-            List<ConfirmCardHandler> handlers = new List<ConfirmCardHandler>(); // at the player's index will hold the confirm card
+            List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
             foreach (PlayerData playerData in players)
             {
@@ -446,28 +418,43 @@ public class CardSelection : MonoBehaviour
                 || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
                 {
                     coverCanvas.SetActive(true);
+                    selectionState = SelectionState.ConfirmingSwap;
                     GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
                     ConfirmCardHandler confirmCardHandler = confirmCard.GetComponent<ConfirmCardHandler>();
-                    confirmCardHandler.playerText.text = $"Player {playerData.playerIndex + 1}";
-                    confirmCardHandler.playerIcon.sprite = playerSprites[playerData.playerIndex];
-                    confirmCardHandler.prevCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                    playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
-                    playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite;
-                    confirmCardHandler.yesText.text = $"Swap to the {cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardName}.";
-                    confirmCardHandler.noText.text = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                    $"Reject and increase damage." :
-                    $"Reject and reduced cooldowns.";
-                    confirmCardHandler.newCard.sprite = cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite;
-                    confirmCardHandler.assignedInput = playerData.playerInput;
-                    confirmCardHandler.playerIndex = playerData.playerIndex;
+                    confirmCardHandler.init(playerData.playerInput);
+
+                    confirmCardHandler.SetupCard(
+                        $"Player {playerData.playerIndex + 1}",
+                        PlayerManager.instance.playerSprites[playerData.playerIndex],
+                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                            playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
+                            playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite,
+                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite,
+                        $"Swap to the {cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardName}.",
+                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                            $"Reject and increase damage." :
+                            $"Reject and reduced cooldowns."
+                    );
 
                     handlers.Add(confirmCardHandler);
                 }
             }
-            yield return WaitForAllConfirmations(handlers);
+            yield return ConfirmManager.Instance.WaitForAllConfirmations(handlers);
+
+            foreach (BaseConfirmHandler cardHandler in handlers)
+            {
+                if (cardHandler.confirmedChoice == false)
+                {
+                    cardList[selectedCards[cardHandler.playerIndex]] =
+                        cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                        damagePassiveCard : cooldownPassiveCard;
+                }
+            }
         }
+
+        selectionState = SelectionState.Waiting;
 
         yield return new WaitForSeconds(0.25f);
 
@@ -478,6 +465,7 @@ public class CardSelection : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(1f);
+            selectionState = SelectionState.InGame;
             ResumeGameplay();
         }
     }
@@ -489,7 +477,7 @@ public class CardSelection : MonoBehaviour
         Debug.Log($"Card Selected: {card.name}");
         selectedCard = card;
         CardHandler cardHandler = card.GetComponent<CardHandler>();
-        if (cardHandler) cardHandler.showPlayerIcon(playerSprites[currentPlayerIndex]);
+        if (cardHandler) cardHandler.showPlayerIcon(PlayerManager.instance.playerSprites[currentPlayerIndex]);
         int abilityIndex = -1;
 
         for (int i = 0; i < cardList.Length; ++i)
@@ -588,83 +576,6 @@ public class CardSelection : MonoBehaviour
 
     #region IEnums
 
-    private IEnumerator WaitForContinue()
-    {
-        float timer = 0f;
-        InputAction confirmAction = UIInputModule.actionsAsset.FindAction("ConfirmButton");
-        while (true)
-        {
-            if (confirmAction != null && confirmAction.triggered)
-            {
-                break;
-            }
-            timer += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    public IEnumerator WaitForAllConfirmations(List<ConfirmCardHandler> allCardHandlers)
-    {
-        List<Coroutine> activeCoroutines = new();
-
-        foreach (ConfirmCardHandler handler in allCardHandlers)
-        {
-            if (handler.assignedInput == null) continue; // skip players with no input
-            Debug.Log($"All Handlers: Registered handler to p{handler.playerIndex}");
-            activeCoroutines.Add(StartCoroutine(WaitForConfirm(handler)));
-        }
-
-        while (!allCardHandlers.Where(h => h.assignedInput != null).All(h => h.hasConfirmed))
-            yield return null;
-    }
-
-    public IEnumerator WaitForConfirm(ConfirmCardHandler cardHandler)
-    {
-        InputAction confirmAction = cardHandler.assignedInput.actions.FindAction("ConfirmButton");
-        InputAction skipAction = cardHandler.assignedInput.actions.FindAction("SkipButton");
-
-        Debug.Log($"Card Handler p{cardHandler.playerIndex}");
-        float timePassed = 0f;
-
-        while (!cardHandler.hasConfirmed)
-        {
-            timePassed += Time.deltaTime;
-
-            if (confirmAction != null && confirmAction.WasPressedThisFrame())
-            {
-                cardHandler.confirmedChoice = true;
-                cardHandler.hasConfirmed = true;
-
-                Debug.Log($"Card Handler p{cardHandler.playerIndex} YES");
-
-                cardHandler.yesText.color = Color.green;
-                cardHandler.noText.color = Color.black;
-            }
-            else if (skipAction != null && skipAction.WasPressedThisFrame())
-            {
-                cardHandler.confirmedChoice = false;
-                cardHandler.hasConfirmed = true;
-
-                Debug.Log($"Card Handler p{cardHandler.playerIndex} NO");
-
-                // selectedCards[cardHandler.playerIndex] = -1;
-                cardList[selectedCards[cardHandler.playerIndex]] =
-                cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                damagePassiveCard : cooldownPassiveCard;
-
-                cardHandler.yesText.color = Color.black;
-                cardHandler.noText.color = Color.red;
-            }
-            else if (timePassed >= 5f && !cardHandler.hasConfirmed)
-            {
-                timePassed = 0;
-                cardHandler.ShakeCard();
-            }
-
-            yield return null;
-        }
-    }
-
     private IEnumerator ShowTraitorCanvas(BaseTraitor traitorType)
     {
         PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
@@ -679,6 +590,8 @@ public class CardSelection : MonoBehaviour
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
 
         yield return new WaitForSeconds(3f);
+
+        selectionState = SelectionState.TraitorConfirming;
 
         foreach (PlayerData playerData in players)
         {

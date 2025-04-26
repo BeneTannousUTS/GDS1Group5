@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
 
     public PlayerData[] players = new PlayerData[4];
+    public Sprite[] playerSprites;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class PlayerManager : MonoBehaviour
             {
                 players[i].isJoined = false;
                 players[i].gamepad = null;
+                players[i].playerInput = null;
                 players[i].playerIndex = i;
                 
                 Debug.Log($"Player {i + 1} left with Gamepad: {gamepad.deviceId}");
@@ -69,6 +71,7 @@ public class PlayerManager : MonoBehaviour
             {
                 players[i].isJoined = false;
                 players[i].gamepad = null;
+                players[i].playerInput = null;
                 players[i].playerIndex = i;
             }
         }

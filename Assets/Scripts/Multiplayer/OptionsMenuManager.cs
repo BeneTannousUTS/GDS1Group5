@@ -5,15 +5,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class OptionsMenuManager : MonoBehaviour
 {
     // Reference these in the Inspector by dragging your Slider components
+    public Button audioTabButton;
+    public Button visualTabButton;
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider effectVolumeSlider;
     public TMP_Dropdown windowModeDropdown;
     public Button backButton;
+    public GameObject confirmQuitPrefab;
+    private bool isConfirming = false;
 
     void Start()
     {
@@ -52,6 +60,7 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.masterVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
@@ -61,6 +70,7 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.musicVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
@@ -70,21 +80,72 @@ public class OptionsMenuManager : MonoBehaviour
         if (SettingsManager.instance != null)
         {
             SettingsManager.instance.effectVolumeLevel = value;
+            FindAnyObjectByType<AudioManager>().OptionsUpdated();
         }
     }
 
     public void LoadAudio()
     {
-        Navigation nav = backButton.navigation;
-        nav.selectOnUp = effectVolumeSlider;
-        backButton.navigation = nav;
+        Navigation backNav = backButton.navigation;
+        backNav.selectOnUp = effectVolumeSlider;
+        backButton.navigation = backNav;
+
+        Navigation audioNav = audioTabButton.navigation;
+        audioNav.selectOnDown = masterVolumeSlider;
+        audioTabButton.navigation = audioNav;
+
+        Navigation visualNav = visualTabButton.navigation;
+        visualNav.selectOnDown = masterVolumeSlider;
+        visualTabButton.navigation = visualNav;
     }
 
     public void LoadVisuals()
     {
-        Navigation nav = backButton.navigation;
-        nav.selectOnUp = windowModeDropdown;
-        backButton.navigation = nav;
+        Navigation backNav = backButton.navigation;
+        backNav.selectOnUp = windowModeDropdown;
+        backButton.navigation = backNav;
+
+        Navigation audioNav = audioTabButton.navigation;
+        audioNav.selectOnDown = windowModeDropdown;
+        audioTabButton.navigation = audioNav;
+
+        Navigation visualNav = visualTabButton.navigation;
+        visualNav.selectOnDown = windowModeDropdown;
+        visualTabButton.navigation = visualNav;
+    }
+
+    public void OnToMenuButton()
+    {
+        Debug.Log("To Menu Pressed");
+        StartCoroutine(MenuConfirmSequence());
+    }
+
+    IEnumerator MenuConfirmSequence()
+    {
+        isConfirming = true;
+        GameObject quitConfirmObject = Instantiate(confirmQuitPrefab, transform);
+        QuitConfirmHandler quitConfirmHandler = quitConfirmObject.GetComponent<QuitConfirmHandler>();
+        PlayerInput activeInput = FindAnyObjectByType<InGameOptionsManager>().GetActiveInput();
+        quitConfirmHandler.init(activeInput);
+        EventSystem.current.SetSelectedGameObject(null);
+
+        ConfirmManager.Instance.SetPriorityHandler(quitConfirmHandler);
+        List<BaseConfirmHandler> handlerList = new List<BaseConfirmHandler> { quitConfirmHandler };
+        yield return ConfirmManager.Instance.WaitForAllConfirmations(handlerList);
+
+        Debug.Log($"Confirmed Choice: {quitConfirmHandler.confirmedChoice}");
+        isConfirming = false;
+
+        if (quitConfirmHandler.confirmedChoice == true)
+        {
+            FindAnyObjectByType<InGameOptionsManager>().ToggleOptionsMenu(activeInput);
+            SceneManager.LoadScene("MainMenu");
+        } else
+        {
+            Destroy(quitConfirmObject);
+            backButton.Select();
+            activeInput.SwitchCurrentActionMap("Menu");
+        }
     }
 
     private int GetWindowModeDropdownIndex()
@@ -120,4 +181,6 @@ public class OptionsMenuManager : MonoBehaviour
                 break;
         }
     }
+
+    public bool GetIsConfirming() => isConfirming;
 }

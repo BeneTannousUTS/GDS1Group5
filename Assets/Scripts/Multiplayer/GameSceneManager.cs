@@ -26,6 +26,11 @@ public class GameSceneManager : MonoBehaviour
             {
                 // Use PlayerInputManager to spawn a new player and pair it with the gamepad
                 PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: players[i].gamepad);
+                
+                newPlayer.SwitchCurrentActionMap("Gameplay");
+                InputActionMap metaMap = newPlayer.actions.FindActionMap("Meta");
+                metaMap.Enable();
+
                 PlayerManager.instance.players[i].playerInput = newPlayer;
                 PlayerManager.instance.players[i].playerColour = playerColours[i];
 

@@ -394,18 +394,18 @@
             "id": "3eb59fc2-9cc9-4e77-b884-60df0b4b760a",
             "actions": [
                 {
-                    "name": "SkipButton",
+                    "name": "ConfirmButton",
                     "type": "Button",
-                    "id": "27578d5f-5dad-4646-a9cf-aacd1263c0ba",
+                    "id": "d65a4f9f-29e8-466e-8791-e4c84cec32ee",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ConfirmButton",
+                    "name": "SkipButton",
                     "type": "Button",
-                    "id": "d65a4f9f-29e8-466e-8791-e4c84cec32ee",
+                    "id": "27578d5f-5dad-4646-a9cf-aacd1263c0ba",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -432,6 +432,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "ConfirmButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Meta",
+            "id": "a0fd27ea-b318-46d4-9139-ca7b49bc19c0",
+            "actions": [
+                {
+                    "name": "OptionsMenu",
+                    "type": "PassThrough",
+                    "id": "4103895d-cd6e-4ec4-96ae-d2a20d599ee6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "11002f33-4d82-4834-8452-729d6f6ee670",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OptionsMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
