@@ -1,5 +1,6 @@
 // AUTHOR: Zac
 // Parent class of all confirming UI elements (like the card confirm pop up)
+// MAKE SURE TO CALL INIT OR IT WILL NOT WORK!!
 
 using UnityEngine;
 using TMPro;
@@ -21,10 +22,10 @@ public class BaseConfirmHandler : MonoBehaviour
         rt = GetComponent<RectTransform>();
     }
 
-    public virtual void init(PlayerInput input, int index)
+    public virtual void init(PlayerInput input)
     {
         assignedInput = input;
-        playerIndex = index;
+        playerIndex = input.playerIndex;
     }
 
     public void ShakeCard()

@@ -51,6 +51,7 @@ public class PlayerManager : MonoBehaviour
             {
                 players[i].isJoined = false;
                 players[i].gamepad = null;
+                players[i].playerInput = null;
                 players[i].playerIndex = i;
                 
                 Debug.Log($"Player {i + 1} left with Gamepad: {gamepad.deviceId}");
@@ -70,6 +71,7 @@ public class PlayerManager : MonoBehaviour
             {
                 players[i].isJoined = false;
                 players[i].gamepad = null;
+                players[i].playerInput = null;
                 players[i].playerIndex = i;
             }
         }

@@ -52,7 +52,7 @@ public class TraitorCanvasManager : MonoBehaviour
             GameObject readyCheckObject = Instantiate(readyPlayerPrefab, readyCheckCanvas.transform);
             ReadyCheckHandler handler = readyCheckObject.GetComponent<ReadyCheckHandler>();
 
-            handler.init(playerData.playerInput, playerData.playerIndex);
+            handler.init(playerData.playerInput);
             handler.Setup(PlayerManager.instance.playerSprites[playerData.playerIndex]);
 
             readyCheckHandlers.Add(handler);

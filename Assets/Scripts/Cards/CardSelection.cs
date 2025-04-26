@@ -204,7 +204,7 @@ public class CardSelection : MonoBehaviour
             GameObject continuePromptObject = Instantiate(continuePromptPrefab, confirmCanvas.transform);
             ContinueConfirmHandler continueHandler = continuePromptObject.GetComponent<ContinueConfirmHandler>();
 
-            continueHandler.init(playerSelectionOrder[playerSelectionPos].playerInput, playerSelectionOrder[playerSelectionPos].playerIndex);
+            continueHandler.init(playerSelectionOrder[playerSelectionPos].playerInput);
             continueHandler.Setup(
                 $"Player {playerIndex + 1} is Selecting a Card\nScore: {playerSelectionOrder[playerSelectionPos].playerInput.gameObject.GetComponent<PlayerScore>().GetScore()}",
                 PlayerManager.instance.playerSprites[playerIndex]
@@ -423,7 +423,7 @@ public class CardSelection : MonoBehaviour
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
                     ConfirmCardHandler confirmCardHandler = confirmCard.GetComponent<ConfirmCardHandler>();
-                    confirmCardHandler.init(playerData.playerInput, playerData.playerIndex);
+                    confirmCardHandler.init(playerData.playerInput);
 
                     confirmCardHandler.SetupCard(
                         $"Player {playerData.playerIndex + 1}",

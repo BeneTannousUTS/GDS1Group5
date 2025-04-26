@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class OptionsMenuManager : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class OptionsMenuManager : MonoBehaviour
     public TMP_Dropdown windowModeDropdown;
     public Button backButton;
     public GameObject confirmQuitPrefab;
+    private bool isConfirming = false;
 
     void Start()
     {
@@ -113,23 +116,35 @@ public class OptionsMenuManager : MonoBehaviour
 
     public void OnToMenuButton()
     {
+        Debug.Log("To Menu Pressed");
         StartCoroutine(MenuConfirmSequence());
     }
 
     IEnumerator MenuConfirmSequence()
     {
+        isConfirming = true;
         GameObject quitConfirmObject = Instantiate(confirmQuitPrefab, transform);
         QuitConfirmHandler quitConfirmHandler = quitConfirmObject.GetComponent<QuitConfirmHandler>();
+        PlayerInput activeInput = FindAnyObjectByType<InGameOptionsManager>().GetActiveInput();
+        quitConfirmHandler.init(activeInput);
+        EventSystem.current.SetSelectedGameObject(null);
 
+        ConfirmManager.Instance.SetPriorityHandler(quitConfirmHandler);
         List<BaseConfirmHandler> handlerList = new List<BaseConfirmHandler> { quitConfirmHandler };
         yield return ConfirmManager.Instance.WaitForAllConfirmations(handlerList);
 
+        Debug.Log($"Confirmed Choice: {quitConfirmHandler.confirmedChoice}");
+        isConfirming = false;
+
         if (quitConfirmHandler.confirmedChoice == true)
         {
+            FindAnyObjectByType<InGameOptionsManager>().ToggleOptionsMenu(activeInput);
             SceneManager.LoadScene("MainMenu");
         } else
         {
             Destroy(quitConfirmObject);
+            backButton.Select();
+            activeInput.SwitchCurrentActionMap("Menu");
         }
     }
 
@@ -166,4 +181,6 @@ public class OptionsMenuManager : MonoBehaviour
                 break;
         }
     }
+
+    public bool GetIsConfirming() => isConfirming;
 }

@@ -29,6 +29,8 @@ public class InGameOptionsManager : MonoBehaviour
         {
             if (playerInput != activeInput) return;
 
+            if (optionsMenu.GetComponent<OptionsMenuManager>().GetIsConfirming()) return;
+
             Debug.Log("Closing Menu");
             optionsMenu.SetActive(false);
             Time.timeScale = 1;
@@ -44,6 +46,9 @@ public class InGameOptionsManager : MonoBehaviour
 
             Time.timeScale = 0;
             optionsMenu.SetActive(true);
+            OptionsMenuManager optionsMenuManager = optionsMenu.GetComponent<OptionsMenuManager>();
+            optionsMenuManager.SetOptions();
+            optionsMenuManager.LoadAudio();
             activeInput = playerInput;
 
             // Lock all players
@@ -141,7 +146,11 @@ public class InGameOptionsManager : MonoBehaviour
     {
         PlayerData[] players = PlayerManager.instance.GetPlayers();
 
-        InputActionAsset playerActions = players[FindAnyObjectByType<CardSelection>().currentPlayerIndex].playerInput.actions;
+        int currentPlayerIndex = FindAnyObjectByType<CardSelection>().currentPlayerIndex;
+
+        if (currentPlayerIndex == -1) return;
+
+        InputActionAsset playerActions = players[currentPlayerIndex].playerInput.actions;
         UIInputModule.actionsAsset = playerActions;
         UIInputModule.point = null;
         UIInputModule.leftClick = null;

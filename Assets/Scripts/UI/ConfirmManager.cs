@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class ConfirmManager : MonoBehaviour
 {
     private static ConfirmManager instance;
+    private BaseConfirmHandler priorityHandler = null;
 
     private void Awake()
     {
@@ -40,8 +41,17 @@ public class ConfirmManager : MonoBehaviour
 
     private IEnumerator WaitForConfirm(BaseConfirmHandler handler)
     {
+        handler.assignedInput.SwitchCurrentActionMap("Confirm/Skip");
         InputAction confirmAction = handler.assignedInput.actions.FindAction("ConfirmButton");
         InputAction skipAction = handler.assignedInput.actions.FindAction("SkipButton");
+
+        if (confirmAction != null)
+        {
+            while (confirmAction.IsPressed())
+            {
+                yield return null;
+            }
+        }
 
         Debug.Log($"Waiting for Handler p{handler.playerIndex}");
         float timePassed = 0f;
@@ -49,6 +59,12 @@ public class ConfirmManager : MonoBehaviour
         while (!handler.hasConfirmed)
         {
             timePassed += Time.deltaTime;
+
+            if (priorityHandler != null && priorityHandler != handler)
+            {
+                yield return null;
+                continue;
+            }
 
             if (confirmAction != null && confirmAction.WasPressedThisFrame())
             {
@@ -92,5 +108,10 @@ public class ConfirmManager : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void SetPriorityHandler(BaseConfirmHandler handler)
+    {
+        priorityHandler = handler;
     }
 }
