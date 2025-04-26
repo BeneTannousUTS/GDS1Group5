@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class PassiveStats : MonoBehaviour
 {
-    public float strengthMod = 1f;
-    public float moveMod = 1f;
-    public float healthMod = 0f;
+    public float strengthMod = 0f; [Range(0, 100)]
+    public float moveMod = 0f; [Range(0, 100)]
+    public float healthMod = 0f; [Range(0, 100)]
     
     //float used for cooldown multipliers
-    public float cooldownMultiplier = 1f;
+    public float cooldownMultiplier = 0f; [Range(0, 100)]
     
     //float used for cooldown multipliers
-    public float lifestealMulitplier = 0;
+    public float lifestealMulitplier = 0; [Range(0, 100)]
     
     //float used for cooldown multipliers
-    public float knockbackMult = 0;
+    public float knockbackMult = 0; [Range(0, 100)]
     
     //bool used for revive player
     public bool revivePlayer;
