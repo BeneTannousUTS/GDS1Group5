@@ -50,7 +50,7 @@ public class PlayerStats : MonoBehaviour
 
         foreach (GameObject passive in passives) 
         {
-            modifier *= passive.GetComponent<PassiveStats>().GetStrengthMod();
+            modifier += passive.GetComponent<PassiveStats>().GetStrengthMod();
         }
 
         return modifier;
@@ -74,7 +74,7 @@ public class PlayerStats : MonoBehaviour
 
         foreach (GameObject passive in passives) 
         {
-            modifier *= passive.GetComponent<PassiveStats>().GetCooldownMod();
+            modifier += passive.GetComponent<PassiveStats>().GetCooldownMod();
         }
 
         return modifier;
