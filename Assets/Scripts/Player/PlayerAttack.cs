@@ -77,7 +77,9 @@ public class PlayerAttack : MonoBehaviour
         
         attackCooldownTimer = 0f;
 
-        
+        if (tempWeapon.GetComponent<WeaponStats>().GetCharge()) {
+            gameObject.GetComponent<PlayerMovement>().StartDash();
+        }
         
         // Call HUD component function for cooldown animation.
         GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());

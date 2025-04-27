@@ -12,6 +12,9 @@ public class Projectile : MonoBehaviour
     public float moveSpeed;
     public float knockbackStrength = 0.7f;
     public float knockbackTime = 0.1f;
+    private float comeBackTimer = 0f;
+    public bool comeBack = false;
+    public float comeBackWindow = 0.5f;
 
     private Vector3 shotDirection = Vector3.zero;
 
@@ -58,6 +61,11 @@ public class Projectile : MonoBehaviour
     public void SetDamageValue(float damage) 
     {
         damageValue = damage;
+    }
+
+    // Gets the value of comeback
+    public bool GetComeBack() {
+        return comeBack;
     }
 
     // Deals damage to a specified HealthComponent & Applies Knockback
@@ -108,7 +116,19 @@ public class Projectile : MonoBehaviour
     // Moves projectile
     void Update()
     {   
-        transform.position += shotDirection * moveSpeed * Time.deltaTime;
+        comeBackTimer += Time.deltaTime;
+        if (comeBack == false || comeBackTimer < comeBackWindow) {
+            transform.position += shotDirection * moveSpeed * Time.deltaTime;
+        }
+        else {
+            // If projectile is meant to return to the player it will so after a period of time otherwise it will not destroy and can hit enemies multiple times
+            if (Vector3.Distance(transform.position, sourceObject.transform.position) <= 0.1f) {
+                Destroy(gameObject);
+            }
+            else {
+                transform.position = Vector3.MoveTowards(transform.position, sourceObject.transform.position, moveSpeed * 3f * Time.deltaTime);
+            }
+        }
     }
 
     bool ColliderType(Collider2D otherCollider) 
@@ -118,7 +138,7 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D otherCollider) 
     {
-        if (ColliderType(otherCollider)) 
+        if (ColliderType(otherCollider) && comeBack == false) 
         {
             Destroy(gameObject);
         }

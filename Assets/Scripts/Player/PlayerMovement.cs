@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private SpriteRenderer sprite;
     private float knockbackTime = 0.0f;
+    private float dashTime = 0.0f;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
@@ -44,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackTime > 0)
         {
             knockbackTime -= Time.deltaTime;
+        }
+        else if (dashTime > 0) {
+            dashTime -= Time.deltaTime;
         }
         else
         {
@@ -108,5 +112,11 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = knockbackDirection.normalized;
         rb.linearVelocity = moveDirection * moveSpeed * knockbackMultiplier;
         this.knockbackTime = knockbackTime;
+    }
+
+    public void StartDash() 
+    {
+        rb.linearVelocity = facingDirection.normalized * moveSpeed * 4f;
+        dashTime = 0.2f;
     }
 }
