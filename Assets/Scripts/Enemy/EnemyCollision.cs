@@ -33,7 +33,10 @@ public class EnemyCollision : MonoBehaviour
             {
                 otherCollider.GetComponent<Explosion>().SpawnExplosion();
             }
-            Destroy(otherCollider.gameObject);
+
+            if (otherCollider.gameObject.GetComponent<Projectile>().GetComeBack() == false) {
+                Destroy(otherCollider.gameObject);
+            }
         }
         // Enemy collision with hazards turned off for now
         //else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
