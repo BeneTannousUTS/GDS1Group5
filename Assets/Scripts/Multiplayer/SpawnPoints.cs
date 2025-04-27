@@ -12,7 +12,7 @@ public class SpawnPoints : MonoBehaviour
     {
         gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
 
-        gameSceneManager.SpawnPlayers();
+        //gameSceneManager.SpawnPlayers();
     }
 
     // Update is called once per frame

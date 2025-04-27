@@ -8,26 +8,25 @@ using UnityEngine.InputSystem;
 
 public class GameSceneManager : MonoBehaviour
 {
-    public GameObject[] spawnPoints;
-    public Color[] playerColours;
-    public AnimatorOverrideController[] playerAnimators;
+    // public GameObject[] spawnPoints;
+    // public Color[] playerColours;
+    // public AnimatorOverrideController[] playerAnimators;
     public GameObject dungeonManager;
-    public GameObject[] players;
+    public GameObject[] inactivePlayerPrefabs;
+    public GameObject[] activePlayerPrefabs;
     
     private int joinedPlayers = 0;
     private int maxPlayers = 4;
-    private bool canStartGame = false;
-        
+    
     void Start()
     {
-        
-        
     }
 
     private void Update()
     {
         if (dungeonManager != null && dungeonManager.GetComponent<DungeonBuilder>().GetCurrentRoom() == 1)
         {
+            if(dungeonManager.GetComponent<DungeonBuilder>())
             // Loop through all connected gamepads
             foreach (Gamepad gamepad in Gamepad.all)
             {
@@ -46,6 +45,11 @@ public class GameSceneManager : MonoBehaviour
             }
         }
     }
+
+    public void AssignPlayerPrefabs(GameObject[] playerPrefabs)
+    {
+        activePlayerPrefabs = playerPrefabs;
+    }
     
     // Assign the gamepad to the first available player
     void AssignGamepad(Gamepad gamepad)
@@ -57,7 +61,7 @@ public class GameSceneManager : MonoBehaviour
             return;
         }
 
-        foreach (var player in players)
+        foreach (var player in inactivePlayerPrefabs)
         {
             if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() != gamepad)
             {
@@ -76,13 +80,11 @@ public class GameSceneManager : MonoBehaviour
     // Unassign the gamepad from its current slot
     void UnassignGamepad(Gamepad gamepad)
     {
-        foreach (var player in players)
+        foreach (var player in activePlayerPrefabs)
         {
             if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
                 // Update slot state
-                
-
                 joinedPlayers--;
                 PlayerManager.instance.UnjoinPlayer(gamepad);
 
@@ -95,7 +97,7 @@ public class GameSceneManager : MonoBehaviour
     // Check if this gamepad has already been assigned to another slot
     bool IsGamepadAssigned(Gamepad gamepad)
     {
-        foreach (var player in players)
+        foreach (var player in activePlayerPrefabs)
         {
             if (player.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
