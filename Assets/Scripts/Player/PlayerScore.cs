@@ -17,6 +17,10 @@ public class PlayerScore : MonoBehaviour
 
     public void AddScore(int additionalScore) {
         scoreStats.score += additionalScore;
+        if (scoreStats.score < 0)
+        {
+            scoreStats.score = 0;
+        }
         GetComponent<PlayerHUD>().UpdateScoreText(scoreStats.score);
     }
 
