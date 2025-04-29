@@ -2,27 +2,18 @@
 // This script handles player joining and logic to update the UI as players join and leave
 
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
-    
-    [System.Serializable]
-    public class PlayerSlot
-    {
-        public GameObject slotPanel;
-        public GameObject unjoinedIndicator;
-        public GameObject joinedIndicator;
-        public bool isOccupied = false;
-        internal Gamepad panelGamepad;
-    }
 
     [SerializeField]
     public GameObject pressStartPrefab;
     
-    public PlayerSlot[] playerSlots;
+    public GameObject[] players;
     private int joinedPlayers = 0;
     private int maxPlayers = 4;
     private bool canStartGame = false;
@@ -45,7 +36,7 @@ public class LobbyManager : MonoBehaviour
                 UnassignGamepadSlot(gamepad);
             }
             // Check if the first player wants to start the game
-            else if (gamepad.startButton.wasPressedThisFrame && gamepad == playerSlots[0].panelGamepad)
+            else if (gamepad.startButton.wasPressedThisFrame && gamepad == players[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
             {
                 StartGame();
             }
@@ -59,7 +50,7 @@ public class LobbyManager : MonoBehaviour
             }
         }
 
-        if (playerSlots[0].isOccupied && (playerSlots[1].isOccupied || playerSlots[2].isOccupied || playerSlots[3].isOccupied))
+        if (players[0].GetComponent<PlayerIndex>().isOccupied && (players[1].GetComponent<PlayerIndex>().isOccupied || players[2].GetComponent<PlayerIndex>().isOccupied || players[3].GetComponent<PlayerIndex>().isOccupied))
         {
             pressStartPrefab.SetActive(true);
             canStartGame = true;
@@ -81,15 +72,13 @@ public class LobbyManager : MonoBehaviour
             return;
         }
 
-        foreach (var slot in playerSlots)
+        foreach (var playerPrefab in players)
         {
-            if (!slot.isOccupied)
+            if (!playerPrefab.GetComponent<PlayerIndex>().isOccupied)
             {
                 // Update slot state
-                slot.unjoinedIndicator.SetActive(false);
-                slot.joinedIndicator.SetActive(true);
-                slot.isOccupied = true;
-                slot.panelGamepad = gamepad;
+                playerPrefab.GetComponent<PlayerIndex>().isOccupied = true;
+                playerPrefab.panelGamepad = gamepad;
 
                 joinedPlayers++;
                 PlayerManager.instance.JoinPlayer(gamepad);
@@ -103,20 +92,18 @@ public class LobbyManager : MonoBehaviour
     // Unassign the gamepad from its current slot
     void UnassignGamepadSlot(Gamepad gamepad)
     {
-        foreach (var slot in playerSlots)
+        foreach (var playerPrefab in players)
         {
-            if (slot.panelGamepad == gamepad)
+            if (playerPrefab.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
                 // Update slot state
-                slot.unjoinedIndicator.SetActive(true);
-                slot.joinedIndicator.SetActive(false);
-                slot.isOccupied = false;
-                slot.panelGamepad = null;
+                playerPrefab.GetComponent<PlayerIndex>().isOccupied = false;
+                playerPrefab.panelGamepad = null;
 
                 joinedPlayers--;
                 PlayerManager.instance.UnjoinPlayer(gamepad);
 
-                Debug.Log($"Gamepad {gamepad.deviceId} unassigned from slot.");
+                Debug.Log($"Gamepad {gamepad.deviceId} unassigned from player " + (playerPrefab.GetComponent<PlayerIndex>().playerIndex+1));
                 break;
             }
         }
@@ -125,9 +112,9 @@ public class LobbyManager : MonoBehaviour
     // Check if this gamepad has already been assigned to another slot
     bool IsGamepadAssigned(Gamepad gamepad)
     {
-        foreach (var slot in playerSlots)
+        foreach (var playerPrefab in players)
         {
-            if (slot.panelGamepad == gamepad)
+            if (playerPrefab.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
                 return true;
             }
@@ -143,7 +130,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
-    /*private void OnControlsChanged(Gamepad gamepad)
+    private void OnControlsChanged(Gamepad gamepad)
     {
         if (gamepad is UnityEngine.InputSystem.Switch.SwitchProControllerHID)
         {
@@ -156,5 +143,5 @@ public class LobbyManager : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
 }
