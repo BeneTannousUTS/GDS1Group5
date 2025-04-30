@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
     private float comeBackTimer = 0f;
     public bool comeBack = false;
     public float comeBackWindow = 0.5f;
+    private float frozenTimer = 3f;
 
     private Vector3 shotDirection = Vector3.zero;
 
@@ -122,17 +123,20 @@ public class Projectile : MonoBehaviour
     // Moves projectile
     void Update()
     {   
-        comeBackTimer += Time.deltaTime;
-        if (comeBack == false || comeBackTimer < comeBackWindow) {
-            transform.position += shotDirection * moveSpeed * Time.deltaTime;
-        }
-        else {
-            // If projectile is meant to return to the player it will so after a period of time otherwise it will not destroy and can hit enemies multiple times
-            if (Vector3.Distance(transform.position, sourceObject.transform.position) <= 0.1f) {
-                Destroy(gameObject);
+        frozenTimer += Time.deltaTime;
+        if (frozenTimer >= 3f) {
+            comeBackTimer += Time.deltaTime;
+            if (comeBack == false || comeBackTimer < comeBackWindow) {
+                transform.position += shotDirection * moveSpeed * Time.deltaTime;
             }
             else {
-                transform.position = Vector3.MoveTowards(transform.position, sourceObject.transform.position, moveSpeed * 3f * Time.deltaTime);
+                // If projectile is meant to return to the player it will so after a period of time otherwise it will not destroy and can hit enemies multiple times
+                if (Vector3.Distance(transform.position, sourceObject.transform.position) <= 0.1f) {
+                    Destroy(gameObject);
+                }
+                else {
+                    transform.position = Vector3.MoveTowards(transform.position, sourceObject.transform.position, moveSpeed * 3f * Time.deltaTime);
+                }
             }
         }
     }
@@ -152,5 +156,11 @@ public class Projectile : MonoBehaviour
             }
             Destroy(gameObject);
         }
+    }
+
+
+    public void SetFrozen() 
+    {
+        frozenTimer = 0f;
     }
 }

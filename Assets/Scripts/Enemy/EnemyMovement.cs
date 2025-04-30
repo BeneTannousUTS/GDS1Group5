@@ -38,6 +38,7 @@ public class EnemyMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private float knockbackTime = 0.0f;
     private float dashTime = 0f;
+    private float frozenTimer = 3f;
 
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
@@ -272,46 +273,49 @@ public class EnemyMovement : MonoBehaviour
     // Move based on the AI type
     void Update()
     {
-        if (knockbackTime > 0)
-        {
-            knockbackTime -= Time.deltaTime;
-        }
-        else if (dashTime > 0)
-        {
-            dashTime -= Time.deltaTime;
-        }
-        else if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
-        {
-            GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
+        frozenTimer += Time.deltaTime;
+        if (frozenTimer >= 3f) {
+            if (knockbackTime > 0)
+            {
+                knockbackTime -= Time.deltaTime;
+            }
+            else if (dashTime > 0)
+            {
+                dashTime -= Time.deltaTime;
+            }
+            else if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
+            {
+                GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
 
-            if (currentAiType == aiType.Aggressive)
-            {
-                MoveAggressive();
-            }
-            else if (currentAiType == aiType.Passive)
-            {
-                MovePassive();
-            }
-            else if (currentAiType == aiType.Teleporter)
-            {
-                MoveTeleporter();
-            }
-            else if (currentAiType == aiType.Cautious)
-            {
-                MoveCautious();
-            }
-            else if (currentAiType == aiType.Stationary)
-            {
-                MoveStationary();
-            }
-            else if (currentAiType == aiType.Charger)
-            {
-                MoveCharger();
-            }
+                if (currentAiType == aiType.Aggressive)
+                {
+                    MoveAggressive();
+                }
+                else if (currentAiType == aiType.Passive)
+                {
+                    MovePassive();
+                }
+                else if (currentAiType == aiType.Teleporter)
+                {
+                    MoveTeleporter();
+                }
+                else if (currentAiType == aiType.Cautious)
+                {
+                    MoveCautious();
+                }
+                else if (currentAiType == aiType.Stationary)
+                {
+                    MoveStationary();
+                }
+                else if (currentAiType == aiType.Charger)
+                {
+                    MoveCharger();
+                }
 
-            SetSpriteDirection();
-            if (facingDirection.x == 0 && facingDirection.y == 0) animator.SetBool("isMoving", false);
-            else animator.SetBool("isMoving", true);
+                SetSpriteDirection();
+                if (facingDirection.x == 0 && facingDirection.y == 0) animator.SetBool("isMoving", false);
+                else animator.SetBool("isMoving", true);
+            }
         }
     }
 
@@ -346,5 +350,11 @@ public class EnemyMovement : MonoBehaviour
     public void ResetMovePoint() 
     {
         movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+    }
+
+    public void SetFrozen() 
+    {
+        frozenTimer = 0f;
+        gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
     }
 }

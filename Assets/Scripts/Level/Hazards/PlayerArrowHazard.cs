@@ -20,7 +20,7 @@ public class PlayerArrowHazard : MonoBehaviour
             Projectile proj = currentProjectile.GetComponent<Projectile>();
 
             proj.SetShotDirection(shotDirection);
-            proj.SetDamageValue(10);
+            proj.SetDamageValue(7);
             proj.SetFriendlyFire(false);
             proj.SetSourceType("Player");
             proj.SetSourceObject(gameObject);
@@ -36,7 +36,7 @@ public class PlayerArrowHazard : MonoBehaviour
         }
         else {
             waitTime += Time.deltaTime;
-            if (waitTime >= 2)
+            if (waitTime >= 0.5f)
             {
                 FireArrow();
                 waitTime = 0;
