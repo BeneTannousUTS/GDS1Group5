@@ -9,14 +9,20 @@ public class GameSceneManager : MonoBehaviour
     public GameObject[] spawnPoints;
     public Color[] playerColours;
     public AnimatorOverrideController[] playerAnimators;
+    public LobbyManager lobbyManager;
         
     void Start()
     {
         
     }
 
+    void Update()
+    {
+        
+    }
+
     // Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
-    public void SpawnPlayers()
+    public void SpawnPlayer()
     {
         PlayerData[] players = PlayerManager.instance.players;
 

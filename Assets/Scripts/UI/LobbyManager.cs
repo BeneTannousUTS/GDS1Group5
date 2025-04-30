@@ -5,14 +5,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
-
-    [SerializeField]
-    public GameObject pressStartPrefab;
-    
     public GameObject[] players;
     private int joinedPlayers = 0;
     private int maxPlayers = 4;
@@ -26,13 +23,13 @@ public class LobbyManager : MonoBehaviour
             // Check if the player wants to join
             if (gamepad.buttonEast.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 AssignGamepadSlot(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.buttonSouth.wasPressedThisFrame && IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 UnassignGamepadSlot(gamepad);
             }
             // Check if the first player wants to start the game
@@ -52,17 +49,57 @@ public class LobbyManager : MonoBehaviour
 
         if (players[0].GetComponent<PlayerIndex>().isOccupied && (players[1].GetComponent<PlayerIndex>().isOccupied || players[2].GetComponent<PlayerIndex>().isOccupied || players[3].GetComponent<PlayerIndex>().isOccupied))
         {
-            pressStartPrefab.SetActive(true);
             canStartGame = true;
         }
         else
         {
-            pressStartPrefab.SetActive(false);
             canStartGame = false;
         }
     }
 
-    // Assign the gamepad to the first available slot
+    void CheckControllersForJoinInput()
+    {
+        // Loop through all connected gamepads
+        foreach (Gamepad gamepad in Gamepad.all)
+        {
+            // Check if the player wants to join
+            if (gamepad.buttonEast.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
+            {
+                OnControlsChanged(gamepad);
+                AssignGamepadSlot(gamepad);
+            }
+            // Check if the player wants to leave
+            else if (gamepad.buttonSouth.wasPressedThisFrame && IsGamepadAssigned(gamepad))
+            {
+                OnControlsChanged(gamepad);
+                UnassignGamepadSlot(gamepad);
+            }
+            // Check if the first player wants to start the game
+            else if (gamepad.startButton.wasPressedThisFrame && gamepad == players[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
+            {
+                StartGame();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (PlayerManager.instance.players[0].isJoined)
+            {
+                AssignGamepadSlot(PlayerManager.instance.players[0].gamepad);
+            }
+        }
+
+        if (players[0].GetComponent<PlayerIndex>().isOccupied && (players[1].GetComponent<PlayerIndex>().isOccupied || players[2].GetComponent<PlayerIndex>().isOccupied || players[3].GetComponent<PlayerIndex>().isOccupied))
+        {
+            canStartGame = true;
+        }
+        else
+        {
+            canStartGame = false;
+        }
+    }
+
+    // Assign the gamepad to the first available player
     void AssignGamepadSlot(Gamepad gamepad)
     {
         // Check if we’ve reached the max number of players
@@ -77,8 +114,11 @@ public class LobbyManager : MonoBehaviour
             if (!playerPrefab.GetComponent<PlayerIndex>().isOccupied)
             {
                 // Update slot state
+                var playerUser = InputUser.PerformPairingWithDevice(gamepad);;
                 playerPrefab.GetComponent<PlayerIndex>().isOccupied = true;
-                playerPrefab.panelGamepad = gamepad;
+                InputUser.PerformPairingWithDevice(gamepad);
+                
+                //playerPrefab.GetComponent<PlayerInput>(). = playerUser;
 
                 joinedPlayers++;
                 PlayerManager.instance.JoinPlayer(gamepad);
@@ -98,7 +138,7 @@ public class LobbyManager : MonoBehaviour
             {
                 // Update slot state
                 playerPrefab.GetComponent<PlayerIndex>().isOccupied = false;
-                playerPrefab.panelGamepad = null;
+                //playerPrefab.panelGamepad = null;
 
                 joinedPlayers--;
                 PlayerManager.instance.UnjoinPlayer(gamepad);
