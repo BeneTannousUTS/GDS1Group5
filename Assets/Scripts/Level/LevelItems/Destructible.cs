@@ -5,6 +5,7 @@ using UnityEngine;
 public class Destructible : MonoBehaviour
 {
     public GameObject spawnedItem;
+    public bool playerCanHurt = true;
     protected Vector3 hitDirection;
 
     private HashSet<int> processedColliderIDs = new HashSet<int>();
@@ -19,17 +20,16 @@ public class Destructible : MonoBehaviour
         }
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (collision.gameObject.CompareTag("Weapon"))
+            if (collision.gameObject.CompareTag("Weapon") && (playerCanHurt || !collision.gameObject.GetComponent<WeaponStats>().GetSourceType().Equals("Player")))
             {
                 collision.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 hitDirection = (collision.transform.position - collision.transform.parent.transform.position).normalized;
             }
-            else if (collision.gameObject.CompareTag("Projectile"))
+            else if (collision.gameObject.CompareTag("Projectile") && (playerCanHurt || !collision.gameObject.GetComponent<Projectile>().GetSourceType().Equals("Player")))
             {
                 collision.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 hitDirection = collision.GetComponent<Projectile>().GetShotDirection();
             }
-            
         }
     }
 

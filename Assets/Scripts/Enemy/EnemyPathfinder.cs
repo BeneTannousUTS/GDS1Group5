@@ -37,6 +37,12 @@ public class EnemyPathfinder : MonoBehaviour
         float closestDistance = 1000f;
         GameObject closestPlayer = null;
 
+        GameObject decoy = GameObject.FindWithTag("Decoy");
+
+        if (decoy != null) {
+            return decoy;
+        }
+
         foreach (GameObject player in playerList)
         {
             if (Vector3.Distance(player.transform.position, enemyPosition) < closestDistance && player.GetComponent<HealthComponent>().GetIsDead() == false)
@@ -54,6 +60,12 @@ public class EnemyPathfinder : MonoBehaviour
     {
         float furthestDistance = 0f;
         GameObject furthestPlayer = null;
+
+        GameObject decoy = GameObject.FindWithTag("Decoy");
+
+        if (decoy != null) {
+            return decoy;
+        }
 
         foreach (GameObject player in playerList)
         {
