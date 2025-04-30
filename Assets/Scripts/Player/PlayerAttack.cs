@@ -30,7 +30,7 @@ public class PlayerAttack : MonoBehaviour
     {
         foreach (Transform child in gameObject.transform)
         {
-            if (child.tag.Equals("Weapon") && child.GetComponent<DualWield>() == null)
+            if (child.tag.Equals("Weapon") && child.GetComponent<DualWield>() == null && gameObject.GetComponent<BaseTraitor>() == null)
             {
                 Destroy(child.gameObject);
             }

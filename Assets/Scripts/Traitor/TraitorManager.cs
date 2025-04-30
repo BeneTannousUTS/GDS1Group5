@@ -13,6 +13,7 @@ public class TraitorManager : MonoBehaviour
     [SerializeField] GameObject[] objectRef;
     [SerializeField] Sprite[] cardRef;
     [SerializeField] GameObject healthBoost;
+    [SerializeField] GameObject[] weapons;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
@@ -88,5 +89,10 @@ public class TraitorManager : MonoBehaviour
     public GameObject GetHealthBoost()
     {
         return healthBoost;
+    }
+
+    internal GameObject[] GetWeapons()
+    {
+        return weapons;
     }
 }
