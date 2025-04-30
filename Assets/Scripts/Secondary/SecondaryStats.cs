@@ -8,6 +8,7 @@ using System.Collections;
 public class SecondaryStats : MonoBehaviour
 {
     public float secondaryLifetime;
+    public bool activateOnDestroy = false;
     private string sourceType;
     [SerializeField] private GameObject sourceObject;
     public GameObject projectile;
@@ -38,12 +39,37 @@ public class SecondaryStats : MonoBehaviour
         return projectile;
     }
 
+    // Calculates a quaternion which is the rotation needed for the weapon based on direction
+    public Quaternion CalculateQuaternion(Vector3 direction) 
+    {
+        float angle = Mathf.Abs((Mathf.Acos(direction.x) * 180)/Mathf.PI);
+
+        if (direction.y >= 0)
+        {
+            angle -= 90;
+        }
+        else if (direction.y < 0)
+        {
+            angle = 270 - angle;
+        }
+
+        return Quaternion.Euler(0f, 0f, angle);
+    }
+
     // Destroys the weapon after its lifetime is up
     IEnumerator DestroySecondary(float lifetime)
-    {
-        gameObject.GetComponent<ISecondary>().DoSecondary();
+    {   
+        if (activateOnDestroy == false) 
+        {
+            gameObject.GetComponent<ISecondary>().DoSecondary();
+        }
 
         yield return new WaitForSeconds(lifetime);
+
+        if (activateOnDestroy == true) 
+        {
+            gameObject.GetComponent<ISecondary>().DoSecondary();
+        }
 
         Destroy(gameObject);
     }

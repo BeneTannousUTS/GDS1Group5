@@ -342,4 +342,9 @@ public class EnemyMovement : MonoBehaviour
         GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
         this.knockbackTime = knockbackTime;
     }
+
+    public void ResetMovePoint() 
+    {
+        movePoint = enemyPathfinder.ClosestPlayer(transform.position);
+    }
 }
