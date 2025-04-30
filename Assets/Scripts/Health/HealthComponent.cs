@@ -126,8 +126,11 @@ public class HealthComponent : MonoBehaviour
                     }
                 }
 
-                GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
-                GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
+                if (GetComponent<SmallHealthBar>() != null)
+                {
+                    GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
+                    GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
+                }
             }
 
             else if (invincible == false)
@@ -157,8 +160,11 @@ public class HealthComponent : MonoBehaviour
                     }
                 }
 
-                GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
-                GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
+                if (GetComponent<SmallHealthBar>() != null)
+                {
+                    GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
+                    GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
+                }
 
                 if (currentHealth <= 0f)
                 {
