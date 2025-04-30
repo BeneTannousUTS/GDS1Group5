@@ -42,6 +42,10 @@ public class PlayerCollision : MonoBehaviour
                 {
                     otherCollider.GetComponent<Explosion>().SpawnExplosion();
                 }
+                else if (otherCollider.GetComponent<PolyProjectile>())
+                {
+                    otherCollider.GetComponent<PolyProjectile>().ApplyMorph(gameObject);
+                }
                 Destroy(otherCollider.gameObject);
             }
             else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
