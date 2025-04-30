@@ -52,7 +52,7 @@ public class SmallHealthBar : MonoBehaviour
 
     public void SetHealthBarText(float currentHealth, float maxHealth)
     {
-        healthText.text = currentHealth.ToString("0") + "/" + maxHealth.ToString("0");
+/*        healthText.text = currentHealth.ToString("0") + "/" + maxHealth.ToString("0");
         if (currentHealth == maxHealth)
         {
             healthText.alpha = 0;
@@ -60,6 +60,6 @@ public class SmallHealthBar : MonoBehaviour
         else
         {
             healthText.alpha = 255;
-        }
+        }*/
     }
 }
