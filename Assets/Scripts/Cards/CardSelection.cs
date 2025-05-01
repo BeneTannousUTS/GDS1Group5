@@ -22,7 +22,8 @@ public enum CardRarity
 {
     Common,
     Rare,
-    Legendary
+    Legendary,
+    Traitor
 }
 
 public enum SelectionState
@@ -391,7 +392,7 @@ public class CardSelection : MonoBehaviour
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
 
-        if (roomNum >= 3)
+        if (roomNum >= 2)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
@@ -562,6 +563,21 @@ public class CardSelection : MonoBehaviour
         }
 
         return cardPool[0].GetComponent<Card>(); // fallback
+    }
+
+    public Color GetColourFromRarity(CardRarity rarity)
+    {
+        switch (rarity)
+        {
+            case CardRarity.Rare:
+                return new Vector4(0f,0.9f,1f,1f);
+            case CardRarity.Legendary:
+                return new Vector4(1f,0.85f,0f,1f);
+            case CardRarity.Traitor:
+                return Color.red;
+            default:
+                return Color.white;
+        }
     }
 
     #endregion
