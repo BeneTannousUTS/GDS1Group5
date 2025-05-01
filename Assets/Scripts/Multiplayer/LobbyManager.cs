@@ -1,6 +1,7 @@
 // AUTHOR: BENEDICT
 // This script handles player joining and logic to update the UI as players join and leave
 
+//TODO: REFACTOR THIS SCRIPT SO THAT PLAYER HUD ELEMENTS ARE LOADED IN THE LOBBY AND ARE NOT DESTROYED WHEN LOADING A NEW SCENE
 
 using System;
 using UnityEngine;
@@ -10,12 +11,20 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
-    public GameObject[] players;
+    public GameObject[] playerSpawns;
+    public Color[] playerColours;
+    public AnimatorOverrideController[] playerAnimators;
+    
     private int joinedPlayers = 0;
     private int maxPlayers = 4;
     private bool canStartGame = false;
 
  void Update()
+ {
+     CheckControllerInput();
+ }
+
+    void CheckControllerInput()
     {
         // Loop through all connected gamepads
         foreach (Gamepad gamepad in Gamepad.all)
@@ -24,7 +33,7 @@ public class LobbyManager : MonoBehaviour
             if (gamepad.buttonEast.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
             {
                 OnControlsChanged(gamepad);
-                AssignGamepadSlot(gamepad);
+                SpawnLobbyPlayer(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.buttonSouth.wasPressedThisFrame && IsGamepadAssigned(gamepad))
@@ -33,7 +42,7 @@ public class LobbyManager : MonoBehaviour
                 UnassignGamepadSlot(gamepad);
             }
             // Check if the first player wants to start the game
-            else if (gamepad.startButton.wasPressedThisFrame && gamepad == players[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
+            else if (gamepad.startButton.wasPressedThisFrame && gamepad == playerSpawns[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
             {
                 StartGame();
             }
@@ -43,53 +52,11 @@ public class LobbyManager : MonoBehaviour
         {
             if (PlayerManager.instance.players[0].isJoined)
             {
-                AssignGamepadSlot(PlayerManager.instance.players[0].gamepad);
+                SpawnLobbyPlayer(PlayerManager.instance.players[0].gamepad);
             }
         }
 
-        if (players[0].GetComponent<PlayerIndex>().isOccupied && (players[1].GetComponent<PlayerIndex>().isOccupied || players[2].GetComponent<PlayerIndex>().isOccupied || players[3].GetComponent<PlayerIndex>().isOccupied))
-        {
-            canStartGame = true;
-        }
-        else
-        {
-            canStartGame = false;
-        }
-    }
-
-    void CheckControllersForJoinInput()
-    {
-        // Loop through all connected gamepads
-        foreach (Gamepad gamepad in Gamepad.all)
-        {
-            // Check if the player wants to join
-            if (gamepad.buttonEast.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
-            {
-                OnControlsChanged(gamepad);
-                AssignGamepadSlot(gamepad);
-            }
-            // Check if the player wants to leave
-            else if (gamepad.buttonSouth.wasPressedThisFrame && IsGamepadAssigned(gamepad))
-            {
-                OnControlsChanged(gamepad);
-                UnassignGamepadSlot(gamepad);
-            }
-            // Check if the first player wants to start the game
-            else if (gamepad.startButton.wasPressedThisFrame && gamepad == players[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
-            {
-                StartGame();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (PlayerManager.instance.players[0].isJoined)
-            {
-                AssignGamepadSlot(PlayerManager.instance.players[0].gamepad);
-            }
-        }
-
-        if (players[0].GetComponent<PlayerIndex>().isOccupied && (players[1].GetComponent<PlayerIndex>().isOccupied || players[2].GetComponent<PlayerIndex>().isOccupied || players[3].GetComponent<PlayerIndex>().isOccupied))
+        if (playerSpawns[0].GetComponent<PlayerIndex>().isOccupied && (playerSpawns[1].GetComponent<PlayerIndex>().isOccupied || playerSpawns[2].GetComponent<PlayerIndex>().isOccupied || playerSpawns[3].GetComponent<PlayerIndex>().isOccupied))
         {
             canStartGame = true;
         }
@@ -100,7 +67,7 @@ public class LobbyManager : MonoBehaviour
     }
 
     // Assign the gamepad to the first available player
-    void AssignGamepadSlot(Gamepad gamepad)
+    void SpawnLobbyPlayer(Gamepad gamepad)
     {
         // Check if we’ve reached the max number of players
         if (joinedPlayers >= maxPlayers)
@@ -109,16 +76,30 @@ public class LobbyManager : MonoBehaviour
             return;
         }
 
-        foreach (var playerPrefab in players)
+        foreach (var spawn in playerSpawns)
         {
-            if (!playerPrefab.GetComponent<PlayerIndex>().isOccupied)
+            if (!spawn.GetComponent<PlayerIndex>().isOccupied)
             {
-                // Update slot state
-                var playerUser = InputUser.PerformPairingWithDevice(gamepad);;
-                playerPrefab.GetComponent<PlayerIndex>().isOccupied = true;
-                InputUser.PerformPairingWithDevice(gamepad);
+                var spawnIndex = spawn.GetComponent<PlayerIndex>().playerIndex;
+                // Spawn player prefab linked to gamepad
+                PlayerInput newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: gamepad);
+                newPlayer.transform.position = spawn.transform.position;
                 
-                //playerPrefab.GetComponent<PlayerInput>(). = playerUser;
+                // Ensure player setup remains consistent between lobby scene and main gameplay scene
+                PlayerManager.instance.players[spawnIndex].playerInput = newPlayer;
+                PlayerManager.instance.players[spawnIndex].playerColour = playerColours[spawnIndex];
+
+                // Add newPlayer to GameManager playerList
+                FindAnyObjectByType<GameManager>().AddPlayer(newPlayer.gameObject);
+
+                // Set Spawn point as occupied so other players don't spawn here
+                spawn.GetComponent<PlayerIndex>().isOccupied = true;
+                newPlayer.GetComponent<PlayerIndex>().playerIndex = spawnIndex;
+                
+                //Assign player colour & setup HUD
+                newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(spawnIndex);
+                newPlayer.GetComponent<PlayerHUD>().SetHUDColour(playerColours[spawnIndex]);
+                newPlayer.GetComponent<PlayerIndex>().playerIndex = spawnIndex;
 
                 joinedPlayers++;
                 PlayerManager.instance.JoinPlayer(gamepad);
@@ -132,7 +113,7 @@ public class LobbyManager : MonoBehaviour
     // Unassign the gamepad from its current slot
     void UnassignGamepadSlot(Gamepad gamepad)
     {
-        foreach (var playerPrefab in players)
+        foreach (var playerPrefab in playerSpawns)
         {
             if (playerPrefab.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
@@ -152,7 +133,7 @@ public class LobbyManager : MonoBehaviour
     // Check if this gamepad has already been assigned to another slot
     bool IsGamepadAssigned(Gamepad gamepad)
     {
-        foreach (var playerPrefab in players)
+        foreach (var playerPrefab in playerSpawns)
         {
             if (playerPrefab.GetComponent<PlayerInput>().GetDevice<Gamepad>() == gamepad)
             {
