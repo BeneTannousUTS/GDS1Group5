@@ -21,9 +21,7 @@ public enum CardType
 public enum CardRarity
 {
     Common,
-    Uncommon,
     Rare,
-    Epic,
     Legendary
 }
 
@@ -107,17 +105,6 @@ public class CardSelection : MonoBehaviour
             {
                 List<GameObject> remainingCards = cards
                 .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
-                .ToList();
-
-                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-            }
-        }
-        else if (roomNum == 2)
-        {
-            for (int j = 0; j < 4; ++j)
-            {
-                List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -507,38 +494,43 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        if (completion < 0.25f) // Early Game (First Quarter)
+        if (completion < 0.25f) // Early Game (0 - 25% completion)
         {
             float t = completion * 4f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.50f, 0.35f, t);
-                case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.40f, 0.35f, t);
+                    return Mathf.Lerp(1.0f, 0.80f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.10f, 0.30f, t);
+                    return Mathf.Lerp(0.00f, 0.20f, t);
                 default:
                     return 0f;
             }
         }
-        else // Late Game
+        else if (completion >= 0.25f && completion < 0.75f) // Mid Game (25% to 75% completion)
         {
             float t = (completion - 0.25f) * 4f / 3f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.30f, 0.00f, t);
-                case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.35f, 0.10f, t);
+                    return Mathf.Lerp(0.80f, 0.0f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.30f, 0.15f, t);
-                case CardRarity.Epic:
-                    return Mathf.Lerp(0.05f, 0.35f, t);
+                    return Mathf.Lerp(0.20f, 0.80f, t);
                 case CardRarity.Legendary:
-                    return Mathf.Lerp(0.00f, 0.40f, t);
+                    return Mathf.Lerp(0.00f, 0.20f, t);
+                default:
+                    return 0f;
+            }
+        } else // Late Game (75% - 100% completion)
+        {
+            switch (rarity)
+            {
+                case CardRarity.Rare:
+                    return 0.75f;
+                case CardRarity.Legendary:
+                    return 0.25f;
                 default:
                     return 0f;
             }
