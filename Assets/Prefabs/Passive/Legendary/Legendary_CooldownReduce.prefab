@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2081992107495565343}
   - component: {fileID: 2835848605395030507}
   m_Layer: 0
-  m_Name: StrengthUp
+  m_Name: Legendary_CooldownReduce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b486614c2db0a7e4b8daf9dd885776fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strengthMod: 20
+  strengthMod: 0
   moveMod: 0
   healthMod: 0
-  cooldownMultiplier: 0
+  cooldownMultiplier: 25
   lifestealMulitplier: 0
   knockbackMult: 0
   revivePlayer: 0

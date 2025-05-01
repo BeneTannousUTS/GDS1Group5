@@ -54,7 +54,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void showDesc()
     {
-        descriptionText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(1f,1f,1f,0.6f);
+        descriptionText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(1f,1f,1f,0.7f);
         descriptionText.GetComponent<TMP_Text>().text = card.cardDescription;
         descriptionText.SetActive(true);
     }
