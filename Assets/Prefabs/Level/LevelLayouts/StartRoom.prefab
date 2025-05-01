@@ -4669,7 +4669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &848111159505149156
 Transform:
   m_ObjectHideFlags: 0
@@ -4787,7 +4787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3373947338949189010
 Transform:
   m_ObjectHideFlags: 0
@@ -6644,7 +6644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5573018723179704006}
-  - component: {fileID: 5569297145760416506}
+  - component: {fileID: 3470940521727497525}
   m_Layer: 0
   m_Name: StartRoom
   m_TagString: Untagged
@@ -6675,7 +6675,7 @@ Transform:
   - {fileID: 829969519683319182}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5569297145760416506
+--- !u!114 &3470940521727497525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6684,7 +6684,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7987505193691443950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c0cc562092feb45a47eae87c3d626d, type: 3}
+  m_Script: {fileID: 11500000, guid: d9c69737248ba314ea52bbadd14f791d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 8343064876075026747}
@@ -6703,7 +6703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &829969519683319182
 Transform:
   m_ObjectHideFlags: 0
@@ -6741,7 +6741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8209086826236958988
 Transform:
   m_ObjectHideFlags: 0
@@ -6772,9 +6772,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -6962,9 +6982,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7174,9 +7214,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7240,9 +7300,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7306,9 +7386,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7466,9 +7566,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7532,9 +7652,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7598,9 +7738,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7726,9 +7886,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7792,9 +7972,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7858,9 +8058,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7924,9 +8144,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -7990,9 +8230,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8056,9 +8316,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8122,9 +8402,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8312,9 +8612,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8440,9 +8760,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8506,9 +8846,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8572,9 +8932,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8713,9 +9093,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8854,9 +9254,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 829969519683319182}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -8982,9 +9402,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9048,9 +9488,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9114,9 +9574,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9180,9 +9660,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3373947338949189010}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9321,9 +9821,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9387,9 +9907,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 848111159505149156}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
@@ -9453,9 +9993,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8209086826236958988}
     m_Modifications:
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039725486544950459, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: activeStart
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828068451555880168, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
+      propertyPath: startRoomCage
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3001577975093241167, guid: d6e177512cd164e4f8462b08a3f47062, type: 3}
       propertyPath: m_Name
