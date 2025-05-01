@@ -103,6 +103,10 @@ public class HealthComponent : MonoBehaviour
             if (damageValue < 0f)
             {
                 currentHealth = Math.Max(0, currentHealth - damageValue);
+                if (damageValue > -1000f)
+                {
+                    FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int) (damageValue * -1f)}", Color.green);
+                }
 
                 StartCoroutine(HealingFlash());
 
@@ -136,6 +140,7 @@ public class HealthComponent : MonoBehaviour
             else if (invincible == false)
             {
                 currentHealth = Math.Max(0, currentHealth - damageValue);
+                FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int) (damageValue)}", Color.red);
 
                 // this is a really scuffed way to determine if it is a player or not but it works
                 string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage";
