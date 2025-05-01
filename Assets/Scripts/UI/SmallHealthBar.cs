@@ -1,6 +1,7 @@
 //AUTHOR: BENEDICT
 //This script handles the small health bar that appears underneath players and enemies
 
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,6 +53,12 @@ public class SmallHealthBar : MonoBehaviour
 
     public void SetHealthBarText(float currentHealth, float maxHealth)
     {
+        if (healthText == null)
+        {
+            Debug.LogError($"Small Health Bar on the object {transform.name} does not have the healthText variable set PLEASE FIX ASAP.\n Abandoning Function...\n\n");
+            return;
+        }
+
         healthText.text = currentHealth.ToString("0") + "/" + maxHealth.ToString("0");
         if (currentHealth == maxHealth)
         {

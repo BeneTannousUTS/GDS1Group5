@@ -19,13 +19,11 @@ public class ConfirmCardHandler : BaseConfirmHandler
         base.Awake();
     }
 
-    public void SetupCard(string playerLabel, Sprite icon, Sprite oldAbility, Sprite newAbility, string yesChoice, string noChoice)
+    public void SetupCard(string playerLabel, Sprite icon, Sprite oldAbility, Sprite newAbility)
     {
         playerText.text = playerLabel;
         playerIcon.sprite = icon;
         prevCard.sprite = oldAbility;
         newCard.sprite = newAbility;
-        yesText.text = yesChoice;
-        noText.text = noChoice;
     }
 }

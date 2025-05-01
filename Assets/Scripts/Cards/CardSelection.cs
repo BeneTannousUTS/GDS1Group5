@@ -67,9 +67,7 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     GameObject traitorCanvasPrefab;
     [SerializeField]
-    GameObject damagePassiveCard;
-    [SerializeField]
-    GameObject cooldownPassiveCard;
+    GameObject[] healthCards;
     public SelectionState selectionState = SelectionState.InGame;
 
     void Awake()
@@ -419,11 +417,7 @@ public class CardSelection : MonoBehaviour
                         cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite,
-                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite,
-                        $"Swap to the {cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardName}.",
-                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                            $"Reject and increase damage." :
-                            $"Reject and reduced cooldowns."
+                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite
                     );
 
                     handlers.Add(confirmCardHandler);
@@ -435,9 +429,8 @@ public class CardSelection : MonoBehaviour
             {
                 if (cardHandler.confirmedChoice == false)
                 {
-                    cardList[selectedCards[cardHandler.playerIndex]] =
-                        cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                        damagePassiveCard : cooldownPassiveCard;
+                    Debug.Log($"Int: {(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity}");
+                    cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
                 }
             }
         }
