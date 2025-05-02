@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, IPressed
         }
     }
 
-    void OpenDoor()
+    public void OpenDoor()
     {
         if (active)
         {

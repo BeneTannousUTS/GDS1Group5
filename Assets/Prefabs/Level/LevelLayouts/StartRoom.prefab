@@ -6688,6 +6688,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 8343064876075026747}
+  doorPressurePlates: {fileID: 1387918496624396430}
+  doorDelayTime: 3
 --- !u!1 &8243296376544177268
 GameObject:
   m_ObjectHideFlags: 0
@@ -7070,7 +7072,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1591808994887906912, guid: 5fcdf46fc0b4a7348aacc7d94445a699, type: 3}
       propertyPath: switchActivated
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5523763238324338931, guid: 5fcdf46fc0b4a7348aacc7d94445a699, type: 3}
       propertyPath: m_LocalPosition.x

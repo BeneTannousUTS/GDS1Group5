@@ -44,4 +44,9 @@ public class PressurePlate : MonoBehaviour
             }
         }
     }
+
+    public bool GetSwitchActivated()
+    {
+        return switchActivated;
+    }
 }

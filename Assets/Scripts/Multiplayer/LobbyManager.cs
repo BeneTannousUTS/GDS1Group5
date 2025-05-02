@@ -16,7 +16,8 @@ public class LobbyManager : MonoBehaviour
     public GameObject[] playerSpawns;
     public Color[] playerColours;
     public AnimatorOverrideController[] playerAnimators;
-
+    
+    private GameObject[] spawnedPlayers;
     private int joinedPlayers;
     private readonly int maxPlayers = 4;
     private bool canStartGame;
@@ -31,7 +32,7 @@ public class LobbyManager : MonoBehaviour
         // Loop through all connected gamepads
         foreach (var gamepad in Gamepad.all)
             // Check if the player wants to join
-            if (gamepad.leftShoulder.wasPressedThisFrame && gamepad.rightShoulder.wasPressedThisFrame && !IsGamepadAssigned(gamepad))
+            if (gamepad.leftShoulder.isPressed && gamepad.rightShoulder.isPressed && !IsGamepadAssigned(gamepad))
             {
                 OnControlsChanged(gamepad);
                 SpawnLobbyPlayer(gamepad);
@@ -151,11 +152,10 @@ public class LobbyManager : MonoBehaviour
         return false;
     }
 
-
     private void StartGame()
     {
         if (!canStartGame) return;
-
+        
         SceneManager.LoadScene("GameScene");
     }
 

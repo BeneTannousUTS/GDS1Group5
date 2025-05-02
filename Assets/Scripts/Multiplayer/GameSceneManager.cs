@@ -9,10 +9,22 @@ public class GameSceneManager : MonoBehaviour
     public GameObject[] spawnPoints;
     public Color[] playerColours;
     public AnimatorOverrideController[] playerAnimators;
+    public GameManager GameManager;
         
     void Start()
     {
-        
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            GameManager.AddPlayer(player);
+            foreach (var spawn in spawnPoints)
+            {
+                if (player.GetComponent<PlayerIndex>().playerIndex == spawn.GetComponent<PlayerIndex>().playerIndex)
+                {
+                    player.transform.position = spawn.transform.position;
+                }
+            }
+            
+        }
     }
 
     void Update()
@@ -20,7 +32,7 @@ public class GameSceneManager : MonoBehaviour
         
     }
 
-    // Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
+    /*// Iterate over each player in the PlayerManager and Join each player into the game, setting HUD identifiers
     public void SpawnPlayers()
     {
         PlayerData[] players = PlayerManager.instance.players;
@@ -57,5 +69,5 @@ public class GameSceneManager : MonoBehaviour
                 Debug.Log($"Spawned Player {i + 1} with Gamepad: {players[i].gamepad.deviceId} at {transform.position}");
             }
         }
-    }
+    }*/
 }
