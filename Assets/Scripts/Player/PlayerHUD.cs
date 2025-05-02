@@ -24,6 +24,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void Start()
     {
+        EnsureHUD();
     }
 
     // Called every frame
@@ -148,6 +149,11 @@ public class PlayerHUD : MonoBehaviour
     {
         helper.statsHelper.StopCoroutine("FillStatsBar");
         helper.statsHelper.StartCoroutine("UnfillStatsBar");
+    }
+
+    public void DestroyHUD()
+    {
+        Destroy(hud);
     }
 
     public UIComponentHelper GetUIComponentHelper()

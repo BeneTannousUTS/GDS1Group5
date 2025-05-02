@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour, IPressed
 {
@@ -32,7 +33,7 @@ public class Door : MonoBehaviour, IPressed
         }
     }
 
-    void OpenDoor()
+    public void OpenDoor()
     {
         if (active)
         {
@@ -52,7 +53,7 @@ public class Door : MonoBehaviour, IPressed
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (switchActivated)
+        if (!switchActivated || !SceneManager.GetActiveScene().name.Equals("GameLobby"))
         {
             playerCount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
             if (normalDoor)
