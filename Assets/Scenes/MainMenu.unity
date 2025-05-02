@@ -3458,7 +3458,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 5353717443240134672}
+    m_SelectOnDown: {fileID: 7368709420076783774}
     m_SelectOnLeft: {fileID: 9105859678828218982}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -5334,13 +5334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746e690a6162148f7aff92926e056e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioTabButton: {fileID: 0}
-  visualTabButton: {fileID: 0}
+  audioTabButton: {fileID: 9105859678828218982}
+  visualTabButton: {fileID: 1285886650948780990}
   masterVolumeSlider: {fileID: 7368709420076783774}
   musicVolumeSlider: {fileID: 4822116152960335529}
   effectVolumeSlider: {fileID: 5500024134757783169}
   windowModeDropdown: {fileID: 5353717443240134672}
   backButton: {fileID: 6415218026969629978}
+  confirmQuitPrefab: {fileID: 0}
 --- !u!224 &5343951493499847424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6175,10 +6176,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 9105859678828218982}
+    m_SelectOnDown: {fileID: 4822116152960335529}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1

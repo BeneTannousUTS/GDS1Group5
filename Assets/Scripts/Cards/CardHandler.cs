@@ -41,19 +41,20 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void showNameAsType()
     {
-        nameText.GetComponent<TMP_Text>().text = "New " + "\n" + card.cardType.ToString();
+        nameText.GetComponent<TMP_Text>().text = card.cardType.ToString();
         nameText.SetActive(true);
     }
 
     public void showNameAsCard()
     {
-        nameText.GetComponent<TMP_Text>().color = new Vector4(1,1,1,1);
+        nameText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity);
         nameText.GetComponent<TMP_Text>().text = card.cardName;
         nameText.SetActive(true);
     }
 
     public void showDesc()
     {
+        descriptionText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(1f,1f,1f,0.7f);
         descriptionText.GetComponent<TMP_Text>().text = card.cardDescription;
         descriptionText.SetActive(true);
     }
@@ -63,6 +64,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
         card.cardFrontSprite = traitorSprite;
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
         card.cardType = CardType.Passive;
+        card.cardRarity = CardRarity.Traitor;
         card.abilityObject = null;
         card.cardName = "Traitor";
         card.cardDescription = "You are a traitor...";
@@ -72,6 +74,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         card.cardName = replacementCard.cardName;
         card.cardType = replacementCard.cardType;
+        card.cardRarity = replacementCard.cardRarity;
         card.cardDescription = replacementCard.cardDescription;
         card.cardFrontSprite = replacementCard.cardFrontSprite;
         card.abilityObject = replacementCard.abilityObject;

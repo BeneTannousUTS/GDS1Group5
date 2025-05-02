@@ -21,10 +21,9 @@ public enum CardType
 public enum CardRarity
 {
     Common,
-    Uncommon,
     Rare,
-    Epic,
-    Legendary
+    Legendary,
+    Traitor
 }
 
 public enum SelectionState
@@ -68,9 +67,7 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     GameObject traitorCanvasPrefab;
     [SerializeField]
-    GameObject damagePassiveCard;
-    [SerializeField]
-    GameObject cooldownPassiveCard;
+    GameObject[] healthCards;
     public SelectionState selectionState = SelectionState.InGame;
 
     void Awake()
@@ -107,17 +104,6 @@ public class CardSelection : MonoBehaviour
             {
                 List<GameObject> remainingCards = cards
                 .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
-                .ToList();
-
-                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-            }
-        }
-        else if (roomNum == 2)
-        {
-            for (int j = 0; j < 4; ++j)
-            {
-                List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -404,7 +390,7 @@ public class CardSelection : MonoBehaviour
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
 
-        if (roomNum >= 3)
+        if (roomNum >= 2)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
@@ -431,11 +417,7 @@ public class CardSelection : MonoBehaviour
                         cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite,
-                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite,
-                        $"Swap to the {cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardName}.",
-                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                            $"Reject and increase damage." :
-                            $"Reject and reduced cooldowns."
+                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite
                     );
 
                     handlers.Add(confirmCardHandler);
@@ -447,9 +429,8 @@ public class CardSelection : MonoBehaviour
             {
                 if (cardHandler.confirmedChoice == false)
                 {
-                    cardList[selectedCards[cardHandler.playerIndex]] =
-                        cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
-                        damagePassiveCard : cooldownPassiveCard;
+                    Debug.Log($"Int: {(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity}");
+                    cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
                 }
             }
         }
@@ -507,38 +488,43 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        if (completion < 0.25f) // Early Game (First Quarter)
+        if (completion < 0.25f) // Early Game (0 - 25% completion)
         {
             float t = completion * 4f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.50f, 0.35f, t);
-                case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.40f, 0.35f, t);
+                    return Mathf.Lerp(1.0f, 0.80f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.10f, 0.30f, t);
+                    return Mathf.Lerp(0.00f, 0.20f, t);
                 default:
                     return 0f;
             }
         }
-        else // Late Game
+        else if (completion >= 0.25f && completion < 0.75f) // Mid Game (25% to 75% completion)
         {
             float t = (completion - 0.25f) * 4f / 3f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.30f, 0.00f, t);
-                case CardRarity.Uncommon:
-                    return Mathf.Lerp(0.35f, 0.10f, t);
+                    return Mathf.Lerp(0.80f, 0.0f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.30f, 0.15f, t);
-                case CardRarity.Epic:
-                    return Mathf.Lerp(0.05f, 0.35f, t);
+                    return Mathf.Lerp(0.20f, 0.80f, t);
                 case CardRarity.Legendary:
-                    return Mathf.Lerp(0.00f, 0.40f, t);
+                    return Mathf.Lerp(0.00f, 0.20f, t);
+                default:
+                    return 0f;
+            }
+        } else // Late Game (75% - 100% completion)
+        {
+            switch (rarity)
+            {
+                case CardRarity.Rare:
+                    return 0.75f;
+                case CardRarity.Legendary:
+                    return 0.25f;
                 default:
                     return 0f;
             }
@@ -570,6 +556,21 @@ public class CardSelection : MonoBehaviour
         }
 
         return cardPool[0].GetComponent<Card>(); // fallback
+    }
+
+    public Color GetColourFromRarity(CardRarity rarity)
+    {
+        switch (rarity)
+        {
+            case CardRarity.Rare:
+                return new Vector4(0f,0.9f,1f,1f);
+            case CardRarity.Legendary:
+                return new Vector4(1f,0.85f,0f,1f);
+            case CardRarity.Traitor:
+                return Color.red;
+            default:
+                return Color.white;
+        }
     }
 
     #endregion
