@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
                 allDead = false;
                 break;
             }
-            else if (player.CompareTag("Traitor"))
+            else if (player.CompareTag("Traitor") && player.activeSelf)
             {
                 isTraitor = true;
             }

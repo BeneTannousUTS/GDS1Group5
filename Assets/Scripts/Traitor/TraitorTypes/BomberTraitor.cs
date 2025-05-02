@@ -6,23 +6,23 @@ using UnityEngine;
 public class BomberTraitor : BaseTraitor
 {
     List<GameObject> playerList = new List<GameObject>();
-    private GameObject passive;
+    public GameObject passive;
     private GameObject bomb;
     public override void TraitorAbility()
     {
         gameObject.GetComponent<PlayerStats>().SetPassive(passive);
-        gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(10f, passive);
+        gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(5, passive);
         StartCoroutine(DropBombs());
     }
 
     IEnumerator DropBombs()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject tempSecondary = Instantiate(bomb, transform.position, Quaternion.identity);
             tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
             tempSecondary.GetComponent<SecondaryStats>().SetSourceObject(gameObject);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -43,7 +43,7 @@ public class BomberTraitor : BaseTraitor
     {
         Revive();
         traitorManager = FindAnyObjectByType<TraitorManager>();
-        cooldownLength = 12;
+        cooldownLength = 8;
         traitorSprite = traitorManager.GetCardRef(0);
         passive = traitorManager.GetObjectRef(5);
         bomb = traitorManager.GetObjectRef(6);

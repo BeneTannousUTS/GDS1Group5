@@ -75,6 +75,7 @@ public class HealthComponent : MonoBehaviour
         if (gameObject.CompareTag("Traitor") == true)
         {
             gameObject.GetComponent<BaseTraitor>().LoseCondition();
+            GameObject.FindWithTag("GameManager").GetComponent<GameManager>().CheckGameState();
         }
         else if (gameObject.CompareTag("Destructible"))
         {
