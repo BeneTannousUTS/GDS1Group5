@@ -114,6 +114,11 @@ public class PlayerAttack : MonoBehaviour
         return Quaternion.Euler(0f, 0f, angle);
     }
 
+    public bool GetHoldingAttack() 
+    {
+        return attackBufferTimer < 0.05f && currentWeapon.GetComponent<WeaponStats>().GetStrafe() && gameObject.GetComponent<HealthComponent>().GetIsDead() == false;
+    }
+
     // Updates timers by deltaTime
     void UpdateTimers(float timeIncrease)
     {

@@ -157,7 +157,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 2
 --- !u!114 &3149719593821571335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +176,7 @@ MonoBehaviour:
   knockbackStrength: 0.9
   knockbackTime: 0.1
   friendlyFire: 1
+  charge: 0
   projectile: {fileID: 0}
 --- !u!95 &6636627357427205926
 Animator:

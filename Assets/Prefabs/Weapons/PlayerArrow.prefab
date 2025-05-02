@@ -105,6 +105,8 @@ MonoBehaviour:
   moveSpeed: 10
   knockbackStrength: 0.7
   knockbackTime: 0.1
+  comeBack: 0
+  comeBackWindow: 0.5
 --- !u!50 &-7366011515478736965
 Rigidbody2D:
   serializedVersion: 5
@@ -166,7 +168,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.009365559, y: 0}
+  m_Offset: {x: -0.00927639, y: -0.055918217}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -176,5 +178,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8533592, y: 1.68}
+  m_Size: {x: 0.6259289, y: 1.530844}
   m_EdgeRadius: 0
