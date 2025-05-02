@@ -17,6 +17,7 @@ public class WeaponStats : MonoBehaviour
     public float knockbackTime = 0.1f;
     public bool friendlyFire;
     public bool charge = false;
+    public bool canStrafe = false;
     public GameObject projectile;
 
     // Sets the value of sourceType
@@ -55,6 +56,11 @@ public class WeaponStats : MonoBehaviour
     public bool GetCharge() 
     {
         return charge;
+    }
+
+    public bool GetStrafe() 
+    {
+        return canStrafe;
     }
 
     // Deals damage to a specified HealthComponent
