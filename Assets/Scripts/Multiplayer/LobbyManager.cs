@@ -5,6 +5,7 @@
 
 using System;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Switch;
@@ -13,9 +14,10 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
-    public GameObject[] playerSpawns;
-    public Color[] playerColours;
-    public AnimatorOverrideController[] playerAnimators;
+    [SerializeField] GameObject[] playerSpawns;
+    [SerializeField] Color[] playerColours;
+    [SerializeField] AnimatorOverrideController[] playerAnimators;
+    
     
     private GameObject[] spawnedPlayers;
     private int joinedPlayers;
