@@ -10,7 +10,7 @@ public class EnemyPathfinder : MonoBehaviour
     [SerializeField] private List<GameObject> playerList = new List<GameObject>();
 
     // Fill playerList with all players in the scene
-    void Start()
+    void Awake()
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {

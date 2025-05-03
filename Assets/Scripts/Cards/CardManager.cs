@@ -4,6 +4,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 
 public class CardManager : MonoBehaviour
 {
@@ -80,7 +81,15 @@ public class CardManager : MonoBehaviour
     public void ResumeGameplay(int[] selectionOrder, GameObject[] cardList)
     {
         Destroy(cardCanvas);
-        lastDunCam.RoomChangeTime();
+        if (lastDunCam != null)
+        {
+            lastDunCam.RoomChangeTime();
+        }
+        else
+        {
+            ShowPlayers();
+            FindAnyObjectByType<DungeonBuilder>().GetSpawnedRooms()[0].SetActive(true);
+        }
         lastDunCam = null;
 
         GameObject[] players = new GameObject[4];

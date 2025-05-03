@@ -8,8 +8,10 @@ public class SpikeHazard : Hazards, IPressed
     [SerializeField] float spikeOffset;
     [SerializeField] Animator animator;
     [SerializeField] float waitTime = 0;
+    [SerializeField] bool startRoomCage;
     private float amountPressed;
     private bool active;
+    private Collider2D collider;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,12 +22,13 @@ public class SpikeHazard : Hazards, IPressed
         {
             ActivateSpikes();
         }
+        collider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!switchActivated)
+        if (!switchActivated && !startRoomCage)
         {
             Attack();
         }

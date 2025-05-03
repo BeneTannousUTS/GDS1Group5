@@ -3,23 +3,33 @@ using UnityEngine;
 public class DoorPressurePlate : MonoBehaviour
 {
     [SerializeField] GameObject[] plates;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void ActivePlates(int num)
+    
+    public int CountActivePlates()
     {
-        for (int i = num; i < plates.Length; i++)
+        int count = 0;
+        foreach (GameObject plate in plates)
         {
-            plates[i].SetActive(false);
+            if (plate.TryGetComponent<PressurePlate>(out var pressurePlate))
+            {
+                if (pressurePlate.GetSwitchActivated())
+                    count++;
+            }
         }
+        return count;
     }
     
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ActivePlates(FindAnyObjectByType<GameManager>().GetPlayerList().Count);
+        //ActivePlates(FindAnyObjectByType<GameManager>().GetPlayerList().Count);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    void CheckShouldDoorOpen(int activePlayers)
+    {
     }
 }

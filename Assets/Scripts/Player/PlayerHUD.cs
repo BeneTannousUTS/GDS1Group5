@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerHUD : MonoBehaviour
 
     private void Start()
     {
+        EnsureHUD();
     }
 
     // Called every frame
@@ -125,6 +127,8 @@ public class PlayerHUD : MonoBehaviour
         {
             hud = Instantiate(playerHUDPrefab, GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform, false);
             helper = hud.GetComponentInChildren<UIComponentHelper>();
+            GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform.GetComponent<LobbyHudHelper>().DeactivateJoinPanel(gameObject.GetComponent<PlayerIndex>().playerIndex);
+            hud.transform.SetSiblingIndex(gameObject.GetComponent<PlayerIndex>().playerIndex + 1);
         }
     }
 
@@ -148,6 +152,11 @@ public class PlayerHUD : MonoBehaviour
     {
         helper.statsHelper.StopCoroutine("FillStatsBar");
         helper.statsHelper.StartCoroutine("UnfillStatsBar");
+    }
+
+    public void DestroyHUD()
+    {
+        Destroy(hud);
     }
 
     public UIComponentHelper GetUIComponentHelper()
