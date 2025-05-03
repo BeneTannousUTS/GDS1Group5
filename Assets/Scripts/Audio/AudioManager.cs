@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource menuThemeSource;
     private AudioSource mainThemeSource;
     private AudioSource traitorThemeSource;
-    private AudioSource bossThemeSource;
+    private AudioSource resultsThemeSource;
 
     // Sound Effect Dictionary
     [System.Serializable]
@@ -71,9 +71,7 @@ public class AudioManager : MonoBehaviour
         menuThemeSource = audioSources[0];
         mainThemeSource = audioSources[1];
         traitorThemeSource = audioSources[2];
-        bossThemeSource = audioSources[3];
-
-        PlayMainTheme(); // THIS IS ONLY TEMP I WANT THE GAME MANAGER TO CALL THE PLAY THEME.
+        resultsThemeSource = audioSources[3];
     }
 
     public void OptionsUpdated()
@@ -81,11 +79,12 @@ public class AudioManager : MonoBehaviour
         menuThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         mainThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         traitorThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
-        bossThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
+        resultsThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
     }
 
     public void PlayMenuTheme()
     {
+        StopBGM();
         if (menuThemeSource.resource == null)
         {
             Debug.LogWarning("The track for 'Menu Theme' is yet to be added to the audio source");
@@ -97,6 +96,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMainTheme()
     {
+        StopBGM();
         if (mainThemeSource.resource == null)
         {
             Debug.LogWarning("The track for 'Main Theme' is yet to be added to the audio source");
@@ -108,6 +108,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayTraitorTheme()
     {
+        StopBGM();
         if (traitorThemeSource.resource == null)
         {
             Debug.LogWarning("The track for 'Traitor Theme' is yet to be added to the audio source");
@@ -117,15 +118,16 @@ public class AudioManager : MonoBehaviour
         traitorThemeSource.Play();
     }
 
-    public void PlayBossTheme()
+    public void PlayResultsTheme()
     {
-        if (bossThemeSource.resource == null)
+        StopBGM();
+        if (resultsThemeSource.resource == null)
         {
-            Debug.LogWarning("The track for 'Boss Theme' is yet to be added to the audio source");
+            Debug.LogWarning("The track for 'Results Theme' is yet to be added to the audio source");
         }
 
-        bossThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
-        bossThemeSource.Play();
+        resultsThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
+        resultsThemeSource.Play();
     }
 
     public void PlaySoundEffect(string soundEffectName)
@@ -167,6 +169,14 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(DestroyAudioSource(soundJingleSource, 7.5f));
     }
 
+    public void StopBGM()
+    {
+        if (menuThemeSource)    menuThemeSource.Stop();
+        if (mainThemeSource)    mainThemeSource.Stop();
+        if (traitorThemeSource) traitorThemeSource.Stop();
+        if (resultsThemeSource) resultsThemeSource.Stop();
+    }
+
     IEnumerator DestroyAudioSource(AudioSource audioSource, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -182,8 +192,8 @@ public class AudioManager : MonoBehaviour
             currentTheme = mainThemeSource;
         else if (traitorThemeSource.isPlaying)
             currentTheme = traitorThemeSource;
-        else if (bossThemeSource.isPlaying)
-            currentTheme = bossThemeSource;
+        else if (resultsThemeSource.isPlaying)
+            currentTheme = resultsThemeSource;
 
         if (currentTheme == null)
         {
