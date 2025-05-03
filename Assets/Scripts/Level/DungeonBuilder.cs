@@ -20,7 +20,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject finalRoom;
     private int numberRooms;
     List<GameObject> allRooms = new List<GameObject>();
-    [SerializeField] private int currentRoom = 1;
+    [SerializeField] private int currentRoom = 0;
     private GameObject[] spawnedRooms;
     private DungeonManager dManager;
     public int roomsCleared = 0;
@@ -108,6 +108,10 @@ public class DungeonBuilder : MonoBehaviour
         spawnedRooms[pos] = Instantiate(newRoom);
         spawnedRooms[pos].transform.position += new Vector3(0, 18 * pos, 0);
         spawnedRooms[pos].SetActive(false);
+        if (pos == 0)
+        {
+            spawnedRooms[pos].SetActive(true);
+        }
         return newRoom;
     }
 
@@ -120,12 +124,12 @@ public class DungeonBuilder : MonoBehaviour
     //Instantiates rooms based on the set roomCount, always ending with the final room
     void GenerateRooms()
     {
-        spawnedRooms[0] = Instantiate(startRoom);
-        int middle = Random.Range(6, 7);
+        //spawnedRooms[0] = Instantiate(startRoom);
+        int middle = Random.Range(5, 7);
         GameObject previousRoom = startRoom;
         while (currentRoom < numberRooms - 1)
         {
-            if (currentRoom <= 3)
+            if (currentRoom <= 2)
             {
                 previousRoom = SpawnRooms(EarlyRooms, currentRoom, previousRoom);
             }
