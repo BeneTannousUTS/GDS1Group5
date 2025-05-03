@@ -272,7 +272,18 @@
                 {
                     "name": "",
                     "id": "de0458c2-58ae-4a21-9e3d-4f10196ce14e",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e181d894-1583-432a-80e2-c45616163dbf",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -284,6 +295,17 @@
                     "name": "",
                     "id": "541835d7-7a7d-468f-a4f4-cd0b8753bd31",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68fc615d-5478-411b-804e-8b7032fb1482",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -466,28 +488,5 @@
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "New Control Scheme",
-            "bindingGroup": "New Control Scheme",
-            "devices": [
-                {
-                    "devicePath": "<Gamepad>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "SwitchProCon",
-            "bindingGroup": "SwitchProCon",
-            "devices": [
-                {
-                    "devicePath": "<SwitchProControllerHID>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }

@@ -358,7 +358,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""de0458c2-58ae-4a21-9e3d-4f10196ce14e"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e181d894-1583-432a-80e2-c45616163dbf"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -370,6 +381,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""541835d7-7a7d-468f-a4f4-cd0b8753bd31"",
                     ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68fc615d-5478-411b-804e-8b7032fb1482"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -552,30 +574,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": [
-        {
-            ""name"": ""New Control Scheme"",
-            ""bindingGroup"": ""New Control Scheme"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Gamepad>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""SwitchProCon"",
-            ""bindingGroup"": ""SwitchProCon"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<SwitchProControllerHID>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        }
-    ]
+    ""controlSchemes"": []
 }");
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
@@ -1448,32 +1447,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="MetaActions" /> instance referencing this action map.
     /// </summary>
     public MetaActions @Meta => new MetaActions(this);
-    private int m_NewControlSchemeSchemeIndex = -1;
-    /// <summary>
-    /// Provides access to the input control scheme.
-    /// </summary>
-    /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
-    public InputControlScheme NewControlSchemeScheme
-    {
-        get
-        {
-            if (m_NewControlSchemeSchemeIndex == -1) m_NewControlSchemeSchemeIndex = asset.FindControlSchemeIndex("New Control Scheme");
-            return asset.controlSchemes[m_NewControlSchemeSchemeIndex];
-        }
-    }
-    private int m_SwitchProConSchemeIndex = -1;
-    /// <summary>
-    /// Provides access to the input control scheme.
-    /// </summary>
-    /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
-    public InputControlScheme SwitchProConScheme
-    {
-        get
-        {
-            if (m_SwitchProConSchemeIndex == -1) m_SwitchProConSchemeIndex = asset.FindControlSchemeIndex("SwitchProCon");
-            return asset.controlSchemes[m_SwitchProConSchemeIndex];
-        }
-    }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Menu" which allows adding and removing callbacks.
     /// </summary>
