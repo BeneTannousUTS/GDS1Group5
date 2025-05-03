@@ -222,8 +222,11 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator Teleport() 
     {
         teleporting = true;
+
         Instantiate(teleportParticles, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.3f);
+        animator.SetTrigger("teleport");
+        yield return new WaitForSeconds(0.2f);
         Vector3 summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
         bool validPos = false;
         float exitTime = 0;
