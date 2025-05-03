@@ -147,6 +147,7 @@ public class DungeonBuilder : MonoBehaviour
         spawnedRooms[currentRoom].transform.position += new Vector3(0, 18 * currentRoom, 0);
         spawnedRooms[currentRoom].SetActive(false);
         currentRoom = 0;
+        spawnedRooms[currentRoom].SetActive(false);
     }
     //Activates rooms when the player reaches the end of the prior room (called upon by DungeonCamera)
     public void ActivateRooms(int position)

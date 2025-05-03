@@ -391,7 +391,7 @@ public class CardSelection : MonoBehaviour
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
 
-        if (roomNum >= 2)
+        if (roomNum >= 1)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();

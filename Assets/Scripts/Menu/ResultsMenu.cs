@@ -9,6 +9,9 @@ public class ResultsMenu : MonoBehaviour
     void Start()
     {
         FindAnyObjectByType<ResultsManager>().OnSceneLoaded();
+        Destroy(GameObject.Find("PlayerHUDCanvas"));
+        Destroy(GameObject.Find("ConfirmManager"));
+        
     }
 
     public void ResetResults() {

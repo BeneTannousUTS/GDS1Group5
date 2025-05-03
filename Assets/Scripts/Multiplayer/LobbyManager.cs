@@ -27,6 +27,14 @@ public class LobbyManager : MonoBehaviour
     private void Update()
     {
         CheckControllerInput();
+        
+        if (playerSpawns[0].GetComponent<PlayerIndex>().isOccupied &&
+            (playerSpawns[1].GetComponent<PlayerIndex>().isOccupied ||
+             playerSpawns[2].GetComponent<PlayerIndex>().isOccupied ||
+             playerSpawns[3].GetComponent<PlayerIndex>().isOccupied))
+            canStartGame = true;
+        else
+            canStartGame = false;
     }
 
     private void CheckControllerInput()
@@ -36,13 +44,13 @@ public class LobbyManager : MonoBehaviour
             // Check if the player wants to join
             if (gamepad.leftShoulder.isPressed && gamepad.rightShoulder.isPressed && !IsGamepadAssigned(gamepad))
             {
-                OnControlsChanged(gamepad);
+                //OnControlsChanged(gamepad);
                 SpawnLobbyPlayer(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.selectButton.wasPressedThisFrame && IsGamepadAssigned(gamepad))
             {
-                OnControlsChanged(gamepad);
+                //OnControlsChanged(gamepad);
                 DespawnLobbyPlayer(gamepad);
             }
             // Check if the first player wants to start the game
@@ -55,14 +63,6 @@ public class LobbyManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
             if (PlayerManager.instance.players[0].isJoined)
                 SpawnLobbyPlayer(PlayerManager.instance.players[0].gamepad);
-
-        if (playerSpawns[0].GetComponent<PlayerIndex>().isOccupied &&
-            (playerSpawns[1].GetComponent<PlayerIndex>().isOccupied ||
-             playerSpawns[2].GetComponent<PlayerIndex>().isOccupied ||
-             playerSpawns[3].GetComponent<PlayerIndex>().isOccupied))
-            canStartGame = true;
-        else
-            canStartGame = false;
     }
 
     // Assign the gamepad to the first available player
@@ -93,6 +93,9 @@ public class LobbyManager : MonoBehaviour
                 // Set Spawn point as occupied so other players don't spawn here
                 spawn.GetComponent<PlayerIndex>().SetOccupied(true);
                 newPlayer.GetComponent<PlayerIndex>().playerIndex = spawnIndex;
+                
+                // Hide Spawn point sprite so it looks like player has risen
+                spawn.SetActive(false);
 
                 //Assign player colour & setup HUD element
                 newPlayer.GetComponent<PlayerHUD>().SetPlayerNum(spawnIndex);
@@ -123,12 +126,14 @@ public class LobbyManager : MonoBehaviour
             {
                 // Update slot state
                 player.GetComponent<PlayerHUD>().DestroyHUD();
+                GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform.GetComponent<LobbyHudHelper>().ReactivateJoinPanel(player.GetComponent<PlayerIndex>().playerIndex);
                 foreach (var spawn in playerSpawns)
                 {
-                    if(spawn.GetComponent<PlayerIndex>().playerIndex == player.GetComponent<PlayerIndex>().playerIndex)
+                    if(player.GetComponent<PlayerIndex>().playerIndex == spawn.GetComponent<PlayerIndex>().playerIndex)
                     {
                         spawn.transform.position = player.transform.position;
                         spawn.GetComponent<PlayerIndex>().isOccupied = false;
+                        spawn.SetActive(true);
                     }
                 }
                 
@@ -154,7 +159,7 @@ public class LobbyManager : MonoBehaviour
         return false;
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         if (!canStartGame) return;
         
@@ -162,15 +167,15 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
-    private void OnControlsChanged(Gamepad gamepad)
-    {
-        if (gamepad is SwitchProControllerHID)
-            foreach (var item in Gamepad.all)
-                if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
-                {
-                    Debug.Log(
-                        $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
-                    InputSystem.DisableDevice(item);
-                }
-    }
+    // private void OnControlsChanged(Gamepad gamepad)
+    // {
+    //     if (gamepad is SwitchProControllerHID)
+    //         foreach (var item in Gamepad.all)
+    //             if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
+    //             {
+    //                 Debug.Log(
+    //                     $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
+    //                 InputSystem.DisableDevice(item);
+    //             }
+    // }
 }

@@ -11,7 +11,7 @@ public class GameSceneManager : MonoBehaviour
     public AnimatorOverrideController[] playerAnimators;
     public GameManager GameManager;
         
-    void Start()
+    void Awake()
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {

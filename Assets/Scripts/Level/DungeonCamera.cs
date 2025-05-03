@@ -80,4 +80,15 @@ public class DungeonCamera : MonoBehaviour
             LoadCardScene();
         }
     }
+
+    public EnemyPathfinder GetPathfinder()
+    {
+        return ePath;
+    }
+
+    public void ReinitializeComponents()
+    {
+        dungeonBuild = FindAnyObjectByType<DungeonBuilder>();
+        ePath = FindAnyObjectByType<EnemyPathfinder>();
+    }
 }

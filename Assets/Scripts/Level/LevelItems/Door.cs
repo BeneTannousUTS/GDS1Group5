@@ -55,7 +55,7 @@ public class Door : MonoBehaviour, IPressed
     {
         if (!switchActivated || !SceneManager.GetActiveScene().name.Equals("GameLobby"))
         {
-            playerCount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
+//            playerCount = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
             if (normalDoor)
             {
                 playerCount = doorUnlockCount;

@@ -161,6 +161,8 @@ public class ResultsManager : MonoBehaviour
             leaderSlotHandler.accoladeTitle.text = accolade.title;
             leaderSlotHandler.accoladeText.text = accolade.body;
         }
+        
+        Destroy(GameObject.Find("PlayerHUDCanvas"));
 
         yield return new WaitForSeconds(5f);
 

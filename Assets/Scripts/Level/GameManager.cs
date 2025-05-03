@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -84,6 +86,12 @@ public class GameManager : MonoBehaviour
     {
         DecideTraitor();
         FindAnyObjectByType<AudioManager>().PlayMainTheme();
+    }
+
+    private void Awake()
+    {
+        DecideTraitor();
+        ShowCardSelection(null);
     }
 
     public void CheckGameState() 
