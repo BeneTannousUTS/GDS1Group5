@@ -85,8 +85,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -7255536306395488613, guid: 09af5e80de3f70a4d89d335afd3d8c94, type: 3}
-  m_Color: {r: 0.50672436, g: 0, b: 1, a: 1}
+  m_Sprite: {fileID: 6807628823608999858, guid: eee13c59d7318ba4d802060c1b4f81c6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,7 +134,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 2, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46695f94ff0a4cd47afd9a4748e44aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 4087922522623041382, guid: 6626fec86a2b4544da7a29c6c2572df0, type: 3}
+  currentWeapon: {fileID: 2222503389743319804, guid: 3a8b29d38cfb12949a0002ddd1f4c32f, type: 3}
   warningUI: {fileID: 7538071546904103869, guid: e4a10962800aa9b439246e89be2073bb, type: 3}
   attackCooldownWindow: 2
 --- !u!114 &220882831458139215
@@ -241,7 +241,7 @@ Animator:
   m_GameObject: {fileID: 7629803943431966515}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 41e6254ab76cef14597771083b8a1003, type: 2}
+  m_Controller: {fileID: 9100000, guid: 57666451d4c7d36479a3131263aae439, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
