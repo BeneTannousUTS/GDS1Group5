@@ -15,6 +15,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] GameObject[] EarlyRooms;
     [SerializeField] GameObject[] MiddleRooms;
     [SerializeField] GameObject[] LateRooms;
+    [SerializeField] GameObject[] FinalRooms;
     [SerializeField] GameObject startRoom;
     [SerializeField] GameObject finalRoom;
     private int numberRooms;
@@ -182,13 +183,18 @@ public class DungeonBuilder : MonoBehaviour
         }
     }
 
-    void Start()
+    public void FinalRoomSelect(int i)
     {
         dManager = gameObject.GetComponent<DungeonManager>();
         numberRooms = dManager.GetDungeonLength();
         spawnedRooms = new GameObject[numberRooms + 1];
+        finalRoom = FinalRooms[i];
         GenerateRooms();
         AllRooms();
+    }
+
+    void Start()
+    {
     }
 
     void Update()
