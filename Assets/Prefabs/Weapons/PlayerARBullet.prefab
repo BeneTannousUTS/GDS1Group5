@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 30
   knockbackStrength: 0
-  knockbackTime: 0.1
+  knockbackTime: 0
   comeBack: 0
   comeBackWindow: 0.5
 --- !u!50 &8802884486725929291
@@ -164,7 +164,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

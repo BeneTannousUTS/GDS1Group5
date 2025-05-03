@@ -55,6 +55,7 @@ public class PolymorthTraitor : BaseTraitor
         traitorSprite = traitorManager.GetCardRef(0);
         polyProjectile = traitorManager.GetObjectRef(7);
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(10);
         TraitorSetup();
     }
 

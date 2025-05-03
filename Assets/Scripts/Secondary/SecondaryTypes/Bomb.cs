@@ -11,6 +11,7 @@ public class Bomb : MonoBehaviour, ISecondary
 
     public void DoSecondary()
     {
+        gameObject.GetComponent<Animator>().SetTrigger("explode");
         gameObject.GetComponent<Explosion>().SpawnExplosion();
     }
 }

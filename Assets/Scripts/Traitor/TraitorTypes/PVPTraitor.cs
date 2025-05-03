@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PVPTraitor : BaseTraitor
@@ -29,6 +30,15 @@ public class PVPTraitor : BaseTraitor
         gameObject.SetActive(false);
     }
 
+    void ChangeAnim()
+    {
+        List<GameObject> playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        for (int i = 0; i < playerList.Count; i++)
+        {
+            playerList[i].gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(i);
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,6 +46,7 @@ public class PVPTraitor : BaseTraitor
         traitorManager = FindAnyObjectByType<TraitorManager>();
         cooldownLength = 10;
         passive = traitorManager.GetObjectRef(1);
+        ChangeAnim();
         TraitorSetup();
     }
 

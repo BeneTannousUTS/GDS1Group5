@@ -171,7 +171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0, y: 1.07}
   m_SizeDelta: {x: 1, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8342482435480572162
@@ -342,7 +342,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.19183946, y: -0.17762893}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -352,7 +352,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.7247272, y: 1.5826234}
   m_EdgeRadius: 0
 --- !u!50 &9095967801162730312
 Rigidbody2D:
@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46695f94ff0a4cd47afd9a4748e44aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 4882847367248088821, guid: f7b73570daf833745bde2152bc05075b, type: 3}
+  currentWeapon: {fileID: 4990094031203925482, guid: bae688214b60f9447a8835dbcafeb382, type: 3}
   warningUI: {fileID: 7538071546904103869, guid: e4a10962800aa9b439246e89be2073bb, type: 3}
   attackCooldownWindow: 2
 --- !u!114 &2469055906169214418
@@ -439,9 +439,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
-  invicibilityFrameTime: 0.2
-  currentHealth: 0
-  healParticles: {fileID: 0}
+  invicibilityFrameTime: 0.1
+  currentHealth: 30
+  healParticles: {fileID: 8730505031937385877, guid: 6a5a9dfa45bbacb4faed79da873a2a11, type: 3}
   flashDuration: 0.25
 --- !u!95 &8459357806636509293
 Animator:
@@ -453,7 +453,7 @@ Animator:
   m_GameObject: {fileID: 7408166887036550952}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cf2748ec3a252b94fa1c9129f03cd0e3, type: 2}
+  m_Controller: {fileID: 9100000, guid: f4c48b9058d788f40b31959eac955719, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -477,8 +477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a4fc99fbbff4c4d8509f28c0800cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
-  healthText: {fileID: 0}
+  healthBar: {fileID: 2797601905537608589}
+  healthText: {fileID: 8537728561668583778}
 --- !u!1 &7493189771858827447
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.2}
+  m_AnchoredPosition: {x: -0.22, y: 0.26}
   m_SizeDelta: {x: 1, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &199393555972975214

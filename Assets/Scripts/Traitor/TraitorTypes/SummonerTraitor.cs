@@ -70,6 +70,7 @@ public class SummonerTraitor : BaseTraitor
         cooldownLength = 10;
         traitorSprite = traitorManager.GetCardRef(0);
         summonObject = traitorManager.GetObjectRef(0);
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(4);
         TraitorSetup();
     }
 

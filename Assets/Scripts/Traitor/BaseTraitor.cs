@@ -13,6 +13,7 @@ public class BaseTraitor : MonoBehaviour
     [SerializeField] protected string traitorAbilityName = "";
     [SerializeField] protected string traitorAbilityDesc = "";
     private GameObject healthBoost;
+    [SerializeField] int traitorID;
 
     public float GetTraitorRoom()
     {
@@ -69,6 +70,10 @@ public class BaseTraitor : MonoBehaviour
 
     }
 
+    public int GetTraitorID()
+    {
+        return traitorID;
+    }
     protected void Revive()
     {
         HealthComponent health = gameObject.GetComponent<HealthComponent>();
@@ -85,6 +90,7 @@ public class BaseTraitor : MonoBehaviour
     public virtual void TraitorSetup()
     {
         gameObject.tag = "Traitor";
+        gameObject.transform.position += Vector3.up*13;
         gameObject.GetComponent<PlayerHUD>().SetSecondarySprite(traitorSprite);
         FindAnyObjectByType<EnemyPathfinder>().RemovePlayer(gameObject);
         gameObject.GetComponent<PlayerSecondary>().SetTraitorAbility();

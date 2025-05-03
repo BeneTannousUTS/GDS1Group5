@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
         currentTraitorType = traitorTypeList[Random.Range(0, traitorTypeList.Count)];
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
+        GameObject.FindAnyObjectByType<DungeonBuilder>().FinalRoomSelect(currentTraitorType.GetComponent<BaseTraitor>().GetTraitorID());
     }
 
     public void DebugSetTraitor(BaseTraitor traitor)
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         currentTraitorType = traitor;
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
+        GameObject.FindAnyObjectByType<DungeonBuilder>().FinalDebugRoomSelect(currentTraitorType.GetComponent<BaseTraitor>().GetTraitorID());
     }
 
     public void ShowCardSelection(DungeonCamera lastDunCam)
@@ -80,6 +83,7 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         DecideTraitor();
+        FindAnyObjectByType<AudioManager>().PlayMainTheme();
     }
 
     public void CheckGameState() 
