@@ -12,6 +12,7 @@ public class TraitorManager : MonoBehaviour
     public DungeonManager dungeonManager;
     [SerializeField] GameObject[] objectRef;
     [SerializeField] Sprite[] cardRef;
+    [SerializeField] RuntimeAnimatorController[] traitorAnims;
     [SerializeField] GameObject healthBoost;
     [SerializeField] GameObject[] weapons;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +24,10 @@ public class TraitorManager : MonoBehaviour
         traitorRoom = dungeonManager.GetDungeonLength() - traitorType.GetTraitorRoom();
     }
 
+    public RuntimeAnimatorController GetAnim(int i)
+    {
+        return traitorAnims[i];
+    }
     public BaseTraitor GetTraitorType()
     {
         return traitorType;

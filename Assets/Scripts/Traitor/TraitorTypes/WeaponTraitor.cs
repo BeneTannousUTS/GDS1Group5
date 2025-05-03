@@ -59,6 +59,7 @@ public class WeaponTraitor : BaseTraitor
         traitorSprite = traitorManager.GetCardRef(0);
         weapons = traitorManager.GetWeapons();
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(8);
         TraitorSetup();
     }
 

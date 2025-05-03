@@ -193,6 +193,11 @@ public class DungeonBuilder : MonoBehaviour
         AllRooms();
     }
 
+    public void FinalDebugRoomSelect(int i)
+    {
+        finalRoom = FinalRooms[i];
+    }
+
     void Start()
     {
     }

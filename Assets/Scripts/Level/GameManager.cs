@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
         currentTraitorType = traitor;
         traitorManager.SetTraitorType(currentTraitorType);
         cardManager.SetTraitorType(currentTraitorType);
+        GameObject.FindAnyObjectByType<DungeonBuilder>().FinalDebugRoomSelect(currentTraitorType.GetComponent<BaseTraitor>().GetTraitorID());
     }
 
     public void ShowCardSelection(DungeonCamera lastDunCam)

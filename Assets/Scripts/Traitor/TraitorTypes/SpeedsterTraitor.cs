@@ -38,6 +38,7 @@ public class SpeedsterTraitor : BaseTraitor
         traitorSprite = traitorManager.GetCardRef(0);
         passive = traitorManager.GetObjectRef(4);
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(7);
         TraitorSetup();
     }
 

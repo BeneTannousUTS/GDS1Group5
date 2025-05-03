@@ -22,6 +22,7 @@ public class JumbledUpTraitor : BaseTraitor
 
     public override void TraitorSetup()
     {
+        base.TraitorSetup();
         summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
         foreach (GameObject player in GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList())
         {
@@ -32,7 +33,6 @@ public class JumbledUpTraitor : BaseTraitor
             SummonPosition(player);
         }
         SummonEnemies();
-        base.TraitorSetup();
     }
 
     private void SummonPosition(GameObject summon)
@@ -92,6 +92,7 @@ public class JumbledUpTraitor : BaseTraitor
         cooldownLength = 10;
         traitorSprite = traitorManager.GetCardRef(0);
         summonObject = traitorManager.GetObjectRef(2);
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(5);
         TraitorSetup();
     }
 

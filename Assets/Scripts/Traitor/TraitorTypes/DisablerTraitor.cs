@@ -38,6 +38,7 @@ public class DisablerTraitor : BaseTraitor
         traitorSprite = traitorManager.GetCardRef(0);
         weapon = traitorManager.GetObjectRef(3);
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(6);
         TraitorSetup();
     }
 
