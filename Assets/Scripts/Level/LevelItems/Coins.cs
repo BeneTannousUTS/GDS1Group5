@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Coins : MonoBehaviour
 {
-
+    [SerializeField] Sprite[] coinSprites;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -14,7 +14,7 @@ public class Coins : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameObject.GetComponent<SpriteRenderer>().sprite = coinSprites[Random.Range(0, coinSprites.Length)];
     }
 
     // Update is called once per frame
