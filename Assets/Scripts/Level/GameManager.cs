@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     void Start() 
     {
         DecideTraitor();
+        FindAnyObjectByType<AudioManager>().PlayMainTheme();
     }
 
     public void CheckGameState() 

@@ -9,7 +9,12 @@ public class MenuManager : MonoBehaviour
     private GameObject mainMenu;
     [SerializeField]
     private GameObject optionsMenu;
-    
+
+    public void Start()
+    {
+        FindAnyObjectByType<AudioManager>().PlayMenuTheme();
+    }
+
     public void LoadMainMenu()
     {
         mainMenu.SetActive(true);
