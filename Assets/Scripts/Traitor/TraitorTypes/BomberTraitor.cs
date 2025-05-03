@@ -48,6 +48,7 @@ public class BomberTraitor : BaseTraitor
         passive = traitorManager.GetObjectRef(5);
         bomb = traitorManager.GetObjectRef(6);
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(9);
         TraitorSetup();
     }
 
