@@ -25,7 +25,7 @@ public class PlayerCollision : MonoBehaviour
     {
         int colliderID = otherCollider.GetInstanceID();
         if (processedColliderIDs.Contains(colliderID)) return;
-        if (!otherCollider.CompareTag("Hazard"))
+        if (!otherCollider.CompareTag("Hazard") && !(otherCollider.GetComponent<Projectile>() != null && otherCollider.GetComponent<Projectile>().GetComeBack()))
         {
             processedColliderIDs.Add(colliderID);
         }
@@ -45,6 +45,9 @@ public class PlayerCollision : MonoBehaviour
                 else if (otherCollider.GetComponent<PolyProjectile>())
                 {
                     otherCollider.GetComponent<PolyProjectile>().ApplyMorph(gameObject);
+                }
+                if (otherCollider.gameObject.GetComponent<Projectile>().GetComeBack() == false) {
+                    Destroy(otherCollider.gameObject);
                 }
                 Destroy(otherCollider.gameObject);
             }

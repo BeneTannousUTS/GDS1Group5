@@ -18,7 +18,7 @@ public class EnemyCollision : MonoBehaviour
     {
         int colliderID = otherCollider.GetInstanceID();
         if (processedColliderIDs.Contains(colliderID)) return;
-        if (!otherCollider.CompareTag("Hazard"))
+        if (!otherCollider.CompareTag("Hazard") && !(otherCollider.GetComponent<Projectile>() != null && otherCollider.GetComponent<Projectile>().GetComeBack()))
         {
             processedColliderIDs.Add(colliderID);
         }
