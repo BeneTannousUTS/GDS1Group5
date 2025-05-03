@@ -359,7 +359,8 @@ public class CardSelection : MonoBehaviour
                     cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
-
+            
+            FindAnyObjectByType<AudioManager>().PlayTraitorTheme();
             FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
         }
     }

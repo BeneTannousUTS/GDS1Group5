@@ -222,8 +222,11 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator Teleport() 
     {
         teleporting = true;
+
         Instantiate(teleportParticles, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.3f);
+        animator.SetTrigger("teleport");
+        yield return new WaitForSeconds(0.2f);
         Vector3 summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
         bool validPos = false;
         float exitTime = 0;
@@ -343,8 +346,10 @@ public class EnemyMovement : MonoBehaviour
 
     public void KnockbackEnemy(float knockbackMultiplier, float knockbackTime, Vector3 knockbackDirection)
     {
-        GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
-        this.knockbackTime = knockbackTime;
+        if (currentAiType != aiType.Stationary) {
+            GetComponent<Rigidbody2D>().linearVelocity = knockbackDirection.normalized * moveSpeed * knockbackMultiplier;
+            this.knockbackTime = knockbackTime;
+        }
     }
 
     public void ResetMovePoint() 
