@@ -142,9 +142,9 @@ public class HealthComponent : MonoBehaviour
                 currentHealth = Math.Max(0, currentHealth - damageValue);
                 FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int) (damageValue)}", Color.red);
 
-                // this is a really scuffed way to determine if it is a player or not but it works
-                string audioDamageType = GetComponent<PlayerAttack>() ? "PlayerDamage" : "EnemyDamage";
-                audioManager.PlaySoundEffect(audioDamageType);
+                // determining which audio effect should player
+                if (GetComponent<PlayerAttack>()) audioManager.PlaySoundEffect("PlayerDamage");
+                if (GetComponent<EnemyAttack>()) audioManager.PlaySoundEffect("EnemyDamage");
 
                 StartCoroutine(DamageFlash());
                 StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));

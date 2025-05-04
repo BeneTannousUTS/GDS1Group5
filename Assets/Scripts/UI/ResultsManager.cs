@@ -35,6 +35,7 @@ public class ResultsManager : MonoBehaviour
         winText = GameObject.Find("Canvas/WinText");
         mainMenu = GameObject.Find("Canvas/Main Menu");
         mainMenu.SetActive(false);
+        FindAnyObjectByType<AudioManager>().PlayResultsTheme();
 
         if (didLose)
         {
@@ -77,7 +78,7 @@ public class ResultsManager : MonoBehaviour
             }
             else
             {
-                winText.GetComponent<TMP_Text>().text = "The Players Win!";
+                winText.GetComponent<TMP_Text>().text = "The Survivors Win!";
             }
         }
 

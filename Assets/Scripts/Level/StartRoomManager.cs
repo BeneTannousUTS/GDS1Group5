@@ -75,6 +75,19 @@ public class StartRoomManager : MonoBehaviour
             if (doorTimer >= doorDelayTime)
             {
                 door.GetComponent<Door>().OpenDoor();
+
+                int maxHealthAmount = 200 - (CountActivePlayers() - 2) * 50;
+
+                PlayerData[] players = PlayerManager.instance.GetPlayers();
+
+                foreach(PlayerData player in players)
+                {
+                    if (!player.isJoined) continue;
+
+                    player.playerInput.gameObject.GetComponent<HealthComponent>().SetMaxHealth(maxHealthAmount);
+                    player.playerInput.gameObject.GetComponent<HealthComponent>().UpdateHUDHealthBar();
+                }
+
                 shouldBarUpdate = false;
                 
                 LobbyHudHelper hud = GameObject.FindGameObjectWithTag("PlayerHUDContainer").transform.GetComponent<LobbyHudHelper>();
