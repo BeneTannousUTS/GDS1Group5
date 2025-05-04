@@ -54,15 +54,17 @@ public class LobbyManager : MonoBehaviour
                 DespawnLobbyPlayer(gamepad);
             }
             // Check if the first player wants to start the game
-            else if (gamepad.startButton.wasPressedThisFrame &&
-                     gamepad == playerSpawns[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
-            {
-                StartGame();
-            }
+            // else if (gamepad.startButton.wasPressedThisFrame &&
+            //          gamepad == playerSpawns[0].GetComponent<PlayerInput>().GetDevice<Gamepad>())
+            // {
+            //     StartGame();
+            // }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && false) // change to true if you want for testing
+        {
             if (PlayerManager.instance.players[0].isJoined)
                 SpawnLobbyPlayer(PlayerManager.instance.players[0].gamepad);
+        }  
     }
 
     // Assign the gamepad to the first available player
@@ -82,6 +84,7 @@ public class LobbyManager : MonoBehaviour
                 // Spawn player prefab linked to gamepad
                 var newPlayer = PlayerInputManager.instance.JoinPlayer(pairWithDevice: gamepad);
                 newPlayer.transform.position = spawn.transform.position;
+                newPlayer.actions.Enable();
 
                 // Ensure player setup remains consistent between lobby scene and main gameplay scene
                 PlayerManager.instance.players[spawnIndex].playerInput = newPlayer;

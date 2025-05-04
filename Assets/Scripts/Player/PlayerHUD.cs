@@ -136,7 +136,7 @@ public class PlayerHUD : MonoBehaviour
     {
         helper.statsHelper.UpdateDamageText(GetComponent<PlayerStats>().GetStrengthStat());
         helper.statsHelper.UpdateSpeedText(GetComponent<PlayerStats>().GetMoveStat());
-        helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
+        //helper.statsHelper.UpdateHealthText(GetComponent<PlayerStats>().GetHealthStat());
         helper.statsHelper.UpdateKnockbackText(GetComponent<PlayerStats>().GetKnockbackStat());
         helper.statsHelper.UpdateLifestealText(GetComponent<PlayerStats>().GetLifestealStat());
         helper.statsHelper.UpdateCooldownText(GetComponent<PlayerStats>().GetCooldownStat());

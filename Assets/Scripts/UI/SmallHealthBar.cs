@@ -55,7 +55,6 @@ public class SmallHealthBar : MonoBehaviour
     {
         if (healthText == null)
         {
-            Debug.LogError($"Small Health Bar on the object {transform.name} does not have the healthText variable set PLEASE FIX ASAP.\n Abandoning Function...\n\n");
             return;
         }
 

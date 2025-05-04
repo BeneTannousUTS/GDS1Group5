@@ -6,7 +6,7 @@ using UnityEngine;
 public class DungeonManager : MonoBehaviour
 {
     private Vector3 roomPos = new Vector3(0,0,0);
-    [SerializeField] int roomCount = 1;
+    [SerializeField] int roomCount = 0;
     [SerializeField] int dungeonLength;
     bool autoUnlock;
     bool autoDefeatEnemy;

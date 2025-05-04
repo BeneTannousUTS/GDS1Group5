@@ -10,7 +10,7 @@ public class ProgressBarHelper : MonoBehaviour
     Color lowHealthColour;
     Color highHealthColour;
     
-    Gradient gradient;
+    Gradient gradient = null;
     
     public Image progressBar;
     
@@ -18,15 +18,7 @@ public class ProgressBarHelper : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gradient = new Gradient();
-        GradientColorKey[] colours =  new GradientColorKey[3];
-        colours[0] = new GradientColorKey(Color.red, 0f);
-        colours[1] = new GradientColorKey(Color.yellow, 0.5f);
-        colours[2] = new GradientColorKey(Color.green, 1f);
-        GradientAlphaKey[] alphas = new GradientAlphaKey[2];
-        alphas[0] = new GradientAlphaKey(255, 0);
-        alphas[1] = new GradientAlphaKey(255, 1);
-        gradient.SetKeys(colours, alphas);
+        SetGradient();
     }
 
     // Update is called once per frame
@@ -65,8 +57,25 @@ public class ProgressBarHelper : MonoBehaviour
     {
         if (progressBar != null)
         {
+            if (gradient == null)
+            {
+                SetGradient();
+            }
             progressBar.color = gradient.Evaluate(progressBar.fillAmount);
         }
+    }
+
+    void SetGradient()
+    {
+        gradient = new Gradient();
+        GradientColorKey[] colours =  new GradientColorKey[3];
+        colours[0] = new GradientColorKey(Color.red, 0f);
+        colours[1] = new GradientColorKey(Color.yellow, 0.5f);
+        colours[2] = new GradientColorKey(Color.green, 1f);
+        GradientAlphaKey[] alphas = new GradientAlphaKey[2];
+        alphas[0] = new GradientAlphaKey(255, 0);
+        alphas[1] = new GradientAlphaKey(255, 1);
+        gradient.SetKeys(colours, alphas);
     }
 
 }

@@ -139,6 +139,16 @@ public class OptionsMenuManager : MonoBehaviour
         if (quitConfirmHandler.confirmedChoice == true)
         {
             FindAnyObjectByType<InGameOptionsManager>().ToggleOptionsMenu(activeInput);
+
+            GameObject playerHUD = FindAnyObjectByType<LobbyHudHelper>().transform.parent.gameObject;
+
+            if (playerHUD)
+            {
+                Destroy(playerHUD);
+            }
+
+            PlayerManager.instance.ResetPlayers();
+
             SceneManager.LoadScene("MainMenu");
         } else
         {

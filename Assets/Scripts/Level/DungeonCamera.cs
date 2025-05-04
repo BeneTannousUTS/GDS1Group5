@@ -18,11 +18,17 @@ public class DungeonCamera : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !roomCleared)
         {
             roomCleared = true;
-            gameObject.GetComponentInParent<RoomManager>().ClearRoom();
+
+            RoomManager roomManager = gameObject.GetComponentInParent<RoomManager>();
+            if (roomManager) roomManager.ClearRoom();
+
             GameObject player = collision.gameObject;
-            FindAnyObjectByType<CardManager>().HidePlayer(player);
+
+            CardManager cardManager = FindAnyObjectByType<CardManager>();
+            if (cardManager) cardManager.HidePlayer(player);
+            
             roomChange = true;
-            dungeonBuild.UpdateRoomCount((int)((transform.position.y - 9.5) / 18));
+            if (dungeonBuild) dungeonBuild.UpdateRoomCount((int)((transform.position.y - 9.5) / 18));
         }
         else if(collision.gameObject.CompareTag("Player"))
         {

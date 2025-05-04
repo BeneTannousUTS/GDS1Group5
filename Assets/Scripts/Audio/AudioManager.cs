@@ -7,10 +7,10 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     // BGM Tracks
-    private AudioSource menuThemeSource;
-    private AudioSource mainThemeSource;
-    private AudioSource traitorThemeSource;
-    private AudioSource resultsThemeSource;
+    [SerializeField] private AudioSource menuThemeSource;
+    [SerializeField] private AudioSource mainThemeSource;
+    [SerializeField] private AudioSource traitorThemeSource;
+    [SerializeField] private AudioSource resultsThemeSource;
 
     // Sound Effect Dictionary
     [System.Serializable]
@@ -64,15 +64,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        AudioSource[] audioSources = GetComponents<AudioSource>();
+    // void Start()
+    // {
+    //     AudioSource[] audioSources = GetComponents<AudioSource>();
 
-        menuThemeSource = audioSources[0];
-        mainThemeSource = audioSources[1];
-        traitorThemeSource = audioSources[2];
-        resultsThemeSource = audioSources[3];
-    }
+    //     menuThemeSource = audioSources[0];
+    //     mainThemeSource = audioSources[1];
+    //     traitorThemeSource = audioSources[2];
+    //     resultsThemeSource = audioSources[3];
+    // }
 
     public void OptionsUpdated()
     {
@@ -85,11 +85,6 @@ public class AudioManager : MonoBehaviour
     public void PlayMenuTheme()
     {
         StopBGM();
-        if (menuThemeSource.resource == null)
-        {
-            Debug.LogWarning("The track for 'Menu Theme' is yet to be added to the audio source");
-        }
-
         menuThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         menuThemeSource.Play();
     }
@@ -97,11 +92,6 @@ public class AudioManager : MonoBehaviour
     public void PlayMainTheme()
     {
         StopBGM();
-        if (mainThemeSource.resource == null)
-        {
-            Debug.LogWarning("The track for 'Main Theme' is yet to be added to the audio source");
-        }
-
         mainThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         mainThemeSource.Play();
     }
@@ -109,11 +99,7 @@ public class AudioManager : MonoBehaviour
     public void PlayTraitorTheme()
     {
         StopBGM();
-        if (traitorThemeSource.resource == null)
-        {
-            Debug.LogWarning("The track for 'Traitor Theme' is yet to be added to the audio source");
-        }
-
+        if (traitorThemeSource.clip == null)
         traitorThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         traitorThemeSource.Play();
     }
@@ -121,11 +107,6 @@ public class AudioManager : MonoBehaviour
     public void PlayResultsTheme()
     {
         StopBGM();
-        if (resultsThemeSource.resource == null)
-        {
-            Debug.LogWarning("The track for 'Results Theme' is yet to be added to the audio source");
-        }
-
         resultsThemeSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.musicVolumeLevel;
         resultsThemeSource.Play();
     }

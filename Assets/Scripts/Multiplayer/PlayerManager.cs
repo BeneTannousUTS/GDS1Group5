@@ -69,6 +69,9 @@ public class PlayerManager : MonoBehaviour
         {
             for (int i = 0; i < players.Length; i++)
             {
+                if (!players[i].isJoined) continue;
+
+                Destroy(players[i].playerInput.gameObject);
                 players[i].isJoined = false;
                 players[i].gamepad = null;
                 players[i].playerInput = null;

@@ -12,6 +12,7 @@ public class ResultsMenu : MonoBehaviour
         Destroy(GameObject.Find("PlayerHUDCanvas"));
         Destroy(GameObject.Find("ConfirmManager"));
         
+        PlayerManager.instance.ResetPlayers();
     }
 
     public void ResetResults() {

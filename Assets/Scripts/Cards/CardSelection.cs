@@ -98,12 +98,23 @@ public class CardSelection : MonoBehaviour
             .Where(card => card.GetComponent<Card>().cardType == CardType.Passive)
             .FirstOrDefault();
 
-        if (roomNum == 1)
+        if (roomNum == 0)
         {
             for (int j = 0; j < 4; ++j)
             {
                 List<GameObject> remainingCards = cards
                 .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+                .ToList();
+
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            }
+        }
+        else if (roomNum == 1)
+        {
+            for (int j = 0; j < 4; ++j)
+            {
+                List<GameObject> remainingCards = cards
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -391,7 +402,7 @@ public class CardSelection : MonoBehaviour
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
 
-        if (roomNum >= 1)
+        if (roomNum > 1)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
