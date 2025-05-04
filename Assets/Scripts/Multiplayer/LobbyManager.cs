@@ -44,13 +44,13 @@ public class LobbyManager : MonoBehaviour
             // Check if the player wants to join
             if (gamepad.leftShoulder.isPressed && gamepad.rightShoulder.isPressed && !IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 SpawnLobbyPlayer(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.selectButton.wasPressedThisFrame && IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 DespawnLobbyPlayer(gamepad);
             }
             // Check if the first player wants to start the game
@@ -170,15 +170,15 @@ public class LobbyManager : MonoBehaviour
     }
 
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
-    // private void OnControlsChanged(Gamepad gamepad)
-    // {
-    //     if (gamepad is SwitchProControllerHID)
-    //         foreach (var item in Gamepad.all)
-    //             if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
-    //             {
-    //                 Debug.Log(
-    //                     $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
-    //                 InputSystem.DisableDevice(item);
-    //             }
-    // }
+    private void OnControlsChanged(Gamepad gamepad)
+    {
+        if (gamepad is SwitchProControllerHID)
+            foreach (var item in Gamepad.all)
+                if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
+                {
+                    Debug.Log(
+                        $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
+                    InputSystem.DisableDevice(item);
+                }
+    }
 }

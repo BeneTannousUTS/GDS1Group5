@@ -14,6 +14,7 @@ public class UIComponentHelper : MonoBehaviour
     public Image primaryAbilityBackground;
     public Image secondaryAbilityBackground;
     public Image healthSlider;
+    public GameObject healthBar;
     public TextMeshProUGUI healthTextOver;
     public TextMeshProUGUI healthTextUnder;
     public StatsDisplayHelper statsHelper;

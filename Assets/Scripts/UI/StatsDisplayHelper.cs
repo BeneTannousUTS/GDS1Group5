@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class StatsDisplayHelper : MonoBehaviour
 {
-    public TextMeshProUGUI[] healthMultText;
+    //public TextMeshProUGUI[] healthMultText;
     public TextMeshProUGUI damageMultText;
     public TextMeshProUGUI speedMultText;
     public TextMeshProUGUI knockbackMultText;
@@ -37,14 +37,14 @@ public class StatsDisplayHelper : MonoBehaviour
         
     }
 
-    //Set the health modifier text
-    public void UpdateHealthText(float healthMod)
-    {
-        foreach (TextMeshProUGUI text in healthMultText)
-        {
-            text.text = "(" + (healthMod/100).ToString("0.0") + "x)";
-        }
-    }
+    // //Set the health modifier text
+    // public void UpdateHealthText(float healthMod)
+    // {
+    //     foreach (TextMeshProUGUI text in healthMultText)
+    //     {
+    //         text.text = "(" + (healthMod/100).ToString("0.0") + "x)";
+    //     }
+    // }
     
     //Set the speed modifier text
     public void UpdateSpeedText(float speedMod)
