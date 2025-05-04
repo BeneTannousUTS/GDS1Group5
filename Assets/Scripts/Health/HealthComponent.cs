@@ -80,7 +80,6 @@ public class HealthComponent : MonoBehaviour
         else if (gameObject.CompareTag("Destructible"))
         {
             gameObject.GetComponent<Destructible>().SpawnItems();
-            Destroy(gameObject);
         }
         else if (gameObject.CompareTag("Player") == false) {
             Destroy(gameObject);

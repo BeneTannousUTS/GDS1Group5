@@ -33,7 +33,8 @@ public class DungeonCamera : MonoBehaviour
         else if(collision.gameObject.CompareTag("Player"))
         {
             GameObject player = collision.gameObject;
-            FindAnyObjectByType<CardManager>().HidePlayer(player);
+            CardManager cardManager = FindAnyObjectByType<CardManager>();
+            if (cardManager) cardManager.HidePlayer(player);
         }
     }
 
