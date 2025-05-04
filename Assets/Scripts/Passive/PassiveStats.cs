@@ -6,7 +6,7 @@ public class PassiveStats : MonoBehaviour
     [Tooltip("Strength buff amount as a percentage of base weapon damage.")]
     public float strengthMod = 0f; 
     
-    [Range(0, 100)] 
+    [Range(-100, 100)] 
     [Tooltip("Speed buff amount as a percentage of base movement speed.")]
     public float moveMod = 0f; 
     
@@ -15,7 +15,7 @@ public class PassiveStats : MonoBehaviour
     public float healthMod = 0f;
     
     //float used for cooldown multipliers
-    [Range(0, 100)]
+    [Range(-100, 100)]
     [Tooltip("Cooldown reduction amount as a percentage of base cooldown.")]
     public float cooldownMultiplier = 0f;
     

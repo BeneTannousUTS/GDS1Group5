@@ -14,7 +14,6 @@ public class SmallHealthBar : MonoBehaviour
     Gradient gradient;
     
     public Image healthBar;
-    public TextMeshProUGUI healthText;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -49,23 +48,5 @@ public class SmallHealthBar : MonoBehaviour
     void EvaluateColour()
     {
         healthBar.color = gradient.Evaluate(healthBar.fillAmount);
-    }
-
-    public void SetHealthBarText(float currentHealth, float maxHealth)
-    {
-        if (healthText == null)
-        {
-            return;
-        }
-
-        healthText.text = currentHealth.ToString("0") + "/" + maxHealth.ToString("0");
-        if (currentHealth == maxHealth)
-        {
-            healthText.alpha = 0;
-        }
-        else
-        {
-            healthText.alpha = 255;
-        }
     }
 }

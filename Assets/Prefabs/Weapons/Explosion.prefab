@@ -110,7 +110,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -8092295105046505211, guid: b46c084e14a313543a3ee92067daf11b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -177,6 +177,7 @@ MonoBehaviour:
   knockbackTime: 0.1
   friendlyFire: 1
   charge: 0
+  canStrafe: 0
   projectile: {fileID: 0}
 --- !u!95 &6636627357427205926
 Animator:
