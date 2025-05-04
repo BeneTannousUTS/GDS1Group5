@@ -3,12 +3,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerOptions : MonoBehaviour
 {
-    private InGameOptionsManager inGameOptionsManager;
     private PlayerInput playerInput;
 
     void Start()
     {
-        inGameOptionsManager = FindAnyObjectByType<InGameOptionsManager>();
+        
         playerInput = GetComponent<PlayerInput>();
     }
 
@@ -17,6 +16,9 @@ public class PlayerOptions : MonoBehaviour
         if (!context.performed) return;
 
         Debug.Log($"[Player {GetComponent<PlayerInput>().playerIndex}] Start triggered | phase: {context.phase} | map: {context.action.actionMap.name}");
+
+        InGameOptionsManager inGameOptionsManager = FindAnyObjectByType<InGameOptionsManager>();
+        if (inGameOptionsManager == null) return;
 
         if (!inGameOptionsManager.IsOptionsOpen() || inGameOptionsManager.GetActiveInput() == playerInput)
         {
