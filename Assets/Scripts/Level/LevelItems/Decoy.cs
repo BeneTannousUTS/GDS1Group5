@@ -11,7 +11,7 @@ public class Decoy : Destructible
     void Start()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
+        
         foreach(GameObject enemy in enemies) 
         {
             enemy.GetComponent<EnemyMovement>().ResetMovePoint();
