@@ -13,6 +13,7 @@ public class SpeedsterTraitor : BaseTraitor
             if (player != gameObject)
             {
                 player.GetComponent<PlayerStats>().SetPassive(passive);
+                Debug.Log("AAA");
             }
         }
     }

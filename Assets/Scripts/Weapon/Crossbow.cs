@@ -33,7 +33,7 @@ public class Crossbow : WeaponStats
             }
         }
 
-        if (GetSourceObject() != null)
+        if (GetSourceObject().GetComponent<PlayerScore>() != null)
         {
             GetSourceObject().GetComponent<PlayerScore>().IncrementProjectilesShot();
             GetSourceObject().GetComponent<PlayerScore>().IncrementProjectilesShot();
