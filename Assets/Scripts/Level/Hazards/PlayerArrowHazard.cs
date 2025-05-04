@@ -19,6 +19,8 @@ public class PlayerArrowHazard : MonoBehaviour
             GameObject currentProjectile = Instantiate(projectile, transform.position + baseDirection, Quaternion.identity);
             Projectile proj = currentProjectile.GetComponent<Projectile>();
 
+            gameObject.GetComponent<Animator>().SetTrigger("shoot");
+
             proj.SetShotDirection(shotDirection);
             proj.SetDamageValue(7);
             proj.SetFriendlyFire(false);

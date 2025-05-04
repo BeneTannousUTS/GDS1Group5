@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 4763c63ef1f45a44495a949fcf588e5d, type: 3}
+  m_Sprite: {fileID: 4990238879502102790, guid: e2eb7bb4e850b174ca3d645ce3d3b8fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,7 +129,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 2}
     newSize: {x: 0.31, y: 0.14}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -150,14 +150,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageValue: 10
-  weaponLifetime: 1
-  attackCooldownWindow: 1.2
+  weaponLifetime: 0.5
+  attackCooldownWindow: 0.6
   knockbackStrength: 0.9
   knockbackTime: 0.1
   friendlyFire: 0
   charge: 0
   canStrafe: 0
-  projectile: {fileID: 2315427121274295933, guid: 7457b2a8d39bd39439cef5f37b709b10, type: 3}
+  projectile: {fileID: 5067648443457311600, guid: b53c8649309ed1a4ba36e4485a8f72a1, type: 3}
 --- !u!95 &8691030866974370776
 Animator:
   serializedVersion: 7
@@ -166,9 +166,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6169134543300472291}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f19fb55a532ffb64680c8394c8eef4e9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8a668a30dd7a53640ae2e8b38a27d566, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
