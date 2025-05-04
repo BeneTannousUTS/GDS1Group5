@@ -47,6 +47,9 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);
         tempWeapon.GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        if (tempWeapon.transform.childCount != 0 && tempWeapon.transform.GetChild(0).GetComponent<WeaponStats>()) {
+            tempWeapon.transform.GetChild(0).GetComponent<WeaponStats>().SetSourceType(gameObject.tag);
+        }
         tempWeapon.GetComponent<WeaponStats>().SetSourceObject(gameObject);
         gameObject.GetComponent<EnemyMovement>().ActivateAttackSpecial();
     }
