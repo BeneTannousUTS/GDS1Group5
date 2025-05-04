@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Services.Matchmaker.Models;
 using UnityEngine;
@@ -33,12 +35,20 @@ public class Destructible : MonoBehaviour
         }
     }
 
-    public virtual void SpawnItems()
+    IEnumerator RemoveDestructible()
     {
-        if (Random.Range(0, 2) == 1)
+        yield return new WaitForSeconds(0.4f);
+        if (UnityEngine.Random.Range(0, 2) == 1)
         {
             Instantiate(spawnedItem).transform.position = gameObject.transform.position;
         }
+        Destroy(gameObject);
+    }
+
+    public virtual void SpawnItems()
+    {
+        gameObject.GetComponent<Animator>().SetTrigger("break");
+        StartCoroutine(RemoveDestructible());
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
