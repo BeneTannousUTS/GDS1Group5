@@ -133,7 +133,6 @@ public class HealthComponent : MonoBehaviour
                 if (GetComponent<SmallHealthBar>() != null)
                 {
                     GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
-                    GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
                 }
             }
 
@@ -168,7 +167,6 @@ public class HealthComponent : MonoBehaviour
                 if (GetComponent<SmallHealthBar>() != null)
                 {
                     GetComponent<SmallHealthBar>().SetHealthBarFill(currentHealth / maxHealth);
-                    GetComponent<SmallHealthBar>().SetHealthBarText(currentHealth, maxHealth);
                 }
 
                 if (currentHealth <= 0f)
