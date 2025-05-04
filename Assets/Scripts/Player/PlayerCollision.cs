@@ -11,9 +11,13 @@ public class PlayerCollision : MonoBehaviour
     private HashSet<int> processedColliderIDs = new HashSet<int>();
 
     public void SetPlayerPVP(bool isPVP) { isPlayerPVP=isPVP; }
-    bool FriendlyFire(bool friendlyFire, string sourceType) 
+    bool FriendlyFire(bool friendlyFire, string sourceType, GameObject sourceObject) 
     {
         if (sourceType.Equals("Enemy") && gameObject.CompareTag("Traitor"))
+        {
+            return false;
+        }
+        if (sourceObject == gameObject) 
         {
             return false;
         }
@@ -31,11 +35,11 @@ public class PlayerCollision : MonoBehaviour
         }
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false) 
         {
-            if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType()))
+            if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType(), otherCollider.GetComponent<WeaponStats>().GetSourceObject()))
             {
                 otherCollider.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
             }
-            else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType()))
+            else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType(), null))
             {
                 otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 if (otherCollider.GetComponent<Explosion>() != null)
@@ -51,7 +55,7 @@ public class PlayerCollision : MonoBehaviour
                 }
                 Destroy(otherCollider.gameObject);
             }
-            else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType()))
+            else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType(), null))
             {
                 otherCollider.GetComponentInParent<Hazards>().DealDamage(gameObject.GetComponent<HealthComponent>());
             }
