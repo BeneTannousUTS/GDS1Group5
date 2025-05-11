@@ -85,6 +85,7 @@ public class CardSelection : MonoBehaviour
         List<GameObject> tempCardList = new List<GameObject>();
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
         Debug.Log($"Current Room: {roomNum}");
+        float dungeonCompletionPercent = (float)FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float)FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
         GameObject weapon = cards
             .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
@@ -100,21 +101,29 @@ public class CardSelection : MonoBehaviour
 
         if (roomNum == 0)
         {
+            
+
             for (int j = 0; j < 4; ++j)
             {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+                
                 List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon
+                && card.GetComponent<Card>().cardRarity == randomRarirty)
                 .ToList();
 
-                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);   
             }
         }
         else if (roomNum == 1)
         {
             for (int j = 0; j < 4; ++j)
             {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
                 List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary
+                && card.GetComponent<Card>().cardRarity == randomRarirty)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -122,26 +131,31 @@ public class CardSelection : MonoBehaviour
         }
         else
         {
-            if (weapon != null) tempCardList.Add(weapon);
-            if (passive != null) tempCardList.Add(passive);
-            if (secondary != null) tempCardList.Add(secondary);
+            // if (weapon != null) tempCardList.Add(weapon);
+            // if (passive != null) tempCardList.Add(passive);
+            // if (secondary != null) tempCardList.Add(secondary);
 
-            List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
-            tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            // CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
+            // List<GameObject> remainingCards = cards
+            // .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
+            // .Except(tempCardList).ToList();
+            // tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+
+            for (int j = 0; j < 4; ++j)
+            {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
+                List<GameObject> remainingCards = cards
+                .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
+                .Except(tempCardList)
+                .ToList();
+
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            }
         }
 
-        // int numOfJoinedPlayers = 0;
-
-        // foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
-        // {
-        //     if (playerData.isJoined) numOfJoinedPlayers++;
-        // }
-
-        // if (numOfJoinedPlayers >= 4)
-        // {
-        //     remainingCards = cards.Except(tempCardList).ToList();
-        //     tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-        // }
+        
 
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
@@ -307,9 +321,11 @@ public class CardSelection : MonoBehaviour
                 int newIndex = cardIndices[0];
                 cardIndices.Remove(newIndex);
                 CardType ranCardType = cardList[newIndex].GetComponent<Card>().cardType;
+                CardRarity ranCardRarity = cardList[newIndex].GetComponent<Card>().cardRarity;
 
                 GameObject[] cardsOfSameType = cards
-                    .Where(card => card.GetComponent<Card>().cardType == ranCardType)
+                    .Where(card => card.GetComponent<Card>().cardType == ranCardType
+                    && card.GetComponent<Card>().cardRarity == ranCardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(cardsOfSameType, dungeonCompletionPercent);
                 cardList[newIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -317,12 +333,14 @@ public class CardSelection : MonoBehaviour
             }
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
+            CardRarity cardRarity = cardList[cardIndex].GetComponent<Card>().cardRarity;
             if (cardType == CardType.Weapon)
             {
                 GameObject filterWeapon = players[playerIndex].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
-                    && card.GetComponent<Card>().abilityObject != filterWeapon)
+                    && card.GetComponent<Card>().abilityObject != filterWeapon
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -332,7 +350,8 @@ public class CardSelection : MonoBehaviour
                 GameObject filterSecondary = players[playerIndex].playerInput.gameObject.GetComponent<PlayerSecondary>().currentSecondary;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
-                    && card.GetComponent<Card>().abilityObject != filterSecondary)
+                    && card.GetComponent<Card>().abilityObject != filterSecondary
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -340,7 +359,8 @@ public class CardSelection : MonoBehaviour
             else
             {
                 GameObject[] filteredCardsOfSameType = cards
-                    .Where(card => card.GetComponent<Card>().cardType == cardType)
+                    .Where(card => card.GetComponent<Card>().cardType == cardType
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -568,6 +588,34 @@ public class CardSelection : MonoBehaviour
         }
 
         return cardPool[0].GetComponent<Card>(); // fallback
+    }
+
+    CardRarity GetWeightedCardRarity(GameObject[] cardPool, float completion)
+    {
+        float totalWeight = 0f;
+        List<float> weights = new();
+
+        foreach (GameObject cardObj in cardPool)
+        {
+            Card card = cardObj.GetComponent<Card>();
+            float weight = GetRarityWeight(card.cardRarity, completion);
+            weights.Add(weight);
+            totalWeight += weight;
+        }
+
+        float rand = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        for (int i = 0; i < cardPool.Length; i++)
+        {
+            cumulative += weights[i];
+            if (rand <= cumulative)
+            {
+                return cardPool[i].GetComponent<Card>().cardRarity;
+            }
+        }
+
+        return CardRarity.Common; // fallback
     }
 
     public Color GetColourFromRarity(CardRarity rarity)
