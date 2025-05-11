@@ -14,13 +14,6 @@ public class Destructible : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("HIT");
-        int colliderID = collision.GetInstanceID();
-        if (processedColliderIDs.Contains(colliderID)) return;
-        if (!collision.CompareTag("Hazard"))
-        {
-            processedColliderIDs.Add(colliderID);
-        }
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
             if (collision.gameObject.CompareTag("Weapon"))
@@ -32,6 +25,11 @@ public class Destructible : MonoBehaviour
             {
                 collision.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 hitDirection = collision.GetComponent<Projectile>().GetShotDirection();
+                if (collision.GetComponent<Explosion>() != null)
+                {
+                    collision.GetComponent<Explosion>().SpawnExplosion();
+                }
+                Destroy(collision.gameObject);
             }
         }
     }

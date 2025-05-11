@@ -61,9 +61,7 @@ public class Shield : WeaponStats
     IEnumerator ProjNoCollisionTimer(Collider2D collider)
 {
     collider.enabled = false;
-    
-    yield return new WaitForSeconds(0.125f);
-
+        yield return new WaitForSeconds(0.125f);
     collider.enabled = true;
 }
 }
