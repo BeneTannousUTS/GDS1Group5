@@ -8,7 +8,7 @@ public class Barrel : Destructible
         item.transform.position = gameObject.transform.position;
         item.GetComponent<Projectile>().SetShotDirection(hitDirection);
         item.GetComponent<Animator>().SetTrigger("vertical");
-        item.GetComponent<Projectile>().SetDamageValue(0);
+        item.GetComponent<Projectile>().SetDamageValue(1);
         item.GetComponent<Projectile>().SetFriendlyFire(true);
         item.GetComponent<Projectile>().SetSourceType("Player");
         item.GetComponent<Projectile>().SetSourceObject(gameObject);

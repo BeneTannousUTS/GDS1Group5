@@ -14,6 +14,7 @@ public class Destructible : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("HIT");
         int colliderID = collision.GetInstanceID();
         if (processedColliderIDs.Contains(colliderID)) return;
         if (!collision.CompareTag("Hazard"))
@@ -22,12 +23,12 @@ public class Destructible : MonoBehaviour
         }
         if (gameObject.GetComponent<HealthComponent>().GetIsDead() == false)
         {
-            if (collision.gameObject.CompareTag("Weapon") && (playerCanHurt || !collision.gameObject.GetComponent<WeaponStats>().GetSourceType().Equals("Player")))
+            if (collision.gameObject.CompareTag("Weapon"))
             {
                 collision.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 hitDirection = (collision.transform.position - collision.transform.parent.transform.position).normalized;
             }
-            else if (collision.gameObject.CompareTag("Projectile") && (playerCanHurt || !collision.gameObject.GetComponent<Projectile>().GetSourceType().Equals("Player")))
+            else if (collision.gameObject.CompareTag("Projectile"))
             {
                 collision.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 hitDirection = collision.GetComponent<Projectile>().GetShotDirection();

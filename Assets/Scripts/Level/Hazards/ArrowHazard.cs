@@ -28,7 +28,7 @@ public class ArrowHazard : Hazards, IPressed
         {
             if (projectile != null)
             {
-                Vector3 baseDirection = transform.up;
+                Vector3 baseDirection = transform.up*1.5f;
                 Vector3 perpendicular = new Vector3(-baseDirection.y, baseDirection.x, 0f);
 
                 Vector3 shotDirection = (baseDirection).normalized;
@@ -56,7 +56,7 @@ public class ArrowHazard : Hazards, IPressed
     void FireTimer()
     {
         waitTime += Time.deltaTime;
-        if (waitTime >= 2)
+        if (waitTime >= 4)
         {
             FireArrow();
             waitTime = 0;

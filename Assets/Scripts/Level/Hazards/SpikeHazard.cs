@@ -16,7 +16,7 @@ public class SpikeHazard : Hazards, IPressed
     void Start()
     {
         SetSourceType(gameObject.tag);
-        SetDamageValue(10);
+        SetDamageValue(5);
         waitTime -= spikeOffset;
         if (activeStart)
         {
