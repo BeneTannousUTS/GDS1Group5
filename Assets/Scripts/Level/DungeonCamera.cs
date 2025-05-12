@@ -52,6 +52,7 @@ public class DungeonCamera : MonoBehaviour
             FindAnyObjectByType<CardManager>().ShowPlayers();
         }
         MoveCamera();
+
         gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
         roomChange = false;
     }

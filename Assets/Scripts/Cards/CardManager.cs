@@ -138,6 +138,16 @@ public class CardManager : MonoBehaviour
             }
         }
 
+        int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
+
+        if (roomNum == 0)
+        {
+            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press Left To Attack", Color.white);
+        } else if (roomNum == 1)
+        {
+            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press Down To Use Secondary", Color.white);
+        }
+
         UIInputModule.actionsAsset = defaultActions;
         UIInputModule.point = InputActionReference.Create(defaultActions.FindAction("UI/Point"));
         UIInputModule.leftClick = InputActionReference.Create(defaultActions.FindAction("UI/Click"));

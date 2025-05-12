@@ -41,6 +41,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void showNameAsType()
     {
+        nameText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(1f,1f,1f,0.7f);
         nameText.GetComponent<TMP_Text>().text = card.cardType.ToString();
         nameText.SetActive(true);
     }
@@ -63,6 +64,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         card.cardFrontSprite = traitorSprite;
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
+        gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
         card.cardType = CardType.Passive;
         card.cardRarity = CardRarity.Traitor;
         card.abilityObject = null;
@@ -83,14 +85,14 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     public void OnSelect(BaseEventData eventData)
     {
         playerArrowIcon.color = playerColour;
-        nameText.GetComponent<TMP_Text>().color = new Vector4(1,1,1,1);
+        nameText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(1,1,1,1);
         playerArrowIcon.gameObject.GetComponent<Animator>().enabled = true;
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
         playerArrowIcon.color = new Vector4(1,1,1,0);
-        nameText.GetComponent<TMP_Text>().color = new Vector4(0.5f,0.5f,0.5f,1);
+        nameText.GetComponent<TMP_Text>().color = FindAnyObjectByType<CardSelection>().GetColourFromRarity(card.cardRarity) * new Vector4(0.5f,0.5f,0.5f,1);
         playerArrowIcon.gameObject.GetComponent<Animator>().enabled = false;
     }
 }

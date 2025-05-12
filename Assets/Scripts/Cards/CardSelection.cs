@@ -49,6 +49,8 @@ public class CardSelection : MonoBehaviour
     GameObject coverCanvas;
     [SerializeField]
     GameObject confirmCardPrefab;
+    [SerializeField]
+    GameObject passiveConfirmPrefab;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -69,6 +71,8 @@ public class CardSelection : MonoBehaviour
     [SerializeField]
     GameObject[] healthCards;
     public SelectionState selectionState = SelectionState.InGame;
+    [SerializeField]
+    GameObject cardOutlinePrefab;
 
     void Awake()
     {
@@ -85,6 +89,7 @@ public class CardSelection : MonoBehaviour
         List<GameObject> tempCardList = new List<GameObject>();
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
         Debug.Log($"Current Room: {roomNum}");
+        float dungeonCompletionPercent = (float)FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float)FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
         GameObject weapon = cards
             .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
@@ -100,10 +105,15 @@ public class CardSelection : MonoBehaviour
 
         if (roomNum == 0)
         {
+
+
             for (int j = 0; j < 4; ++j)
             {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
                 List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon
+                && card.GetComponent<Card>().cardRarity == randomRarirty)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -113,8 +123,11 @@ public class CardSelection : MonoBehaviour
         {
             for (int j = 0; j < 4; ++j)
             {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
                 List<GameObject> remainingCards = cards
-                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+                .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary
+                && card.GetComponent<Card>().cardRarity == randomRarirty)
                 .ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
@@ -122,33 +135,45 @@ public class CardSelection : MonoBehaviour
         }
         else
         {
-            if (weapon != null) tempCardList.Add(weapon);
-            if (passive != null) tempCardList.Add(passive);
-            if (secondary != null) tempCardList.Add(secondary);
+            // if (weapon != null) tempCardList.Add(weapon);
+            // if (passive != null) tempCardList.Add(passive);
+            // if (secondary != null) tempCardList.Add(secondary);
 
-            List<GameObject> remainingCards = cards.Except(tempCardList).ToList();
-            tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            // CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
+            // List<GameObject> remainingCards = cards
+            // .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
+            // .Except(tempCardList).ToList();
+            // tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+
+            for (int j = 0; j < 4; ++j)
+            {
+                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+
+                List<GameObject> remainingCards = cards
+                .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
+                .Except(tempCardList)
+                .ToList();
+
+                tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
+            }
         }
 
-        // int numOfJoinedPlayers = 0;
 
-        // foreach (PlayerData playerData in FindAnyObjectByType<PlayerManager>().GetPlayers())
-        // {
-        //     if (playerData.isJoined) numOfJoinedPlayers++;
-        // }
-
-        // if (numOfJoinedPlayers >= 4)
-        // {
-        //     remainingCards = cards.Except(tempCardList).ToList();
-        //     tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-        // }
 
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
         int i = 0;
         foreach (GameObject card in tempCardList)
         {
-            cardList[i++] = Instantiate(card, transform);
+            GameObject cardObj = Instantiate(card, transform);
+
+            GameObject cardOutline = Instantiate(cardOutlinePrefab, cardObj.transform);
+            cardOutline.transform.SetSiblingIndex(0);
+
+            cardOutline.GetComponent<Image>().color = GetColourFromRarity(cardObj.GetComponent<Card>().cardRarity) * new Vector4(1f, 1f, 1f, 0.25f);
+
+            cardList[i++] = cardObj;
         }
 
         foreach (GameObject card in cardList)
@@ -188,6 +213,29 @@ public class CardSelection : MonoBehaviour
 
             int playerIndex = playerSelectionOrder[playerSelectionPos].playerIndex;
             currentPlayerIndex = playerIndex;
+
+            if (playerSelectionPos == 3)
+            {
+                foreach (GameObject card in cardList)
+                {
+                    if (card.GetComponent<Button>() != null)
+                    {
+                        card.GetComponent<Button>().Select();
+                        card.GetComponent<CardHandler>().OnSelect(null);
+
+                        SelectCard(card);
+
+                        Destroy(selectedCard.GetComponent<Button>());
+                        selectedCard.GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f);
+                        selectedCard.GetComponent<CardHandler>().OnDeselect(null);
+
+                        selectedCard = null;
+
+                        break;
+                    }
+                }
+                break;
+            }
 
             foreach (GameObject card in cardList)
             {
@@ -307,9 +355,11 @@ public class CardSelection : MonoBehaviour
                 int newIndex = cardIndices[0];
                 cardIndices.Remove(newIndex);
                 CardType ranCardType = cardList[newIndex].GetComponent<Card>().cardType;
+                CardRarity ranCardRarity = cardList[newIndex].GetComponent<Card>().cardRarity;
 
                 GameObject[] cardsOfSameType = cards
-                    .Where(card => card.GetComponent<Card>().cardType == ranCardType)
+                    .Where(card => card.GetComponent<Card>().cardType == ranCardType
+                    && card.GetComponent<Card>().cardRarity == ranCardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(cardsOfSameType, dungeonCompletionPercent);
                 cardList[newIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -317,12 +367,14 @@ public class CardSelection : MonoBehaviour
             }
 
             CardType cardType = cardList[cardIndex].GetComponent<Card>().cardType;
+            CardRarity cardRarity = cardList[cardIndex].GetComponent<Card>().cardRarity;
             if (cardType == CardType.Weapon)
             {
                 GameObject filterWeapon = players[playerIndex].playerInput.gameObject.GetComponent<PlayerAttack>().currentWeapon;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
-                    && card.GetComponent<Card>().abilityObject != filterWeapon)
+                    && card.GetComponent<Card>().abilityObject != filterWeapon
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -332,7 +384,8 @@ public class CardSelection : MonoBehaviour
                 GameObject filterSecondary = players[playerIndex].playerInput.gameObject.GetComponent<PlayerSecondary>().currentSecondary;
                 GameObject[] filteredCardsOfSameType = cards
                     .Where(card => card.GetComponent<Card>().cardType == cardType
-                    && card.GetComponent<Card>().abilityObject != filterSecondary)
+                    && card.GetComponent<Card>().abilityObject != filterSecondary
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -340,7 +393,8 @@ public class CardSelection : MonoBehaviour
             else
             {
                 GameObject[] filteredCardsOfSameType = cards
-                    .Where(card => card.GetComponent<Card>().cardType == cardType)
+                    .Where(card => card.GetComponent<Card>().cardType == cardType
+                    && card.GetComponent<Card>().cardRarity == cardRarity)
                     .ToArray();
                 Card replacementCard = GetWeightedRandomCard(filteredCardsOfSameType, dungeonCompletionPercent);
                 cardList[cardIndex].GetComponent<CardHandler>().ReplaceCard(replacementCard);
@@ -370,7 +424,7 @@ public class CardSelection : MonoBehaviour
                     cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
-            
+
             FindAnyObjectByType<AudioManager>().PlayTraitorTheme();
             FindAnyObjectByType<AudioManager>().PlaySoundJingle("TraitorFound");
         }
@@ -408,6 +462,9 @@ public class CardSelection : MonoBehaviour
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
             List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
+            coverCanvas.SetActive(true);
+            selectionState = SelectionState.ConfirmingSwap;
+
             foreach (PlayerData playerData in players)
             {
                 if (!playerData.isJoined) continue;
@@ -415,8 +472,7 @@ public class CardSelection : MonoBehaviour
                 if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
                 || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
                 {
-                    coverCanvas.SetActive(true);
-                    selectionState = SelectionState.ConfirmingSwap;
+
                     GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
@@ -425,6 +481,7 @@ public class CardSelection : MonoBehaviour
 
                     confirmCardHandler.SetupCard(
                         $"Player {playerData.playerIndex + 1}",
+                        playerData.playerColour,
                         PlayerManager.instance.playerSprites[playerData.playerIndex],
                         cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
@@ -434,6 +491,74 @@ public class CardSelection : MonoBehaviour
 
                     handlers.Add(confirmCardHandler);
                 }
+                else
+                {
+                    GameObject confirmCard = Instantiate(passiveConfirmPrefab, confirmCanvas.transform);
+
+                    PassiveConfirmHandler confirmCardHandler = confirmCard.GetComponent<PassiveConfirmHandler>();
+
+                    GameObject selectedPassiveObj = cardList[selectedCards[playerData.playerIndex]];
+
+                    float currentPassiveMod = 1f;
+                    float passiveModDiff = 0.0f;
+
+                    PassiveStats passiveStats = selectedPassiveObj.GetComponent<Card>().abilityObject.GetComponent<PassiveStats>();
+                    PlayerStats playerStats = playerData.playerInput.GetComponent<PlayerStats>();
+
+                    if (passiveStats.healthMod > 0)
+                    {
+                        currentPassiveMod = playerStats.GetHealthStat();
+                        passiveModDiff = passiveStats.GetHealthMod();
+
+                        confirmCardHandler.SetupCard(
+                            $"Player {playerData.playerIndex + 1}",
+                            playerData.playerColour,
+                            PlayerManager.instance.playerSprites[playerData.playerIndex],
+                            selectedPassiveObj.GetComponent<Card>().cardName,
+                            selectedPassiveObj.GetComponent<Image>().sprite,
+                            $"{currentPassiveMod}",
+                            $"{currentPassiveMod + passiveModDiff}"
+                        );
+                    }
+                    else
+                    {
+                        if (passiveStats.strengthMod > 0)
+                        {
+                            currentPassiveMod = playerStats.GetStrengthStat();
+                            passiveModDiff = passiveStats.GetStrengthMod() / 100f;
+                        }
+                        else if (passiveStats.moveMod > 0)
+                        {
+                            currentPassiveMod = playerStats.GetMoveStat();
+                            passiveModDiff = passiveStats.GetMoveMod() / 100f;
+                        }
+                        else if (passiveStats.cooldownMultiplier > 0)
+                        {
+                            currentPassiveMod = playerStats.GetCooldownStat();
+                            passiveModDiff = passiveStats.GetCooldownMod() / 100f;
+                        }
+                        else if (passiveStats.lifestealMulitplier > 0)
+                        {
+                            currentPassiveMod = playerStats.GetLifestealStat();
+                            passiveModDiff = passiveStats.GetLifestealMod() / 100f;
+                        }
+                        else if (passiveStats.knockbackMult > 0)
+                        {
+                            currentPassiveMod = playerStats.GetKnockbackStat();
+                            passiveModDiff = passiveStats.GetKnockbackMod() / 100f;
+                        }
+
+                        confirmCardHandler.SetupCard(
+                            $"Player {playerData.playerIndex + 1}",
+                            playerData.playerColour,
+                            PlayerManager.instance.playerSprites[playerData.playerIndex],
+                            selectedPassiveObj.GetComponent<Card>().cardName,
+                            selectedPassiveObj.GetComponent<Image>().sprite,
+                            $"x{currentPassiveMod}",
+                            $"x{currentPassiveMod + passiveModDiff}"
+                        );
+                    }
+                }
             }
             yield return ConfirmManager.Instance.WaitForAllConfirmations(handlers);
 
@@ -441,8 +566,8 @@ public class CardSelection : MonoBehaviour
             {
                 if (cardHandler.confirmedChoice == false)
                 {
-                    Debug.Log($"Int: {(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity}");
-                    cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int) cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
+                    Debug.Log($"Int: {(int)cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity}");
+                    cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int)cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
                 }
             }
         }
@@ -529,7 +654,8 @@ public class CardSelection : MonoBehaviour
                 default:
                     return 0f;
             }
-        } else // Late Game (75% - 100% completion)
+        }
+        else // Late Game (75% - 100% completion)
         {
             switch (rarity)
             {
@@ -570,14 +696,42 @@ public class CardSelection : MonoBehaviour
         return cardPool[0].GetComponent<Card>(); // fallback
     }
 
+    CardRarity GetWeightedCardRarity(GameObject[] cardPool, float completion)
+    {
+        float totalWeight = 0f;
+        List<float> weights = new();
+
+        foreach (GameObject cardObj in cardPool)
+        {
+            Card card = cardObj.GetComponent<Card>();
+            float weight = GetRarityWeight(card.cardRarity, completion);
+            weights.Add(weight);
+            totalWeight += weight;
+        }
+
+        float rand = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+
+        for (int i = 0; i < cardPool.Length; i++)
+        {
+            cumulative += weights[i];
+            if (rand <= cumulative)
+            {
+                return cardPool[i].GetComponent<Card>().cardRarity;
+            }
+        }
+
+        return CardRarity.Common; // fallback
+    }
+
     public Color GetColourFromRarity(CardRarity rarity)
     {
         switch (rarity)
         {
             case CardRarity.Rare:
-                return new Vector4(0f,0.9f,1f,1f);
+                return new Vector4(0f, 0.9f, 1f, 1f);
             case CardRarity.Legendary:
-                return new Vector4(1f,0.85f,0f,1f);
+                return new Vector4(1f, 0.85f, 0f, 1f);
             case CardRarity.Traitor:
                 return Color.red;
             default:
