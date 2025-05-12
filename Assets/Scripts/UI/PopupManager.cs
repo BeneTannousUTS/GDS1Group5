@@ -20,7 +20,7 @@ public class PopupManager : MonoBehaviour
         GameObject smallPopup = Instantiate(smallPopupPrefab);
         float adjustedScale = Math.Clamp(scale, 1f, 5f);
         smallPopup.transform.position = entityObject.transform.position;
-        smallPopup.transform.localScale *= adjustedScale;
+        //smallPopup.transform.localScale *= adjustedScale;
         smallPopup.GetComponent<PopupHandler>().SetText(text, colour);
         Destroy(smallPopup, smallPopupTime);
     }

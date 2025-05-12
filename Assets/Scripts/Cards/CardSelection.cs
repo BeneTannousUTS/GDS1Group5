@@ -469,10 +469,10 @@ public class CardSelection : MonoBehaviour
             {
                 if (!playerData.isJoined) continue;
 
-                if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
-                || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
-                {
+                CardType cardType = cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType;
 
+                if (cardType == CardType.Weapon || cardType == CardType.Secondary)
+                {
                     GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
@@ -483,7 +483,7 @@ public class CardSelection : MonoBehaviour
                         $"Player {playerData.playerIndex + 1}",
                         playerData.playerColour,
                         PlayerManager.instance.playerSprites[playerData.playerIndex],
-                        cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon ?
+                        cardType == CardType.Weapon ?
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().primaryAbility.sprite :
                             playerData.playerInput.GetComponent<PlayerHUD>().GetUIComponentHelper().secondaryAbility.sprite,
                         cardList[selectedCards[playerData.playerIndex]].GetComponent<Image>().sprite
@@ -491,7 +491,7 @@ public class CardSelection : MonoBehaviour
 
                     handlers.Add(confirmCardHandler);
                 }
-                else
+                else if (cardType == CardType.Passive && cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardRarity != CardRarity.Traitor)
                 {
                     GameObject confirmCard = Instantiate(passiveConfirmPrefab, confirmCanvas.transform);
 

@@ -17,21 +17,22 @@ public class HealthComponent : MonoBehaviour
     private AudioManager audioManager;
     [SerializeField] private GameObject healParticles;
     [SerializeField] private float flashDuration = 0.25f;
+    [SerializeField] private bool isObject = false;
 
-    public bool GetIsDead() 
+    public bool GetIsDead()
     {
         return isDead;
     }
 
-    public void SetMaxHealth(float health) 
+    public void SetMaxHealth(float health)
     {
-        if (maxHealth < health) 
+        if (maxHealth < health)
         {
             currentHealth += health - maxHealth;
             maxHealth = health;
         }
     }
-    
+
     //Brings back player back to life with half there max health
     public void Revive()
     {
@@ -42,33 +43,34 @@ public class HealthComponent : MonoBehaviour
         gameObject.GetComponent<Animator>().SetTrigger("revived");
     }
 
-    IEnumerator DamageFlash() 
+    IEnumerator DamageFlash()
     {
         float currentFlash = 0f;
         float lerpTime = 0f;
-        while (lerpTime < flashDuration) {
+        while (lerpTime < flashDuration)
+        {
             lerpTime += Time.deltaTime;
-            currentFlash = Mathf.Lerp(2f, 0f, lerpTime/flashDuration);
+            currentFlash = Mathf.Lerp(2f, 0f, lerpTime / flashDuration);
             gameObject.GetComponent<SpriteRenderer>().material.SetFloat("flashAmount", currentFlash);
             yield return null;
         }
     }
 
-    IEnumerator HealingFlash() 
+    IEnumerator HealingFlash()
     {
         GameObject healParticle = Instantiate(healParticles, gameObject.transform);
         //healParticle.transform.position = gameObject.transform.position;
         yield return null;
     }
 
-    IEnumerator DoInvincibilityFrames(float time) 
+    IEnumerator DoInvincibilityFrames(float time)
     {
         invincible = true;
         yield return new WaitForSeconds(time);
         invincible = false;
     }
 
-    IEnumerator Die() 
+    IEnumerator Die()
     {
         isDead = true;
         yield return new WaitForSeconds(0.05f);
@@ -81,10 +83,12 @@ public class HealthComponent : MonoBehaviour
         {
             gameObject.GetComponent<Destructible>().SpawnItems();
         }
-        else if (gameObject.CompareTag("Player") == false) {
+        else if (gameObject.CompareTag("Player") == false)
+        {
             Destroy(gameObject);
         }
-        else {
+        else
+        {
             //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
             FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, "You Died!", PlayerManager.instance.players[gameObject.GetComponent<PlayerIndex>().playerIndex].playerColour);
@@ -96,16 +100,20 @@ public class HealthComponent : MonoBehaviour
     }
 
     // Takes damage equal to the damageValue then checks if is dead
-    public void TakeDamage(float damageValue) 
+    public void TakeDamage(float damageValue)
     {
         if (damageValue != 0)
         {
             if (damageValue < 0f)
             {
                 currentHealth = Math.Max(0, currentHealth - damageValue);
-                if (damageValue > -1000f)
+
+                if (!isObject)
                 {
-                    FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int) (damageValue * -1f)}", Color.green, damageValue / -10);
+                    if (damageValue > -1000f)
+                    {
+                        FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int)(damageValue * -1f)}", Color.green, damageValue / -10);
+                    }
                 }
 
                 StartCoroutine(HealingFlash());
@@ -139,7 +147,10 @@ public class HealthComponent : MonoBehaviour
             else if (invincible == false)
             {
                 currentHealth = Math.Max(0, currentHealth - damageValue);
-                FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int) (damageValue)}", Color.red, damageValue / 10f);
+                if (!isObject)
+                {
+                    FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int)(damageValue)}", Color.red, damageValue / 10f);
+                }
 
                 // determining which audio effect should player
                 if (GetComponent<PlayerAttack>()) audioManager.PlaySoundEffect("PlayerDamage");
@@ -186,8 +197,8 @@ public class HealthComponent : MonoBehaviour
     // Sets currentHealth to maxHealth & gets audio manager by tag
     void Start()
     {
-       currentHealth = maxHealth;
-       audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>(); 
+        currentHealth = maxHealth;
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     public void UpdateHUDHealthBar()
@@ -195,7 +206,8 @@ public class HealthComponent : MonoBehaviour
         GetComponent<PlayerHUD>().SetHealthbarDetails(currentHealth, maxHealth);
     }
 
-    public float GetCurrentHealth() {
+    public float GetCurrentHealth()
+    {
         return currentHealth;
     }
     //Used when removing all passives a player has gained with debug
@@ -204,7 +216,7 @@ public class HealthComponent : MonoBehaviour
         maxHealth = 100;
         currentHealth = 100;
     }
-    
+
     public void ToggleInvincible()
     {
         invincible = !invincible;
