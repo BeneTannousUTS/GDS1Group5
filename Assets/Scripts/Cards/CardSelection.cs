@@ -49,6 +49,8 @@ public class CardSelection : MonoBehaviour
     GameObject coverCanvas;
     [SerializeField]
     GameObject confirmCardPrefab;
+    [SerializeField]
+    GameObject passiveConfirmPrefab;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -165,11 +167,11 @@ public class CardSelection : MonoBehaviour
         foreach (GameObject card in tempCardList)
         {
             GameObject cardObj = Instantiate(card, transform);
-        
+
             GameObject cardOutline = Instantiate(cardOutlinePrefab, cardObj.transform);
             cardOutline.transform.SetSiblingIndex(0);
 
-            cardOutline.GetComponent<Image>().color = GetColourFromRarity(cardObj.GetComponent<Card>().cardRarity) * new Vector4(1f,1f,1f,0.25f);
+            cardOutline.GetComponent<Image>().color = GetColourFromRarity(cardObj.GetComponent<Card>().cardRarity) * new Vector4(1f, 1f, 1f, 0.25f);
 
             cardList[i++] = cardObj;
         }
@@ -460,6 +462,9 @@ public class CardSelection : MonoBehaviour
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
             List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
+            coverCanvas.SetActive(true);
+            selectionState = SelectionState.ConfirmingSwap;
+
             foreach (PlayerData playerData in players)
             {
                 if (!playerData.isJoined) continue;
@@ -467,8 +472,7 @@ public class CardSelection : MonoBehaviour
                 if (cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Weapon
                 || cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardType == CardType.Secondary)
                 {
-                    coverCanvas.SetActive(true);
-                    selectionState = SelectionState.ConfirmingSwap;
+
                     GameObject confirmCard = Instantiate(confirmCardPrefab, confirmCanvas.transform);
                     playerData.playerInput.SwitchCurrentActionMap("Confirm/Skip");
 
@@ -486,6 +490,74 @@ public class CardSelection : MonoBehaviour
                     );
 
                     handlers.Add(confirmCardHandler);
+                }
+                else
+                {
+                    GameObject confirmCard = Instantiate(passiveConfirmPrefab, confirmCanvas.transform);
+
+                    PassiveConfirmHandler confirmCardHandler = confirmCard.GetComponent<PassiveConfirmHandler>();
+
+                    GameObject selectedPassiveObj = cardList[selectedCards[playerData.playerIndex]];
+
+                    float currentPassiveMod = 1f;
+                    float passiveModDiff = 0.0f;
+
+                    PassiveStats passiveStats = selectedPassiveObj.GetComponent<Card>().abilityObject.GetComponent<PassiveStats>();
+                    PlayerStats playerStats = playerData.playerInput.GetComponent<PlayerStats>();
+
+                    if (passiveStats.healthMod > 0)
+                    {
+                        currentPassiveMod = playerStats.GetHealthStat();
+                        passiveModDiff = passiveStats.GetHealthMod();
+
+                        confirmCardHandler.SetupCard(
+                            $"Player {playerData.playerIndex + 1}",
+                            playerData.playerColour,
+                            PlayerManager.instance.playerSprites[playerData.playerIndex],
+                            selectedPassiveObj.GetComponent<Card>().cardName,
+                            selectedPassiveObj.GetComponent<Image>().sprite,
+                            $"{currentPassiveMod}",
+                            $"{currentPassiveMod + passiveModDiff}"
+                        );
+                    }
+                    else
+                    {
+                        if (passiveStats.strengthMod > 0)
+                        {
+                            currentPassiveMod = playerStats.GetStrengthStat();
+                            passiveModDiff = passiveStats.GetStrengthMod() / 100f;
+                        }
+                        else if (passiveStats.moveMod > 0)
+                        {
+                            currentPassiveMod = playerStats.GetMoveStat();
+                            passiveModDiff = passiveStats.GetMoveMod() / 100f;
+                        }
+                        else if (passiveStats.cooldownMultiplier > 0)
+                        {
+                            currentPassiveMod = playerStats.GetCooldownStat();
+                            passiveModDiff = passiveStats.GetCooldownMod() / 100f;
+                        }
+                        else if (passiveStats.lifestealMulitplier > 0)
+                        {
+                            currentPassiveMod = playerStats.GetLifestealStat();
+                            passiveModDiff = passiveStats.GetLifestealMod() / 100f;
+                        }
+                        else if (passiveStats.knockbackMult > 0)
+                        {
+                            currentPassiveMod = playerStats.GetKnockbackStat();
+                            passiveModDiff = passiveStats.GetKnockbackMod() / 100f;
+                        }
+
+                        confirmCardHandler.SetupCard(
+                            $"Player {playerData.playerIndex + 1}",
+                            playerData.playerColour,
+                            PlayerManager.instance.playerSprites[playerData.playerIndex],
+                            selectedPassiveObj.GetComponent<Card>().cardName,
+                            selectedPassiveObj.GetComponent<Image>().sprite,
+                            $"x{currentPassiveMod}",
+                            $"x{currentPassiveMod + passiveModDiff}"
+                        );
+                    }
                 }
             }
             yield return ConfirmManager.Instance.WaitForAllConfirmations(handlers);
