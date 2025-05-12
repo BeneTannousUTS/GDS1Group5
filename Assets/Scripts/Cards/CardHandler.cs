@@ -64,6 +64,7 @@ public class CardHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         card.cardFrontSprite = traitorSprite;
         gameObject.GetComponent<Image>().sprite = card.cardFrontSprite;
+        gameObject.transform.GetChild(0).GetComponent<Image>().color = Color.red;
         card.cardType = CardType.Passive;
         card.cardRarity = CardRarity.Traitor;
         card.abilityObject = null;

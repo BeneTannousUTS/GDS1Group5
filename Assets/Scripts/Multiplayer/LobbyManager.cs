@@ -60,7 +60,7 @@ public class LobbyManager : MonoBehaviour
             //     StartGame();
             // }
 
-        if (Input.GetKeyDown(KeyCode.Q) && false) // change to true if you want for testing
+        if (Input.GetKeyDown(KeyCode.Q) && true) // change to true if you want for testing
         {
             if (PlayerManager.instance.players[0].isJoined)
                 SpawnLobbyPlayer(PlayerManager.instance.players[0].gamepad);

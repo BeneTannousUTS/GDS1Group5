@@ -19,9 +19,10 @@ public class ConfirmCardHandler : BaseConfirmHandler
         base.Awake();
     }
 
-    public void SetupCard(string playerLabel, Sprite icon, Sprite oldAbility, Sprite newAbility)
+    public void SetupCard(string playerLabel, Color playerColour, Sprite icon, Sprite oldAbility, Sprite newAbility)
     {
         playerText.text = playerLabel;
+        playerText.color = playerColour;
         playerIcon.sprite = icon;
         prevCard.sprite = oldAbility;
         newCard.sprite = newAbility;
