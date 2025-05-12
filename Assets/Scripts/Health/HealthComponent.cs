@@ -105,7 +105,7 @@ public class HealthComponent : MonoBehaviour
                 currentHealth = Math.Max(0, currentHealth - damageValue);
                 if (damageValue > -1000f)
                 {
-                    FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int) (damageValue * -1f)}", Color.green);
+                    FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int) (damageValue * -1f)}", Color.green, damageValue / -10);
                 }
 
                 StartCoroutine(HealingFlash());
@@ -139,7 +139,7 @@ public class HealthComponent : MonoBehaviour
             else if (invincible == false)
             {
                 currentHealth = Math.Max(0, currentHealth - damageValue);
-                FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int) (damageValue)}", Color.red);
+                FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"- {(int) (damageValue)}", Color.red, damageValue / 10f);
 
                 // determining which audio effect should player
                 if (GetComponent<PlayerAttack>()) audioManager.PlaySoundEffect("PlayerDamage");
