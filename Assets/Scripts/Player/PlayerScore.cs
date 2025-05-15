@@ -79,15 +79,23 @@ public class PlayerScore : MonoBehaviour
     public void IncrementSecondaryActivated() {
         scoreStats.secondaryActivated++;
     }
+    public void IncrementPotsSmashed() {
+        scoreStats.potsSmashed++;
+    }
 
     public void SetTimeStarted()
     {
         timeStartedRoom = Time.time;
     }
 
+    public void SetTopSpeed(float speed)
+    {
+        scoreStats.topSpeed = Math.Max(scoreStats.topSpeed, speed);
+    }
+
     public void AddTimeAlive(float currentTime)
     {
-        scoreStats.timeAlive += (currentTime - timeStartedRoom);
+        scoreStats.timeAlive += currentTime - timeStartedRoom;
     }
 
     public void SetWonGame()
@@ -102,7 +110,7 @@ public class PlayerScore : MonoBehaviour
 }
 
 [Serializable] public struct ScoreStats {
-    public float damageDealt, damageTaken, healingGiven, timeAlive;
-    public int score, kills, deaths, weaponsPicked, secondariesPicked, passivesPicked, weaponActivated, secondaryActivated, projectilesHit, projectilesShot, hazardsRanInto;
+    public float damageDealt, damageTaken, healingGiven, timeAlive, topSpeed;
+    public int score, kills, deaths, weaponsPicked, secondariesPicked, passivesPicked, weaponActivated, secondaryActivated, projectilesHit, projectilesShot, hazardsRanInto, potsSmashed;
     public bool isTraitor, wonGame;
 }

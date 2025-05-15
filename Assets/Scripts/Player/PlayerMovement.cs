@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveDirection = new Vector3(movementInput.x, movementInput.y, 0f);
             rb.linearVelocity = moveDirection.normalized * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat();
+            GetComponent<PlayerScore>().SetTopSpeed(rb.linearVelocity.magnitude);
 
             // Setting facingDirection to a vector with
             if (moveDirection != Vector3.zero)

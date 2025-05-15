@@ -84,6 +84,8 @@ public class Hazards : MonoBehaviour
                 if(GetSourceObject() != null && GetSourceObject().GetComponent<PlayerStats>() != null){
                     healthComponent.gameObject.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength + GetSourceObject().GetComponent<PlayerStats>().GetKnockbackStat(), knockbackTime,knockbackDirection); 
                 }
+
+                healthComponent.gameObject.GetComponent<PlayerScore>().IncrementHazardsRanInto();
             }
         } else if (healthComponent.gameObject.CompareTag("Enemy") && damageValue > 0)
         {

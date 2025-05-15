@@ -10,7 +10,7 @@ public class MedicAccolade : Accolade
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {
-            if (indexScoreStat.scoreStat.healingGiven > mostHealed && indexScoreStat.scoreStat.healingGiven > 250f)
+            if (indexScoreStat.scoreStat.healingGiven > mostHealed && indexScoreStat.scoreStat.healingGiven > 100f)
             {
                 bestIndex = indexScoreStat.playerIndex;
                 mostHealed = indexScoreStat.scoreStat.healingGiven;

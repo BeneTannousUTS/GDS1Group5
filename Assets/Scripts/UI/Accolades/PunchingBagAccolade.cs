@@ -9,7 +9,7 @@ public class PunchingBagAccolade : Accolade
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {
-            if (indexScoreStat.scoreStat.damageTaken > mostDamageTaken && indexScoreStat.scoreStat.damageTaken > 500f)
+            if (indexScoreStat.scoreStat.damageTaken > mostDamageTaken && indexScoreStat.scoreStat.damageTaken > 300f)
             {
                 bestIndex = indexScoreStat.playerIndex;
                 mostDamageTaken = indexScoreStat.scoreStat.damageTaken;

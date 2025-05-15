@@ -12,7 +12,7 @@ public class DontMissAccolade : Accolade
         {
             float accuracy = (float) indexScoreStat.scoreStat.projectilesHit / (float) indexScoreStat.scoreStat.projectilesShot;
 
-            if (accuracy > bestAccuracy && accuracy > 0.9f)
+            if (accuracy > bestAccuracy && accuracy > 0.9f && indexScoreStat.scoreStat.projectilesHit > 25 && indexScoreStat.scoreStat.projectilesShot > 25)
             {
                 bestIndex = indexScoreStat.playerIndex;
                 bestAccuracy = accuracy;

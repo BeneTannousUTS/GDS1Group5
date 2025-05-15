@@ -9,7 +9,7 @@ public class SurvivorAccolade : Accolade
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {
-            if (indexScoreStat.scoreStat.timeAlive > mostTimeAlive && indexScoreStat.scoreStat.timeAlive > 10 * 60)
+            if (indexScoreStat.scoreStat.timeAlive > mostTimeAlive && indexScoreStat.scoreStat.timeAlive > 5 * 60)
             {
                 bestIndex = indexScoreStat.playerIndex;
                 mostTimeAlive = indexScoreStat.scoreStat.timeAlive;

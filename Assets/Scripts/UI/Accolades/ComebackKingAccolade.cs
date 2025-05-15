@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class ComebackKingAccolade : Accolade
 {
@@ -18,14 +16,16 @@ public class ComebackKingAccolade : Accolade
             }
         }
 
-        if (bestIndexScoreStat.scoreStat.isTraitor && bestIndexScoreStat.scoreStat.wonGame)
+        if (bestIndexScoreStat != null)
         {
-            title = "Comeback King";
-            body = $"Won with the lowest score.";
-            return bestIndexScoreStat.playerIndex;
-        } else
-        {
-            return -1;
+            if (bestIndexScoreStat.scoreStat.isTraitor && bestIndexScoreStat.scoreStat.wonGame)
+            {
+                title = "Comeback King";
+                body = $"Won with the lowest score.";
+                return bestIndexScoreStat.playerIndex;
+            }
         }
+
+        return -1;
     }
 }

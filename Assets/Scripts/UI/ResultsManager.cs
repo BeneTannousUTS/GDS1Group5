@@ -112,8 +112,11 @@ public class ResultsManager : MonoBehaviour
 
         List<Accolade> orderedAccolades = new List<Accolade>
         {
-            new ComebackKingAccolade(),
-            new DontMissAccolade(),
+            new ComebackKingAccolade()
+        };
+
+        List<Accolade> unorderedAccolades = new List<Accolade>
+        {
             new SlayerAccolade(),
             new PunchingBagAccolade(),
             new WeaponHoarderAccolade(),
@@ -121,7 +124,23 @@ public class ResultsManager : MonoBehaviour
             new MedicAccolade(),
             new SurvivorAccolade(),
             new CasperAccolade(),
+            new OuchAccolade(),
+            new JustASecondAccolade(),
+            new SpammerAccolade(),
+            new ZoomerAccolade(),
         };
+
+        unorderedAccolades = unorderedAccolades.OrderBy(x => UnityEngine.Random.value).ToList();
+
+        orderedAccolades.InsertRange(orderedAccolades.Count, unorderedAccolades);
+
+        orderedAccolades.InsertRange(orderedAccolades.Count,
+            new List<Accolade>
+            {
+                new DontMissAccolade(),
+                new JustKindaThereAccolade()
+            }
+        );
 
         foreach (Accolade accolade in orderedAccolades)
         {

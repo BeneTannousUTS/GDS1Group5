@@ -136,6 +136,9 @@ public class HealthComponent : MonoBehaviour
                         gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
                             VibrationManager.VibrationPattern.HealPattern);
                     }
+                } else if (gameObject.GetComponent<Destructible>() != null)
+                {
+                    // add broke pot to player score
                 }
 
                 if (GetComponent<SmallHealthBar>() != null)

@@ -105,8 +105,6 @@ public class CardSelection : MonoBehaviour
 
         if (roomNum == 0)
         {
-
-
             for (int j = 0; j < 4; ++j)
             {
                 CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
