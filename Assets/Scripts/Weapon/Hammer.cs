@@ -19,7 +19,13 @@ public class Hammer : WeaponStats
 
     IEnumerator FriendlyKnockback()
     {
-        yield return new WaitForSeconds(weaponLifetime * 0.5f);
+        yield return new WaitForSeconds(weaponLifetime * 0.25f);
+
+        if (damageValue > 0) {
+            FindAnyObjectByType<AudioManager>().PlaySoundEffect("Slam");
+        }
+
+        yield return new WaitForSeconds(weaponLifetime * 0.25f);
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, friendlyKnockbackRadius);
         foreach (Collider2D collider in colliders)
