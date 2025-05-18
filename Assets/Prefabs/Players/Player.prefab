@@ -169,6 +169,7 @@ MonoBehaviour:
   currentHealth: 0
   healParticles: {fileID: 8730505031937385877, guid: 6a5a9dfa45bbacb4faed79da873a2a11, type: 3}
   flashDuration: 0.25
+  isObject: 0
 --- !u!114 &-3664968770519650174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,7 +481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 8532858634556881520}
-  healthText: {fileID: 0}
 --- !u!114 &7100055283759772095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
     damageTaken: 0
     healingGiven: 0
     timeAlive: 0
+    topSpeed: 0
     score: 0
     kills: 0
     deaths: 0
@@ -509,6 +510,7 @@ MonoBehaviour:
     projectilesHit: 0
     projectilesShot: 0
     hazardsRanInto: 0
+    potsSmashed: 0
     isTraitor: 0
     wonGame: 0
   timeStartedRoom: 0
