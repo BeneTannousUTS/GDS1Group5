@@ -87,4 +87,17 @@ public class PlayerManager : MonoBehaviour
     {
         return players;
     }
+
+    public int GetJoinedPlayerCount()
+    {
+        int count = 0;
+        foreach (var player in players)
+        {
+            if (player.isJoined)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
 }

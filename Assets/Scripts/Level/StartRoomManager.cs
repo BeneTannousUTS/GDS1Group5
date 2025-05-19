@@ -18,7 +18,6 @@ public class StartRoomManager : MonoBehaviour
 
     private float doorTimer;
     private bool openDoor;
-    private bool doorBeingDestroyed = false;
     private float checkTimer;
     public bool roomChange = false;
     private float roomChangeTimer;
@@ -32,28 +31,35 @@ public class StartRoomManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (doorPressurePlates.GetComponent<DoorPressurePlate>().CountActivePlates() ==
-            CountActivePlayers() && CountActivePlayers() >= 2 && shouldBarUpdate)
+        UpdateProgressBar();
+    }
+
+    void UpdateProgressBar()
+    {
+        if (CountActivePlayers() < 2 && shouldBarUpdate)
+        {
+            doorProgressBar.GetComponent<ProgressBarHelper>().SetProgressBarText("Waiting for enough players to join...");
+        }
+        else if (doorPressurePlates.GetComponent<DoorPressurePlate>().CountActivePlates() ==
+                 CountActivePlayers() && CountActivePlayers() >= 2 && shouldBarUpdate)
         {
             //Debug.Log("Door countdown active " + CountActivePlayers());
             doorProgressBar.SetActive(true);
             DoorOpenDelayTimer(true);
-            doorProgressBar.GetComponent<ProgressBarHelper>().SetPlayerCountText(CountActivePlayers());
-            doorProgressBar.GetComponent<ProgressBarHelper>().SetTextVisibility(true);
+            doorProgressBar.GetComponent<ProgressBarHelper>().SetProgressBarText("Starting game with " + CountActivePlayers() + " players!");
         }
-        else if(shouldBarUpdate)
+        else if (shouldBarUpdate)
         {
             //Debug.Log("Door countdown inactive " + CountActivePlayers());
-            doorProgressBar.GetComponent<ProgressBarHelper>().SetTextVisibility(false);
+            doorProgressBar.GetComponent<ProgressBarHelper>().SetProgressBarText("Step on the plates to start game!");
             DoorOpenDelayTimer(false);
-        };
+        }
         
         if (roomChange)
         {
             LoadGameScene();
         }
     }
-
      void LoadGameScene()
     {
         roomChangeTimer += Time.deltaTime;
@@ -98,6 +104,10 @@ public class StartRoomManager : MonoBehaviour
                         Destroy(panel);
                     }
                 }
+                
+                doorProgressBar.GetComponent<ProgressBarHelper>().SetProgressBarText("Good luck...");
+                hud.DestroyLeavePrompt();
+                lobby.SetLobbyUnlocked(false);
             }
         }else if (!shouldDoorOpen && doorTimer > 0 && shouldBarUpdate)
         {
@@ -107,10 +117,7 @@ public class StartRoomManager : MonoBehaviour
             {
                 doorTimer = 0;
             }
-        }else if (doorTimer <= 0 && shouldBarUpdate)
-        {
-            doorProgressBar.SetActive(false);
-        };
+        }
     }
 
     int CountActivePlayers()

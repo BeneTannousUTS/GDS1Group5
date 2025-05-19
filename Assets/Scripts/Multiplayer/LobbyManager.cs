@@ -1,8 +1,6 @@
 // AUTHOR: BENEDICT
 // This script handles player joining and logic to update the UI as players join and leave
 
-//TODO: REFACTOR THIS SCRIPT SO THAT PLAYER HUD ELEMENTS ARE LOADED IN THE LOBBY AND ARE NOT DESTROYED WHEN LOADING A NEW SCENE
-
 using System;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -22,19 +20,14 @@ public class LobbyManager : MonoBehaviour
     private GameObject[] spawnedPlayers;
     private int joinedPlayers;
     private readonly int maxPlayers = 4;
-    private bool canStartGame;
+    private bool lobbyUnlocked = true;
 
     private void Update()
     {
-        CheckControllerInput();
-        
-        if (playerSpawns[0].GetComponent<PlayerIndex>().isOccupied &&
-            (playerSpawns[1].GetComponent<PlayerIndex>().isOccupied ||
-             playerSpawns[2].GetComponent<PlayerIndex>().isOccupied ||
-             playerSpawns[3].GetComponent<PlayerIndex>().isOccupied))
-            canStartGame = true;
-        else
-            canStartGame = false;
+        if (lobbyUnlocked)
+        {
+            CheckControllerInput();
+        }
     }
 
     private void CheckControllerInput()
@@ -44,13 +37,13 @@ public class LobbyManager : MonoBehaviour
             // Check if the player wants to join
             if (gamepad.leftShoulder.isPressed && gamepad.rightShoulder.isPressed && !IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 SpawnLobbyPlayer(gamepad);
             }
             // Check if the player wants to leave
             else if (gamepad.selectButton.wasPressedThisFrame && IsGamepadAssigned(gamepad))
             {
-                //OnControlsChanged(gamepad);
+                OnControlsChanged(gamepad);
                 DespawnLobbyPlayer(gamepad);
             }
             // Check if the first player wants to start the game
@@ -60,7 +53,7 @@ public class LobbyManager : MonoBehaviour
             //     StartGame();
             // }
 
-        if (Input.GetKeyDown(KeyCode.Q) && true) // change to true if you want for testing
+        if (Input.GetKeyDown(KeyCode.Q)) // change to true if you want for testing
         {
             if (PlayerManager.instance.players[0].isJoined)
                 SpawnLobbyPlayer(PlayerManager.instance.players[0].gamepad);
@@ -164,21 +157,31 @@ public class LobbyManager : MonoBehaviour
 
     public void StartGame()
     {
-        if (!canStartGame) return;
+        if (lobbyUnlocked) return;
         
         SceneManager.LoadScene("GameScene");
     }
 
+    public bool GetLobbyUnlocked()
+    {
+        return lobbyUnlocked;
+    }
+
+    public void SetLobbyUnlocked(bool isGameJoinable)
+    {
+        lobbyUnlocked = isGameJoinable;
+    }
+
     //Disable XInput device since Unity has a bug where Switch pro controllers are recognised as two inputs
-    // private void OnControlsChanged(Gamepad gamepad)
-    // {
-    //     if (gamepad is SwitchProControllerHID)
-    //         foreach (var item in Gamepad.all)
-    //             if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
-    //             {
-    //                 Debug.Log(
-    //                     $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
-    //                 InputSystem.DisableDevice(item);
-    //             }
-    // }
+    private void OnControlsChanged(Gamepad gamepad)
+    {
+        if (gamepad is SwitchProControllerHID)
+            foreach (var item in Gamepad.all)
+                if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
+                {
+                    Debug.Log(
+                        $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");
+                    InputSystem.DisableDevice(item);
+                }
+    }
 }

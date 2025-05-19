@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class ProgressBarHelper : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI playerCountText;
-    [SerializeField] TextMeshProUGUI[] textElements;
+    [SerializeField] TextMeshProUGUI displayText;
     
     Color lowHealthColour;
     Color highHealthColour;
@@ -19,35 +18,23 @@ public class ProgressBarHelper : MonoBehaviour
     void Start()
     {
         SetGradient();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SetTextVisibility(true);
     }
 
     public void SetTextVisibility(bool isVisible)
     {
-        foreach (var textElement in textElements)
-        {
-            textElement.alpha = isVisible ? 255f : 0f;
-        }
+        displayText.alpha = isVisible ? 255f : 0f;
     }
 
-    public void SetPlayerCountText(int playerCount)
+    public void SetProgressBarText(string text)
     {
-        playerCountText.text = playerCount.ToString();
+        displayText.text = text;
     }
     
     public void SetProgressBarFill(float progressBarFill)
     {
-        if (progressBarFill == 0)
+        if (progressBarFill < 1 && progressBarFill > 0)
         {
-            progressBar.enabled = false;
-        }else if (progressBarFill < 1 && progressBarFill > 0)
-        {
-            progressBar.enabled = true;
             progressBar.fillAmount = progressBarFill;
             EvaluateColour();
         }
