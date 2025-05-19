@@ -160,7 +160,9 @@ public class HealthComponent : MonoBehaviour
                 if (GetComponent<EnemyAttack>()) audioManager.PlaySoundEffect("EnemyDamage");
 
                 StartCoroutine(DamageFlash());
-                StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+                if (invicibilityFrameTime != 0f) {
+                    StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+                }
 
                 // Call HUD component function to update healthbar if player
                 if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))

@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (dashTime > 0) {
             dashTime -= Time.deltaTime;
+            ContinueDash();
         }
         else
         {
@@ -121,5 +122,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = facingDirection.normalized * moveSpeed * 4f;
         dashTime = 0.2f;
+    }
+
+    void ContinueDash()
+    {
+        rb.linearVelocity = facingDirection.normalized * moveSpeed * 4f;
     }
 }

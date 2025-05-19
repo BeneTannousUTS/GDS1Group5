@@ -64,13 +64,18 @@ public class WeaponStats : MonoBehaviour
         return canStrafe;
     }
 
+    protected virtual float GetDamageValue(HealthComponent healthComponent) 
+    {
+        return damageValue;
+    }
+
     // Deals damage to a specified HealthComponent
     public void DealDamage(HealthComponent healthComponent)
     {
         float preDamageHealth = healthComponent.GetCurrentHealth(); 
-        healthComponent.TakeDamage(damageValue * damageMod);
+        healthComponent.TakeDamage(GetDamageValue(healthComponent) * damageMod);
         if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
-            if (damageValue < 0) {
+            if (GetDamageValue(healthComponent) < 0) {
                 GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);
                 Debug.Log("Healing CHECK");
             }
@@ -87,7 +92,7 @@ public class WeaponStats : MonoBehaviour
         }
 
 
-        if (healthComponent.gameObject.CompareTag("Player") && damageValue > 0)
+        if (healthComponent.gameObject.CompareTag("Player") && GetDamageValue(healthComponent) > 0)
         {
             if (healthComponent.gameObject.GetComponent<PlayerMovement>() != null)
             {

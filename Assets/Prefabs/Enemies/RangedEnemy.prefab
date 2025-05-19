@@ -227,10 +227,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
-  invicibilityFrameTime: 0.1
+  invicibilityFrameTime: 0
   currentHealth: 0
   healParticles: {fileID: 0}
   flashDuration: 0.25
+  isObject: 0
 --- !u!95 &804210014363599655
 Animator:
   serializedVersion: 7
@@ -266,7 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5271553347662605327}
-  healthText: {fileID: 8002451201912644761}
 --- !u!1 &3049050706251674918
 GameObject:
   m_ObjectHideFlags: 0

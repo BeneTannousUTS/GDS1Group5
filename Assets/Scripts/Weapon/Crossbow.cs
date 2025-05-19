@@ -3,7 +3,7 @@ using UnityEngine;
 public class Crossbow : WeaponStats
 {
     private int numOfArrows = 3;
-    private float deviationAmount = 0.5f;
+    private float deviationAmount = 0.3f;
 
     protected override void TriggerAttack()
     {

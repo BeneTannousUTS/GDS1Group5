@@ -36,6 +36,12 @@ public class Destructible : MonoBehaviour
 
     IEnumerator RemoveDestructible()
     {
+        BoxCollider2D col = transform.GetChild(0).gameObject.GetComponent<BoxCollider2D>();
+        if (col) 
+        {
+            Debug.Log("Col disabled");
+            col.enabled = false;
+        }
         yield return new WaitForSeconds(0.4f);
         if (UnityEngine.Random.Range(0, 2) == 1)
         {
