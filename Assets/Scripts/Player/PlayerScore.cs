@@ -16,7 +16,8 @@ public class PlayerScore : MonoBehaviour
     }
 
     public void AddScore(int additionalScore) {
-        scoreStats.score += additionalScore;
+        Debug.Log("Current bonus: " + 0.1 * FindAnyObjectByType<DungeonManager>().GetRoomCount());
+        scoreStats.score += (int)(additionalScore + (additionalScore * 0.1 * FindAnyObjectByType<DungeonManager>().GetRoomCount()));
         if (scoreStats.score < 0)
         {
             scoreStats.score = 0;
