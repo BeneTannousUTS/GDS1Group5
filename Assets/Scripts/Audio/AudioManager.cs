@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioClip> soundEffectDict = new Dictionary<string, AudioClip>();
     public List<AudioClipEntry> jingeClipEntries;
     private Dictionary<string, AudioClip> soundJingleDict = new Dictionary<string, AudioClip>();
+    private int activeSounds = 0; // number of sound effects/jingles being played
 
     void Awake()
     {
@@ -124,8 +126,11 @@ public class AudioManager : MonoBehaviour
 
         AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
         soundEffectSource.resource = audioClip;
+        soundEffectSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
         soundEffectSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.effectVolumeLevel;
+        if (activeSounds > 5) soundEffectSource.volume *= 0.5f;
         soundEffectSource.Play();
+        activeSounds++;
 
         StartCoroutine(DestroyAudioSource(soundEffectSource, 1.5f));
     }
@@ -145,6 +150,7 @@ public class AudioManager : MonoBehaviour
         soundJingleSource.resource = audioClip;
         soundJingleSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.effectVolumeLevel;
         soundJingleSource.Play();
+        activeSounds++;
         StartCoroutine(DuckBGM(audioClip.length));
 
         StartCoroutine(DestroyAudioSource(soundJingleSource, 7.5f));
@@ -161,6 +167,7 @@ public class AudioManager : MonoBehaviour
     IEnumerator DestroyAudioSource(AudioSource audioSource, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        activeSounds--;
         Destroy(audioSource);
     }
 

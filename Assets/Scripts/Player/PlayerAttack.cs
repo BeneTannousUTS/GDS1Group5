@@ -79,13 +79,13 @@ public class PlayerAttack : MonoBehaviour
 
         if (weapon.GetComponent<WeaponStats>().projectile == null) // is melee
         {
-            audioManager.PlaySoundEffect("PlayerMeleeAttack");
             gameObject.GetComponent<Animator>().SetTrigger("attack");
         } else
         {
-            audioManager.PlaySoundEffect("PlayerRangedAttack");
             gameObject.GetComponent<Animator>().SetTrigger("range");
         }
+
+        audioManager.PlaySoundEffect(weapon.GetComponent<WeaponStats>().weaponSound);
         
         attackCooldownTimer = 0f;
 

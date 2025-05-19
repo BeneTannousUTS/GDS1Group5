@@ -19,6 +19,7 @@ public class WeaponStats : MonoBehaviour
     public bool charge = false;
     public bool canStrafe = false;
     public GameObject projectile;
+    public string weaponSound;
 
     // Sets the value of sourceType
     public void SetSourceType(string type)
