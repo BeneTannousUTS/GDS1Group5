@@ -130,7 +130,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -140,7 +140,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.5}
   m_EdgeRadius: 0
 --- !u!50 &5308867564591138576
 Rigidbody2D:
@@ -231,6 +231,7 @@ MonoBehaviour:
   currentHealth: 0
   healParticles: {fileID: 0}
   flashDuration: 0.25
+  isObject: 0
 --- !u!95 &804210014363599655
 Animator:
   serializedVersion: 7
@@ -266,7 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5271553347662605327}
-  healthText: {fileID: 8002451201912644761}
 --- !u!1 &3049050706251674918
 GameObject:
   m_ObjectHideFlags: 0
