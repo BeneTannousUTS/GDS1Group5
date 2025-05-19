@@ -37,16 +37,25 @@ public class LobbyHudHelper : MonoBehaviour
         leavePrompt.SetActive(false);
     }
 
+    public void DestroyLeavePrompt()
+    {
+        Destroy(leavePrompt);
+    }
+
     void CheckShouldActivateLeavePrompt()
     {
-        foreach (var panel in joinPanels)
+        if (joinPanels != null && leavePrompt != null)
         {
-            if (!panel.activeSelf)
+            foreach (var panel in joinPanels)
             {
-                ActivateLeavePrompt();
-                return;
+                if (!panel.activeSelf)
+                {
+                    ActivateLeavePrompt();
+                    return;
+                }
+                
+                DeactivateLeavePrompt();
             }
-            DeactivateLeavePrompt();
         }
     }
 }
