@@ -37,6 +37,12 @@ public class Hammer : WeaponStats
                     Vector3 knockbackDirection = collider.transform.position - GetSourceObject().transform.position;
                     collider.GetComponent<PlayerMovement>().KnockbackPlayer(knockbackStrength, knockbackTime, knockbackDirection);
                 }
+            }else if (collider.CompareTag("Decoy"))
+            {
+                if (collider.GetType() != typeof(CircleCollider2D))
+                {
+                    collider.gameObject.GetComponent<DecoyWobble>().StartShakeDecoy(GetSourceObject().transform.position);
+                }
             }
         }
     }
