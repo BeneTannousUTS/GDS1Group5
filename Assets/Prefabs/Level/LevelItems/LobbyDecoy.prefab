@@ -304,7 +304,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1363698645023624400, guid: ff84cadf9d530dc4a9f98af3a40c7b96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -328,7 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa13366d5af594409d30cd40c7e7b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnedItem: {fileID: 0}
+  spawnedItem:
+  - {fileID: 0}
   playerCanHurt: 1
   lifetimeWindow: 99999
   lifetimeTimer: 0
@@ -349,6 +350,7 @@ MonoBehaviour:
   currentHealth: 15
   healParticles: {fileID: 0}
   flashDuration: 0.25
+  isObject: 0
 --- !u!58 &4741284697769798638
 CircleCollider2D:
   m_ObjectHideFlags: 0
