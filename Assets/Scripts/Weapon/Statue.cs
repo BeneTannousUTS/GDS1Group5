@@ -12,7 +12,7 @@ public class Statue : WeaponStats
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
             currentProjectile.GetComponent<Projectile>().SetSourceObject(sourceObject);
-            FindAnyObjectByType<AudioManager>().PlaySoundEffect("Time");
+            FindAnyObjectByType<AudioManager>().PlaySoundEffect("Time", UnityEngine.Random.Range(0.9f, 1.1f));
         }
 
         base.TriggerAttack();

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WebSocketSharp;
 
 public class AudioManager : MonoBehaviour
 {
@@ -115,6 +116,13 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffect(string soundEffectName)
     {
+        PlaySoundEffect(soundEffectName, 1.0f);
+    }
+
+    public void PlaySoundEffect(string soundEffectName, float pitchVariation)
+    {
+        if (soundEffectName.IsNullOrEmpty()) return;
+        
         AudioClip audioClip;
         soundEffectDict.TryGetValue(soundEffectName, out audioClip);
 
@@ -126,7 +134,7 @@ public class AudioManager : MonoBehaviour
 
         AudioSource soundEffectSource = gameObject.AddComponent<AudioSource>();
         soundEffectSource.resource = audioClip;
-        soundEffectSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+        soundEffectSource.pitch = pitchVariation;
         soundEffectSource.volume = 1f * SettingsManager.instance.masterVolumeLevel * SettingsManager.instance.effectVolumeLevel;
         if (activeSounds > 5) soundEffectSource.volume *= 0.5f;
         soundEffectSource.Play();

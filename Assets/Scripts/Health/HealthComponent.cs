@@ -156,8 +156,8 @@ public class HealthComponent : MonoBehaviour
                 }
 
                 // determining which audio effect should player
-                if (GetComponent<PlayerAttack>()) audioManager.PlaySoundEffect("PlayerDamage");
-                if (GetComponent<EnemyAttack>()) audioManager.PlaySoundEffect("EnemyDamage");
+                if (GetComponent<PlayerAttack>()) audioManager.PlaySoundEffect("PlayerDamage", UnityEngine.Random.Range(0.9f, 1.1f));
+                if (GetComponent<EnemyAttack>()) audioManager.PlaySoundEffect("EnemyDamage", UnityEngine.Random.Range(0.9f, 1.1f));
 
                 StartCoroutine(DamageFlash());
                 StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));

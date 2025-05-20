@@ -55,16 +55,14 @@ public class DualWield : MonoBehaviour, ISecondary
 
         // this NEEDS to be changed but atm there are no other ways to determine which weapon is being used
 
-        AudioManager audioManager = FindAnyObjectByType<AudioManager>();
+        AudioManager.instance.PlaySoundEffect(currentWeapon.GetComponent<WeaponStats>().weaponSound);
 
         if (currentWeapon.GetComponent<WeaponStats>().projectile == null) // is melee
         {
-            audioManager.PlaySoundEffect("PlayerMeleeAttack");
             playerTransform.GetComponent<Animator>().SetTrigger("attack");
         }
         else
         {
-            audioManager.PlaySoundEffect("PlayerRangedAttack");
             playerTransform.GetComponent<Animator>().SetTrigger("range");
         }
     }

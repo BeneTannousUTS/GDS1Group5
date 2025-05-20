@@ -84,7 +84,7 @@ public class PlayerAttack : MonoBehaviour
             gameObject.GetComponent<Animator>().SetTrigger("range");
         }
 
-        audioManager.PlaySoundEffect(weapon.GetComponent<WeaponStats>().weaponSound);
+        audioManager.PlaySoundEffect(weapon.GetComponent<WeaponStats>().weaponSound, UnityEngine.Random.Range(0.9f, 1.1f));
         
         attackCooldownTimer = 0f;
 
