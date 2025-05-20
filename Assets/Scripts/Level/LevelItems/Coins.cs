@@ -8,6 +8,7 @@ public class Coins : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerScore>().AddScore(500);
+            AudioManager.instance.PlaySoundEffect("Coins");
             Destroy(gameObject);
         }
     }

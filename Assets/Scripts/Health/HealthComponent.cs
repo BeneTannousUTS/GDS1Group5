@@ -82,6 +82,7 @@ public class HealthComponent : MonoBehaviour
         else if (gameObject.CompareTag("Destructible"))
         {
             gameObject.GetComponent<Destructible>().SpawnItems();
+            AudioManager.instance.PlaySoundEffect("PotsBreaking");
         }
         else if (gameObject.CompareTag("Player") == false)
         {
@@ -110,6 +111,7 @@ public class HealthComponent : MonoBehaviour
 
                 if (!isObject)
                 {
+                    AudioManager.instance.PlaySoundEffect("UIConfirm", 1.5f);
                     if (damageValue > -1000f)
                     {
                         FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int)(damageValue * -1f)}", Color.green, damageValue / -10);

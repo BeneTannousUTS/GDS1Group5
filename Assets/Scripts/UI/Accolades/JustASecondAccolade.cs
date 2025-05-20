@@ -6,7 +6,7 @@ public class JustASecondAccolade : Accolade
     public override int SelectBest(List<IndexScoreStat> indexedScoreStats)
     {
         int bestIndex = -1;
-        float mostSecondaryActivations = -1f;
+        int mostSecondaryActivations = -1;
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {

@@ -18,7 +18,7 @@ public class MedicAccolade : Accolade
         }
 
         title = "The Medic";
-        body = $"Healed the party {Math.Round(mostHealed)} health.";
+        body = $"Healed the party {(int) Math.Round(mostHealed)} health.";
 
         return bestIndex;
     }

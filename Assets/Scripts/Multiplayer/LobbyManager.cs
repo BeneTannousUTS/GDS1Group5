@@ -107,6 +107,7 @@ public class LobbyManager : MonoBehaviour
 
                 joinedPlayers++;
                 PlayerManager.instance.JoinPlayer(gamepad);
+                AudioManager.instance.PlaySoundEffect("UIConfirm", 2.0f);
 
                 Debug.Log($"Gamepad {gamepad.deviceId} assigned to slot.");
                 break;
@@ -138,6 +139,7 @@ public class LobbyManager : MonoBehaviour
                 //playerPrefab.panelGamepad = null;
                 joinedPlayers--;
                 PlayerManager.instance.UnjoinPlayer(gamepad);
+                AudioManager.instance.PlaySoundEffect("UIReject", 2.0f);
     
                 Debug.Log($"Gamepad {gamepad.deviceId} left the lobby.");
                 break;
