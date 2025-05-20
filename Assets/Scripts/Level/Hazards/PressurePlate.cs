@@ -19,28 +19,34 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        pressedCount++;
-        if (!switchActivated && collision.CompareTag("Player") && pressedCount==1)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            switchActivated = true;
-            animator.SetTrigger("down");
-            foreach (GameObject obj in connectedObjects)
+            pressedCount++;
+            if (!switchActivated && collision.CompareTag("Player") && pressedCount == 1)
             {
-                obj.GetComponent<IPressed>().Pressed();
+                switchActivated = true;
+                animator.SetTrigger("down");
+                foreach (GameObject obj in connectedObjects)
+                {
+                    obj.GetComponent<IPressed>().Pressed();
+                }
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        pressedCount--;
-        if (switchActivated && collision.CompareTag("Player") && pressedCount == 0)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            switchActivated = false;
-            animator.SetTrigger("up");
-            foreach (GameObject obj in connectedObjects)
+            pressedCount--;
+            if (switchActivated && collision.CompareTag("Player") && pressedCount == 0)
             {
-                obj.GetComponent<IPressed>().Unpressed();
+                switchActivated = false;
+                animator.SetTrigger("up");
+                foreach (GameObject obj in connectedObjects)
+                {
+                    obj.GetComponent<IPressed>().Unpressed();
+                }
             }
         }
     }

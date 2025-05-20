@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Destructible : MonoBehaviour
 {
-    public GameObject spawnedItem;
+    public GameObject[] spawnedItem;
     public bool playerCanHurt = true;
     protected Vector3 hitDirection;
 
@@ -37,9 +37,9 @@ public class Destructible : MonoBehaviour
     IEnumerator RemoveDestructible()
     {
         yield return new WaitForSeconds(0.4f);
-        if (UnityEngine.Random.Range(0, 2) == 1)
+        if (UnityEngine.Random.Range(0, 6) <= 4)
         {
-            Instantiate(spawnedItem).transform.position = gameObject.transform.position;
+            Instantiate(spawnedItem[UnityEngine.Random.Range(0, spawnedItem.Length)]).transform.position = gameObject.transform.position;
         }
         Destroy(gameObject);
     }

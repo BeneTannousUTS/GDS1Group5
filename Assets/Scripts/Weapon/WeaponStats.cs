@@ -75,7 +75,7 @@ public class WeaponStats : MonoBehaviour
                 Debug.Log("Healing CHECK");
             }
             else {
-                GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
+                //GetSourceObject().GetComponent<PlayerScore>().AddDamageDealt(preDamageHealth-healthComponent.GetCurrentHealth());
                 if (GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat() > 0) {
                     GetSourceObject().GetComponent<HealthComponent>().TakeDamage(-((preDamageHealth-healthComponent.GetCurrentHealth()) 
                                                                                * GetSourceObject().GetComponent<PlayerStats>().GetLifestealStat()));

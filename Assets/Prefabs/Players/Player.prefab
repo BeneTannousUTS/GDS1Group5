@@ -169,6 +169,7 @@ MonoBehaviour:
   currentHealth: 0
   healParticles: {fileID: 8730505031937385877, guid: 6a5a9dfa45bbacb4faed79da873a2a11, type: 3}
   flashDuration: 0.25
+  isObject: 0
 --- !u!114 &-3664968770519650174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 14c1f30d1c6cb0247b9e3ba28f27f2e8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -383,7 +384,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 14c1f30d1c6cb0247b9e3ba28f27f2e8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -417,7 +418,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
 --- !u!95 &-2046580684109656263
 Animator:
@@ -480,7 +481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 8532858634556881520}
-  healthText: {fileID: 0}
 --- !u!114 &7100055283759772095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
     damageTaken: 0
     healingGiven: 0
     timeAlive: 0
+    topSpeed: 0
     score: 0
     kills: 0
     deaths: 0
@@ -509,6 +510,7 @@ MonoBehaviour:
     projectilesHit: 0
     projectilesShot: 0
     hazardsRanInto: 0
+    potsSmashed: 0
     isTraitor: 0
     wonGame: 0
   timeStartedRoom: 0
