@@ -5,14 +5,14 @@ public class SurvivorAccolade : Accolade
     public override int SelectBest(List<IndexScoreStat> indexedScoreStats)
     {
         int bestIndex = -1;
-        float mostTimeAlive = -1;
+        int mostTimeAlive = -1;
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {
             if (indexScoreStat.scoreStat.timeAlive > mostTimeAlive && indexScoreStat.scoreStat.timeAlive > 5 * 60)
             {
                 bestIndex = indexScoreStat.playerIndex;
-                mostTimeAlive = indexScoreStat.scoreStat.timeAlive;
+                mostTimeAlive = (int) indexScoreStat.scoreStat.timeAlive;
             }
         }
 

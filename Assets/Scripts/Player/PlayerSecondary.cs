@@ -34,8 +34,11 @@ public class PlayerSecondary : MonoBehaviour
             GameObject tempSecondary = Instantiate(currentSecondary, transform.position, Quaternion.identity);
             tempSecondary.GetComponent<SecondaryStats>().SetSourceType(gameObject.tag);
             tempSecondary.GetComponent<SecondaryStats>().SetSourceObject(gameObject);
+            AudioManager.instance.PlaySoundEffect(tempSecondary.GetComponent<SecondaryStats>().secondarySound);
         }
         secondaryCooldownTimer = 0f;
+
+        
         
         // Call HUD component function for cooldown animation.
         GetComponent<PlayerHUD>().StartSecondaryCooldownAnim(secondaryCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());

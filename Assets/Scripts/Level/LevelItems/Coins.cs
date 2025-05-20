@@ -10,6 +10,7 @@ public class Coins : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerScore>().AddScore(500);
             Instantiate(coinSparkle, gameObject.transform.position, Quaternion.identity);
+            AudioManager.instance.PlaySoundEffect("Coins");
             Destroy(gameObject);
         }
     }

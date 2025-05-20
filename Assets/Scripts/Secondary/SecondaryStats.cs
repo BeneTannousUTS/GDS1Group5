@@ -12,6 +12,7 @@ public class SecondaryStats : MonoBehaviour
     private string sourceType;
     [SerializeField] private GameObject sourceObject;
     public GameObject projectile;
+    public string secondarySound;
 
     // Sets the value of sourceType
     public void SetSourceType(string type)

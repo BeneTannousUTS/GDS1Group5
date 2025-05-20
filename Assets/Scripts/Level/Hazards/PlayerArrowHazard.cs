@@ -20,6 +20,7 @@ public class PlayerArrowHazard : MonoBehaviour
             Projectile proj = currentProjectile.GetComponent<Projectile>();
 
             gameObject.GetComponent<Animator>().SetTrigger("shoot");
+            AudioManager.instance.PlaySoundEffect("BowString");
 
             proj.SetShotDirection(shotDirection);
             proj.SetDamageValue(7);

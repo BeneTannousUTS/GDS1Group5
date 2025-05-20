@@ -9,6 +9,7 @@ public class DecoyWobble : MonoBehaviour
         Vector3 direction = pushDirection.normalized;
         Vector3 originalPosition = transform.position;
         StartCoroutine(ShakeDecoySequence(originalPosition, direction));
+        AudioManager.instance.PlaySoundEffect("PlayerDamage", Random.Range(1.3f,1.5f));
     }
 
     IEnumerator ShakeDecoySequence(Vector3 originalPosition, Vector3 direction)

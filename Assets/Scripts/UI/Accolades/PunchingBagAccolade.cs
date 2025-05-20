@@ -17,7 +17,7 @@ public class PunchingBagAccolade : Accolade
         }
 
         title = "Punching Bag";
-        body = $"Took {mostDamageTaken} damage.";
+        body = $"Took {(int) mostDamageTaken} damage.";
 
         return bestIndex;
     }

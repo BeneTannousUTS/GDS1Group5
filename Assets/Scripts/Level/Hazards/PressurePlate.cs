@@ -26,6 +26,7 @@ public class PressurePlate : MonoBehaviour
             {
                 switchActivated = true;
                 animator.SetTrigger("down");
+                AudioManager.instance.PlaySoundEffect("Click", 1.0f);
                 foreach (GameObject obj in connectedObjects)
                 {
                     obj.GetComponent<IPressed>().Pressed();
@@ -43,6 +44,7 @@ public class PressurePlate : MonoBehaviour
             {
                 switchActivated = false;
                 animator.SetTrigger("up");
+                AudioManager.instance.PlaySoundEffect("Click", 0.9f);
                 foreach (GameObject obj in connectedObjects)
                 {
                     obj.GetComponent<IPressed>().Unpressed();

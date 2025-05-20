@@ -42,7 +42,7 @@ public class EnemyAttack : MonoBehaviour
         Instantiate(warningUI, transform.position + attackDirection, Quaternion.identity, transform);
         gameObject.GetComponent<Animator>().SetTrigger("attack");
 
-        audioManager.PlaySoundEffect("EnemyAttack");
+        audioManager.PlaySoundEffect("EnemyAttack", Random.Range(0.9f, 1.1f));
 
         yield return new WaitForSeconds(0.5f);
         GameObject tempWeapon = Instantiate(currentWeapon, transform.position + attackDirection, CalculateQuaternion(attackDirection), transform);

@@ -1766,6 +1766,7 @@ GameObject:
   - component: {fileID: 1372747041}
   - component: {fileID: 1372747040}
   - component: {fileID: 1372747039}
+  - component: {fileID: 1372747045}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: AudioManager
@@ -2200,6 +2201,24 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 0796894d51109d449a6ad56ee8ba8bac, type: 3}
   - name: Time
     audioClip: {fileID: 8300000, guid: 1cf7491ced83d6041afa0436d007d7fa, type: 3}
+  - name: Barrier
+    audioClip: {fileID: 8300000, guid: 2dd55cdccc0f09b49b919659b5064b20, type: 3}
+  - name: Coins
+    audioClip: {fileID: 8300000, guid: 13e0a619559886a40b07c9ec71a70a49, type: 3}
+  - name: Explosion
+    audioClip: {fileID: 8300000, guid: dbcee97b7871a7f43aad0155200bd2eb, type: 3}
+  - name: PotionSmash
+    audioClip: {fileID: 8300000, guid: fc3841d82a2f20f4d9cdcd9e2d520c2e, type: 3}
+  - name: PotsBreaking
+    audioClip: {fileID: 8300000, guid: b9ee887593c275e47b4ddcb5c1693cee, type: 3}
+  - name: Ticking
+    audioClip: {fileID: 8300000, guid: a14fcd84482528b4fbc8082aaf4858a9, type: 3}
+  - name: Traps
+    audioClip: {fileID: 8300000, guid: a48d2633e9c0f439b9118cd1adf64d9b, type: 3}
+  - name: Teleport
+    audioClip: {fileID: 8300000, guid: 51fa87e7066db60499ee376e8ea1054a, type: 3}
+  - name: Click
+    audioClip: {fileID: 8300000, guid: 99ef7491e77a443e5862565abcc253ae, type: 3}
   jingeClipEntries:
   - name: RoomClear
     audioClip: {fileID: 8300000, guid: cafe3f4535a8d274cb8729dd79e52fba, type: 3}
@@ -2220,6 +2239,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1372747045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372747038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8b3c467b9814867b85b780a3022ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmSoundName: UIConfirm
 --- !u!1 &1490854232
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,63 +2569,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2034229032
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3001577975093241167, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_Name
-      value: Coins
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 13.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6160579104990169491, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d5e9abe13008470459f8fff7e91d2c3e, type: 3}
 --- !u!1 &2061560854
 GameObject:
   m_ObjectHideFlags: 0
@@ -7036,4 +7011,3 @@ SceneRoots:
   - {fileID: 927150680}
   - {fileID: 1982733234}
   - {fileID: 1372747044}
-  - {fileID: 2034229032}

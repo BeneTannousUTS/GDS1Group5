@@ -6,7 +6,7 @@ public class SpammerAccolade : Accolade
     public override int SelectBest(List<IndexScoreStat> indexedScoreStats)
     {
         int bestIndex = -1;
-        float mostWeaponActivations = -1f;
+        int mostWeaponActivations = -1;
 
         foreach (IndexScoreStat indexScoreStat in indexedScoreStats)
         {

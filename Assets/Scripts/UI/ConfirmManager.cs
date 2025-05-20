@@ -71,6 +71,7 @@ public class ConfirmManager : MonoBehaviour
                 handler.confirmedChoice = true;
                 handler.hasConfirmed = true;
                 Debug.Log($"Handler p{handler.playerIndex} YES");
+                AudioManager.instance.PlaySoundEffect("UIConfirm");
 
                 if (handler is ConfirmCardHandler confirmCardHandler)
                 {
@@ -88,6 +89,7 @@ public class ConfirmManager : MonoBehaviour
                 handler.confirmedChoice = false;
                 handler.hasConfirmed = true;
                 Debug.Log($"Handler p{handler.playerIndex} NO");
+                AudioManager.instance.PlaySoundEffect("UIReject");
 
                 if (handler is ConfirmCardHandler confirmCardHandler)
                 {

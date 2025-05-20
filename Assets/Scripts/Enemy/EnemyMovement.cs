@@ -228,6 +228,7 @@ public class EnemyMovement : MonoBehaviour
         animator.SetTrigger("teleport");
         yield return new WaitForSeconds(0.2f);
         Vector3 summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();
+        AudioManager.instance.PlaySoundEffect("Teleport");
         bool validPos = false;
         float exitTime = 0;
         while (!validPos)

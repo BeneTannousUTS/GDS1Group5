@@ -10,6 +10,7 @@ public class Explosion : MonoBehaviour
         Explode.GetComponentInChildren<WeaponStats>().SetSourceType("Explosion");
         Explode.GetComponentInChildren<WeaponStats>().SetSourceObject(gameObject);
         Explode.GetComponentInChildren<WeaponStats>().SetDamageMod(1);
+        AudioManager.instance.PlaySoundEffect("Explosion");
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
