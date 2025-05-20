@@ -162,7 +162,9 @@ public class HealthComponent : MonoBehaviour
                 if (GetComponent<EnemyAttack>()) audioManager.PlaySoundEffect("EnemyDamage", UnityEngine.Random.Range(0.9f, 1.1f));
 
                 StartCoroutine(DamageFlash());
-                StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+                if (invicibilityFrameTime != 0f) {
+                    StartCoroutine(DoInvincibilityFrames(invicibilityFrameTime));
+                }
 
                 // Call HUD component function to update healthbar if player
                 if (gameObject.CompareTag("Player") || gameObject.CompareTag("Traitor"))
