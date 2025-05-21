@@ -20,6 +20,7 @@ public class WeaponStats : MonoBehaviour
     public bool canStrafe = false;
     public GameObject projectile;
     public string weaponSound;
+    public bool isMelee = true;
 
     // Sets the value of sourceType
     public void SetSourceType(string type)
@@ -73,7 +74,7 @@ public class WeaponStats : MonoBehaviour
     public void DealDamage(HealthComponent healthComponent)
     {
         float preDamageHealth = healthComponent.GetCurrentHealth(); 
-        healthComponent.TakeDamage(GetDamageValue(healthComponent) * damageMod);
+        healthComponent.TakeDamage(Mathf.Ceil(GetDamageValue(healthComponent) * damageMod));
         if (GetSourceObject() && GetSourceObject().GetComponent<PlayerScore>()) {
             if (GetDamageValue(healthComponent) < 0) {
                 GetSourceObject().GetComponent<PlayerScore>().AddHealing(healthComponent.GetCurrentHealth()-preDamageHealth);

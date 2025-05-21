@@ -102,8 +102,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondaryLifetime: 0.05
+  activateOnDestroy: 0
   sourceObject: {fileID: 0}
   projectile: {fileID: 7065656418472383066, guid: 174a38ad35423ee4daf05465a3f80358, type: 3}
+  secondarySound: 
 --- !u!114 &7030210079439602294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,4 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0909676ad415faf42995eef280fc430e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownLength: 20
+  cooldownLength: 5

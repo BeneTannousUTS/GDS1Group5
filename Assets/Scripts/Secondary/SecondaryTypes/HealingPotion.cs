@@ -13,6 +13,6 @@ public class HealingPotion : MonoBehaviour, ISecondary
     {
             GameObject tempProjectile = Instantiate(gameObject.GetComponent<SecondaryStats>().GetProjectile(), transform.position, Quaternion.identity);
             tempProjectile.GetComponent<WeaponStats>().SetSourceType("Enemy");
-            tempProjectile.GetComponent<WeaponStats>().SetSourceObject(gameObject.GetComponent<SecondaryStats>().GetSourceObject());
+            tempProjectile.GetComponent<WeaponStats>().SetSourceObject(null);
     }
 }
