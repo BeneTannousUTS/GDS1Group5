@@ -125,6 +125,14 @@ public class Projectile : MonoBehaviour
     {   
         frozenTimer += Time.deltaTime;
         if (frozenTimer >= 3f) {
+            if (gameObject.GetComponent<SpriteRenderer>().material.GetInt("_Invert") == 1) // bad solution but better than setting it every frame
+            {
+                gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Invert", 0);
+                if (gameObject.GetComponent<Animator>() != null)
+                {
+                    gameObject.GetComponent<Animator>().speed = 1;
+                }
+            }
             comeBackTimer += Time.deltaTime;
             if (comeBack == false || comeBackTimer < comeBackWindow) {
                 transform.position += shotDirection * moveSpeed * Time.deltaTime;
@@ -159,8 +167,13 @@ public class Projectile : MonoBehaviour
     }
 
 
-    public void SetFrozen() 
+    public void SetFrozen()
     {
         frozenTimer = 0f;
+        gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Invert", 1);
+        if (gameObject.GetComponent<Animator>() != null)
+        {
+            gameObject.GetComponent<Animator>().speed = 0;
+        }
     }
 }
