@@ -6,6 +6,7 @@ public class HUDElementShakeHandler : MonoBehaviour
 {
     
     protected RectTransform rt;
+    bool canShake = true;
     
     protected virtual void Awake()
     {
@@ -14,12 +15,17 @@ public class HUDElementShakeHandler : MonoBehaviour
     
     public void ShakeCard()
     {
-        StartCoroutine(Shake());
+        if (canShake)
+        {
+            StartCoroutine(Shake());
+        }
     }
     
     private IEnumerator Shake()
     {
         Vector3 originalPos = rt.anchoredPosition;
+        
+        canShake = false;
 
         float shakeDuration = 0.2f;
         float shakeStrength = 20f;
@@ -37,5 +43,6 @@ public class HUDElementShakeHandler : MonoBehaviour
         }
 
         rt.anchoredPosition = originalPos;
+        canShake = true;
     }
 }
