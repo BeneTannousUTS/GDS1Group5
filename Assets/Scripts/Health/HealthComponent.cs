@@ -97,6 +97,7 @@ public class HealthComponent : MonoBehaviour
             gameObject.GetComponent<Animator>().SetTrigger("dead");
             gameObject.GetComponent<PlayerScore>().IncrementDeaths();
             gameObject.GetComponent<PlayerScore>().AddTimeAlive(Time.time);
+            gameObject.GetComponent<VibrationManager>().StopAllVibrations(gameObject.GetComponent<PlayerInput>().GetDevice<Gamepad>());
         }
     }
 

@@ -93,6 +93,9 @@ public class PlayerAttack : MonoBehaviour
         
         // Call HUD component function for cooldown animation.
         GetComponent<PlayerHUD>().StartPrimaryCooldownAnim(attackCooldownWindow * gameObject.GetComponent<PlayerStats>().GetCooldownStat());
+        
+        gameObject.GetComponent<VibrationManager>().StartVibrationPattern(GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+            VibrationManager.VibrationPattern.AttackPattern);
     }
 
     // Calculates a quaternion which is the rotation needed for the weapon based on direction

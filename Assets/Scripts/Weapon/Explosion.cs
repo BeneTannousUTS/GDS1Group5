@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Explosion : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Explosion : MonoBehaviour
         Explode.GetComponentInChildren<WeaponStats>().SetSourceObject(gameObject);
         Explode.GetComponentInChildren<WeaponStats>().SetDamageMod(1);
         AudioManager.instance.PlaySoundEffect("Explosion");
+        RumbleAllControllers();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,5 +24,14 @@ public class Explosion : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void RumbleAllControllers()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<VibrationManager>().StartVibrationPattern(player.GetComponent<PlayerInput>().GetDevice<Gamepad>(),
+                VibrationManager.VibrationPattern.ExplosionPattern);
+        }
     }
 }

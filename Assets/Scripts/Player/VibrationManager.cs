@@ -7,55 +7,15 @@ using UnityEngine.InputSystem;
 public class VibrationManager : MonoBehaviour
 {
     private Coroutine infoCoroutine;
-    private bool isInfoVibrating = false;
-    
+    private bool isHeartbeatVibrating = false;
+
     public enum VibrationPattern
     {
         DamagePattern,
         HealPattern,
-        InfoPattern
-    }
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    IEnumerator DamagePattern(Gamepad controller)
-    {
-        float vibTime = 0f;
-        float vibFreq = 0.75f;
-        while (vibTime < 0.2f)
-        {
-            controller.SetMotorSpeeds(vibFreq,vibFreq) ;
-            vibTime += Time.deltaTime;
-            vibFreq = -2.5f * vibTime + 0.75f;
-            yield return null;
-        }
-        
-        controller.SetMotorSpeeds(0,0);
-    }
-    
-    IEnumerator HealPattern(Gamepad controller)
-    {
-        float vibTime = 0f;
-        float vibFreq = 0f;
-        while (vibTime < 0.3f)
-        {
-            controller.SetMotorSpeeds(vibFreq,vibFreq) ;
-            vibTime += Time.deltaTime;
-            vibFreq = 2.5f * vibTime;
-            yield return null;
-        }
-        
-        controller.SetMotorSpeeds(0,0);
+        ReminderPattern,
+        ExplosionPattern,
+        AttackPattern
     }
 
     public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
@@ -70,24 +30,83 @@ public class VibrationManager : MonoBehaviour
                 case VibrationPattern.HealPattern:
                     StartCoroutine(HealPattern(controller));
                     break;
+                case VibrationPattern.ReminderPattern:
+                    StartCoroutine(ReminderPattern(controller));
+                    break;
+                case VibrationPattern.ExplosionPattern:
+                    StartCoroutine(ExplosionPattern(controller));
+                    break;
+                case VibrationPattern.AttackPattern:
+                    StartCoroutine(AttackPattern(controller));
+                    break;
                 default:
                     return;
             }
         }
     }
     
-    /*------------------------------------ Coroutine Logic -----------------------------*/
-
-    IEnumerator InfoPattern(Gamepad controller)
+    public void StartHeartbeatVibration(Gamepad controller, float vibrationStrength)
     {
-        isInfoVibrating = true;
+        if (!isHeartbeatVibrating && !(Application.platform == RuntimePlatform.OSXPlayer ||
+                                       Application.platform == RuntimePlatform.OSXEditor))
+        {
+            infoCoroutine = StartCoroutine(HeartbeatPattern(controller, vibrationStrength));
+        }
+    }
 
-        while (isInfoVibrating)
+    public void StopHeartbeatVibration()
+    {
+        isHeartbeatVibrating = false;
+    }
+
+    public void StopAllVibrations(Gamepad controller)
+    {
+        StopAllCoroutines();
+        controller.SetMotorSpeeds(0f, 0f);
+    }
+
+    /*------------------------------------ Coroutine Logic -----------------------------*/
+    IEnumerator DamagePattern(Gamepad controller)
+    {
+        float vibTime = 0f;
+        float vibFreq = 0.75f;
+        while (vibTime < 0.1f)
+        {
+            controller.SetMotorSpeeds(vibFreq, vibFreq);
+            vibTime += Time.deltaTime;
+            vibFreq = -2.5f * vibTime + 0.75f;
+            yield return null;
+        }
+
+        controller.SetMotorSpeeds(0, 0);
+    }
+
+    IEnumerator HealPattern(Gamepad controller)
+    {
+        float vibTime = 0f;
+        float vibFreq = 0f;
+        while (vibTime < 0.2f)
+        {
+            controller.SetMotorSpeeds(vibFreq, vibFreq);
+            vibTime += Time.deltaTime;
+            vibFreq = 2.5f * vibTime;
+            yield return null;
+        }
+
+        controller.SetMotorSpeeds(0, 0);
+    }
+
+
+    IEnumerator HeartbeatPattern(Gamepad controller, float vibrationStrength)
+    {
+        isHeartbeatVibrating = true;
+
+        while (isHeartbeatVibrating)
         {
             // First beat
             controller.SetMotorSpeeds(0.4f, 0.4f);
             yield return new WaitForSeconds(0.08f);
-    
+
             controller.SetMotorSpeeds(0f, 0f);
             yield return new WaitForSeconds(0.1f);
 
@@ -98,22 +117,50 @@ public class VibrationManager : MonoBehaviour
             controller.SetMotorSpeeds(0f, 0f);
             yield return new WaitForSeconds(0.55f); // Pause between heartbeats
         }
-        
+
         controller.SetMotorSpeeds(0f, 0f);
         infoCoroutine = null;
-        isInfoVibrating = false;
+        isHeartbeatVibrating = false;
+    }
+
+    IEnumerator ReminderPattern(Gamepad controller)
+    {
+        float vibTime = 0f;
+        while (vibTime < 0.3f)
+        {
+            controller.SetMotorSpeeds(1, 1);
+            vibTime += Time.deltaTime;
+            yield return null;
+        }
+
+        controller.SetMotorSpeeds(0, 0);
+    }
+
+    IEnumerator ExplosionPattern(Gamepad controller)
+    {
+        float vibTime = 0f;
+        float vibFreq = 1f;
+        while (vibTime < 0.4f)
+        {
+            controller.SetMotorSpeeds(vibFreq, vibFreq);
+            vibTime += Time.deltaTime;
+            vibFreq = vibTime + 0.75f;
+            yield return null;
+        }
+        
+        controller.SetMotorSpeeds(0, 0);
     }
     
-    public void StartInfoVibration(Gamepad controller)
+    IEnumerator AttackPattern(Gamepad controller)
     {
-        if (!isInfoVibrating && !(Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor))
+        float vibTime = 0f;
+        while (vibTime < 0.1f)
         {
-            infoCoroutine = StartCoroutine(InfoPattern(controller));
+            controller.SetMotorSpeeds(0.1f, 0.1f);
+            vibTime += Time.deltaTime;
+            yield return null;
         }
-    }
-   
-    public void StopInfoVibration()
-    {
-        isInfoVibrating = false;
+
+        controller.SetMotorSpeeds(0, 0);
     }
 }

@@ -83,6 +83,9 @@ public class ConfirmManager : MonoBehaviour
                 {
                     readyCheckHandler.toggle.isOn = true;
                 }
+                
+                handler.assignedInput.gameObject.GetComponent<VibrationManager>().StopAllVibrations(
+                    handler.assignedInput.GetDevice<Gamepad>());
             }
             else if (skipAction != null && skipAction.WasPressedThisFrame())
             {
@@ -106,6 +109,8 @@ public class ConfirmManager : MonoBehaviour
             {
                 timePassed = 0;
                 handler.ShakeCard();
+                handler.assignedInput.gameObject.GetComponent<VibrationManager>().StartVibrationPattern(
+                    handler.assignedInput.GetDevice<Gamepad>(), VibrationManager.VibrationPattern.ReminderPattern);
             }
 
             yield return null;

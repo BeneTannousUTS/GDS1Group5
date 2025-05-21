@@ -35,6 +35,8 @@ public class PlayerInfo : MonoBehaviour
             HidePlayerInfo();
             isArrowLarge = false;
         }
+
+        ActivateHeartbeatCheck();
     }
     
     //Callback function for button press
@@ -49,7 +51,7 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsFilling();
         playerLocateArrow.transform.localScale *= 2;
-        vibrationManager.StartInfoVibration(GetComponent<PlayerInput>().GetDevice<Gamepad>());
+
     }
 
     //Shrink arrow above player & turn off attack and speed modifier display
@@ -57,6 +59,21 @@ public class PlayerInfo : MonoBehaviour
     {
         playerHud.SetStatsUnfilling();
         playerLocateArrow.transform.localScale /= 2;
-        vibrationManager.StopInfoVibration();
+    }
+    
+    //Check to see if player is less than 50% HP and activate heartbeat if so
+    void ActivateHeartbeatCheck()
+    {
+        float current = gameObject.GetComponent<HealthComponent>().GetCurrentHealth();
+        float max = gameObject.GetComponent<HealthComponent>().maxHealth;
+
+        if (current <= max / 2)
+        {
+            vibrationManager.StartHeartbeatVibration(GetComponent<PlayerInput>().GetDevice<Gamepad>(), 1-current/(max/2));
+        }
+        else if (current > max / 2 || current == 0)
+        {
+            vibrationManager.StopHeartbeatVibration();
+        }
     }
 }

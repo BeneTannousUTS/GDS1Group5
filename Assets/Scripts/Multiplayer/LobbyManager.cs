@@ -179,7 +179,7 @@ public class LobbyManager : MonoBehaviour
     {
         if (gamepad is SwitchProControllerHID)
             foreach (var item in Gamepad.all)
-                if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.1)
+                if (item is XInputController && Math.Abs(item.lastUpdateTime - gamepad.lastUpdateTime) < 0.01 && !IsGamepadAssigned(gamepad))
                 {
                     Debug.Log(
                         $"Switch Pro controller detected and a copy of XInput was active at almost the same time. Disabling XInput device. `{gamepad}`; `{item}`");

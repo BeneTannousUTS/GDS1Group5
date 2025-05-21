@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     public void Win() 
     {
         resultsManager.GetPlayerScores();
+        StopAllControllerVibration();
         SceneManager.LoadScene("ResultsScene");
     }
 
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
     void Lose()
     {
         resultsManager.didLose = true;
+        StopAllControllerVibration();
         SceneManager.LoadScene("ResultsScene");
     }
 
@@ -126,6 +129,14 @@ public class GameManager : MonoBehaviour
         {
             resultsManager.GetPlayerScores();
             Lose();
+        }
+    }
+
+    void StopAllControllerVibration()
+    {
+        foreach (var player in playerList)
+        {
+            player.GetComponent<VibrationManager>().StopAllVibrations(player.GetComponent<PlayerInput>().GetDevice<Gamepad>());
         }
     }
 }
