@@ -173,6 +173,7 @@ public class HealthComponent : MonoBehaviour
                     if (gameObject.GetComponent<PlayerHUD>() != null)
                     {
                         UpdateHUDHealthBar();
+                        gameObject.GetComponent<PlayerHUD>().GetUIComponentHelper().healthBarPanel.GetComponent<HUDElementShakeHandler>().ShakeCard();
                     }
 
                     if (gameObject.GetComponent<VibrationManager>() != null)

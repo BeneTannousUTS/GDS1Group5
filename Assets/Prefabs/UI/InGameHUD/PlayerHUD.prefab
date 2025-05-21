@@ -2416,6 +2416,7 @@ GameObject:
   - component: {fileID: 2855386025526164185}
   - component: {fileID: 424634615730865072}
   - component: {fileID: 4616086915643037565}
+  - component: {fileID: 7939859075083497435}
   m_Layer: 5
   m_Name: ScoreValue
   m_TagString: Untagged
@@ -2541,6 +2542,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7939859075083497435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5988760690101933190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a8e9c14d914f54da2995c0a2cdd76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6064293055252557206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,7 +2859,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1773428102 &3707518815067265364
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -2888,10 +2901,12 @@ MonoBehaviour:
   primaryAbilityBackground: {fileID: 3461496225828134970}
   secondaryAbilityBackground: {fileID: 3454057863874327287}
   healthSlider: {fileID: 8226249184935754993}
+  healthBarPanel: {fileID: 7127243290963397453}
   healthTextOver: {fileID: 8722064808995180821}
   healthTextUnder: {fileID: 71809585025982489}
   statsHelper: {fileID: 2779583375622962240}
   scoreText: {fileID: 4616086915643037565}
+  scorePanel: {fileID: 5988760690101933190}
 --- !u!114 &2779583375622962240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,6 +3076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 493694603271078082}
   - component: {fileID: 1563734431673271158}
+  - component: {fileID: 3591709369864821656}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -3097,6 +3113,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7127243290963397453}
   m_CullTransparentMesh: 1
+--- !u!114 &3591709369864821656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127243290963397453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a8e9c14d914f54da2995c0a2cdd76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7260218741295440504
 GameObject:
   m_ObjectHideFlags: 0

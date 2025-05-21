@@ -23,6 +23,7 @@ public class PlayerScore : MonoBehaviour
             scoreStats.score = 0;
         }
         GetComponent<PlayerHUD>().UpdateScoreText(scoreStats.score);
+        gameObject.GetComponent<PlayerHUD>().GetUIComponentHelper().scorePanel.GetComponent<HUDElementShakeHandler>().ShakeCard();
     }
 
     public void AddDamageDealt(float additionalDamage) {
