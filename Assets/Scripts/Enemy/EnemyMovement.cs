@@ -279,6 +279,11 @@ public class EnemyMovement : MonoBehaviour
     {
         frozenTimer += Time.deltaTime;
         if (frozenTimer >= 3f) {
+            if (gameObject.GetComponent<SpriteRenderer>().material.GetInt("_Invert") == 1) // bad solution but better than setting it every frame
+            {
+                gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Invert", 0);
+                gameObject.GetComponent<Animator>().speed = 1;
+            }
             if (knockbackTime > 0)
             {
                 knockbackTime -= Time.deltaTime;
@@ -358,9 +363,11 @@ public class EnemyMovement : MonoBehaviour
         movePoint = enemyPathfinder.ClosestPlayer(transform.position);
     }
 
-    public void SetFrozen() 
+    public void SetFrozen()
     {
         frozenTimer = 0f;
         gameObject.GetComponent<EnemyAttack>().SetCanAttack(false);
+        gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Invert", 1);
+        gameObject.GetComponent<Animator>().speed = 0;
     }
 }
