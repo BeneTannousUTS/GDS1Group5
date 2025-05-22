@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 964795966124800354}
   - component: {fileID: 8750207650569610705}
   - component: {fileID: 8308578703778805101}
-  - component: {fileID: 9054431468669508346}
   - component: {fileID: -7366011515478736965}
   - component: {fileID: -8640310701081262023}
+  - component: {fileID: 8411871697716684484}
   m_Layer: 0
   m_Name: Polymorph
-  m_TagString: Projectile
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.634455, y: -0.801, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 16, y: 16, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b4b98aee3da456e4ca0e0a034e4711a2, type: 3}
-  m_Color: {r: 0.013349946, g: 0.5660378, b: 0.17663522, a: 1}
+  m_Color: {r: 0.013349946, g: 0.5660378, b: 0.17663522, a: 0.21176471}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -125,25 +125,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.016059637, y: 0}
-  m_Radius: 0.35
---- !u!114 &9054431468669508346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2315427121274295933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151359f22132da34486eda2973c8cfcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 15
-  knockbackStrength: 0.7
-  knockbackTime: 0.1
-  comeBack: 0
-  comeBackWindow: 0.5
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.25
 --- !u!50 &-7366011515478736965
 Rigidbody2D:
   serializedVersion: 5
@@ -186,3 +169,26 @@ MonoBehaviour:
   morphAnimator: {fileID: 9100000, guid: cf2748ec3a252b94fa1c9129f03cd0e3, type: 2}
   morphWeapon: {fileID: 1007161298579427080, guid: 342d6df86d48a444e9ac4598cbb913a8, type: 3}
   morphSecondary: {fileID: 21740387793767394, guid: 1c2e8b98a4ac8426b8f857616827bcf5, type: 3}
+--- !u!114 &8411871697716684484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315427121274295933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25320242185ccad499f7087f796f947b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 0
+  weaponLifetime: 1
+  attackCooldownWindow: 0
+  knockbackStrength: 0.9
+  knockbackTime: 0.1
+  friendlyFire: 0
+  charge: 0
+  canStrafe: 0
+  projectile: {fileID: 0}
+  weaponSound: 
+  isMelee: 1
