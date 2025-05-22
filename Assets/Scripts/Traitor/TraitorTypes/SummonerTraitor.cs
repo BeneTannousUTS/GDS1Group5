@@ -15,6 +15,7 @@ public class SummonerTraitor : BaseTraitor
 
     public override void TraitorSetup()
     {
+        base.TraitorAbility();
         base.TraitorSetup();
         gameObject.GetComponent<PlayerCollision>().SetPlayerPVP(true);
         summonPos = FindAnyObjectByType<DungeonManager>().GetRoomPos();

@@ -10,6 +10,7 @@ public class BomberTraitor : BaseTraitor
     private GameObject bomb;
     public override void TraitorAbility()
     {
+        base.TraitorAbility();
         gameObject.GetComponent<PlayerStats>().SetPassive(passive);
         gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(5, passive);
         StartCoroutine(DropBombs());

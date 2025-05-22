@@ -10,6 +10,7 @@ public class DisablerTraitor : BaseTraitor
     {
         foreach (GameObject player in playerList)
         {
+            base.TraitorAbility();
             if (player != gameObject)
             {
                 player.GetComponent<PlayerAttack>().Attack(weapon);

@@ -12,6 +12,7 @@ public class JumbledUpTraitor : BaseTraitor
     List<GameObject> playerList = new List<GameObject>();
     public override void TraitorAbility()
     {
+        base.TraitorAbility();
         SummonPosition(gameObject);
         foreach (GameObject player in playerList)
         {

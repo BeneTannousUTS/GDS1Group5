@@ -8,6 +8,7 @@ public class SpeedsterTraitor : BaseTraitor
     public GameObject passive;
     public override void TraitorAbility()
     {
+        base.TraitorAbility();
         foreach (GameObject player in playerList)
         {
             if (player != gameObject)

@@ -8,6 +8,7 @@ public class PolymorthTraitor : BaseTraitor
     public GameObject polyProjectile;
     public override void TraitorAbility()
     {
+        base.TraitorAbility();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         GameObject item = Instantiate(polyProjectile, transform.position + attackDirection*1.2f, CalculateQuaternion(attackDirection), transform);
         item.GetComponent<Projectile>().SetShotDirection(attackDirection);

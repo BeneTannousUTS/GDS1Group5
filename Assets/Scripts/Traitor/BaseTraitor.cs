@@ -42,7 +42,7 @@ public class BaseTraitor : MonoBehaviour
 
     public virtual void TraitorAbility()
     {
-
+        FindAnyObjectByType<AudioManager>().PlaySoundEffect("Laugh");
     }
 
     protected void DestroyDoor()
