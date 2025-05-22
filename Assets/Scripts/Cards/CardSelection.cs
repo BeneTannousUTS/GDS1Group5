@@ -51,6 +51,8 @@ public class CardSelection : MonoBehaviour
     GameObject confirmCardPrefab;
     [SerializeField]
     GameObject passiveConfirmPrefab;
+    [SerializeField]
+    GameObject traitorConfirmPrefab;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -557,7 +559,19 @@ public class CardSelection : MonoBehaviour
                         );
                     }
                 }
+                else if (cardType == CardType.Passive && cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardRarity == CardRarity.Traitor)
+                {
+                    GameObject confirmCard = Instantiate(traitorConfirmPrefab, confirmCanvas.transform);
+
+                    PassiveConfirmHandler confirmCardHandler = confirmCard.GetComponent<PassiveConfirmHandler>();
+
+                    confirmCardHandler.SetupCard(
+                        $"Player {playerData.playerIndex + 1}",
+                        playerData.playerColour,
+                        PlayerManager.instance.playerSprites[playerData.playerIndex]);
+                }
             }
+
             yield return ConfirmManager.Instance.WaitForAllConfirmations(handlers);
 
             foreach (BaseConfirmHandler cardHandler in handlers)
@@ -568,18 +582,18 @@ public class CardSelection : MonoBehaviour
                     cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int)cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
                 }
             }
+
+            selectionState = SelectionState.Waiting;
+            
+            if (handlers.Count() == 0)
+            {
+                yield return new WaitForSeconds(3.0f);
+            }
         }
 
         selectionState = SelectionState.Waiting;
 
-        if (handlers.Count() == 0)
-        {
-            yield return new WaitForSeconds(3.5f);
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.25f);
-        }
+        yield return new WaitForSeconds(0.25f);
 
         if (numOfTraitors > 0)
         {
