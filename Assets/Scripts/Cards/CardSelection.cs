@@ -75,6 +75,7 @@ public class CardSelection : MonoBehaviour
     public SelectionState selectionState = SelectionState.InGame;
     [SerializeField]
     GameObject cardOutlinePrefab;
+    private int traitorIndex = -1;
 
     void Awake()
     {
@@ -412,16 +413,20 @@ public class CardSelection : MonoBehaviour
             }
             else
             {
-                int[] traitorOrder = selectedCards
-                    .Where(numOfCardSelected => numOfCardSelected != -1)
-                    .OrderBy(player => Random.value)
-                    .ToArray();
+                List<PlayerData> joinedPlayers = new List<PlayerData>();
+
+                foreach (PlayerData player in players)
+                {
+                    if (player.isJoined) joinedPlayers.Add(player);
+                }
 
                 for (int i = 0; i < numOfTraitors; ++i)
                 {
-                    int traitorIndex = traitorOrder[i];
+                    traitorIndex = joinedPlayers[Random.Range(0, joinedPlayers.Count())].playerIndex;
 
-                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
+                    Debug.Log($"Traitor Index: {traitorIndex}");
+
+                    cardList[selectedCards[traitorIndex]].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
 
@@ -773,8 +778,11 @@ public class CardSelection : MonoBehaviour
         }
 
         GameObject traitorCanvas = Instantiate(traitorCanvasPrefab, null);
+        traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitor($"Player {traitorIndex + 1}",
+        FindAnyObjectByType<GameSceneManager>().playerColours[traitorIndex]);
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
-
+        
+        
         yield return new WaitForSeconds(3f);
 
         selectionState = SelectionState.TraitorConfirming;

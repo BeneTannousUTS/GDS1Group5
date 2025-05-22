@@ -15,6 +15,7 @@ public class TraitorManager : MonoBehaviour
     [SerializeField] RuntimeAnimatorController[] traitorAnims;
     [SerializeField] GameObject healthBoost;
     [SerializeField] GameObject[] weapons;
+    [SerializeField] public Sprite[] traitorSprites;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided

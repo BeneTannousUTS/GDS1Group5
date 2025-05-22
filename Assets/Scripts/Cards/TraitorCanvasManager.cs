@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TraitorCanvasManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TraitorCanvasManager : MonoBehaviour
     public TMP_Text traitorDesc;
     public TMP_Text abilityName;
     public TMP_Text abilityDesc;
+    public TMP_Text playerName;
+    public GameObject traitorSprite;
     [SerializeField]
     GameObject readyCheckCanvas;
     [SerializeField]
@@ -23,6 +26,24 @@ public class TraitorCanvasManager : MonoBehaviour
         traitorDesc.text = traitorType.GetTraitorDesc();
         abilityName.text = traitorType.GetAbilityName();
         abilityDesc.text = traitorType.GetAbilityDesc();
+
+
+        if (traitorType is PVPTraitor)
+        {
+            playerName.text = "Everyone";
+            playerName.color = Color.white;
+            traitorSprite.GetComponent<Image>().sprite = FindAnyObjectByType<TraitorManager>().traitorSprites[0];
+        }
+        else
+        {
+            traitorSprite.GetComponent<Image>().sprite = FindAnyObjectByType<TraitorManager>().traitorSprites[FindAnyObjectByType<GameManager>().GetTraitorID()];
+        }
+    }
+
+    public void SetTraitor(string name, Color colour)
+    {
+        playerName.text = name;
+        playerName.color = colour;
     }
 
     public void StartReadyCheck(PlayerData[] players)
