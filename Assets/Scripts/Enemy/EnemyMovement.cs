@@ -334,6 +334,8 @@ public class EnemyMovement : MonoBehaviour
         animator.SetBool("isFront", false);
         animator.SetBool("isSide", false);
         animator.SetBool("isBack", false);
+        animator.SetBool("isLeft", false);
+        animator.SetBool("isRight", false);
         if (((facingDirection.x <= 0 && facingDirection.x >= facingDirection.y) || (facingDirection.x >= 0 && facingDirection.x < facingDirection.y * -1)) && facingDirection.y < 0)
         {
             animator.SetBool("isFront", true);
@@ -342,7 +344,18 @@ public class EnemyMovement : MonoBehaviour
         {
             animator.SetBool("isBack", true);
         }
-        else animator.SetBool("isSide", true);
+        else
+        {
+            animator.SetBool("isSide", true);
+            if (facingDirection.x > 0)
+            {
+                animator.SetBool("isRight", true);
+            }
+            else
+            {
+                animator.SetBool("isLeft", true);
+            }
+        }
         if (facingDirection.x > 0 && sprite.flipX) sprite.flipX = false;
         else if (facingDirection.x < 0 && !sprite.flipX)
         {
