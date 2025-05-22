@@ -453,12 +453,12 @@ public class CardSelection : MonoBehaviour
 
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
+        List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
         if (roomNum > 1)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-            List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
             coverCanvas.SetActive(true);
             selectionState = SelectionState.ConfirmingSwap;
@@ -572,7 +572,14 @@ public class CardSelection : MonoBehaviour
 
         selectionState = SelectionState.Waiting;
 
-        yield return new WaitForSeconds(0.25f);
+        if (handlers.Count() == 0)
+        {
+            yield return new WaitForSeconds(3.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.25f);
+        }
 
         if (numOfTraitors > 0)
         {
