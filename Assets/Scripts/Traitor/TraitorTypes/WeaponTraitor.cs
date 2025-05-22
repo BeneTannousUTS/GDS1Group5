@@ -8,6 +8,7 @@ public class WeaponTraitor : BaseTraitor
     public GameObject[] weapons;
     public override void TraitorAbility()
     {
+        base.TraitorAbility();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
         foreach (GameObject weapon in weapons)
         {
