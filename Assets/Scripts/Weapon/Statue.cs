@@ -13,6 +13,12 @@ public class Statue : WeaponStats
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
             currentProjectile.GetComponent<Projectile>().SetSourceObject(sourceObject);
             FindAnyObjectByType<AudioManager>().PlaySoundEffect("Time", UnityEngine.Random.Range(0.9f, 1.1f));
+            if (transform.childCount != 0) {
+                currentProjectile.GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+            }
+            else {
+                currentProjectile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = gameObject.GetComponent<SpriteRenderer>().color;
+            }
         }
 
         base.TriggerAttack();

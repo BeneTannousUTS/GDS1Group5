@@ -12,6 +12,7 @@ public class Boomerang : WeaponStats
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
             currentProjectile.GetComponent<Projectile>().SetSourceObject(sourceObject);
+            currentProjectile.GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
         }
 
         base.TriggerAttack();

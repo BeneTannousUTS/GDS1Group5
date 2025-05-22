@@ -12,6 +12,12 @@ public class Gun : WeaponStats
             currentProjectile.GetComponent<Projectile>().SetFriendlyFire(friendlyFire);
             currentProjectile.GetComponent<Projectile>().SetSourceType(sourceType);
             currentProjectile.GetComponent<Projectile>().SetSourceObject(sourceObject);
+            if (currentProjectile.transform.childCount == 0) {
+                currentProjectile.GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+            }
+            else {
+                currentProjectile.transform.GetChild(0).GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+            }
         }
 
         base.TriggerAttack();

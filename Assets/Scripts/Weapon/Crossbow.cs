@@ -30,6 +30,7 @@ public class Crossbow : WeaponStats
                 proj.SetFriendlyFire(friendlyFire);
                 proj.SetSourceType(sourceType);
                 proj.SetSourceObject(sourceObject);
+                proj.GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
             }
         }
 
