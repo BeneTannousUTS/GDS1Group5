@@ -136,7 +136,8 @@ public class GameManager : MonoBehaviour
     {
         foreach (var player in playerList)
         {
-            player.GetComponent<VibrationManager>().StopAllVibrations(player.GetComponent<PlayerInput>().GetDevice<Gamepad>());
+            Gamepad gamepad = player.GetComponent<PlayerInput>().GetDevice<Gamepad>();
+            if (gamepad != null) player.GetComponent<VibrationManager>().StopAllVibrations(gamepad);
         }
     }
 }
