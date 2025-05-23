@@ -58,10 +58,12 @@ public class PlayerStats : MonoBehaviour
 
     public float GetHealthStat() 
     {
+        GameManager gameManager = FindAnyObjectByType<GameManager>();
+        if (gameManager == null) return 100f;
 
-        int numberOfPlayers = FindAnyObjectByType<GameManager>().GetPlayerList().Count;
+        int numberOfPlayers = gameManager.GetPlayerList().Count;
 
-        float baseHealth = 200f - (numberOfPlayers - 2) * 50;
+        float baseHealth = 150 - (numberOfPlayers - 2) * 25;
         float healthMods = 0;
 
         foreach (GameObject passive in passives) 

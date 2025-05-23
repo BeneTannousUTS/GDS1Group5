@@ -82,16 +82,18 @@ public class StartRoomManager : MonoBehaviour
             {
                 door.GetComponent<Door>().OpenDoor();
 
-                int maxHealthAmount = 200 - (CountActivePlayers() - 2) * 50;
+                int maxHealthAmount = 150 - (CountActivePlayers() - 2) * 25;
 
                 PlayerData[] players = PlayerManager.instance.GetPlayers();
 
-                foreach(PlayerData player in players)
+                foreach (PlayerData player in players)
                 {
                     if (!player.isJoined) continue;
 
                     player.playerInput.gameObject.GetComponent<HealthComponent>().SetMaxHealth(maxHealthAmount);
                     player.playerInput.gameObject.GetComponent<HealthComponent>().UpdateHUDHealthBar();
+                    ShowButtonPrompt showButtonPrompt = player.playerInput.gameObject.GetComponent<ShowButtonPrompt>();
+                    if (showButtonPrompt) showButtonPrompt.DestroyObject();
                 }
 
                 shouldBarUpdate = false;
