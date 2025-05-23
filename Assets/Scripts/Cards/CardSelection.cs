@@ -95,15 +95,18 @@ public class CardSelection : MonoBehaviour
         float dungeonCompletionPercent = (float)FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float)FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
         GameObject weapon = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         GameObject secondary = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         GameObject passive = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Passive)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Passive
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         if (roomNum == 0)
@@ -136,31 +139,21 @@ public class CardSelection : MonoBehaviour
         }
         else
         {
-            // if (weapon != null) tempCardList.Add(weapon);
-            // if (passive != null) tempCardList.Add(passive);
-            // if (secondary != null) tempCardList.Add(secondary);
+            if (weapon != null) tempCardList.Add(weapon);
+            if (passive != null) tempCardList.Add(passive);
+            if (secondary != null) tempCardList.Add(secondary);
 
-            // CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+            CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
 
-            // List<GameObject> remainingCards = cards
-            // .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
-            // .Except(tempCardList).ToList();
-            // tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-
-            for (int j = 0; j < 4; ++j)
+            while (tempCardList.Count < 4)
             {
-                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
-
                 List<GameObject> remainingCards = cards
                 .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
-                .Except(tempCardList)
-                .ToList();
+                .Except(tempCardList).ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
             }
         }
-
-
 
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
@@ -649,44 +642,44 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        if (completion < 0.25f) // Early Game (0 - 25% completion)
+        if (completion < 0.2f) // Early Game (0 - 20% completion)
         {
             float t = completion * 4f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(1.0f, 0.80f, t);
+                    return Mathf.Lerp(1.0f, 0.40f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.00f, 0.20f, t);
+                    return Mathf.Lerp(0.00f, 0.60f, t);
                 default:
                     return 0f;
             }
         }
-        else if (completion >= 0.25f && completion < 0.75f) // Mid Game (25% to 75% completion)
+        else if (completion >= 0.2f && completion < 0.70f) // Mid Game (20% to 70% completion)
         {
             float t = (completion - 0.25f) * 4f / 3f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.80f, 0.0f, t);
+                    return Mathf.Lerp(0.40f, 0.0f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.20f, 0.80f, t);
+                    return Mathf.Lerp(0.60f, 0.40f, t);
                 case CardRarity.Legendary:
-                    return Mathf.Lerp(0.00f, 0.20f, t);
+                    return Mathf.Lerp(0.00f, 0.50f, t);
                 default:
                     return 0f;
             }
         }
-        else // Late Game (75% - 100% completion)
+        else // Late Game (70% - 100% completion)
         {
             switch (rarity)
             {
                 case CardRarity.Rare:
-                    return 0.75f;
+                    return 0.30f;
                 case CardRarity.Legendary:
-                    return 0.25f;
+                    return 0.70f;
                 default:
                     return 0f;
             }
