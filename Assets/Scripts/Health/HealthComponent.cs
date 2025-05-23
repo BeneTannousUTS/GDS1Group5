@@ -112,7 +112,7 @@ public class HealthComponent : MonoBehaviour
         {
             if (damageValue < 0f)
             {
-                //damageValue = Math.Max(1f, damageValue);
+                damageValue = Math.Min(-1f, damageValue);
                 currentHealth = Math.Max(0, currentHealth - damageValue);
 
                 if (!isObject)
