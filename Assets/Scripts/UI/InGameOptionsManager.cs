@@ -1,6 +1,7 @@
 // AUTHOR: Zac
 // Manages the options pop up
 
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,6 +13,7 @@ public class InGameOptionsManager : MonoBehaviour
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private InputActionAsset defaultActions;
     [SerializeField] private Button audioMenuButton;
+    [SerializeField] private TMP_Text playerNameText;
 
     private PlayerInput activeInput = null;
     private PlayerManager playerManager;
@@ -43,6 +45,9 @@ public class InGameOptionsManager : MonoBehaviour
             Debug.Log("Opening Menu");
 
             EventSystem.current.SetSelectedGameObject(null);
+            int playerIndex = playerInput.GetComponent<PlayerIndex>().playerIndex;
+            playerNameText.text = $"Player {playerIndex + 1} is in control...";
+            playerNameText.color = FindAnyObjectByType<PlayerManager>().players[playerIndex].playerColour;
 
             Time.timeScale = 0;
             optionsMenu.SetActive(true);
