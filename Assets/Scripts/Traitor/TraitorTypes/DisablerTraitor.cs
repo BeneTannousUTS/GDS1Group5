@@ -6,6 +6,7 @@ public class DisablerTraitor : BaseTraitor
 {
     List<GameObject> playerList = new List<GameObject>();
     public GameObject weapon;
+    public Sprite disableIcon;
     public override void TraitorAbility()
     {
         foreach (GameObject player in playerList)
@@ -14,6 +15,7 @@ public class DisablerTraitor : BaseTraitor
             if (player != gameObject)
             {
                 player.GetComponent<PlayerAttack>().Attack(weapon);
+                player.GetComponent<PlayerIcons>().SetIcon(disableIcon, 5);
             }
         }
     }
@@ -40,6 +42,7 @@ public class DisablerTraitor : BaseTraitor
         weapon = traitorManager.GetObjectRef(3);
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
         gameObject.GetComponent<Animator>().runtimeAnimatorController = traitorManager.GetAnim(6);
+        disableIcon = traitorManager.GetIcon(0);
         TraitorSetup();
     }
 

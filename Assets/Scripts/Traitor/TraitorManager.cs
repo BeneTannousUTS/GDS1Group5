@@ -16,6 +16,8 @@ public class TraitorManager : MonoBehaviour
     [SerializeField] GameObject healthBoost;
     [SerializeField] GameObject[] weapons;
     [SerializeField] public Sprite[] traitorSprites;
+    [SerializeField] Sprite[] icons;
+    [SerializeField] GameObject[] extras;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //Called by game manager when the traitor is decided
@@ -81,7 +83,7 @@ public class TraitorManager : MonoBehaviour
     }
 
     public bool IsTraitorActive() { return traitorActive; }
-    
+
     void Start()
     {
         dungeonManager = FindAnyObjectByType<DungeonManager>();
@@ -100,5 +102,15 @@ public class TraitorManager : MonoBehaviour
     internal GameObject[] GetWeapons()
     {
         return weapons;
+    }
+
+    public Sprite GetIcon(int pos)
+    {
+        return icons[pos];
+    }
+
+    public GameObject GetExtras(int pos)
+    {
+        return extras[pos];
     }
 }
