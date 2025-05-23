@@ -85,6 +85,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int GetTraitorID()
+    {
+        return currentTraitorType.GetComponent<BaseTraitor>().GetTraitorID();
+    }
+
     void Start() 
     {
         // DecideTraitor();

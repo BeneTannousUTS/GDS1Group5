@@ -51,6 +51,8 @@ public class CardSelection : MonoBehaviour
     GameObject confirmCardPrefab;
     [SerializeField]
     GameObject passiveConfirmPrefab;
+    [SerializeField]
+    GameObject traitorConfirmPrefab;
     public Sprite traitorCardSprite;
     private int numOfTraitors = 0;
     [SerializeField]
@@ -73,6 +75,7 @@ public class CardSelection : MonoBehaviour
     public SelectionState selectionState = SelectionState.InGame;
     [SerializeField]
     GameObject cardOutlinePrefab;
+    private int traitorIndex = -1;
 
     void Awake()
     {
@@ -92,15 +95,18 @@ public class CardSelection : MonoBehaviour
         float dungeonCompletionPercent = (float)FindAnyObjectByType<DungeonManager>().GetRoomCount() / (float)FindAnyObjectByType<DungeonManager>().GetDungeonLength();
 
         GameObject weapon = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Weapon
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         GameObject secondary = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Secondary
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         GameObject passive = cards
-            .Where(card => card.GetComponent<Card>().cardType == CardType.Passive)
+            .Where(card => card.GetComponent<Card>().cardType == CardType.Passive
+            && card.GetComponent<Card>().cardRarity == GetWeightedCardRarity(cards, dungeonCompletionPercent))
             .FirstOrDefault();
 
         if (roomNum == 0)
@@ -133,31 +139,21 @@ public class CardSelection : MonoBehaviour
         }
         else
         {
-            // if (weapon != null) tempCardList.Add(weapon);
-            // if (passive != null) tempCardList.Add(passive);
-            // if (secondary != null) tempCardList.Add(secondary);
+            if (weapon != null) tempCardList.Add(weapon);
+            if (passive != null) tempCardList.Add(passive);
+            if (secondary != null) tempCardList.Add(secondary);
 
-            // CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
+            CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
 
-            // List<GameObject> remainingCards = cards
-            // .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
-            // .Except(tempCardList).ToList();
-            // tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
-
-            for (int j = 0; j < 4; ++j)
+            while (tempCardList.Count < 4)
             {
-                CardRarity randomRarirty = GetWeightedCardRarity(cards, dungeonCompletionPercent);
-
                 List<GameObject> remainingCards = cards
                 .Where(card => card.GetComponent<Card>().cardRarity == randomRarirty)
-                .Except(tempCardList)
-                .ToList();
+                .Except(tempCardList).ToList();
 
                 tempCardList.Add(remainingCards[Random.Range(0, remainingCards.Count)]);
             }
         }
-
-
 
         tempCardList = tempCardList.OrderBy(x => Random.value).ToList();
 
@@ -410,16 +406,20 @@ public class CardSelection : MonoBehaviour
             }
             else
             {
-                int[] traitorOrder = selectedCards
-                    .Where(numOfCardSelected => numOfCardSelected != -1)
-                    .OrderBy(player => Random.value)
-                    .ToArray();
+                List<PlayerData> joinedPlayers = new List<PlayerData>();
+
+                foreach (PlayerData player in players)
+                {
+                    if (player.isJoined) joinedPlayers.Add(player);
+                }
 
                 for (int i = 0; i < numOfTraitors; ++i)
                 {
-                    int traitorIndex = traitorOrder[i];
+                    traitorIndex = joinedPlayers[Random.Range(0, joinedPlayers.Count())].playerIndex;
 
-                    cardList[traitorIndex].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
+                    Debug.Log($"Traitor Index: {traitorIndex}");
+
+                    cardList[selectedCards[traitorIndex]].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
             }
 
@@ -453,12 +453,12 @@ public class CardSelection : MonoBehaviour
 
         UIInputModule.actionsAsset = null;
         int roomNum = FindAnyObjectByType<DungeonManager>().GetRoomCount();
+        List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
         if (roomNum > 1)
         {
 
             PlayerData[] players = FindAnyObjectByType<PlayerManager>().GetPlayers();
-            List<BaseConfirmHandler> handlers = new List<BaseConfirmHandler>(); // at the player's index will hold the confirm card
 
             coverCanvas.SetActive(true);
             selectionState = SelectionState.ConfirmingSwap;
@@ -557,7 +557,19 @@ public class CardSelection : MonoBehaviour
                         );
                     }
                 }
+                else if (cardType == CardType.Passive && cardList[selectedCards[playerData.playerIndex]].GetComponent<Card>().cardRarity == CardRarity.Traitor)
+                {
+                    GameObject confirmCard = Instantiate(traitorConfirmPrefab, confirmCanvas.transform);
+
+                    PassiveConfirmHandler confirmCardHandler = confirmCard.GetComponent<PassiveConfirmHandler>();
+
+                    confirmCardHandler.SetupCard(
+                        $"Player {playerData.playerIndex + 1}",
+                        playerData.playerColour,
+                        PlayerManager.instance.playerSprites[playerData.playerIndex]);
+                }
             }
+
             yield return ConfirmManager.Instance.WaitForAllConfirmations(handlers);
 
             foreach (BaseConfirmHandler cardHandler in handlers)
@@ -567,6 +579,13 @@ public class CardSelection : MonoBehaviour
                     Debug.Log($"Int: {(int)cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity}");
                     cardList[selectedCards[cardHandler.playerIndex]] = healthCards[(int)cardList[selectedCards[cardHandler.playerIndex]].GetComponent<Card>().cardRarity];
                 }
+            }
+
+            selectionState = SelectionState.Waiting;
+            
+            if (handlers.Count() == 0)
+            {
+                yield return new WaitForSeconds(3.0f);
             }
         }
 
@@ -623,44 +642,44 @@ public class CardSelection : MonoBehaviour
 
     float GetRarityWeight(CardRarity rarity, float completion)
     {
-        if (completion < 0.25f) // Early Game (0 - 25% completion)
+        if (completion < 0.2f) // Early Game (0 - 20% completion)
         {
             float t = completion * 4f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(1.0f, 0.80f, t);
+                    return Mathf.Lerp(1.0f, 0.40f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.00f, 0.20f, t);
+                    return Mathf.Lerp(0.00f, 0.60f, t);
                 default:
                     return 0f;
             }
         }
-        else if (completion >= 0.25f && completion < 0.75f) // Mid Game (25% to 75% completion)
+        else if (completion >= 0.2f && completion < 0.70f) // Mid Game (20% to 70% completion)
         {
             float t = (completion - 0.25f) * 4f / 3f;
 
             switch (rarity)
             {
                 case CardRarity.Common:
-                    return Mathf.Lerp(0.80f, 0.0f, t);
+                    return Mathf.Lerp(0.40f, 0.0f, t);
                 case CardRarity.Rare:
-                    return Mathf.Lerp(0.20f, 0.80f, t);
+                    return Mathf.Lerp(0.60f, 0.40f, t);
                 case CardRarity.Legendary:
-                    return Mathf.Lerp(0.00f, 0.20f, t);
+                    return Mathf.Lerp(0.00f, 0.50f, t);
                 default:
                     return 0f;
             }
         }
-        else // Late Game (75% - 100% completion)
+        else // Late Game (70% - 100% completion)
         {
             switch (rarity)
             {
                 case CardRarity.Rare:
-                    return 0.75f;
+                    return 0.30f;
                 case CardRarity.Legendary:
-                    return 0.25f;
+                    return 0.70f;
                 default:
                     return 0f;
             }
@@ -752,8 +771,11 @@ public class CardSelection : MonoBehaviour
         }
 
         GameObject traitorCanvas = Instantiate(traitorCanvasPrefab, null);
+        traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitor($"Player {traitorIndex + 1}",
+        FindAnyObjectByType<GameSceneManager>().playerColours[traitorIndex]);
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
-
+        
+        
         yield return new WaitForSeconds(3f);
 
         selectionState = SelectionState.TraitorConfirming;

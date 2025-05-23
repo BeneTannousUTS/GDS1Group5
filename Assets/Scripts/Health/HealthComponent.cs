@@ -112,13 +112,15 @@ public class HealthComponent : MonoBehaviour
         {
             if (damageValue < 0f)
             {
+                //damageValue = Math.Max(1f, damageValue);
                 currentHealth = Math.Max(0, currentHealth - damageValue);
 
                 if (!isObject)
                 {
-                    AudioManager.instance.PlaySoundEffect("UIConfirm", 1.5f);
+                    
                     if (damageValue > -1000f)
                     {
+                        if (damageValue < -3f) AudioManager.instance.PlaySoundEffect("UIConfirm", 1.5f);
                         FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, $"+ {(int)(damageValue * -1f)}", Color.green, damageValue / -10);
                     }
                 }
