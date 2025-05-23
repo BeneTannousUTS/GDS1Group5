@@ -162,19 +162,42 @@ public class CardSelection : MonoBehaviour
         {
             GameObject cardObj = Instantiate(card, transform);
 
-            GameObject cardOutline = Instantiate(cardOutlinePrefab, cardObj.transform);
-            cardOutline.transform.SetSiblingIndex(0);
-
-            cardOutline.GetComponent<Image>().color = GetColourFromRarity(cardObj.GetComponent<Card>().cardRarity) * new Vector4(1f, 1f, 1f, 0.25f);
-
             cardList[i++] = cardObj;
         }
 
         foreach (GameObject card in cardList)
         {
+            GameObject cardObj = card.gameObject;
+
+            GameObject cardOutline = Instantiate(cardOutlinePrefab, cardObj.transform);
+            cardOutline.transform.SetSiblingIndex(0);
+
+            CardRarity cardRarity = cardObj.GetComponent<Card>().cardRarity;
+            cardOutline.GetComponent<Image>().color = GetColourFromRarity(cardRarity) * new Vector4(1f, 1f, 1f, 0.25f);
+
             Button button = card.GetComponent<Button>();
+            Animator animator = card.GetComponent<Animator>();
+
+            if (cardRarity != CardRarity.Common)
+            {
+                animator.SetTrigger("Shimmer");
+
+                if (cardRarity == CardRarity.Rare)
+                {
+                    AudioManager.instance.PlaySoundEffect("Barrier", 1.5f);
+                }
+                else
+                {
+                    AudioManager.instance.PlaySoundEffect("Barrier", 2.0f);
+                }
+
+                StartCoroutine(SetIdleOffsetAfterShimmer(animator, Random.Range(0f, 1f)));
+            }
 
             button.onClick.AddListener(() => SelectCard(card));
+
+            float offset = Random.Range(0f, 1f);
+            animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, -1, offset);
         }
 
         StartCoroutine(SelectionProcess());
@@ -438,6 +461,8 @@ public class CardSelection : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         foreach (GameObject card in cardList)
         {
+            Animator animator = card.GetComponent<Animator>();
+            animator.speed = 1;
             StartCoroutine(card.GetComponent<CardHandler>().ChangeSprite());
         }
 
@@ -582,10 +607,10 @@ public class CardSelection : MonoBehaviour
             }
 
             selectionState = SelectionState.Waiting;
-            
+
             if (handlers.Count() == 0)
             {
-                yield return new WaitForSeconds(3.0f);
+                yield return new WaitForSeconds(2.0f);
             }
         }
 
@@ -774,8 +799,8 @@ public class CardSelection : MonoBehaviour
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitor($"Player {traitorIndex + 1}",
         FindAnyObjectByType<GameSceneManager>().playerColours[traitorIndex]);
         traitorCanvas.GetComponent<TraitorCanvasManager>().SetTraitorType(traitorType);
-        
-        
+
+
         yield return new WaitForSeconds(3f);
 
         selectionState = SelectionState.TraitorConfirming;
@@ -788,6 +813,14 @@ public class CardSelection : MonoBehaviour
 
         traitorCanvas.GetComponent<TraitorCanvasManager>().StartReadyCheck(players);
     }
+    
+    IEnumerator SetIdleOffsetAfterShimmer(Animator animator, float offset)
+{
+    // Wait for shimmer anim to finish (assume 0.5s, adjust as needed)
+    yield return new WaitForSeconds(0.5f);
+
+    animator.Play("card_movement", -1, offset);
+}
 
     #endregion
 }
