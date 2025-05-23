@@ -26,10 +26,11 @@ public class Crossbow : WeaponStats
                 Projectile proj = currentProjectile.GetComponent<Projectile>();
                 
                 proj.SetShotDirection(shotDirection);
-                proj.SetDamageValue(damageValue * damageMod);
+                proj.SetDamageValue(Mathf.Ceil(damageValue * damageMod));
                 proj.SetFriendlyFire(friendlyFire);
                 proj.SetSourceType(sourceType);
                 proj.SetSourceObject(sourceObject);
+                proj.GetComponent<SpriteRenderer>().color = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
             }
         }
 

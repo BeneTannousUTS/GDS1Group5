@@ -38,6 +38,13 @@ public class PlayerCollision : MonoBehaviour
             if (otherCollider.gameObject.CompareTag("Weapon") && FriendlyFire(otherCollider.GetComponent<WeaponStats>().GetFriendlyFire(), otherCollider.GetComponent<WeaponStats>().GetSourceType(), otherCollider.GetComponent<WeaponStats>().GetSourceObject()))
             {
                 otherCollider.GetComponent<WeaponStats>().DealDamage(gameObject.GetComponent<HealthComponent>());
+                if (otherCollider.GetComponent<PolyProjectile>() != null)
+                {
+                    if (gameObject.CompareTag("Player") && gameObject.GetComponent<Polymorph>() == null)
+                    {
+                        otherCollider.GetComponent<PolyProjectile>().ApplyMorph(gameObject);
+                    }
+                }
             }
             else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType(), null))
             {
@@ -45,10 +52,6 @@ public class PlayerCollision : MonoBehaviour
                 if (otherCollider.GetComponent<Explosion>() != null)
                 {
                     otherCollider.GetComponent<Explosion>().SpawnExplosion();
-                }
-                else if (otherCollider.GetComponent<PolyProjectile>())
-                {
-                    otherCollider.GetComponent<PolyProjectile>().ApplyMorph(gameObject);
                 }
                 if (otherCollider.gameObject.GetComponent<Projectile>().GetComeBack() == false) {
                     Destroy(otherCollider.gameObject);

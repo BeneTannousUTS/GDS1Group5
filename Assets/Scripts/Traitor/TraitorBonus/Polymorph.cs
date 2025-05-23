@@ -6,13 +6,16 @@ public class Polymorph : MonoBehaviour
     [SerializeField] RuntimeAnimatorController morphAnimator;
     [SerializeField] GameObject morphWeapon;
     [SerializeField] GameObject morphSecondary;
+    GameObject weapon;
+    GameObject secondary;
+    RuntimeAnimatorController animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     IEnumerator Morph()
     {
-        GameObject weapon = gameObject.GetComponent<PlayerAttack>().currentWeapon;
-        GameObject secondary = gameObject.GetComponent<PlayerSecondary>().currentSecondary;
-        RuntimeAnimatorController animator = gameObject.GetComponent<Animator>().runtimeAnimatorController;
+        weapon = gameObject.GetComponent<PlayerAttack>().currentWeapon;
+        secondary = gameObject.GetComponent<PlayerSecondary>().currentSecondary;
+        animator = gameObject.GetComponent<Animator>().runtimeAnimatorController;
         gameObject.GetComponent<PlayerAttack>().currentWeapon = morphWeapon;
         gameObject.GetComponent<PlayerSecondary>().currentSecondary = morphSecondary;
         gameObject.GetComponent<Animator>().runtimeAnimatorController = morphAnimator;
@@ -29,6 +32,14 @@ public class Polymorph : MonoBehaviour
         morphWeapon = wep;
         morphSecondary = sec;
         StartCoroutine(Morph());
+    }
+
+    public void RemoveMorph()
+    {
+        gameObject.GetComponent<PlayerAttack>().currentWeapon = weapon;
+        gameObject.GetComponent<PlayerSecondary>().currentSecondary = secondary;
+        gameObject.GetComponent<Animator>().runtimeAnimatorController = animator;
+        Destroy(gameObject.GetComponent<Polymorph>());
     }
 
     void Start()

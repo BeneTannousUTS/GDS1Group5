@@ -10,12 +10,9 @@ public class PolymorthTraitor : BaseTraitor
     {
         base.TraitorAbility();
         Vector3 attackDirection = gameObject.GetComponent<PlayerMovement>().GetFacingDirection().normalized;
-        GameObject item = Instantiate(polyProjectile, transform.position + attackDirection*1.2f, CalculateQuaternion(attackDirection), transform);
-        item.GetComponent<Projectile>().SetShotDirection(attackDirection);
-        item.GetComponent<Projectile>().SetDamageValue(0);
-        item.GetComponent<Projectile>().SetFriendlyFire(true);
-        item.GetComponent<Projectile>().SetSourceType("Traitor");
-        item.GetComponent<Projectile>().SetSourceObject(gameObject);
+        GameObject item = Instantiate(polyProjectile, transform.position, CalculateQuaternion(attackDirection), transform);
+        item.GetComponent<WeaponStats>().SetSourceType("Traitor");
+        item.GetComponent<WeaponStats>().SetSourceObject(gameObject);
     }
 
     public Quaternion CalculateQuaternion(Vector3 direction)

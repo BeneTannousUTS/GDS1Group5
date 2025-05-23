@@ -90,6 +90,10 @@ public class HealthComponent : MonoBehaviour
         }
         else
         {
+            if (gameObject.GetComponent<Polymorph>() != null)
+            {
+                gameObject.GetComponent<Polymorph>().RemoveMorph();
+            }
             //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
             FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, "You Died!", PlayerManager.instance.players[gameObject.GetComponent<PlayerIndex>().playerIndex].playerColour);
