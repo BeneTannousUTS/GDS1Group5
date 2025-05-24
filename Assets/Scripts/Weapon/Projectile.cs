@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
 {
     private float damageValue;
     private string sourceType;
-    protected GameObject sourceObject;
+    protected GameObject sourceObject = null;
     private bool friendlyFire;
     public float moveSpeed;
     public float knockbackStrength = 0.7f;
@@ -135,7 +135,7 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         frozenTimer += Time.deltaTime;
-        if (frozenTimer >= 3f)
+        if (frozenTimer >= 2f)
         {
             if (gameObject.GetComponent<SpriteRenderer>().material.HasInt("_Invert"))
             {
