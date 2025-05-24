@@ -163,7 +163,13 @@ public class Projectile : MonoBehaviour
                 }
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, sourceObject.transform.position, moveSpeed * 3f * Time.deltaTime);
+                    if (sourceObject != null) {
+                        transform.position = Vector3.MoveTowards(transform.position, sourceObject.transform.position, moveSpeed * 3f * Time.deltaTime);
+                    }
+                    else {
+                        Destroy(gameObject);
+                    }
+
                 }
             }
         }
