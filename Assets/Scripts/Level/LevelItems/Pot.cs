@@ -6,7 +6,7 @@ public class Pot : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Instantiate(pots[Random.Range(0, pots.Length)]).transform.position = gameObject.transform.position + Vector3.up*0.25f;
+        Instantiate(pots[Random.Range(0, pots.Length)]).transform.position = gameObject.transform.position;
         gameObject.SetActive(false);
     }
 
