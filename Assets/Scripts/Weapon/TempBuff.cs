@@ -6,6 +6,7 @@ public class TempBuff : MonoBehaviour
     public GameObject passive;
     public float buffLifetime;
     public float buffTime;
+    public string type = "None";
 
     public bool isProjectile = false;
 

@@ -278,7 +278,7 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         frozenTimer += Time.deltaTime;
-        if (frozenTimer >= 3f) {
+        if (frozenTimer >= 2f) {
             if (gameObject.GetComponent<SpriteRenderer>().material.GetInt("_Invert") == 1) // bad solution but better than setting it every frame
             {
                 gameObject.GetComponent<SpriteRenderer>().material.SetInt("_Invert", 0);

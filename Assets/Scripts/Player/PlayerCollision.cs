@@ -46,7 +46,7 @@ public class PlayerCollision : MonoBehaviour
                     }
                 }
             }
-            else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType(), null))
+            else if (otherCollider.gameObject.CompareTag("Projectile") && FriendlyFire(otherCollider.GetComponent<Projectile>().GetFriendlyFire(), otherCollider.GetComponent<Projectile>().GetSourceType(), otherCollider.GetComponent<Projectile>().GetSourceObject()))
             {
                 otherCollider.GetComponent<Projectile>().DealDamage(gameObject.GetComponent<HealthComponent>());
                 if (otherCollider.GetComponent<Explosion>() != null)
@@ -65,8 +65,8 @@ public class PlayerCollision : MonoBehaviour
             else if (otherCollider.gameObject.CompareTag("TempBuff")) 
             {
                 GameObject passive = otherCollider.GetComponent<TempBuff>().GetPassive();
-                gameObject.GetComponent<PlayerStats>().SetPassive(passive);
-                gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(otherCollider.GetComponent<TempBuff>().GetBuffTime(), passive);
+                gameObject.GetComponent<PlayerStats>().SetPassive(passive, otherCollider.GetComponent<TempBuff>().type);
+                gameObject.GetComponent<PlayerStats>().public_RemoveTempBuff(otherCollider.GetComponent<TempBuff>().GetBuffTime(), passive, otherCollider.GetComponent<TempBuff>().type);
             }
         }
     }

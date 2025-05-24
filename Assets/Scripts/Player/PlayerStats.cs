@@ -5,20 +5,26 @@ using System.Collections.Generic;
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private List<GameObject> passives = new List<GameObject>();
+    [SerializeField] private List<string> temp_buffs = new List<string>();
+    public GameObject strengthParticles;
+    public GameObject speedParticles;
 
-    public void public_RemoveTempBuff(float time, GameObject passive)
+    public void public_RemoveTempBuff(float time, GameObject passive, string type = "None")
     {
-        StartCoroutine(RemoveTempBuff(time, passive));
+        StartCoroutine(RemoveTempBuff(time, passive, type));
     }
 
-    private IEnumerator RemoveTempBuff(float time, GameObject passive) 
+    private IEnumerator RemoveTempBuff(float time, GameObject passive, string type) 
     {
         yield return new WaitForSeconds(time);
         passives.Remove(passive);
+        if (temp_buffs.Contains(type)) {
+            temp_buffs.Remove(type);
+        }
         Debug.Log("Temp buff time up");
     }
 
-    public void SetPassive(GameObject passive) 
+    public void SetPassive(GameObject passive, string type = "None") 
     {
         //check if card gotten is to revive player, otherwise normal passive effect occurs
         if (passive.GetComponent<PassiveStats>().GetRevivePlayer())
@@ -27,7 +33,17 @@ public class PlayerStats : MonoBehaviour
         }
         else
         {
-            passives.Add(passive);
+            if (type.Equals("None") || !temp_buffs.Contains(type)) {
+                passives.Add(passive);
+                if (type.Equals("Speed")) {
+                    Instantiate(speedParticles, transform);
+                    temp_buffs.Add(type);
+                }
+                else if (type.Equals("Strength")) {
+                    Instantiate(strengthParticles, transform);
+                    temp_buffs.Add(type);
+                }
+            }
             gameObject.GetComponent<HealthComponent>().SetMaxHealth(GetHealthStat());
         }
     }
