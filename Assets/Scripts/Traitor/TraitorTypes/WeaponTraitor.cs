@@ -56,7 +56,7 @@ public class WeaponTraitor : BaseTraitor
     {
         Revive();
         traitorManager = FindAnyObjectByType<TraitorManager>();
-        cooldownLength = 2;
+        cooldownLength = 3;
         traitorSprite = traitorManager.GetCardRef(0);
         weapons = traitorManager.GetWeapons();
         playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
