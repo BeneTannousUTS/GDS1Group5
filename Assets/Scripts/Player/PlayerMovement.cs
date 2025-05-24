@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     private float knockbackTime = 0.0f;
     private float dashTime = 0.0f;
 
+    [SerializeField] private GameObject dustParticles;
+
     // Gets the value of facingDirection
     public Vector3 GetFacingDirection()
     {
@@ -60,7 +62,9 @@ public class PlayerMovement : MonoBehaviour
             if (moveDirection != Vector3.zero)
             {
                 animator.SetBool("isMoving", true);
-                if (gameObject.GetComponent<PlayerAttack>().GetHoldingAttack() == false) {
+                dustParticles.SetActive(true);
+                if (gameObject.GetComponent<PlayerAttack>().GetHoldingAttack() == false)
+                {
                     SetSpriteDirection();
                     if (moveDirection.x > 0 && sprite.flipX)
                     {
@@ -74,7 +78,11 @@ public class PlayerMovement : MonoBehaviour
                     facingDirection = moveDirection.normalized;
                 }
             }
-            else animator.SetBool("isMoving", false);
+            else
+            {
+                animator.SetBool("isMoving", false);
+                //dustParticles.SetActive(false);
+            } 
         }
 
         //controller.Move(moveDirection * Time.deltaTime * moveSpeed * gameObject.GetComponent<PlayerStats>().GetMoveStat());
