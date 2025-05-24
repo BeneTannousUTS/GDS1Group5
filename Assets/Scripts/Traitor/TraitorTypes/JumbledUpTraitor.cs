@@ -16,7 +16,10 @@ public class JumbledUpTraitor : BaseTraitor
         SummonPosition(gameObject);
         foreach (GameObject player in playerList)
         {
-            SummonPosition(player);
+            if (!player.GetComponent<HealthComponent>().GetIsDead())
+            {
+                SummonPosition(player);
+            }
         }
         SummonEnemies();
     }

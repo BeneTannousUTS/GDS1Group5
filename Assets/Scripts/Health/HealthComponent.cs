@@ -18,6 +18,7 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private GameObject healParticles;
     [SerializeField] private float flashDuration = 0.25f;
     [SerializeField] private bool isObject = false;
+    RuntimeAnimatorController controller;
 
     public bool GetIsDead()
     {
@@ -94,6 +95,7 @@ public class HealthComponent : MonoBehaviour
             {
                 gameObject.GetComponent<Polymorph>().RemoveMorph();
             }
+            gameObject.GetComponent<Animator>().runtimeAnimatorController = controller;
             //gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
             Debug.Log("Die");
             FindAnyObjectByType<PopupManager>().SpawnSmallPopup(gameObject, "You Died!", PlayerManager.instance.players[gameObject.GetComponent<PlayerIndex>().playerIndex].playerColour);
@@ -214,6 +216,10 @@ public class HealthComponent : MonoBehaviour
     {
         currentHealth = maxHealth;
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+        if (gameObject.CompareTag("Player"))
+        {
+            controller = gameObject.GetComponent<Animator>().runtimeAnimatorController;
+        }
     }
 
     public void UpdateHUDHealthBar()
