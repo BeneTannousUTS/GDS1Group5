@@ -30,7 +30,7 @@ public class Hammer : WeaponStats
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, friendlyKnockbackRadius);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Player"))
+            if (collider.CompareTag("Player") || collider.CompareTag("Traitor"))
             {
                 if (collider.gameObject != transform.parent.gameObject)
                 {

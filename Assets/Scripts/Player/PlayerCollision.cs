@@ -56,7 +56,6 @@ public class PlayerCollision : MonoBehaviour
                 if (otherCollider.gameObject.GetComponent<Projectile>().GetComeBack() == false) {
                     Destroy(otherCollider.gameObject);
                 }
-                Destroy(otherCollider.gameObject);
             }
             else if (otherCollider.gameObject.CompareTag("Hazard") && FriendlyFire(otherCollider.GetComponentInParent<Hazards>().GetFriendlyFire(), otherCollider.GetComponentInParent<Hazards>().GetSourceType(), null))
             {

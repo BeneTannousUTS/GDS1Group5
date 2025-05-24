@@ -57,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 tempWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
             }
-            if (currentWeapon.GetComponent<WeaponStats>().isMelee)
+            if (currentWeapon.GetComponent<WeaponStats>().isMelee || gameObject.GetComponent<HealthComponent>().GetIsDead())
             {
                 tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
             } else
