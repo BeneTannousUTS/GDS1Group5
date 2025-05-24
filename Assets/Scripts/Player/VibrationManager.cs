@@ -3,12 +3,15 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class VibrationManager : MonoBehaviour
 {
     private Coroutine infoCoroutine;
     private bool isHeartbeatVibrating = false;
-
+    private GameObject lastButton;
+    
     public enum VibrationPattern
     {
         DamagePattern,
@@ -16,6 +19,22 @@ public class VibrationManager : MonoBehaviour
         ReminderPattern,
         ExplosionPattern,
         AttackPattern
+    }
+
+    private void Update()
+    {
+        CheckMenuNavVibration();
+    }
+
+    void CheckMenuNavVibration()
+    {
+        var current = EventSystem.current.currentSelectedGameObject;
+
+        if (current != lastButton)
+        {
+            lastButton = current;
+            StartCoroutine(MenuNavPattern(Gamepad.current));
+        }
     }
 
     public void StartVibrationPattern(Gamepad controller, VibrationPattern vibrationPattern)
@@ -66,6 +85,20 @@ public class VibrationManager : MonoBehaviour
     }
 
     /*------------------------------------ Coroutine Logic -----------------------------*/
+
+    IEnumerator MenuNavPattern(Gamepad controller)
+    {
+        float vibTime = 0f;
+        while (vibTime < 0.05f)
+        {
+            controller.SetMotorSpeeds(0.2f, 0.2f);
+            vibTime += Time.deltaTime;
+            yield return null;
+        }
+
+        controller.SetMotorSpeeds(0, 0);
+    }
+    
     IEnumerator DamagePattern(Gamepad controller)
     {
         float vibTime = 0f;
@@ -163,4 +196,6 @@ public class VibrationManager : MonoBehaviour
 
         controller.SetMotorSpeeds(0, 0);
     }
+    
+    
 }
