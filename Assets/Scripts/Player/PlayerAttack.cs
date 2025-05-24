@@ -43,9 +43,9 @@ public class PlayerAttack : MonoBehaviour
 
         if (weapon.GetComponent<WeaponStats>().projectile != null) GetComponent<PlayerScore>().IncrementProjectilesShot();
 
-        float weaponTypeMod = currentWeapon.GetComponent<WeaponStats>().isMelee ? 1.5f : 0.7f;
+        float weaponTypeMod = weapon.GetComponent<WeaponStats>().isMelee ? 1.5f : 0.7f;
         GameObject tempWeapon = Instantiate(weapon, transform.position + attackDirection * weaponTypeMod, CalculateQuaternion(attackDirection), transform);
-        if (attackDirection.x < 0 && !currentWeapon.GetComponent<WeaponStats>().isMelee && tempWeapon.transform.childCount != 0) {
+        if (attackDirection.x < 0 && !tempWeapon.GetComponent<WeaponStats>().isMelee && tempWeapon.transform.childCount != 0) {
             tempWeapon.transform.GetChild(0).GetComponent<SpriteRenderer>().flipY = true;
         }
 
@@ -57,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 tempWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
             }
-            if (currentWeapon.GetComponent<WeaponStats>().isMelee || gameObject.GetComponent<HealthComponent>().GetIsDead())
+            if (tempWeapon.GetComponent<WeaponStats>().isMelee)
             {
                 tempWeapon.transform.position = tempWeapon.transform.position + attackDirection * 0.3f;
             } else
