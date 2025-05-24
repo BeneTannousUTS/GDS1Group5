@@ -420,12 +420,13 @@ public class CardSelection : MonoBehaviour
 
         if (numOfTraitors > 0)
         {
-            if (numOfTraitors == 4)
+            if (FindAnyObjectByType<GameManager>().GetTraitorID() == 0)
             {
                 for (int i = 0; i < numOfTraitors; ++i)
                 {
                     cardList[i].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
+                traitorIndex = 0;
             }
             else
             {

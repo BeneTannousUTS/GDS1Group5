@@ -96,7 +96,7 @@ public class CardManager : MonoBehaviour
 
         foreach (PlayerData player in PlayerManager.instance.players)
         {
-            if (player.playerIndex == -1) continue;
+            if (!player.isJoined) continue;
             players[player.playerIndex] = player.playerInput.gameObject;
         }
 

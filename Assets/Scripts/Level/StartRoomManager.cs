@@ -92,7 +92,7 @@ public class StartRoomManager : MonoBehaviour
 
                     player.playerInput.gameObject.GetComponent<HealthComponent>().SetMaxHealth(maxHealthAmount);
                     player.playerInput.gameObject.GetComponent<HealthComponent>().UpdateHUDHealthBar();
-                    ShowButtonPrompt showButtonPrompt = player.playerInput.gameObject.GetComponent<ShowButtonPrompt>();
+                    ShowButtonPrompt showButtonPrompt = player.playerInput.transform.GetChild(0).GetComponent<ShowButtonPrompt>();
                     if (showButtonPrompt) showButtonPrompt.DestroyObject();
                 }
 
