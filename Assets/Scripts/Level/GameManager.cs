@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject player in playerList)
         {
-            if (player.GetComponent<HealthComponent>().GetIsDead() == false && player.CompareTag("Player"))
+            if (player.GetComponent<HealthComponent>().GetIsDead() == false && (player.CompareTag("Player") || player.GetComponent<PVPTraitor>() != null))
             {
                 allDead = false;
                 break;
