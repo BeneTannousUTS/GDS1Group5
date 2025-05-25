@@ -82,7 +82,7 @@ public class StartRoomManager : MonoBehaviour
             {
                 door.GetComponent<Door>().OpenDoor();
 
-                int maxHealthAmount = 150 - (CountActivePlayers() - 2) * 25;
+                int maxHealthAmount = 200 - (CountActivePlayers() - 2) * 50;
 
                 PlayerData[] players = PlayerManager.instance.GetPlayers();
 

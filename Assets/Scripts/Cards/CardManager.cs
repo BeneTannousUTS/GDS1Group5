@@ -61,7 +61,7 @@ public class CardManager : MonoBehaviour
 
         foreach (PlayerData player in players)
         {
-            if (!player.isJoined) break;
+            if (!player.isJoined) continue;
 
             GameObject playerObj = player.playerInput.gameObject;
 

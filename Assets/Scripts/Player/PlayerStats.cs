@@ -79,7 +79,7 @@ public class PlayerStats : MonoBehaviour
 
         int numberOfPlayers = gameManager.GetPlayerList().Count;
 
-        float baseHealth = 150 - (numberOfPlayers - 2) * 25;
+        float baseHealth = 200 - (numberOfPlayers - 2) * 50;
         float healthMods = 0;
 
         foreach (GameObject passive in passives) 
