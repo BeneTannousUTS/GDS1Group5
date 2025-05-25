@@ -23,8 +23,16 @@ public class PVPTraitor : BaseTraitor
 
     public override void LoseCondition()
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Traitor");
-        if (temp.Length == 2)
+        int alive = 0;
+        List<GameObject> playerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GetPlayerList();
+        foreach (GameObject player in playerList)
+        {
+            if (!player.GetComponent<HealthComponent>().GetIsDead())
+            {
+                alive += 1;
+            }
+        }
+        if (alive == 1)
         {
             DestroyDoor();
         }
