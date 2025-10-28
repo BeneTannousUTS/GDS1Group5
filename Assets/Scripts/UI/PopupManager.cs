@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PopupManager : MonoBehaviour
 {
@@ -25,10 +26,12 @@ public class PopupManager : MonoBehaviour
         Destroy(smallPopup, smallPopupTime);
     }
 
-    public void SpawnLargePopup(string text, Color colour)
+    public void SpawnLargePopup(string text, Sprite image, string textTwo, Color colour)
     {
         GameObject largePopup = Instantiate(largePopupPrefab, transform.position, transform.rotation);
         largePopup.GetComponent<PopupHandler>().SetText(text, colour);
+        largePopup.GetComponent<PopupHandler>().SetImage(image);
+        largePopup.GetComponent<PopupHandler>().SetTextTwo(textTwo, colour);
         Destroy(largePopup, largePopupTime);
     }
 }

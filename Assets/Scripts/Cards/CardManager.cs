@@ -5,9 +5,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
+    [SerializeField] 
+    public Sprite[] iconImages;
     DungeonCamera lastDunCam = null;
     public GameObject cardCanvasPrefab;
     GameObject cardCanvas;
@@ -142,10 +145,10 @@ public class CardManager : MonoBehaviour
 
         if (roomNum == 0)
         {
-            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press Left To Attack", Color.white);
+            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press", iconImages[0], "To Attack", Color.white);
         } else if (roomNum == 1)
         {
-            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press Down To Use Secondary", Color.white);
+            FindAnyObjectByType<PopupManager>().SpawnLargePopup("Press", iconImages[1], "To Use Secondary", Color.white);
         }
 
         UIInputModule.actionsAsset = defaultActions;
