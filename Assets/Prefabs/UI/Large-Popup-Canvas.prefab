@@ -216,7 +216,7 @@ MonoBehaviour:
   m_text: '{Placeholder}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
-  m_sharedMaterial: {fileID: -1200644347661419171, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 022d09c01a8f1974493c259405a06c78, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.8
+  m_fontSize: 59.95
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_text: '{Placeholder}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
-  m_sharedMaterial: {fileID: -1200644347661419171, guid: 37af65a7e51d0431fbfcd54b8bf8fe9e, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 022d09c01a8f1974493c259405a06c78, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.8
+  m_fontSize: 59.95
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 6646057884940157549}
   - component: {fileID: 8384215793054718325}
   - component: {fileID: 6636021783656301657}
+  - component: {fileID: 3394602681028839452}
   m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
@@ -563,3 +564,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3394602681028839452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874917903754070583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
