@@ -4,6 +4,7 @@ public class LobbyHudHelper : MonoBehaviour
 {
     public GameObject[] joinPanels;
     public GameObject leavePrompt;
+    private float timeSinceLastShake = 0;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,6 +16,10 @@ public class LobbyHudHelper : MonoBehaviour
     void Update()
     {
         CheckShouldActivateLeavePrompt();
+        if (joinPanels.Length > 0)
+        {
+            CheckShouldShakeJoinPrompt(Time.deltaTime);
+        }
     }
 
     public void DeactivateJoinPanel(int index)
@@ -56,6 +61,22 @@ public class LobbyHudHelper : MonoBehaviour
                 
                 DeactivateLeavePrompt();
             }
+        }
+    }
+
+    void CheckShouldShakeJoinPrompt(float time)
+    {
+        timeSinceLastShake += time;
+        if (timeSinceLastShake > 3.0){
+            foreach (var panel in joinPanels)
+            {
+                foreach (var shakeHandler in panel.GetComponentsInChildren<HUDElementShakeHandler>())
+                {
+                    shakeHandler.ShakeCard();
+                }
+                Debug.Log("Shaking Join Prompts");
+            }
+            timeSinceLastShake = 0;
         }
     }
 }
