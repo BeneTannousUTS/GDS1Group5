@@ -422,9 +422,9 @@ public class CardSelection : MonoBehaviour
         {
             if (FindAnyObjectByType<GameManager>().GetTraitorID() == 0)
             {
-                for (int i = 0; i < numOfTraitors; ++i)
+                foreach (GameObject card in cardList)
                 {
-                    cardList[i].GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
+                    card.GetComponent<CardHandler>().setTraitorCard(traitorCardSprite);
                 }
                 traitorIndex = 0;
             }
