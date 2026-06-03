@@ -8,10 +8,6 @@ DCD Improvements \& Feedback
 
 
 
-*◦ BUG - when becoming FFA traitor only 3 cards show traitor card - if someone picks the final card they still get the card before the traitor round starts.*
-
-
-
 ◦ BUG - Player sprite was stuck as ghost for a few rounds in a row - could still use primary and secondary and take damage - possibly triggered by running onto trap at the same time as end of room heal?
 
 
@@ -21,6 +17,10 @@ DCD Improvements \& Feedback
 
 
 \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*
+
+
+
+◦ QOL - Short description of how to play (Kill enemies \& collect items for points, player with most points gets to pick their card first)
 
 
 
